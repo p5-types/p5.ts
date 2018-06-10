@@ -111,7 +111,7 @@ declare function saturation(color: object): void;
  *   typically used within draw() to clear the display 
  *   window at the beginning of each frame, but it can 
  *   be used inside setup() to set the background on 
- *   the first frame of animation or if the backgound 
+ *   the first frame of animation or if the background 
  *   need only be set once.
  *
  *   @param v1 gray value, red or hue value (depending 
@@ -280,7 +280,7 @@ declare function preload(): void;
 /**
  *   The setup() function is called once when the 
  *   program starts. It's used to define initial 
- *   enviroment properties such as screen size and 
+ *   environment properties such as screen size and 
  *   background color and to load media such as images 
  *   and fonts as the program starts. There can only be 
  *   one setup() function for each program and it 
@@ -380,7 +380,7 @@ declare function sort(list: any[], count?: number): void;
 /**
  *   Inserts a value or an array of values into an 
  *   existing array. The first parameter specifies the 
- *   intial array to be modified, and the second 
+ *   initial array to be modified, and the second 
  *   parameter defines the data to be inserted. The 
  *   third parameter is an index value which specifies 
  *   the array position from which to insert data. 
@@ -712,7 +712,7 @@ declare var height: any;
  *   fullscreen or not based on the value of the 
  *   argument. If no argument is given, returns the 
  *   current fullscreen state. Note that due to browser 
- *   restrictiions this can only be called on user 
+ *   restrictions this can only be called on user 
  *   input, for example, on mouse press like the 
  *   example below.
  *
@@ -800,7 +800,7 @@ declare function noTint(): void;
 /**
  *   Set image mode. Modifies the location from which 
  *   images are drawn by changing the way in which 
- *   parameters given to image() are intepreted. The 
+ *   parameters given to image() are interpreted. The 
  *   default mode is imageMode(CORNER), which 
  *   interprets the second and third parameters of 
  *   image() as the upper-left corner of the image. If 
@@ -1009,22 +1009,32 @@ declare function loadJSON(path: string, callback?: Function): object|any[];
 declare function loadStrings(filename: string, callback?: Function): any[];
 
 /**
- *   Reads the contents of a file or URL and creates an 
- *   Table object with its values. If a file is 
+ *   Reads the contents of a file or URL and creates a 
+ *   p5.Table object with its values. If a file is 
  *   specified, it must be located in the sketch's 
  *   "data" folder. The filename parameter can also be 
  *   a URL to a file found online. By default, the file 
- *   is assumed to be comma-separated (in CSV format), 
- *   and to include a header row.  All files loaded and 
- *   saved use UTF-8 encoding.
+ *   is assumed to be comma-separated (in CSV format). 
+ *   Table only looks for a header row if the 'header' 
+ *   option is included. Possible options include: 
+ * 
+ *   - csv - parse the table as comma-separated values 
+ *   - tsv - parse the table as tab-separated values 
+ *   - newlines - this CSV file contains newlines 
+ *   inside individual cells 
+ *   - header - this table has a header (title) row   
+ * 
+ *  
+ *   All files loaded and saved use UTF-8 encoding.
  *
  *   @param filename name of the file or URL to load
+ *   @param [options] "header" "csv" "tsv"
  *   @param [callback] function to be executed after 
  *   loadXML() completes, XML object is passed in as 
  *   first argument
  *   @return XML object containing data
  */
-declare function loadTable(filename: string, callback?: Function): object;
+declare function loadTable(filename: string, options?: string|any, callback?: Function): object;
 
 /**
  *   Reads the contents of a file and creates an XML 
@@ -1212,11 +1222,11 @@ declare var pwinMouseY: any;
 declare var mouseButton: any;
 
 /**
- *   The boolean system variable isMousePressed is true 
+ *   The boolean system variable mouseIsPressed is true 
  *   if the mouse is pressed and false if not.
  *
  */
-declare var isMousePressed: any;
+declare var mouseIsPressed: any;
 
 /**
  *   The mouseMoved() function is called every time the 
@@ -1363,7 +1373,7 @@ declare var touchX: any;
  */
 declare var touchY: any;
 
-// TODO: Property "touches[]", defined in src/input/touch.js, line 39, is not a valid JS symbol name
+// TODO: Property "touches[]", defined in src/input/touch.js, line 33, is not a valid JS symbol name
 
 /**
  *   The touchStarted() function is called once after 
@@ -1679,7 +1689,7 @@ declare function noise(x: number, y: number, z: number): number;
  *   by the Perlin noise function. Similar to harmonics 
  *   in physics, noise is computed over several 
  *   octaves. Lower octaves contribute more to the 
- *   output signal and as such define the overal 
+ *   output signal and as such define the overall 
  *   intensity of the noise, whereas higher octaves 
  *   create finer grained details in the noise 
  *   sequence. By default, noise is computed over 4 
@@ -1902,9 +1912,9 @@ declare function print(contents: any): void;
  *   the dimensions of it in pixels. This method should 
  *   be called only once at the start of setup.  The 
  *   system variables width and height are set by the 
- *   parameters passed to this function. If size() is 
- *   not used, the window will be given a default size 
- *   of 100x100 pixels.
+ *   parameters passed to this function. If 
+ *   createCanvas() is not used, the window will be 
+ *   given a default size of 100x100 pixels.
  *
  *   @param w width of the canvas
  *   @param h height of the canvas
@@ -2683,7 +2693,7 @@ declare function textWidth(s: string): void;
  *   completely within the rectangle specified will not 
  *   be drawn to the screen.
  *
- *   @param str the alphanumberic symbols to be 
+ *   @param str the alphanumeric symbols to be 
  *   displayed
  *   @param x x-coordinate of text
  *   @param y y-coordinate of text
@@ -2871,7 +2881,8 @@ declare function midiToFreq(midiNote: number): number;
  *   List the SoundFile formats that you will include. 
  *   LoadSound will search your directory for these 
  *   extensions, and will pick a format that is 
- *   compatable with the client's web browser.
+ *   compatable with the client's web browser. Here is 
+ *   a free online file converter.
  *
  *   @param formats i.e. 'mp3', 'wav', 'ogg'
  */

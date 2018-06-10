@@ -39,16 +39,16 @@ createCapture() lib/addons/p5.dom.js, line 328, param "type" has invalid type: S
 createCapture() lib/addons/p5.dom.js, line 328, return has invalid type: Object/p5.Element
 createElement() lib/addons/p5.dom.js, line 360, return has invalid type: Object/p5.Element
 getNormalizedColor() src/objects/p5.Color.js, line 30, param "args" has invalid type: Array-like
-save() src/objects/p5.Image.js, line 290, param "extension
+save() src/objects/p5.Image.js, line 291, param "extension
 
 TODO:" is not a valid JS symbol name
-save() src/objects/p5.Image.js, line 290, param "extension
+save() src/objects/p5.Image.js, line 291, param "extension
 
 TODO:" has invalid type: [type]
 lerp() src/objects/p5.Vector.js, line 371, required param "amt" follows an optional param
-p5.SoundFile() lib/addons/p5.sound.js, line 326, param "path" has invalid type: String/Array
-loadSound() lib/addons/p5.sound.js, line 456, param "path" has invalid type: String/Array
-stop() lib/addons/p5.sound.js, line 1740, param "time," is not a valid JS symbol name
+p5.SoundFile() lib/addons/p5.sound.js, line 328, param "path" has invalid type: String/Array
+loadSound() lib/addons/p5.sound.js, line 458, param "path" has invalid type: String/Array
+stop() lib/addons/p5.sound.js, line 1830, param "time," is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
 lerpColor() src/color/creating_reading.js, line 233, param "c1" has invalid type: Array/Number
 lerpColor() src/color/creating_reading.js, line 233, param "c2" has invalid type: Array/Number
@@ -91,10 +91,10 @@ createElement() lib/addons/p5.dom.js, line 360, return has invalid type: Object/
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant
+MISSING: Strings
 MISSING: String/Constant
 MISSING: Type
 MISSING: Object/p5.Element
-MISSING: Strings
 MISSING: Array-like
 MISSING: Array/Color
 MISSING: [type]

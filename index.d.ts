@@ -111,7 +111,7 @@ declare class p5 {
    *   typically used within draw() to clear the display 
    *   window at the beginning of each frame, but it can 
    *   be used inside setup() to set the background on 
-   *   the first frame of animation or if the backgound 
+   *   the first frame of animation or if the background 
    *   need only be set once.
    *
    *   @param v1 gray value, red or hue value (depending 
@@ -280,7 +280,7 @@ declare class p5 {
   /**
    *   The setup() function is called once when the 
    *   program starts. It's used to define initial 
-   *   enviroment properties such as screen size and 
+   *   environment properties such as screen size and 
    *   background color and to load media such as images 
    *   and fonts as the program starts. There can only be 
    *   one setup() function for each program and it 
@@ -380,7 +380,7 @@ declare class p5 {
   /**
    *   Inserts a value or an array of values into an 
    *   existing array. The first parameter specifies the 
-   *   intial array to be modified, and the second 
+   *   initial array to be modified, and the second 
    *   parameter defines the data to be inserted. The 
    *   third parameter is an index value which specifies 
    *   the array position from which to insert data. 
@@ -712,7 +712,7 @@ declare class p5 {
    *   fullscreen or not based on the value of the 
    *   argument. If no argument is given, returns the 
    *   current fullscreen state. Note that due to browser 
-   *   restrictiions this can only be called on user 
+   *   restrictions this can only be called on user 
    *   input, for example, on mouse press like the 
    *   example below.
    *
@@ -800,7 +800,7 @@ declare class p5 {
   /**
    *   Set image mode. Modifies the location from which 
    *   images are drawn by changing the way in which 
-   *   parameters given to image() are intepreted. The 
+   *   parameters given to image() are interpreted. The 
    *   default mode is imageMode(CORNER), which 
    *   interprets the second and third parameters of 
    *   image() as the upper-left corner of the image. If 
@@ -1009,22 +1009,32 @@ declare class p5 {
   loadStrings(filename: string, callback?: Function): any[];
 
   /**
-   *   Reads the contents of a file or URL and creates an 
-   *   Table object with its values. If a file is 
+   *   Reads the contents of a file or URL and creates a 
+   *   p5.Table object with its values. If a file is 
    *   specified, it must be located in the sketch's 
    *   "data" folder. The filename parameter can also be 
    *   a URL to a file found online. By default, the file 
-   *   is assumed to be comma-separated (in CSV format), 
-   *   and to include a header row.  All files loaded and 
-   *   saved use UTF-8 encoding.
+   *   is assumed to be comma-separated (in CSV format). 
+   *   Table only looks for a header row if the 'header' 
+   *   option is included. Possible options include: 
+   * 
+   *   - csv - parse the table as comma-separated values 
+   *   - tsv - parse the table as tab-separated values 
+   *   - newlines - this CSV file contains newlines 
+   *   inside individual cells 
+   *   - header - this table has a header (title) row   
+   * 
+   *  
+   *   All files loaded and saved use UTF-8 encoding.
    *
    *   @param filename name of the file or URL to load
+   *   @param [options] "header" "csv" "tsv"
    *   @param [callback] function to be executed after 
    *   loadXML() completes, XML object is passed in as 
    *   first argument
    *   @return XML object containing data
    */
-  loadTable(filename: string, callback?: Function): object;
+  loadTable(filename: string, options?: string|any, callback?: Function): object;
 
   /**
    *   Reads the contents of a file and creates an XML 
@@ -1212,11 +1222,11 @@ declare class p5 {
   mouseButton: any;
 
   /**
-   *   The boolean system variable isMousePressed is true 
+   *   The boolean system variable mouseIsPressed is true 
    *   if the mouse is pressed and false if not.
    *
    */
-  isMousePressed: any;
+  mouseIsPressed: any;
 
   /**
    *   The mouseMoved() function is called every time the 
@@ -1363,7 +1373,7 @@ declare class p5 {
    */
   touchY: any;
 
-  // TODO: Property "touches[]", defined in src/input/touch.js, line 39, is not a valid JS symbol name
+  // TODO: Property "touches[]", defined in src/input/touch.js, line 33, is not a valid JS symbol name
 
   /**
    *   The touchStarted() function is called once after 
@@ -1679,7 +1689,7 @@ declare class p5 {
    *   by the Perlin noise function. Similar to harmonics 
    *   in physics, noise is computed over several 
    *   octaves. Lower octaves contribute more to the 
-   *   output signal and as such define the overal 
+   *   output signal and as such define the overall 
    *   intensity of the noise, whereas higher octaves 
    *   create finer grained details in the noise 
    *   sequence. By default, noise is computed over 4 
@@ -1902,9 +1912,9 @@ declare class p5 {
    *   the dimensions of it in pixels. This method should 
    *   be called only once at the start of setup.  The 
    *   system variables width and height are set by the 
-   *   parameters passed to this function. If size() is 
-   *   not used, the window will be given a default size 
-   *   of 100x100 pixels.
+   *   parameters passed to this function. If 
+   *   createCanvas() is not used, the window will be 
+   *   given a default size of 100x100 pixels.
    *
    *   @param w width of the canvas
    *   @param h height of the canvas
@@ -2683,7 +2693,7 @@ declare class p5 {
    *   completely within the rectangle specified will not 
    *   be drawn to the screen.
    *
-   *   @param str the alphanumberic symbols to be 
+   *   @param str the alphanumeric symbols to be 
    *   displayed
    *   @param x x-coordinate of text
    *   @param y y-coordinate of text
@@ -2871,7 +2881,8 @@ declare class p5 {
    *   List the SoundFile formats that you will include. 
    *   LoadSound will search your directory for these 
    *   extensions, and will pick a format that is 
-   *   compatable with the client's web browser.
+   *   compatable with the client's web browser. Here is 
+   *   a free online file converter.
    *
    *   @param formats i.e. 'mp3', 'wav', 'ogg'
    */
@@ -2899,7 +2910,7 @@ declare namespace p5 {
      *   Base class for all elements added to a sketch, 
      *   including canvas, graphics buffers, and other HTML 
      *   elements. Methods in blue are included in the core 
-     *   functionality, methods in black are added with the 
+     *   functionality, methods in brown are added with the 
      *   p5.dom library. It is not called directly, but 
      *   p5.Element objects are created by calling 
      *   createCanvas, createGraphics, or in the p5.dom 
@@ -3171,7 +3182,7 @@ declare namespace p5 {
      */
     height: any;
 
-    // TODO: Property "pixels[]", defined in src/objects/p5.Image.js, line 57, is not a valid JS symbol name
+    // TODO: Property "pixels[]", defined in src/objects/p5.Image.js, line 58, is not a valid JS symbol name
 
     /**
      *   Loads the pixels data for this image into the 
@@ -3315,7 +3326,7 @@ declare namespace p5 {
      */
     blend(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: number): void;
 
-    // TODO: Fix save() errors in src/objects/p5.Image.js, line 290:
+    // TODO: Fix save() errors in src/objects/p5.Image.js, line 291:
     //
     //   param "extension
 
@@ -3545,13 +3556,53 @@ TODO:: any): void;
     set(column: string|number, value: string|number): void;
 
     /**
-     *   Retrieves a float value from the TableRow's 
+     *   Stores a Float value in the TableRow's specified 
+     *   column. The column may be specified by either its 
+     *   ID or title.
+     *
+     *   @param column Column ID (Number) or Title (String)
+     *   @param value The value to be stored as a Float
+     */
+    setNum(column: string|number, value: number): void;
+
+    /**
+     *   Stores a String value in the TableRow's specified 
+     *   column. The column may be specified by either its 
+     *   ID or title.
+     *
+     *   @param column Column ID (Number) or Title (String)
+     *   @param value The value to be stored as a String
+     */
+    setString(column: string|number, value: string): void;
+
+    /**
+     *   Retrieves a value from the TableRow's specified 
+     *   column. The column may be specified by either its 
+     *   ID or title.
+     *
+     *   @param column columnName (string) or ID (number)
+     */
+    get(column: string|number): string|number;
+
+    /**
+     *   Retrieves a Float value from the TableRow's 
      *   specified column. The column may be specified by 
      *   either its ID or title.
      *
      *   @param column columnName (string) or ID (number)
+     *   @return Float Floating point number
      */
-    get(column: string|number): object|p5.TableRow;
+    getNum(column: string|number): number;
+
+    /**
+     *   Retrieves an String value from the TableRow's 
+     *   specified column. The column may be specified by 
+     *   either its ID or title.
+     *
+     *   @param column columnName (string) or ID (number)
+     *   @return String
+     */
+    getString(column: string|number): string;
   }
 
   // src/objects/p5.Vector.js
@@ -3744,6 +3795,15 @@ TODO:: any): void;
     limit(max: number): p5.Vector;
 
     /**
+     *   Set the magnitude of this vector to the value used 
+     *   for the len parameter.
+     *
+     *   @param len the new length for this vector
+     *   @return the modified p5.Vector
+     */
+    setMag(len: number): p5.Vector;
+
+    /**
      *   Calculate the angle of rotation for this vector 
      *   (only 2D vectors)
      *
@@ -3887,13 +3947,13 @@ TODO:: any): void;
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 326:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 328:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 456:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 458:
     //
     //   param "path" has invalid type: String/Array
     //
@@ -4183,10 +4243,10 @@ TODO:: any): void;
   class FFT {
     /**
      *   FFT (Fast Fourier Transform) is an analysis 
-     *   algorithm that isolates individual frequencies 
-     *   within a waveform. Once instantiated, a p5.FFT 
-     *   object can return an array based on two types of 
-     *   analyses: 
+     *   algorithm that isolates individual  audio 
+     *   frequencies within a waveform. Once instantiated, 
+     *   a p5.FFT object can return an array based on two 
+     *   types of analyses: 
      *  
      *   • FFT.waveform() computes amplitude values along 
      *   the time domain. The array indices correspond to 
@@ -4199,9 +4259,9 @@ TODO:: any): void;
      *   to frequencies (i.e. pitches), from the lowest to 
      *   the highest that humans can hear. Each value 
      *   represents amplitude at that slice of the 
-     *   frequency spectrum. Use with getFreq() to measure 
-     *   amplitude at specific frequencies, or within a 
-     *   range of frequencies.  
+     *   frequency spectrum. Use with getEnergy() to 
+     *   measure amplitude at specific frequencies, or 
+     *   within a range of frequencies.  
      * 
      *   FFT analyzes a very short snapshot of sound called 
      *   a sample buffer. It returns an array of amplitude 
@@ -4257,7 +4317,7 @@ TODO:: any): void;
      *   from the lowest to the highest that humans can 
      *   hear. Each value represents amplitude at that 
      *   slice of the frequency spectrum. Must be called 
-     *   prior to using getFreq().
+     *   prior to using getEnergy().
      *
      *   @param [bins] Must be a power of two between 16 
      *   and 1024. Defaults to 1024.
@@ -4268,20 +4328,26 @@ TODO:: any): void;
 
     /**
      *   Returns the amount of energy (volume) at a 
-     *   specific frequency, or the average amount of 
-     *   energy between two given frequencies. NOTE: 
-     *   analyze() must be called prior to getFreq(). 
-     *   Analyze() tells the FFT to analyze frequency data, 
-     *   and getFreq() uses the results determine the value 
-     *   at a specific frequency or range of frequencies.
+     *   specific  frequency, or the average amount of 
+     *   energy between two frequencies. Accepts Number(s) 
+     *   corresponding to frequency (in Hz), or a String 
+     *   corresponding to predefined frequency ranges 
+     *   ("bass", "lowMid", "mid", "highMid", "treble"). 
+     *   NOTE: analyze() must be called prior to 
+     *   getEnergy(). Analyze() tells the FFT to analyze 
+     *   frequency data, and getEnergy() uses the results 
+     *   determine the value at a specific frequency or 
+     *   range of frequencies.
      *
      *   @param frequency1 Will return a value representing 
-     *   energy at this frequency.
+     *   energy at this frequency. Alternately, the strings 
+     *   "bass", "lowMid" "mid", "highMid", and "treble" 
+     *   will return predefined frequency ranges.
      *   @param [frequency2] If a second frequency is 
      *   given, will return average amount of energy that 
      *   exists between the two frequencies.
      */
-    getFreq(frequency1: number, frequency2?: number): number;
+    getEnergy(frequency1: number|string, frequency2?: number): number;
 
     /**
      *   Smooth FFT analysis by averaging with the last 
@@ -4322,7 +4388,7 @@ TODO:: any): void;
      */
     start(time?: number, frequency?: number): void;
 
-    // TODO: Fix stop() errors in lib/addons/p5.sound.js, line 1740:
+    // TODO: Fix stop() errors in lib/addons/p5.sound.js, line 1830:
     //
     //   param "time," is not a valid JS symbol name
     //
@@ -4416,6 +4482,57 @@ TODO:: any): void;
      *   defaults to 0)
      */
     width(width?: number): void;
+  }
+  class Noise {
+    /**
+     *   Noise is a type of oscillator that generates a 
+     *   buffer with random values.
+     *
+     *   @param type Type of noise can be 'white' 
+     *   (default), 'brown' or 'pink'.
+     *   @return Noise Object
+     */
+    constructor(type: string);
+
+    /**
+     *   Set type of noise to 'white', 'pink' or 'brown'. 
+     *   White is the default.
+     *
+     *   @param [type] 'white', 'pink' or 'brown'
+     */
+    setType(type?: string): void;
+
+    /**
+     *   Start the noise
+     *
+     */
+    start(): void;
+
+    /**
+     *   Stop the noise.
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Pan the noise.
+     *
+     *   @param panning Number between -1 (left) and 1 
+     *   (right)
+     */
+    pan(panning: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
   }
   class AudioIn {
     /**
