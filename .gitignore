@@ -1,0 +1,6 @@
+*
+!/.gitattributes
+!/.gitignore
+!/index.d.ts
+!/global.d.ts
+!/log.txt
