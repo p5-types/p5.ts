@@ -240,7 +240,13 @@ declare class p5 {
    *   an open pie. If mode is provided, the arc will be 
    *   drawn either open, as a chord, or as a pie as 
    *   specified. The origin may be changed with the 
-   *   ellipseMode() function.
+   *   ellipseMode() function. Note that drawing a full 
+   *   circle (ex: 0 to TWO_PI) will appear blank because 
+   *   0 and TWO_PI are the same position on the unit 
+   *   circle. The best way to handle this is by using 
+   *   the ellipse() function instead to create a closed 
+   *   ellipse, and to use the arc() function only to 
+   *   draw parts of an ellipse.
    *
    *   @param a x-coordinate of the arc's ellipse
    *   @param b y-coordinate of the arc's ellipse
@@ -303,7 +309,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 279:
+  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 294:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -364,7 +370,7 @@ declare class p5 {
 
   // src/core/attributes.js
 
-  // TODO: Fix ellipseMode() errors in src/core/attributes.js, line 17:
+  // TODO: Fix ellipseMode() errors in src/core/attributes.js, line 14:
   //
   //   param "mode" has invalid type: Number/Constant
   //
@@ -380,7 +386,7 @@ declare class p5 {
    */
   noSmooth(): p5;
 
-  // TODO: Fix rectMode() errors in src/core/attributes.js, line 102:
+  // TODO: Fix rectMode() errors in src/core/attributes.js, line 99:
   //
   //   param "mode" has invalid type: Number/Constant
   //
@@ -397,13 +403,13 @@ declare class p5 {
    */
   smooth(): p5;
 
-  // TODO: Fix strokeCap() errors in src/core/attributes.js, line 188:
+  // TODO: Fix strokeCap() errors in src/core/attributes.js, line 185:
   //
   //   param "cap" has invalid type: Number/Constant
   //
   // strokeCap(cap: any): p5;
 
-  // TODO: Fix strokeJoin() errors in src/core/attributes.js, line 218:
+  // TODO: Fix strokeJoin() errors in src/core/attributes.js, line 215:
   //
   //   param "join" has invalid type: Number/Constant
   //
@@ -690,9 +696,7 @@ declare class p5 {
    *   your browser. This function is often helpful for 
    *   looking at the data a program is producing. This 
    *   function creates a new line of text for each call 
-   *   to the function. More than one parameter can be 
-   *   passed into the function by separating them with 
-   *   commas. Alternatively, individual elements can be 
+   *   to the function. Individual elements can be 
    *   separated with quotes ("") and joined with the 
    *   addition operator (+). While print() is similar to 
    *   console.log(), it does not directly map to it in 
@@ -723,7 +727,7 @@ declare class p5 {
    */
   focused: any;
 
-  // TODO: Fix cursor() errors in src/core/environment.js, line 106:
+  // TODO: Fix cursor() errors in src/core/environment.js, line 111:
   //
   //   param "type" has invalid type: Number/Constant
   //
@@ -784,11 +788,14 @@ declare class p5 {
    */
   windowHeight: any;
 
-  // TODO: Fix windowResized()() errors in src/core/environment.js, line 309:
-  //
-  //   "windowResized()" is not a valid JS symbol name
-  //
-  // windowResized()(): void;
+  /**
+   *   The windowResized() function is called once every 
+   *   time the browser window is resized. This is a good 
+   *   place to resize the canvas or do any other 
+   *   adjustements to accomodate the new window size.
+   *
+   */
+  windowResized(): void;
 
   /**
    *   System variable that stores the width of the 
@@ -1793,7 +1800,7 @@ declare class p5 {
    */
   createImage(width: number, height: number): p5.Image;
 
-  // TODO: Fix saveCanvas() errors in src/image/image.js, line 101:
+  // TODO: Fix saveCanvas() errors in src/image/image.js, line 98:
   //
   //   param "canvas" has invalid type: [selectedCanvas]
   //   param "filename" has invalid type: [String]
@@ -1801,7 +1808,7 @@ declare class p5 {
   //
   // saveCanvas(canvas: any, filename: any, extension: any): void;
 
-  // TODO: Fix saveFrames() errors in src/image/image.js, line 219:
+  // TODO: Fix saveFrames() errors in src/image/image.js, line 216:
   //
   //   param "filename" has invalid type: [type]
   //   param "extension" has invalid type: [type]
@@ -1816,12 +1823,18 @@ declare class p5 {
 
   /**
    *   Loads an image from a path and creates a p5.Image 
-   *   from it. The image may not be immediately 
+   *   from it.  The image may not be immediately 
    *   available for rendering If you want to ensure that 
    *   the image is ready before doing anything with it 
    *   you can do perform those operations in the 
    *   callback, or place the loadImage() call in 
-   *   preload().
+   *   preload(). 
+   * 
+   *  
+   *   The path to the image should be relative to the 
+   *   HTML file that links in your sketch. Loading an 
+   *   from a URL or other remote location may be blocked 
+   *   due to your browser's built-in security.
    *
    *   @param path Path of the image to be loaded
    *   @param [successCallback] Function to be called 
@@ -2772,47 +2785,46 @@ declare class p5 {
 
   // src/typography/attributes.js
 
-  // TODO: Fix textAlign() errors in src/typography/attributes.js, line 21:
+  // TODO: Fix textAlign() errors in src/typography/attributes.js, line 13:
   //
-  //   param "h" has invalid type: Number/Constant
-  //   param "v" has invalid type: Number/Constant
+  //   param "horizAlign" has invalid type: Number/Constant
+  //   param "vertAlign" has invalid type: Number/Constant
   //
-  // textAlign(h: any, v: any): number;
+  // textAlign(horizAlign: any, vertAlign: any): number;
 
   /**
-   *   Sets/gets the spacing between lines of text in 
-   *   units of pixels. This setting will be used in all 
-   *   subsequent calls to the text() function.
+   *   Sets/gets the spacing, in pixels, between lines of 
+   *   text. This setting will be used in all subsequent 
+   *   calls to the text() function.
    *
-   *   @param l the size in pixels for spacing between 
-   *   lines
+   *   @param leading the size in pixels for spacing 
+   *   between lines
    */
-  textLeading(l: number): object|number;
+  textLeading(leading: number): object|number;
 
   /**
    *   Sets/gets the current font size. This size will be 
    *   used in all subsequent calls to the text() 
-   *   function. Font size is measured in units of 
-   *   pixels.
+   *   function. Font size is measured in pixels.
    *
-   *   @param s the size of the letters in units of 
+   *   @param theSize the size of the letters in units of 
    *   pixels
    */
-  textSize(s: number): object|number;
+  textSize(theSize: number): object|number;
 
-  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 118:
+  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 93:
   //
-  //   param "s" has invalid type: Number/Constant
+  //   param "theStyle" has invalid type: Number/Constant
   //
-  // textStyle(s: any): object|string;
+  // textStyle(theStyle: any): object|string;
 
   /**
    *   Calculates and returns the width of any character 
    *   or text string.
    *
-   *   @param s the String of characters to measure
+   *   @param theText the String of characters to measure
    */
-  textWidth(s: string): number;
+  textWidth(theText: string): number;
 
   // src/typography/loading_displaying.js
 
@@ -3564,19 +3576,6 @@ declare class p5 {
 }
 
 declare namespace p5 {
-  // src/3d/p5.Matrix.js
-
-  class Matrix {
-    /**
-     *   A class to describe a 4x4 matrix for model and 
-     *   view matrix manipulation in the p5js webgl 
-     *   renderer.
-     *
-     *   @param [mat4] array literal of our 4x4 matrix
-     */
-    constructor(mat4?: any[]);
-  }
-
   // src/color/p5.Color.js
 
   class Color {
@@ -3909,7 +3908,7 @@ declare namespace p5 {
   // src/core/p5.Renderer.js
 
   class Renderer extends p5.Element {
-    // TODO: Fix p5.Renderer() errors in src/core/p5.Renderer.js, line 9:
+    // TODO: Fix p5.Renderer() errors in src/core/p5.Renderer.js, line 10:
     //
     //   required param "whether" follows an optional param
     //
