@@ -294,7 +294,8 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  *   Draws a point, a coordinate in space at the 
  *   dimension of one pixel. The first parameter is the 
  *   horizontal value for the point, the second value 
- *   is the vertical value for the point.
+ *   is the vertical value for the point. The color of 
+ *   the point is determined by the current stroke.
  *
  *   @param x the x-coordinate
  *   @param y the y-coordinate
@@ -302,7 +303,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/core/2d_primitives.js, line 278:
+// TODO: Fix quad() errors in src/core/2d_primitives.js, line 279:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -538,14 +539,19 @@ declare function remove(): void;
 // src/core/curves.js
 
 /**
- *   Draws a Bezier curve on the screen. These curves 
- *   are defined by a series of anchor and control 
- *   points. The first two parameters specify the first 
- *   anchor point and the last two parameters specify 
- *   the other anchor point. The middle parameters 
- *   specify the control points which define the shape 
- *   of the curve. Bezier curves were developed by 
- *   French engineer Pierre Bezier.
+ *   Draws a cubic Bezier curve on the screen. These 
+ *   curves are defined by a series of anchor and 
+ *   control points. The first two parameters specify 
+ *   the first anchor point and the last two parameters 
+ *   specify the other anchor point, which become the 
+ *   first and last points on the curve. The middle 
+ *   parameters specify the two control points which 
+ *   define the shape of the curve. Approximately 
+ *   speaking, control points "pull" the curve towards 
+ *   them.Bezier curves were developed by French 
+ *   automotive engineer Pierre Bezier, and are 
+ *   commonly used in computer graphics to define 
+ *   gently sloping curves. See also curve().
  *
  *   @param x1 x-coordinate for the first anchor point
  *   @param y1 y-coordinate for the first anchor point
@@ -562,11 +568,11 @@ declare function remove(): void;
 declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
 
 /**
- *   Calculate a point on the Bezier Curve Evaluates 
- *   the Bezier at point t for points a, b, c, d. The 
- *   parameter t varies between 0 and 1, a and d are 
- *   points on the curve, and b and c are the control 
- *   points. This can be done once with the x 
+ *   Evaluates the Bezier at position t for points a, 
+ *   b, c, d. The parameters a and d are the first and 
+ *   last points on the curve, and b and c are the 
+ *   control points. The final parameter t varies 
+ *   between 0 and 1. This can be done once with the x 
  *   coordinates and a second time with the y 
  *   coordinates to get the location of a bezier curve 
  *   at t.
@@ -576,35 +582,36 @@ declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: numb
  *   @param c coordinate of second control point
  *   @param d coordinate of second point on the curve
  *   @param t value between 0 and 1
- *   @return the value of the Bezier at point t
+ *   @return the value of the Bezier at position t
  */
 declare function bezierPoint(a: number, b: number, c: number, d: number, t: number): number;
 
 /**
- *   Calculates the tangent of a point on a Bezier 
- *   curve Evaluates the tangent at point t for points 
- *   a, b, c, d. The parameter t varies between 0 and 
- *   1, a and d are points on the curve, and b and c 
- *   are the control points
+ *   Evaluates the tangent to the Bezier at position t 
+ *   for points a, b, c, d. The parameters a and d are 
+ *   the first and last points on the curve, and b and 
+ *   c are the control points. The final parameter t 
+ *   varies between 0 and 1.
  *
  *   @param a coordinate of first point on the curve
  *   @param b coordinate of first control point
  *   @param c coordinate of second control point
  *   @param d coordinate of second point on the curve
  *   @param t value between 0 and 1
- *   @return the tangent at point t
+ *   @return the tangent at position t
  */
 declare function bezierTangent(a: number, b: number, c: number, d: number, t: number): number;
 
 /**
- *   Draws a curved line on the screen. The first and 
- *   second parameters specify the beginning control 
- *   point and the last two parameters specify the 
- *   ending control point. The middle parameters 
- *   specify the start and stop of the curve. Longer 
- *   curves can be created by putting a series of 
- *   curve() functions together or using curveVertex(). 
- *   An additional function called curveTightness() 
+ *   Draws a curved line on the screen between two 
+ *   points, given as the middle four parameters. The 
+ *   first two parameters are a control point, as if 
+ *   the curve came from this point even though it's 
+ *   not drawn. The last two parameters similarly 
+ *   describe the other control point.  Longer curves 
+ *   can be created by putting a series of curve() 
+ *   functions together or using curveVertex(). An 
+ *   additional function called curveTightness() 
  *   provides control for the visual quality of the 
  *   curve. The curve() function is an implementation 
  *   of Catmull-Rom splines.
@@ -645,11 +652,10 @@ declare function curve(x1: number, y1: number, x2: number, y2: number, x3: numbe
 declare function curveTightness(amount: number): object;
 
 /**
- *   Calculate a point on the Curve Evaluates the 
- *   Bezier at point t for points a, b, c, d. The 
- *   parameter t varies between 0 and 1, a and d are 
- *   points on the curve, and b and c are the control 
- *   points. This can be done once with the x 
+ *   Evaluates the curve at position t for points a, b, 
+ *   c, d. The parameter t varies between 0 and 1, a 
+ *   and d are points on the curve, and b and c are the 
+ *   control points. This can be done once with the x 
  *   coordinates and a second time with the y 
  *   coordinates to get the location of a curve at t.
  *
@@ -658,23 +664,22 @@ declare function curveTightness(amount: number): object;
  *   @param c coordinate of second control point
  *   @param d coordinate of second point on the curve
  *   @param t value between 0 and 1
- *   @return bezier value at point t
+ *   @return bezier value at position t
  */
 declare function curvePoint(a: number, b: number, c: number, d: number, t: number): number;
 
 /**
- *   Calculates the tangent of a point on a curve 
- *   Evaluates the tangent at point t for points a, b, 
- *   c, d. The parameter t varies between 0 and 1, a 
- *   and d are points on the curve, and b and c are the 
- *   control points
+ *   Evaluates the tangent to the curve at position t 
+ *   for points a, b, c, d. The parameter t varies 
+ *   between 0 and 1, a and d are points on the curve, 
+ *   and b and c are the control points
  *
  *   @param a coordinate of first point on the curve
  *   @param b coordinate of first control point
  *   @param c coordinate of second control point
  *   @param d coordinate of second point on the curve
  *   @param t value between 0 and 1
- *   @return the tangent at point t
+ *   @return the tangent at position t
  */
 declare function curveTangent(a: number, b: number, c: number, d: number, t: number): number;
 
@@ -895,7 +900,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number, renderer: string): object;
 
-// TODO: Fix blendMode() errors in src/core/rendering.js, line 186:
+// TODO: Fix blendMode() errors in src/core/rendering.js, line 189:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -2526,14 +2531,14 @@ declare function createVector(x?: number, y?: number, z?: number): void;
  *   that Perlin noise is defined in an infinite 
  *   n-dimensional space where each pair of coordinates 
  *   corresponds to a fixed semi-random value (fixed 
- *   only for the lifespan of the program). The 
- *   resulting value will always be between 0.0 and 
- *   1.0. p5.js can compute 1D, 2D and 3D noise, 
- *   depending on the number of coordinates given. The 
- *   noise value can be animated by moving through the 
- *   noise space as demonstrated in the example above. 
- *   The 2nd and 3rd dimension can also be interpreted 
- *   as time.
+ *   only for the lifespan of the program; see the 
+ *   noiseSeed() function). p5.js can compute 1D, 2D 
+ *   and 3D noise, depending on the number of 
+ *   coordinates given. The resulting value will always 
+ *   be between 0.0 and 1.0. The noise value can be 
+ *   animated by moving through the noise space as 
+ *   demonstrated in the example above. The 2nd and 3rd 
+ *   dimension can also be interpreted as time.
  * 
  *   The actual noise is structured similar to an audio 
  *   signal, in respect to the function's use of 
@@ -3366,9 +3371,10 @@ declare function select(name: string): any|null;
  *
  *   @param name class or tag name of elements to 
  *   search for
- *   @return p5.Element containing node found
+ *   @return Array of p5.Elements containing nodes 
+ *   found
  */
-declare function selectAll(name: string): any|null;
+declare function selectAll(name: string): any[];
 
 /**
  *   Removes all elements created by p5, except any 
@@ -3385,73 +3391,85 @@ declare function removeElements(): void;
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 170:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 169:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 182:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 180:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 202:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 199:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt?: string, successCallback?: Function): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 242:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 238:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 266:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 261:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 289:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 283:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 310:
+// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 303:
+//
+//   return has invalid type: Object/p5.Element
+//
+// declare function createCheckbox(label?: string, value?: boolean): any;
+
+// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 345:
+//
+//   return has invalid type: Object/p5.Element
+//
+// declare function createSelect(multiple?: boolean): any;
+
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 389:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 328:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 406:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 421:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 498:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 449:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 526:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 485:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 562:
 //
 //   return has invalid type: Object/p5.Element
 //
-// declare function createCapture(type: any|object, callback: Function): any;
+// declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 581:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 658:
 //
 //   return has invalid type: Object/p5.Element
 //

@@ -294,7 +294,8 @@ declare class p5 {
    *   Draws a point, a coordinate in space at the 
    *   dimension of one pixel. The first parameter is the 
    *   horizontal value for the point, the second value 
-   *   is the vertical value for the point.
+   *   is the vertical value for the point. The color of 
+   *   the point is determined by the current stroke.
    *
    *   @param x the x-coordinate
    *   @param y the y-coordinate
@@ -302,7 +303,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 278:
+  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 279:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -538,14 +539,19 @@ declare class p5 {
   // src/core/curves.js
 
   /**
-   *   Draws a Bezier curve on the screen. These curves 
-   *   are defined by a series of anchor and control 
-   *   points. The first two parameters specify the first 
-   *   anchor point and the last two parameters specify 
-   *   the other anchor point. The middle parameters 
-   *   specify the control points which define the shape 
-   *   of the curve. Bezier curves were developed by 
-   *   French engineer Pierre Bezier.
+   *   Draws a cubic Bezier curve on the screen. These 
+   *   curves are defined by a series of anchor and 
+   *   control points. The first two parameters specify 
+   *   the first anchor point and the last two parameters 
+   *   specify the other anchor point, which become the 
+   *   first and last points on the curve. The middle 
+   *   parameters specify the two control points which 
+   *   define the shape of the curve. Approximately 
+   *   speaking, control points "pull" the curve towards 
+   *   them.Bezier curves were developed by French 
+   *   automotive engineer Pierre Bezier, and are 
+   *   commonly used in computer graphics to define 
+   *   gently sloping curves. See also curve().
    *
    *   @param x1 x-coordinate for the first anchor point
    *   @param y1 y-coordinate for the first anchor point
@@ -562,11 +568,11 @@ declare class p5 {
   bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
 
   /**
-   *   Calculate a point on the Bezier Curve Evaluates 
-   *   the Bezier at point t for points a, b, c, d. The 
-   *   parameter t varies between 0 and 1, a and d are 
-   *   points on the curve, and b and c are the control 
-   *   points. This can be done once with the x 
+   *   Evaluates the Bezier at position t for points a, 
+   *   b, c, d. The parameters a and d are the first and 
+   *   last points on the curve, and b and c are the 
+   *   control points. The final parameter t varies 
+   *   between 0 and 1. This can be done once with the x 
    *   coordinates and a second time with the y 
    *   coordinates to get the location of a bezier curve 
    *   at t.
@@ -576,35 +582,36 @@ declare class p5 {
    *   @param c coordinate of second control point
    *   @param d coordinate of second point on the curve
    *   @param t value between 0 and 1
-   *   @return the value of the Bezier at point t
+   *   @return the value of the Bezier at position t
    */
   bezierPoint(a: number, b: number, c: number, d: number, t: number): number;
 
   /**
-   *   Calculates the tangent of a point on a Bezier 
-   *   curve Evaluates the tangent at point t for points 
-   *   a, b, c, d. The parameter t varies between 0 and 
-   *   1, a and d are points on the curve, and b and c 
-   *   are the control points
+   *   Evaluates the tangent to the Bezier at position t 
+   *   for points a, b, c, d. The parameters a and d are 
+   *   the first and last points on the curve, and b and 
+   *   c are the control points. The final parameter t 
+   *   varies between 0 and 1.
    *
    *   @param a coordinate of first point on the curve
    *   @param b coordinate of first control point
    *   @param c coordinate of second control point
    *   @param d coordinate of second point on the curve
    *   @param t value between 0 and 1
-   *   @return the tangent at point t
+   *   @return the tangent at position t
    */
   bezierTangent(a: number, b: number, c: number, d: number, t: number): number;
 
   /**
-   *   Draws a curved line on the screen. The first and 
-   *   second parameters specify the beginning control 
-   *   point and the last two parameters specify the 
-   *   ending control point. The middle parameters 
-   *   specify the start and stop of the curve. Longer 
-   *   curves can be created by putting a series of 
-   *   curve() functions together or using curveVertex(). 
-   *   An additional function called curveTightness() 
+   *   Draws a curved line on the screen between two 
+   *   points, given as the middle four parameters. The 
+   *   first two parameters are a control point, as if 
+   *   the curve came from this point even though it's 
+   *   not drawn. The last two parameters similarly 
+   *   describe the other control point.  Longer curves 
+   *   can be created by putting a series of curve() 
+   *   functions together or using curveVertex(). An 
+   *   additional function called curveTightness() 
    *   provides control for the visual quality of the 
    *   curve. The curve() function is an implementation 
    *   of Catmull-Rom splines.
@@ -645,11 +652,10 @@ declare class p5 {
   curveTightness(amount: number): object;
 
   /**
-   *   Calculate a point on the Curve Evaluates the 
-   *   Bezier at point t for points a, b, c, d. The 
-   *   parameter t varies between 0 and 1, a and d are 
-   *   points on the curve, and b and c are the control 
-   *   points. This can be done once with the x 
+   *   Evaluates the curve at position t for points a, b, 
+   *   c, d. The parameter t varies between 0 and 1, a 
+   *   and d are points on the curve, and b and c are the 
+   *   control points. This can be done once with the x 
    *   coordinates and a second time with the y 
    *   coordinates to get the location of a curve at t.
    *
@@ -658,23 +664,22 @@ declare class p5 {
    *   @param c coordinate of second control point
    *   @param d coordinate of second point on the curve
    *   @param t value between 0 and 1
-   *   @return bezier value at point t
+   *   @return bezier value at position t
    */
   curvePoint(a: number, b: number, c: number, d: number, t: number): number;
 
   /**
-   *   Calculates the tangent of a point on a curve 
-   *   Evaluates the tangent at point t for points a, b, 
-   *   c, d. The parameter t varies between 0 and 1, a 
-   *   and d are points on the curve, and b and c are the 
-   *   control points
+   *   Evaluates the tangent to the curve at position t 
+   *   for points a, b, c, d. The parameter t varies 
+   *   between 0 and 1, a and d are points on the curve, 
+   *   and b and c are the control points
    *
    *   @param a coordinate of first point on the curve
    *   @param b coordinate of first control point
    *   @param c coordinate of second control point
    *   @param d coordinate of second point on the curve
    *   @param t value between 0 and 1
-   *   @return the tangent at point t
+   *   @return the tangent at position t
    */
   curveTangent(a: number, b: number, c: number, d: number, t: number): number;
 
@@ -895,7 +900,7 @@ declare class p5 {
    */
   createGraphics(w: number, h: number, renderer: string): object;
 
-  // TODO: Fix blendMode() errors in src/core/rendering.js, line 186:
+  // TODO: Fix blendMode() errors in src/core/rendering.js, line 189:
   //
   //   param "mode" has invalid type: String/Constant
   //
@@ -2526,14 +2531,14 @@ declare class p5 {
    *   that Perlin noise is defined in an infinite 
    *   n-dimensional space where each pair of coordinates 
    *   corresponds to a fixed semi-random value (fixed 
-   *   only for the lifespan of the program). The 
-   *   resulting value will always be between 0.0 and 
-   *   1.0. p5.js can compute 1D, 2D and 3D noise, 
-   *   depending on the number of coordinates given. The 
-   *   noise value can be animated by moving through the 
-   *   noise space as demonstrated in the example above. 
-   *   The 2nd and 3rd dimension can also be interpreted 
-   *   as time.
+   *   only for the lifespan of the program; see the 
+   *   noiseSeed() function). p5.js can compute 1D, 2D 
+   *   and 3D noise, depending on the number of 
+   *   coordinates given. The resulting value will always 
+   *   be between 0.0 and 1.0. The noise value can be 
+   *   animated by moving through the noise space as 
+   *   demonstrated in the example above. The 2nd and 3rd 
+   *   dimension can also be interpreted as time.
    * 
    *   The actual noise is structured similar to an audio 
    *   signal, in respect to the function's use of 
@@ -3366,9 +3371,10 @@ declare class p5 {
    *
    *   @param name class or tag name of elements to 
    *   search for
-   *   @return p5.Element containing node found
+   *   @return Array of p5.Elements containing nodes 
+   *   found
    */
-  selectAll(name: string): any|null;
+  selectAll(name: string): any[];
 
   /**
    *   Removes all elements created by p5, except any 
@@ -3385,73 +3391,85 @@ declare class p5 {
   //
   // createDiv(html: string): any;
 
-  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 170:
+  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 169:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createP(html: string): any;
 
-  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 182:
+  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 180:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSpan(html: string): any;
 
-  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 202:
+  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 199:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createImg(src: string, alt?: string, successCallback?: Function): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 242:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 238:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 266:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 261:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 289:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 283:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 310:
+  // TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 303:
+  //
+  //   return has invalid type: Object/p5.Element
+  //
+  // createCheckbox(label?: string, value?: boolean): any;
+
+  // TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 345:
+  //
+  //   return has invalid type: Object/p5.Element
+  //
+  // createSelect(multiple?: boolean): any;
+
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 389:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 328:
+  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 406:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createFileInput(callback?: Function, multiple?: string): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 421:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 498:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 449:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 526:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 485:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 562:
   //
   //   return has invalid type: Object/p5.Element
   //
-  // createCapture(type: any|object, callback: Function): any;
+  // createCapture(type: string|TYPE|object, callback: Function): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 581:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 658:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -3686,6 +3704,16 @@ declare namespace p5 {
     mouseOver(fxn: Function): p5.Element;
 
     /**
+     *   The .changed() function is called when the value 
+     *   of an element is changed. This can be used to 
+     *   attach an element specific event listener.
+     *
+     *   @param fxn function to be fired when mouse is 
+     *   moved over the element.
+     */
+    changed(fxn: Function): p5.Element;
+
+    /**
      *   The .mouseOut() function is called once after 
      *   every time a mouse moves off the element. This can 
      *   be used to attach an element specific event 
@@ -3748,7 +3776,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/core/p5.Element.js, line 405:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 420:
     //
     //   param "callback" is defined multiple times
     //
@@ -3756,19 +3784,17 @@ declare namespace p5 {
 
     // lib/addons/p5.dom.js
 
-    /**
-     *   Adds specified class to the element.
-     *
-     *   @param class name of class to add
-     */
-    addClass(theClass: string): p5.Element;
+    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 680:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // addClass(theClass: string): any;
 
-    /**
-     *   Removes specified class from the element.
-     *
-     *   @param class name of class to remove
-     */
-    removeClass(theClass: string): p5.Element;
+    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 702:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // removeClass(theClass: string): any;
 
     /**
      *   Attaches the element as a child to the parent 
@@ -3778,7 +3804,7 @@ declare namespace p5 {
      *   @param child the ID, DOM node, or p5.Element to 
      *   add to the current element
      */
-    child(child: string|object): p5.Element;
+    child(child: string|any): p5.Element;
 
     /**
      *   If an argument is given, sets the inner HTML of 
@@ -3789,48 +3815,25 @@ declare namespace p5 {
      *   @param [html] the HTML to be placed inside the 
      *   element
      */
-    html(html?: string): p5.Element|string;
+    html(html?: string): any|string;
 
-    /**
-     *   Sets the position of the element relative to (0, 
-     *   0) of the window. Essentially, sets 
-     *   position:absolute and left and top properties of 
-     *   style. If no arguments given returns the x and y 
-     *   position of the element in an object.
-     *
-     *   @param [x] x-position relative to upper left of 
-     *   window
-     *   @param [y] y-position relative to upper left of 
-     *   window
-     */
-    position(x?: number, y?: number): p5.Element;
+    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 775:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // position(x?: number, y?: number): any;
 
-    /**
-     *   Translates an element with css transforms in 
-     *   either 2d (if 2 arguments given) or 3d (if 3 
-     *   arguments given) space.
-     *
-     *   @param x x-position in px
-     *   @param y y-position in px
-     *   @param [z] z-position in px
-     *   @param [perspective] sets the perspective of the 
-     *   parent element in px, default value set to 1000px
-     */
-    translate(x: number, y: number, z?: number, perspective?: number): p5.Element;
+    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 809:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // translate(x: number, y: number, z?: number, perspective?: number): any;
 
-    /**
-     *   Rotates an element with css transforms in either 
-     *   2d (if 2 arguments given) or 3d (if 3 arguments 
-     *   given) space.
-     *
-     *   @param x amount of degrees to rotate the element 
-     *   along the x-axis in deg
-     *   @param y amount of degrees to rotate the element 
-     *   along the y-axis in deg
-     *   @param [z] amount of degrees to rotate the element 
-     *   along the z-axis in deg
-     */
-    rotate(x: number, y: number, z?: number): p5.Element;
+    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 851:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // rotate(x: number, y?: number, z?: number): any;
 
     /**
      *   Sets the given style (css) property of the element 
@@ -3843,7 +3846,7 @@ declare namespace p5 {
      *   @return value of property, if no value is 
      *   specified or p5.Element
      */
-    style(property: string, value?: string): string|p5.Element;
+    style(property: string, value?: string): string|any;
 
     /**
      *   Adds a new attribute or changes the value of an 
@@ -3856,41 +3859,34 @@ declare namespace p5 {
      *   @return value of attribute, if no value is 
      *   specified or p5.Element
      */
-    attribute(attr: string, value?: string): string|p5.Element;
+    attribute(attr: string, value?: string): string|any;
 
     /**
      *   Either returns the value of the element if no 
      *   arguments given, or sets the value of the element.
      *
-     *   @return value of element, if no value is specified 
+     *   @return value of element if no value is specified 
      *   or p5.Element
      */
-    value(value?: string|number): string|p5.Element;
+    value(value?: string|number): string|any;
 
-    /**
-     *   Shows the current element. Essentially, setting 
-     *   display:block for the style.
-     *
-     */
-    show(): p5.Element;
+    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 982:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // show(): any;
 
-    /**
-     *   Hides the current element. Essentially, setting 
-     *   display:none for the style.
-     *
-     */
-    hide(): p5.Element;
+    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 994:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // hide(): any;
 
-    /**
-     *   Sets the width and height of the element. AUTO can 
-     *   be used to only adjust one dimension. If no 
-     *   arguments given returns the width and height of 
-     *   the element in an object.
-     *
-     *   @param [w] width of the element
-     *   @param [h] height of the element
-     */
-    size(w?: number, h?: number): p5.Element;
+    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1005:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // size(w?: number, h?: number): any;
 
     /**
      *   Removes the element and deregisters all listeners.
@@ -4820,46 +4816,41 @@ declare namespace p5 {
      */
     constructor(elt: string, pInst?: object);
 
-    /**
-     *   Play an HTML5 media element.
-     *
-     */
-    play(): p5.Element;
+    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1119:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // play(): any;
 
-    /**
-     *   Stops an HTML5 media element (sets current time to 
-     *   zero).
-     *
-     */
-    stop(): p5.Element;
+    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1140:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // stop(): any;
 
-    /**
-     *   Pauses an HTML5 media element.
-     *
-     */
-    pause(): p5.Element;
+    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1152:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // pause(): any;
 
-    /**
-     *   Set 'loop' to true for an HTML5 media element, and 
-     *   starts playing.
-     *
-     */
-    loop(): p5.Element;
+    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1163:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // loop(): any;
 
-    /**
-     *   Set 'loop' to false for an HTML5 media element. 
-     *   Element will stop when it reaches the end.
-     *
-     */
-    noLoop(): p5.Element;
+    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1174:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // noLoop(): any;
 
-    /**
-     *   Set HTML5 media element to autoplay or not.
-     *
-     *   @param autoplay whether the element should 
-     *   autoplay
-     */
-    autoplay(autoplay: boolean): p5.Element;
+    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1187:
+    //
+    //   return has invalid type: Object/p5.Element
+    //
+    // autoplay(autoplay: boolean): any;
 
     /**
      *   Sets volume for this HTML5 media element. If no 
@@ -4879,7 +4870,7 @@ declare namespace p5 {
      *   @return current time (in seconds) or 
      *   p5.MediaElement
      */
-    time(time?: number): number|p5.MediaElement;
+    time(time?: number): number|any;
 
     /**
      *   Returns the duration of the HTML5 media element.
@@ -6805,4 +6796,8 @@ declare namespace p5 {
 type COLOR_MODE =
       RGB
     | HSB;
+
+type TYPE =
+      VIDEO
+    | AUDIO;
 
