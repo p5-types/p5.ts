@@ -10,15 +10,15 @@ updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 139, param "mode" has invalid type: String/Constant
-quad() src/shape/2d_primitives.js, line 283, param "x1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "x2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "x3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "x4" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y4" has invalid type: Type
+blendMode() src/rendering/rendering.js, line 195, param "mode" has invalid type: String/Constant
+quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "x3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "x4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y4" has invalid type: Type
 ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: Number/Constant
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
@@ -26,20 +26,21 @@ strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: N
 beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number/Constant
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 20, param "a" has invalid type: Number/Constant
-textStyle() src/typography/attributes.js, line 121, param "s" has invalid type: Number/Constant
-createDiv() lib/addons/p5.dom.js, line 94, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 105, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 117, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 137, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 160, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 184, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 206, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 227, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 274, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 297, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 328, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 328, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 360, return has invalid type: Object/p5.Element
+textStyle() src/typography/attributes.js, line 122, param "s" has invalid type: Number/Constant
+removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>() lib/addons/p5.dom.js, line 73, "removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>" is not a valid JS symbol name
+createDiv() lib/addons/p5.dom.js, line 109, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 120, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 152, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 175, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 199, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 221, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 242, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 289, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 317, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 353, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 353, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 385, return has invalid type: Object/p5.Element
 getNormalizedColor() src/objects/p5.Color.js, line 30, param "args" has invalid type: Array-like
 lerp() src/objects/p5.Vector.js, line 383, required param "amt" follows an optional param
 p5.SoundFile() lib/addons/p5.sound.js, line 425, param "path" has invalid type: String/Array
@@ -89,15 +90,15 @@ updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 139, param "mode" has invalid type: String/Constant
-quad() src/shape/2d_primitives.js, line 283, param "x1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "x2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "x3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "x4" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 283, param "y4" has invalid type: Type
+blendMode() src/rendering/rendering.js, line 195, param "mode" has invalid type: String/Constant
+quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "x3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "x4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 287, param "y4" has invalid type: Type
 ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: Number/Constant
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
@@ -105,20 +106,21 @@ strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: N
 beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number/Constant
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 20, param "a" has invalid type: Number/Constant
-textStyle() src/typography/attributes.js, line 121, param "s" has invalid type: Number/Constant
-createDiv() lib/addons/p5.dom.js, line 94, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 105, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 117, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 137, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 160, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 184, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 206, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 227, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 274, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 297, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 328, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 328, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 360, return has invalid type: Object/p5.Element
+textStyle() src/typography/attributes.js, line 122, param "s" has invalid type: Number/Constant
+removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>() lib/addons/p5.dom.js, line 73, "removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>" is not a valid JS symbol name
+createDiv() lib/addons/p5.dom.js, line 109, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 120, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 152, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 175, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 199, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 221, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 242, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 289, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 317, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 353, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 353, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 385, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant

@@ -314,6 +314,17 @@ declare function setup(): void;
  *
  */
 declare function draw(): void;
+
+/**
+ *   Removes the entire p5 sketch. This will remove the 
+ *   canvas and any elements created by p5.js. It will 
+ *   also stop the draw loop and unbind any properties 
+ *   or methods from the window global scope. It will 
+ *   leave a variable p5 in case you wanted to create a 
+ *   new p5 sketch. If you like, you can set p5 = null 
+ *   to erase it.
+ *
+ */
 declare function remove(): void;
 
 // src/data/array_functions.js
@@ -684,6 +695,15 @@ declare var windowWidth: any;
 declare var windowHeight: any;
 
 /**
+ *   The windowResized() function is called once every 
+ *   time the browser window is resized. This is a good 
+ *   place to resize the canvas or do any other 
+ *   adjustements to accomodate the new window size.
+ *
+ */
+declare var windowResized: any;
+
+/**
  *   System variable that stores the width of the 
  *   drawing canvas. This value is set by the first 
  *   parameter of the createCanvas() function. For 
@@ -1030,9 +1050,9 @@ declare function loadStrings(filename: string, callback?: Function): any[];
  *   @param filename name of the file or URL to load
  *   @param [options] "header" "csv" "tsv"
  *   @param [callback] function to be executed after 
- *   loadXML() completes, XML object is passed in as 
- *   first argument
- *   @return XML object containing data
+ *   loadTable() completes, Table object is passed in 
+ *   as first argument
+ *   @return Table object containing data
  */
 declare function loadTable(filename: string, options?: string|any, callback?: Function): object;
 
@@ -1366,14 +1386,35 @@ declare var touchX: any;
 /**
  *   The system variable touchY always contains the 
  *   horizontal position of one finger, relative to (0, 
- *   0) of the canvas. This is best used for single 
- *   touch interactions. For multi-touch interactions, 
- *   use the touches[] array.
+ *   0) of the canvas in the frame previous to the 
+ *   current frame. This is best used for single touch 
+ *   interactions. For multi-touch interactions, use 
+ *   the touches[] array.
  *
  */
 declare var touchY: any;
 
-// TODO: Property "touches[]", defined in src/input/touch.js, line 33, is not a valid JS symbol name
+/**
+ *   The system variable touchY always contains the 
+ *   horizontal position of one finger, relative to (0, 
+ *   0) of the canvas in the frame previous to the 
+ *   current frame. This is best used for single touch 
+ *   interactions. For multi-touch interactions, use 
+ *   the touches[] array.
+ *
+ */
+declare var ptouchX: any;
+
+/**
+ *   The system variable pmouseY always contains the 
+ *   vertical position of the mouse in the frame 
+ *   previous to the current frame, relative to (0, 0) 
+ *   of the canvas.
+ *
+ */
+declare var ptouchY: any;
+
+// TODO: Property "touches[]", defined in src/input/touch.js, line 54, is not a valid JS symbol name
 
 /**
  *   The touchStarted() function is called once after 
@@ -1932,6 +1973,13 @@ declare function print(contents: any): void;
 declare function createCanvas(w: number, h: number): object;
 
 /**
+ *   Removes the default canvas for a p5 sketch that 
+ *   doesn't require a canvas
+ *
+ */
+declare function noCanvas(): void;
+
+/**
  *   Creates and returns a new p5.Graphics object. Use 
  *   this class if you need to draw into an off-screen 
  *   graphics buffer. The two parameters define the 
@@ -1943,7 +1991,7 @@ declare function createCanvas(w: number, h: number): object;
  */
 declare function createGraphics(w: number, h: number): object;
 
-// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 139:
+// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 195:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -2017,7 +2065,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 283:
+// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 287:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -2667,7 +2715,7 @@ declare function textLeading(l: number): void;
  */
 declare function textSize(s: number): void;
 
-// TODO: Fix textStyle() errors in src/typography/attributes.js, line 121:
+// TODO: Fix textStyle() errors in src/typography/attributes.js, line 122:
 //
 //   param "s" has invalid type: Number/Constant
 //
@@ -2747,83 +2795,80 @@ declare function getElement(id: string): any|null;
  */
 declare function getElements(theClass: string): any[];
 
-/**
- *   Removes all elements created by p5, except any 
- *   canvas / graphics elements created by createCanvas 
- *   or createGraphics. Event handlers are removed, and 
- *   element is removed from the DOM.
- *
- */
-declare function removeElements(): void;
+// TODO: Fix removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>() errors in lib/addons/p5.dom.js, line 73:
+//
+//   "removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>" is not a valid JS symbol name
+//
+// declare function removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 94:
+// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 109:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 105:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 120:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 117:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 132:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 137:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 152:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt: string): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 160:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 175:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 184:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 199:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 206:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 221:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 227:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 242:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 274:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 289:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 297:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 317:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 328:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 353:
 //
 //   param "type" has invalid type: String/Constant
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: any): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 360:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 385:
 //
 //   return has invalid type: Object/p5.Element
 //
