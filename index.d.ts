@@ -204,7 +204,7 @@ declare class p5 {
   alpha(obj: object): void;
 
   /**
-   *   Extracts the blue value from a color or a pixel 
+   *   Extracts the blue value from a color or pixel 
    *   array.
    *
    *   @param obj p5.Color object or pixel array
@@ -212,9 +212,10 @@ declare class p5 {
   blue(obj: object): void;
 
   /**
-   *   Extracts the brightness value from a color.
+   *   Extracts the HSB brightness value from a color or 
+   *   pixel array.
    *
-   *   @param color p5.Color object
+   *   @param color p5.Color object or pixel array
    */
   brightness(color: object): void;
 
@@ -253,18 +254,26 @@ declare class p5 {
    *   Extracts the green value from a color or pixel 
    *   array.
    *
-   *   @param color p5.Color object
+   *   @param color p5.Color object or pixel array
    */
   green(color: object): void;
 
   /**
-   *   Extracts the hue value from a color.
+   *   Extracts the hue value from a color or pixel 
+   *   array. Hue exists in both HSB and HSL. This 
+   *   function will return the HSB-normalized hue when 
+   *   supplied with an HSB color object (or when 
+   *   supplied with a pixel array while the color mode 
+   *   is HSB), but will default to the HSL-normalized 
+   *   hue otherwise. (The values will only be different 
+   *   if the maximum hue setting for each system is 
+   *   different.)
    *
-   *   @param color p5.Color object
+   *   @param color p5.Color object or pixel array
    */
   hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 312:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 315:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
@@ -273,9 +282,10 @@ declare class p5 {
   // lerpColor(c1: any, c2: any, amt: number): any;
 
   /**
-   *   Extracts the lightness value from a color.
+   *   Extracts the HSL lightness value from a color or 
+   *   pixel array.
    *
-   *   @param color p5.Color object
+   *   @param color p5.Color object or pixel array
    */
   lightness(color: object): void;
 
@@ -288,9 +298,15 @@ declare class p5 {
   red(obj: object): void;
 
   /**
-   *   Extracts the saturation value from a color.
+   *   Extracts the saturation value from a color or 
+   *   pixel array. Saturation is scaled differently in 
+   *   HSB and HSL. This function will return the HSB 
+   *   saturation when supplied with an HSB color object 
+   *   (or when supplied with a pixel array while the 
+   *   color mode is HSB), but will default to the HSL 
+   *   saturation otherwise.
    *
-   *   @param color p5.Color object
+   *   @param color p5.Color object or pixel array
    */
   saturation(color: object): void;
 
@@ -332,27 +348,32 @@ declare class p5 {
   clear(): void;
 
   /**
-   *   Changes the way p5.js interprets color data. By 
-   *   default, the parameters for fill(), stroke(), 
-   *   background(), and color() are defined by values 
-   *   between 0 and 255 using the RGB color model. The 
-   *   colorMode() function is used to switch color 
-   *   systems. Regardless of color system, all value 
-   *   ranges are presumed to be 0–255 unless explicitly 
-   *   set otherwise. That is, for a standard HSB range, 
-   *   one would pass colorMode(HSB, 360, 100, 100, 1).
+   *   colorMode() changes the way p5.js interprets color 
+   *   data. By default, the parameters for fill(), 
+   *   stroke(), background(), and color() are defined by 
+   *   values between 0 and 255 using the RGB color 
+   *   model. This is equivalent to setting 
+   *   colorMode(RGB, 255). Setting colorMode(HSB) lets 
+   *   you use the HSB system instead. By default, this 
+   *   is colorMode(HSB, 360, 100, 100, 1). You can also 
+   *   use HSL. Note: existing color objects remember the 
+   *   mode that they were created in, so you can change 
+   *   modes as you like without affecting their 
+   *   appearance.
    *
    *   @param mode either RGB or HSB, corresponding to 
-   *   Red/Green/Blue and Hue/Saturation/Brightness
-   *   @param max1 range for the red or hue depending on 
-   *   the current color mode, or range for all values
-   *   @param max2 range for the green or saturation 
+   *   Red/Green/Blue and Hue/Saturation/Brightness (or 
+   *   Lightness)
+   *   @param [max1] range for the red or hue depending 
+   *   on the current color mode, or range for all values
+   *   @param [max2] range for the green or saturation 
    *   depending on the current color mode
-   *   @param max3 range for the blue or brightness 
-   *   depending on the current color mode
-   *   @param maxA range for the alpha
+   *   @param [max3] range for the blue or 
+   *   brightness/lighntess depending on the current 
+   *   color mode
+   *   @param [maxA] range for the alpha
    */
-  colorMode(mode: number|COLOR_MODE, max1: number|UNKNOWN_P5_CONSTANT, max2: number|UNKNOWN_P5_CONSTANT, max3: number|UNKNOWN_P5_CONSTANT, maxA: number|UNKNOWN_P5_CONSTANT): void;
+  colorMode(mode: number|COLOR_MODE, max1?: number|UNKNOWN_P5_CONSTANT, max2?: number|UNKNOWN_P5_CONSTANT, max3?: number|UNKNOWN_P5_CONSTANT, maxA?: number|UNKNOWN_P5_CONSTANT): void;
 
   /**
    *   Sets the color used to fill shapes. For example, 
@@ -419,7 +440,7 @@ declare class p5 {
 
   /**
    *   Draw an arc to the screen. If called with only a, 
-   *   b, c, d, start, and stop, the arc will pe drawn as 
+   *   b, c, d, start, and stop, the arc will be drawn as 
    *   an open pie. If mode is provided, the arc will be 
    *   drawn either open, as a chord, or as a pie as 
    *   specified. The origin may be changed with the 
@@ -1020,16 +1041,25 @@ declare class p5 {
   fullScreen(val?: boolean): boolean;
 
   /**
-   *   Toggles pixel scaling for high pixel density 
-   *   displays. By default pixel scaling is on, call 
-   *   devicePixelScaling(false) to turn it off. This 
-   *   devicePixelScaling() function must be the first 
-   *   line of code inside setup().
+   *   Sets the pixel scaling for high pixel density 
+   *   displays. By default pixel density is set to match 
+   *   display density, call pixelDensity(1) to turn this 
+   *   off. Calling pixelDensity() with no arguments 
+   *   returns the current pixel density of the sketch.
    *
    *   @param [val] whether or how much the sketch should 
    *   scale
+   *   @return current pixel density of the sketch
    */
-  devicePixelScaling(val?: boolean|number): void;
+  pixelDensity(val?: number): number;
+
+  /**
+   *   Returns the pixel density of the current display 
+   *   the sketch is running on.
+   *
+   *   @return current pixel density of the display
+   */
+  displayDensity(): number;
 
   /**
    *   Gets the current URL.
@@ -2336,7 +2366,7 @@ declare class p5 {
    *   directly to the display window. The x and y 
    *   parameters specify the pixel to change and the c 
    *   parameter specifies the color value. This can be a 
-   *   p5.COlor object, or [R, G, B, A] pixel array. It 
+   *   p5.Color object, or [R, G, B, A] pixel array. It 
    *   can also be a single grayscale value. When setting 
    *   an image, the x and y parameters define the 
    *   coordinates for the upper-left corner of the 
@@ -2398,12 +2428,15 @@ declare class p5 {
    *
    *   @param path name of the file or url to load
    *   @param [callback] function to be executed after 
-   *   loadJSON() completes, Array is passed in as first 
+   *   loadJSON() completes, data is passed in as first 
+   *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
    *   argument
    *   @param [datatype] "json" or "jsonp"
    *   @return JSON data
    */
-  loadJSON(path: string, callback?: Function, datatype?: string): object|any[];
+  loadJSON(path: string, callback?: Function, errorCallback?: Function, datatype?: string): object|any[];
 
   /**
    *   Reads the contents of a file and creates a String 
@@ -2423,9 +2456,12 @@ declare class p5 {
    *   @param [callback] function to be executed after 
    *   loadStrings() completes, Array is passed in as 
    *   first argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
    *   @return Array of Strings
    */
-  loadStrings(filename: string, callback?: Function): any[];
+  loadStrings(filename: string, callback?: Function, errorCallback?: Function): any[];
 
   /**
    *   Reads the contents of a file or URL and creates a 
@@ -2491,9 +2527,12 @@ declare class p5 {
    *   @param [callback] function to be executed after 
    *   loadXML() completes, XML object is passed in as 
    *   first argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
    *   @return XML object containing data
    */
-  loadXML(filename: string, callback?: Function): object;
+  loadXML(filename: string, callback?: Function, errorCallback?: Function): object;
 
   /**
    *   Method for executing an HTTP GET request. If data 
@@ -2507,8 +2546,11 @@ declare class p5 {
    *   @param [callback] function to be executed after 
    *   httpGet() completes, data is passed in as first 
    *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
    */
-  httpGet(path: string, data?: object, datatype?: string, callback?: Function): void;
+  httpGet(path: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
   /**
    *   Method for executing an HTTP POST request. If data 
@@ -2522,13 +2564,20 @@ declare class p5 {
    *   @param [callback] function to be executed after 
    *   httpGet() completes, data is passed in as first 
    *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
    */
-  httpPost(path: string, data?: object, datatype?: string, callback?: Function): void;
+  httpPost(path: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
   /**
    *   Method for executing an HTTP request. If data type 
    *   is not specified, p5 will try to guess based on 
-   *   the URL, defaulting to text.
+   *   the URL, defaulting to text. You may also pass a 
+   *   single object specifying all parameters for the 
+   *   request following the examples inside the 
+   *   reqwest() calls here: 
+   *   https://github.com/ded/reqwest#api
    *
    *   @param path name of the file or url to load
    *   @param [method] either "GET", "POST", or "PUT", 
@@ -2539,10 +2588,13 @@ declare class p5 {
    *   @param [callback] function to be executed after 
    *   httpGet() completes, data is passed in as first 
    *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
    */
-  httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
+  httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
-  // TODO: Fix save() errors in src/io/files.js, line 879:
+  // TODO: Fix save() errors in src/io/files.js, line 967:
   //
   //   param "filename" has invalid type: [String]
   //   param "options" has invalid type: [Boolean/String]
@@ -2572,7 +2624,7 @@ declare class p5 {
    */
   saveStrings(list: any[], filename: string): void;
 
-  // TODO: Fix saveTable() errors in src/io/files.js, line 1121:
+  // TODO: Fix saveTable() errors in src/io/files.js, line 1209:
   //
   //   param "options" has invalid type: [String]
   //
@@ -2612,16 +2664,12 @@ declare class p5 {
    */
   constrain(n: number, low: number, high: number): number;
 
-  /**
-   *   Calculates the distance between two points.
-   *
-   *   @param x1 x-coordinate of the first point
-   *   @param y1 y-coordinate of the first point
-   *   @param x2 x-coordinate of the second point
-   *   @param y2 y-coordinate of the second point
-   *   @return distance between the two points
-   */
-  dist(x1: number, y1: number, x2: number, y2: number): number;
+  // TODO: Fix dist() errors in src/math/calculation.js, line 108:
+  //
+  //   required param "x2" follows an optional param
+  //   required param "y2" follows an optional param
+  //
+  // dist(x1: number, y1: number, z1?: number, x2: number, y2: number, z2?: number): number;
 
   /**
    *   Returns Euler's number e (2.71828...) raised to 
@@ -3675,91 +3723,97 @@ declare class p5 {
    */
   removeElements(): void;
 
-  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 159:
+  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 195:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createDiv(html: string): any;
 
-  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 176:
+  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 212:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createP(html: string): any;
 
-  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 194:
+  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 230:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSpan(html: string): any;
 
-  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 220:
+  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 256:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createImg(src: string, alt?: string, successCallback?: Function): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 265:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 301:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 295:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 331:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 331:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 367:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 367:
+  // TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 403:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createCheckbox(label?: string, value?: boolean): any;
 
-  // TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 409:
+  // TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 463:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSelect(multiple?: boolean): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 453:
+  // TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 528:
+  //
+  //   return has invalid type: Object/p5.Element
+  //
+  // createRadio(divId?: string): any;
+
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 613:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 470:
+  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 642:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createFileInput(callback?: Function, multiple?: string): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 562:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 736:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 590:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 764:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 626:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 800:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: string|TYPE|object, callback: Function): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 722:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 898:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -3816,7 +3870,7 @@ declare class p5 {
    */
   masterVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 260, is not a valid JS symbol name
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 376, is not a valid JS symbol name
 
   /**
    *   Returns a number representing the sample rate, in 
@@ -3857,6 +3911,23 @@ declare namespace p5 {
   // src/color/p5.Color.js
 
   class Color {
+    /**
+     *   We define colors to be immutable objects. Each 
+     *   color stores the color mode and level maxes that 
+     *   applied at the time of its construction. These are 
+     *   used to interpret the input arguments and to 
+     *   format the output e.g. when saturation() is 
+     *   requested. Internally we store an array 
+     *   representing the ideal RGBA values in floating 
+     *   point form, normalized from 0 to 1. From this we 
+     *   calculate the closest screen color (RGBA levels 
+     *   from 0 to 255) and expose this to the renderer. We 
+     *   also cache normalized, floating point components 
+     *   of the color in various representations as they 
+     *   are calculated. This is done to prevent repeating 
+     *   a conversion that has already been performed.
+     *
+     */
     constructor();
   }
 
@@ -4066,7 +4137,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/core/p5.Element.js, line 441:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 444:
     //
     //   param "callback" is defined multiple times
     //
@@ -4074,13 +4145,13 @@ declare namespace p5 {
 
     // lib/addons/p5.dom.js
 
-    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 744:
+    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 924:
     //
     //   return has invalid type: Object/p5.Element
     //
     // addClass(theClass: string): any;
 
-    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 766:
+    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 951:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4107,31 +4178,31 @@ declare namespace p5 {
      */
     html(html?: string): any|string;
 
-    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 839:
+    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 1085:
     //
     //   return has invalid type: Object/p5.Element
     //
     // position(x?: number, y?: number): any;
 
-    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 873:
+    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 1119:
     //
     //   return has invalid type: Object/p5.Element
     //
     // translate(x: number, y: number, z?: number, perspective?: number): any;
 
-    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 915:
+    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 1161:
     //
     //   return has invalid type: Object/p5.Element
     //
     // rotate(x: number, y?: number, z?: number): any;
 
-    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 962:
+    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 1206:
     //
     //   param "value" is defined multiple times
     //   param "value" is defined multiple times
     //   param "value" is defined multiple times
     //
-    // style(property: string, value?: string|number, value?: string|number, value?: string|number, value?: string|number): string|any;
+    // style(property: string, value?: string|number|p5.Color, value?: string|number, value?: string|number, value?: string|number): string|any;
 
     /**
      *   Adds a new attribute or changes the value of an 
@@ -4155,19 +4226,19 @@ declare namespace p5 {
      */
     value(value?: string|number): string|any;
 
-    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1106:
+    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1355:
     //
     //   return has invalid type: Object/p5.Element
     //
     // show(): any;
 
-    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1118:
+    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1367:
     //
     //   return has invalid type: Object/p5.Element
     //
     // hide(): any;
 
-    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1129:
+    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1378:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4255,7 +4326,7 @@ declare namespace p5 {
      */
     height: any;
 
-    // TODO: Property "pixels[]", defined in src/image/p5.Image.js, line 58, is not a valid JS symbol name
+    // TODO: Property "pixels[]", defined in src/image/p5.Image.js, line 60, is not a valid JS symbol name
 
     /**
      *   Loads the pixels data for this image into the 
@@ -5101,37 +5172,37 @@ declare namespace p5 {
      */
     constructor(elt: string, pInst?: object);
 
-    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1243:
+    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1492:
     //
     //   return has invalid type: Object/p5.Element
     //
     // play(): any;
 
-    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1264:
+    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1513:
     //
     //   return has invalid type: Object/p5.Element
     //
     // stop(): any;
 
-    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1276:
+    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1525:
     //
     //   return has invalid type: Object/p5.Element
     //
     // pause(): any;
 
-    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1287:
+    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1536:
     //
     //   return has invalid type: Object/p5.Element
     //
     // loop(): any;
 
-    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1298:
+    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1547:
     //
     //   return has invalid type: Object/p5.Element
     //
     // noLoop(): any;
 
-    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1311:
+    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1560:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -5148,7 +5219,7 @@ declare namespace p5 {
 
     /**
      *   If no arguments are given, returns the current 
-     *   time of the elmeent. If an argument is given the 
+     *   time of the element. If an argument is given the 
      *   current time of the element is set to it.
      *
      *   @param [time] time to jump to (in seconds)
@@ -5287,13 +5358,13 @@ declare namespace p5 {
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 583:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 699:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 685:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 801:
     //
     //   param "path" has invalid type: String/Array
     //   param "callback" is defined multiple times
@@ -5404,7 +5475,7 @@ declare namespace p5 {
      */
     setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1148:
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1264:
     //
     //   required param "timeFromNow" follows an optional param
     //
@@ -5814,25 +5885,25 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 3214:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 3333:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 3238:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 3357:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 3257:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 3376:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 3276:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 3395:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -5988,28 +6059,28 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3738:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3857:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3753:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3872:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3768:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3887:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 3783:
+    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 3902:
     //
     //   "p5.SqrOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -6352,7 +6423,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4827:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4946:
     //
     //   param "type" has invalid type: [String]
     //
@@ -6365,7 +6436,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4917:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 5036:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -6438,19 +6509,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 5045:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 5164:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 5057:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 5176:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 5069:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 5188:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -6653,7 +6724,7 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 5539:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 5658:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6666,7 +6737,7 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 5619:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 5738:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6690,13 +6761,13 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5737:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5856:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5754:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5873:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6873,7 +6944,7 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 6344:
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 6463:
     //
     //   param "part(s)" is not a valid JS symbol name
     //
@@ -7010,7 +7081,7 @@ declare namespace p5 {
      *   @param [framesPerPeak] Defaults to 20.
      */
     constructor(freq1?: number, freq2?: number, threshold?: number, framesPerPeak?: number);
-    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 6855
+    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 6974
 
     /**
      *   The update method is run in the draw loop. Accepts 

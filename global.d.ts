@@ -204,7 +204,7 @@ declare function specularMaterial(v1: number|any[]|string|p5.Color, v2?: number,
 declare function alpha(obj: object): void;
 
 /**
- *   Extracts the blue value from a color or a pixel 
+ *   Extracts the blue value from a color or pixel 
  *   array.
  *
  *   @param obj p5.Color object or pixel array
@@ -212,9 +212,10 @@ declare function alpha(obj: object): void;
 declare function blue(obj: object): void;
 
 /**
- *   Extracts the brightness value from a color.
+ *   Extracts the HSB brightness value from a color or 
+ *   pixel array.
  *
- *   @param color p5.Color object
+ *   @param color p5.Color object or pixel array
  */
 declare function brightness(color: object): void;
 
@@ -253,18 +254,26 @@ declare function color(v1: number|string, v2?: number, v3?: number, alpha?: numb
  *   Extracts the green value from a color or pixel 
  *   array.
  *
- *   @param color p5.Color object
+ *   @param color p5.Color object or pixel array
  */
 declare function green(color: object): void;
 
 /**
- *   Extracts the hue value from a color.
+ *   Extracts the hue value from a color or pixel 
+ *   array. Hue exists in both HSB and HSL. This 
+ *   function will return the HSB-normalized hue when 
+ *   supplied with an HSB color object (or when 
+ *   supplied with a pixel array while the color mode 
+ *   is HSB), but will default to the HSL-normalized 
+ *   hue otherwise. (The values will only be different 
+ *   if the maximum hue setting for each system is 
+ *   different.)
  *
- *   @param color p5.Color object
+ *   @param color p5.Color object or pixel array
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 312:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 315:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number
@@ -273,9 +282,10 @@ declare function hue(color: object): void;
 // declare function lerpColor(c1: any, c2: any, amt: number): any;
 
 /**
- *   Extracts the lightness value from a color.
+ *   Extracts the HSL lightness value from a color or 
+ *   pixel array.
  *
- *   @param color p5.Color object
+ *   @param color p5.Color object or pixel array
  */
 declare function lightness(color: object): void;
 
@@ -288,9 +298,15 @@ declare function lightness(color: object): void;
 declare function red(obj: object): void;
 
 /**
- *   Extracts the saturation value from a color.
+ *   Extracts the saturation value from a color or 
+ *   pixel array. Saturation is scaled differently in 
+ *   HSB and HSL. This function will return the HSB 
+ *   saturation when supplied with an HSB color object 
+ *   (or when supplied with a pixel array while the 
+ *   color mode is HSB), but will default to the HSL 
+ *   saturation otherwise.
  *
- *   @param color p5.Color object
+ *   @param color p5.Color object or pixel array
  */
 declare function saturation(color: object): void;
 
@@ -332,27 +348,32 @@ declare function background(v1: number|string|p5.Color|p5.Image, v2?: number, v3
 declare function clear(): void;
 
 /**
- *   Changes the way p5.js interprets color data. By 
- *   default, the parameters for fill(), stroke(), 
- *   background(), and color() are defined by values 
- *   between 0 and 255 using the RGB color model. The 
- *   colorMode() function is used to switch color 
- *   systems. Regardless of color system, all value 
- *   ranges are presumed to be 0–255 unless explicitly 
- *   set otherwise. That is, for a standard HSB range, 
- *   one would pass colorMode(HSB, 360, 100, 100, 1).
+ *   colorMode() changes the way p5.js interprets color 
+ *   data. By default, the parameters for fill(), 
+ *   stroke(), background(), and color() are defined by 
+ *   values between 0 and 255 using the RGB color 
+ *   model. This is equivalent to setting 
+ *   colorMode(RGB, 255). Setting colorMode(HSB) lets 
+ *   you use the HSB system instead. By default, this 
+ *   is colorMode(HSB, 360, 100, 100, 1). You can also 
+ *   use HSL. Note: existing color objects remember the 
+ *   mode that they were created in, so you can change 
+ *   modes as you like without affecting their 
+ *   appearance.
  *
  *   @param mode either RGB or HSB, corresponding to 
- *   Red/Green/Blue and Hue/Saturation/Brightness
- *   @param max1 range for the red or hue depending on 
- *   the current color mode, or range for all values
- *   @param max2 range for the green or saturation 
+ *   Red/Green/Blue and Hue/Saturation/Brightness (or 
+ *   Lightness)
+ *   @param [max1] range for the red or hue depending 
+ *   on the current color mode, or range for all values
+ *   @param [max2] range for the green or saturation 
  *   depending on the current color mode
- *   @param max3 range for the blue or brightness 
- *   depending on the current color mode
- *   @param maxA range for the alpha
+ *   @param [max3] range for the blue or 
+ *   brightness/lighntess depending on the current 
+ *   color mode
+ *   @param [maxA] range for the alpha
  */
-declare function colorMode(mode: number|COLOR_MODE, max1: number|UNKNOWN_P5_CONSTANT, max2: number|UNKNOWN_P5_CONSTANT, max3: number|UNKNOWN_P5_CONSTANT, maxA: number|UNKNOWN_P5_CONSTANT): void;
+declare function colorMode(mode: number|COLOR_MODE, max1?: number|UNKNOWN_P5_CONSTANT, max2?: number|UNKNOWN_P5_CONSTANT, max3?: number|UNKNOWN_P5_CONSTANT, maxA?: number|UNKNOWN_P5_CONSTANT): void;
 
 /**
  *   Sets the color used to fill shapes. For example, 
@@ -419,7 +440,7 @@ declare function stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: numb
 
 /**
  *   Draw an arc to the screen. If called with only a, 
- *   b, c, d, start, and stop, the arc will pe drawn as 
+ *   b, c, d, start, and stop, the arc will be drawn as 
  *   an open pie. If mode is provided, the arc will be 
  *   drawn either open, as a chord, or as a pie as 
  *   specified. The origin may be changed with the 
@@ -1020,16 +1041,25 @@ declare var height: any;
 declare function fullScreen(val?: boolean): boolean;
 
 /**
- *   Toggles pixel scaling for high pixel density 
- *   displays. By default pixel scaling is on, call 
- *   devicePixelScaling(false) to turn it off. This 
- *   devicePixelScaling() function must be the first 
- *   line of code inside setup().
+ *   Sets the pixel scaling for high pixel density 
+ *   displays. By default pixel density is set to match 
+ *   display density, call pixelDensity(1) to turn this 
+ *   off. Calling pixelDensity() with no arguments 
+ *   returns the current pixel density of the sketch.
  *
  *   @param [val] whether or how much the sketch should 
  *   scale
+ *   @return current pixel density of the sketch
  */
-declare function devicePixelScaling(val?: boolean|number): void;
+declare function pixelDensity(val?: number): number;
+
+/**
+ *   Returns the pixel density of the current display 
+ *   the sketch is running on.
+ *
+ *   @return current pixel density of the display
+ */
+declare function displayDensity(): number;
 
 /**
  *   Gets the current URL.
@@ -2336,7 +2366,7 @@ declare function loadPixels(): void;
  *   directly to the display window. The x and y 
  *   parameters specify the pixel to change and the c 
  *   parameter specifies the color value. This can be a 
- *   p5.COlor object, or [R, G, B, A] pixel array. It 
+ *   p5.Color object, or [R, G, B, A] pixel array. It 
  *   can also be a single grayscale value. When setting 
  *   an image, the x and y parameters define the 
  *   coordinates for the upper-left corner of the 
@@ -2398,12 +2428,15 @@ declare function loadFont(path: string, callback?: Function): object;
  *
  *   @param path name of the file or url to load
  *   @param [callback] function to be executed after 
- *   loadJSON() completes, Array is passed in as first 
+ *   loadJSON() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
  *   argument
  *   @param [datatype] "json" or "jsonp"
  *   @return JSON data
  */
-declare function loadJSON(path: string, callback?: Function, datatype?: string): object|any[];
+declare function loadJSON(path: string, callback?: Function, errorCallback?: Function, datatype?: string): object|any[];
 
 /**
  *   Reads the contents of a file and creates a String 
@@ -2423,9 +2456,12 @@ declare function loadJSON(path: string, callback?: Function, datatype?: string):
  *   @param [callback] function to be executed after 
  *   loadStrings() completes, Array is passed in as 
  *   first argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
  *   @return Array of Strings
  */
-declare function loadStrings(filename: string, callback?: Function): any[];
+declare function loadStrings(filename: string, callback?: Function, errorCallback?: Function): any[];
 
 /**
  *   Reads the contents of a file or URL and creates a 
@@ -2491,9 +2527,12 @@ declare function loadTable(filename: string, options?: string|any, callback?: Fu
  *   @param [callback] function to be executed after 
  *   loadXML() completes, XML object is passed in as 
  *   first argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
  *   @return XML object containing data
  */
-declare function loadXML(filename: string, callback?: Function): object;
+declare function loadXML(filename: string, callback?: Function, errorCallback?: Function): object;
 
 /**
  *   Method for executing an HTTP GET request. If data 
@@ -2507,8 +2546,11 @@ declare function loadXML(filename: string, callback?: Function): object;
  *   @param [callback] function to be executed after 
  *   httpGet() completes, data is passed in as first 
  *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
  */
-declare function httpGet(path: string, data?: object, datatype?: string, callback?: Function): void;
+declare function httpGet(path: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
 /**
  *   Method for executing an HTTP POST request. If data 
@@ -2522,13 +2564,20 @@ declare function httpGet(path: string, data?: object, datatype?: string, callbac
  *   @param [callback] function to be executed after 
  *   httpGet() completes, data is passed in as first 
  *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
  */
-declare function httpPost(path: string, data?: object, datatype?: string, callback?: Function): void;
+declare function httpPost(path: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
 /**
  *   Method for executing an HTTP request. If data type 
  *   is not specified, p5 will try to guess based on 
- *   the URL, defaulting to text.
+ *   the URL, defaulting to text. You may also pass a 
+ *   single object specifying all parameters for the 
+ *   request following the examples inside the 
+ *   reqwest() calls here: 
+ *   https://github.com/ded/reqwest#api
  *
  *   @param path name of the file or url to load
  *   @param [method] either "GET", "POST", or "PUT", 
@@ -2539,10 +2588,13 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  *   @param [callback] function to be executed after 
  *   httpGet() completes, data is passed in as first 
  *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
  */
-declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
+declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 879:
+// TODO: Fix save() errors in src/io/files.js, line 967:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -2572,7 +2624,7 @@ declare function saveJSON(json: any[]|object, filename: string, optimize?: boole
  */
 declare function saveStrings(list: any[], filename: string): void;
 
-// TODO: Fix saveTable() errors in src/io/files.js, line 1121:
+// TODO: Fix saveTable() errors in src/io/files.js, line 1209:
 //
 //   param "options" has invalid type: [String]
 //
@@ -2612,16 +2664,12 @@ declare function ceil(n: number): number;
  */
 declare function constrain(n: number, low: number, high: number): number;
 
-/**
- *   Calculates the distance between two points.
- *
- *   @param x1 x-coordinate of the first point
- *   @param y1 y-coordinate of the first point
- *   @param x2 x-coordinate of the second point
- *   @param y2 y-coordinate of the second point
- *   @return distance between the two points
- */
-declare function dist(x1: number, y1: number, x2: number, y2: number): number;
+// TODO: Fix dist() errors in src/math/calculation.js, line 108:
+//
+//   required param "x2" follows an optional param
+//   required param "y2" follows an optional param
+//
+// declare function dist(x1: number, y1: number, z1?: number, x2: number, y2: number, z2?: number): number;
 
 /**
  *   Returns Euler's number e (2.71828...) raised to 
@@ -3675,91 +3723,97 @@ declare function selectAll(name: string): any[];
  */
 declare function removeElements(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 159:
+// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 195:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 176:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 212:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 194:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 230:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 220:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 256:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt?: string, successCallback?: Function): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 265:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 301:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 295:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 331:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 331:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 367:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 367:
+// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 403:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCheckbox(label?: string, value?: boolean): any;
 
-// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 409:
+// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 463:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSelect(multiple?: boolean): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 453:
+// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 528:
+//
+//   return has invalid type: Object/p5.Element
+//
+// declare function createRadio(divId?: string): any;
+
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 613:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 470:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 642:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 562:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 736:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 590:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 764:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 626:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 800:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 722:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 898:
 //
 //   return has invalid type: Object/p5.Element
 //
@@ -3816,7 +3870,7 @@ declare function getMasterVolume(): number;
  */
 declare function masterVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 260, is not a valid JS symbol name
+// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 376, is not a valid JS symbol name
 
 /**
  *   Returns a number representing the sample rate, in 
