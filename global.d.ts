@@ -81,7 +81,7 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 280:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 279:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number
@@ -235,10 +235,12 @@ declare function stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: numb
 // src/core/2d_primitives.js
 
 /**
- *   Draw an arc. If a,b,c,d,start and stop are the 
- *   only params provided, draws an open pie. If mode 
- *   is provided draws the arc either open, chord or 
- *   pie, dependent on the variable provided.
+ *   Draw an arc to the screen. If called with only a, 
+ *   b, c, d, start, and stop, the arc will pe drawn as 
+ *   an open pie. If mode is provided, the arc will be 
+ *   drawn either open, as a chord, or as a pie as 
+ *   specified. The origin may be changed with the 
+ *   ellipseMode() function.
  *
  *   @param a x-coordinate of the arc's ellipse
  *   @param b y-coordinate of the arc's ellipse
@@ -300,7 +302,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/core/2d_primitives.js, line 302:
+// TODO: Fix quad() errors in src/core/2d_primitives.js, line 260:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -361,7 +363,7 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
 
 // src/core/attributes.js
 
-// TODO: Fix ellipseMode() errors in src/core/attributes.js, line 18:
+// TODO: Fix ellipseMode() errors in src/core/attributes.js, line 17:
 //
 //   param "mode" has invalid type: Number/Constant
 //
@@ -377,7 +379,7 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
  */
 declare function noSmooth(): p5;
 
-// TODO: Fix rectMode() errors in src/core/attributes.js, line 103:
+// TODO: Fix rectMode() errors in src/core/attributes.js, line 102:
 //
 //   param "mode" has invalid type: Number/Constant
 //
@@ -394,13 +396,13 @@ declare function noSmooth(): p5;
  */
 declare function smooth(): p5;
 
-// TODO: Fix strokeCap() errors in src/core/attributes.js, line 189:
+// TODO: Fix strokeCap() errors in src/core/attributes.js, line 188:
 //
 //   param "cap" has invalid type: Number/Constant
 //
 // declare function strokeCap(cap: any): p5;
 
-// TODO: Fix strokeJoin() errors in src/core/attributes.js, line 219:
+// TODO: Fix strokeJoin() errors in src/core/attributes.js, line 218:
 //
 //   param "join" has invalid type: Number/Constant
 //
@@ -716,7 +718,7 @@ declare var frameCount: any;
  */
 declare var focused: any;
 
-// TODO: Fix cursor() errors in src/core/environment.js, line 107:
+// TODO: Fix cursor() errors in src/core/environment.js, line 106:
 //
 //   param "type" has invalid type: Number/Constant
 //
@@ -860,7 +862,7 @@ declare function getURLParams(): object;
 
 // src/core/rendering.js
 
-// TODO: Fix createCanvas() errors in src/core/rendering.js, line 14:
+// TODO: Fix createCanvas() errors in src/core/rendering.js, line 13:
 //
 //   param "optional:" is not a valid JS symbol name
 //
@@ -896,7 +898,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number, renderer: string): object;
 
-// TODO: Fix blendMode() errors in src/core/rendering.js, line 187:
+// TODO: Fix blendMode() errors in src/core/rendering.js, line 186:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -1174,7 +1176,7 @@ declare function translate(x: number, y: number): p5;
  */
 declare function beginContour(): object;
 
-// TODO: Fix beginShape() errors in src/core/vertex.js, line 66:
+// TODO: Fix beginShape() errors in src/core/vertex.js, line 65:
 //
 //   param "kind" has invalid type: Number/Constant
 //
@@ -1246,7 +1248,7 @@ declare function curveVertex(x: number, y: number): object;
  */
 declare function endContour(): object;
 
-// TODO: Fix endShape() errors in src/core/vertex.js, line 392:
+// TODO: Fix endShape() errors in src/core/vertex.js, line 391:
 //
 //   param "mode" has invalid type: Number/Constant
 //
@@ -1350,27 +1352,26 @@ declare var pAccelerationZ: any;
 
 /**
  *   The setMoveThreshold() function is used to set the 
- *   movement threshold for the onDeviceMove() 
- *   function.
+ *   movement threshold for the deviceMoved() function.
  *
  *   @param value The threshold value
  */
 declare function setMoveThreshold(value: number): void;
 
 /**
- *   The onDeviceMove() function is called when the 
+ *   The deviceMoved() function is called when the 
  *   devices orientation changes by more than the 
  *   threshold value.
  *
  */
-declare function onDeviceMove(): void;
+declare function deviceMoved(): void;
 
 /**
- *   The onDeviceTurn() function is called when the 
+ *   The deviceTurned() function is called when the 
  *   device rotates by more than 90 degrees.
  *
  */
-declare function onDeviceTurn(): void;
+declare function deviceTurned(): void;
 
 // src/events/keyboard.js
 
@@ -1696,7 +1697,7 @@ declare var ptouchX: any;
  */
 declare var ptouchY: any;
 
-// TODO: Property "touches[]", defined in src/events/touch.js, line 51, is not a valid JS symbol name
+// TODO: Property "touches[]", defined in src/events/touch.js, line 50, is not a valid JS symbol name
 
 /**
  *   The boolean system variable touchIsDown is true if 
@@ -1771,15 +1772,15 @@ declare function touchEnded(): void;
  */
 declare function createImage(width: number, height: number): p5.Image;
 
-// TODO: Fix saveCanvas() errors in src/image/image.js, line 106:
+// TODO: Fix saveCanvas() errors in src/image/image.js, line 101:
 //
+//   param "canvas" has invalid type: [selectedCanvas]
 //   param "filename" has invalid type: [String]
 //   param "extension" has invalid type: [String]
-//   param "canvas" has invalid type: [selectedCanvas]
 //
-// declare function saveCanvas(filename: any, extension: any, canvas: any): void;
+// declare function saveCanvas(canvas: any, filename: any, extension: any): void;
 
-// TODO: Fix saveFrames() errors in src/image/image.js, line 169:
+// TODO: Fix saveFrames() errors in src/image/image.js, line 219:
 //
 //   param "filename" has invalid type: [type]
 //   param "extension" has invalid type: [type]
@@ -1880,7 +1881,7 @@ declare function imageMode(m: string): void;
 
 // src/image/pixels.js
 
-// TODO: Property "pixels[]", defined in src/image/pixels.js, line 15, is not a valid JS symbol name
+// TODO: Property "pixels[]", defined in src/image/pixels.js, line 14, is not a valid JS symbol name
 
 /**
  *   Copies a region of pixels from one image to 
@@ -2057,7 +2058,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 513:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 512:
 //
 //   param "w" is defined multiple times
 //
@@ -2229,7 +2230,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  */
 declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 807:
+// TODO: Fix save() errors in src/io/files.js, line 806:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -2259,7 +2260,7 @@ declare function saveJSON(json: any[]|object, filename: string, optimize?: boole
  */
 declare function saveStrings(list: any[], filename: string): void;
 
-// TODO: Fix saveTable() errors in src/io/files.js, line 1035:
+// TODO: Fix saveTable() errors in src/io/files.js, line 1047:
 //
 //   param "options" has invalid type: [String]
 //
@@ -2742,7 +2743,7 @@ declare function degrees(radians: number): number;
  */
 declare function radians(degrees: number): number;
 
-// TODO: Fix angleMode() errors in src/math/trigonometry.js, line 305:
+// TODO: Fix angleMode() errors in src/math/trigonometry.js, line 304:
 //
 //   param "mode" has invalid type: Number/Constant
 //
@@ -2750,7 +2751,7 @@ declare function radians(degrees: number): number;
 
 // src/typography/attributes.js
 
-// TODO: Fix textAlign() errors in src/typography/attributes.js, line 22:
+// TODO: Fix textAlign() errors in src/typography/attributes.js, line 21:
 //
 //   param "h" has invalid type: Number/Constant
 //   param "v" has invalid type: Number/Constant
@@ -2778,7 +2779,7 @@ declare function textLeading(l: number): object|number;
  */
 declare function textSize(s: number): object|number;
 
-// TODO: Fix textStyle() errors in src/typography/attributes.js, line 119:
+// TODO: Fix textStyle() errors in src/typography/attributes.js, line 118:
 //
 //   param "s" has invalid type: Number/Constant
 //
@@ -2848,7 +2849,7 @@ declare function textFont(f: object|string): object;
  */
 declare function append(array: any[], value: any): void;
 
-// TODO: Fix arrayCopy() errors in src/utilities/array_functions.js, line 38:
+// TODO: Fix arrayCopy() errors in src/utilities/array_functions.js, line 37:
 //
 //   required param "dst" follows an optional param
 //   param "length" has invalid type: Nimber
@@ -3324,26 +3325,34 @@ declare function year(): number;
 // lib/addons/p5.dom.js
 
 /**
- *   Searches the page for an element with given ID and 
- *   returns it as a p5.Element. The DOM node itself 
+ *   Searches the page for an element with the given 
+ *   ID, class, or tag name (using the '#' or '.' 
+ *   prefixes to specify an ID or class respectively, 
+ *   and none for a tag) and returns it as a 
+ *   p5.Element. If a class or tag name is given with 
+ *   more than 1 element, only the first element will 
+ *   be returned. The DOM node itself can be accessed 
+ *   with .elt. Returns null if none found.
+ *
+ *   @param name id, class, or tag name of element to 
+ *   search for
+ *   @return p5.Element containing node found
+ */
+declare function select(name: string): any|null;
+
+/**
+ *   Searches the page for elements with the given 
+ *   class or tag name (using the '.' prefix to specify 
+ *   a class and no prefix for a tag) and returns them 
+ *   as p5.Elements in an array. The DOM node itself 
  *   can be accessed with .elt. Returns null if none 
  *   found.
  *
- *   @param id id of element to search for
+ *   @param name class or tag name of elements to 
+ *   search for
  *   @return p5.Element containing node found
  */
-declare function getElement(id: string): any|null;
-
-/**
- *   Searches the page for elements with given class 
- *   and returns an array of p5.Elements. The DOM nodes 
- *   themselves can be accessed with .elt. Returns an 
- *   empty array if none found.
- *
- *   @param class class name of elements to search for
- *   @return array of p5.Element wrapped nodes found
- */
-declare function getElements(theClass: string): any[];
+declare function selectAll(name: string): any|null;
 
 /**
  *   Removes all elements created by p5, except any 
@@ -3354,167 +3363,81 @@ declare function getElements(theClass: string): any[];
  */
 declare function removeElements(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 127:
+// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 159:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 138:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 170:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 150:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 182:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 170:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 202:
 //
 //   return has invalid type: Object/p5.Element
 //
-// declare function createImg(src: string, alt: string): any;
+// declare function createImg(src: string, alt?: string, successCallback?: Function): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 193:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 242:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 217:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 266:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 240:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 289:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 261:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 310:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 279:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 328:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 372:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 421:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 400:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 449:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 436:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 485:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: any|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 532:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 581:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createElement(tag: string, content?: string): any;
 
-// Properties from p5.sound
-
-// lib/addons/p5.sound.js
-
-/**
- *   Returns the Audio Context for this sketch. Useful 
- *   for users who would like to dig deeper into the 
- *   Web Audio API .
- *
- *   @return AudioContext for this sketch
- */
-declare function getAudioContext(): object;
-
-/**
- *   Returns a number representing the master amplitude 
- *   (volume) for sound in this sketch.
- *
- *   @return Master amplitude (volume) for sound in 
- *   this sketch. Should be between 0.0 (silence) and 
- *   1.0.
- */
-declare function getMasterVolume(): number;
-
-/**
- *   Scale the output of all sound in this sketch 
- *   Scaled between 0.0 (silence) and 1.0 (full 
- *   volume). 1.0 is the maximum amplitude of a digital 
- *   sound, so multiplying by greater than 1.0 may 
- *   cause digital distortion. To fade, provide a 
- *   rampTime parameter. For more complex fades, see 
- *   the Env class. Alternately, you can pass in a 
- *   signal source such as an oscillator to modulate 
- *   the amplitude with an audio signal. How This 
- *   Works: When you load the p5.sound module, it 
- *   creates a single instance of p5sound. All sound 
- *   objects in this module output to p5sound before 
- *   reaching your computer's output. So if you change 
- *   the amplitude of p5sound, it impacts all of the 
- *   sound in this module. 
- * 
- *   If no value is provided, returns a Web Audio API 
- *   Gain Node
- *
- *   @param volume Volume (amplitude) between 0.0 and 
- *   1.0 or modulating signal/oscillator
- *   @param [rampTime] Fade for t seconds
- *   @param [timeFromNow] Schedule this event to happen 
- *   at t seconds in the future
- */
-declare function masterVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
-
-// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 260, is not a valid JS symbol name
-
-/**
- *   Returns a number representing the sample rate, in 
- *   samples per second, of all sound objects in this 
- *   audio context. It is determined by the sampling 
- *   rate of your operating system's sound card, and it 
- *   is not currently possile to change. It is often 
- *   44100, or twice the range of human hearing.
- *
- *   @return samplerate samples per second
- */
-declare function sampleRate(): number;
-
-/**
- *   Returns the frequency value of a MIDI note value. 
- *   General MIDI treats notes as integers where middle 
- *   C is 60, C# is 61, D is 62 etc. Useful for 
- *   generating musical frequencies with oscillators.
- *
- *   @param midiNote The number of a MIDI note
- *   @return Frequency value of the given MIDI note
- */
-declare function midiToFreq(midiNote: number): number;
-
-/**
- *   List the SoundFile formats that you will include. 
- *   LoadSound will search your directory for these 
- *   extensions, and will pick a format that is 
- *   compatable with the client's web browser. Here is 
- *   a free online file converter.
- *
- *   @param formats i.e. 'mp3', 'wav', 'ogg'
- */
-declare function soundFormats(formats: string|any): void;
