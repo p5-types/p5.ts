@@ -2671,7 +2671,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 564:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 568:
 //
 //   param "w" is defined multiple times
 //
@@ -4381,33 +4381,33 @@ declare function removeElements(): void;
 //
 //   return has invalid type: Object/p5.Element
 //
-// declare function createInput(value?: number): any;
+// declare function createInput(value?: number, type?: string): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 746:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 747:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 846:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 869:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 874:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 897:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 910:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 933:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1015:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1038:
 //
 //   return has invalid type: Object/p5.Element
 //
