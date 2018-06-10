@@ -3991,6 +3991,9 @@ declare class p5 {
    *   @param formats i.e. 'mp3', 'wav', 'ogg'
    */
   soundFormats(formats: string|any): void;
+
+  // TODO: Property "{String} failedPath path to the file that failed to load", defined in lib/addons/p5.sound.js, line 599, is not a valid JS symbol name
+
 }
 
 declare namespace p5 {
@@ -4223,7 +4226,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/core/p5.Element.js, line 456:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 502:
     //
     //   param "callback" is defined multiple times
     //
@@ -5447,21 +5450,20 @@ declare namespace p5 {
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 699:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 738:
     //
     //   param "path" has invalid type: String/Array
     //
-    // constructor(path: any, callback?: Function);
+    // constructor(path: any, successCallback?: Function, errorCallback?: Function, whileLoadingCallback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 810:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 851:
     //
     //   param "path" has invalid type: String/Array
-    //   param "callback" is defined multiple times
     //
-    // loadSound(path: any, callback?: Function, callback?: Function): SoundFile;
+    // loadSound(path: any, successCallback?: Function, errorCallback?: Function, whileLoading?: Function): SoundFile;
 
     /**
-     *   Returns true when the sound file finishes loading 
+     *   Returns true if the sound file finished loading 
      *   successfully.
      *
      */
@@ -5509,19 +5511,14 @@ declare namespace p5 {
     pause(startTime?: number): void;
 
     /**
-     *   Loop the p5.SoundFile - play it over and over 
-     *   again. You can .stop() at any time, or turn off 
-     *   looping with .setLoop(false). The loop method 
-     *   accepts optional parameters to schedule the 
-     *   looping in the future, and to set the playback 
-     *   rate, volume, loopStart, loopEnd.
+     *   Loop the p5.SoundFile. Accepts optional parameters 
+     *   to set the playback rate, playback volume, 
+     *   loopStart, loopEnd.
      *
      *   @param [startTime] (optional) schedule event to 
-     *   occur seconds from now. Defaults to 0.
-     *   @param [rate] (optional) playback rate. Defaults 
-     *   to 1.
-     *   @param [amp] (optional) playback volume (max 
-     *   amplitude). Defaults to 1.
+     *   occur seconds from now
+     *   @param [rate] (optional) playback rate
+     *   @param [amp] (optional) playback volume
      *   @param [cueLoopStart] startTime in seconds
      *   @param [duration] (optional) loop duration in 
      *   seconds
@@ -5569,7 +5566,7 @@ declare namespace p5 {
      */
     setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1366:
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1365:
     //
     //   required param "timeFromNow" follows an optional param
     //
@@ -5663,6 +5660,18 @@ declare namespace p5 {
     reverseBuffer(): void;
 
     /**
+     *   Schedule an event to be called when the soundfile 
+     *   reaches the end of a buffer. If the soundfile is 
+     *   playing through once, this will be called when it 
+     *   ends. If it is looping, it will be called when 
+     *   stop is called.
+     *
+     *   @param callback function to call when the 
+     *   soundfile has ended.
+     */
+    onended(callback: Function): void;
+
+    /**
      *   Connects the output of a p5sound object to input 
      *   of another p5.sound object. For example, you may 
      *   connect a p5.SoundFile to an FFT or an Effect. If 
@@ -5679,19 +5688,6 @@ declare namespace p5 {
      *
      */
     disconnect(): void;
-
-    /**
-     *   Read the Amplitude (volume level) of a 
-     *   p5.SoundFile. The p5.SoundFile class contains its 
-     *   own instance of the Amplitude class to help make 
-     *   it easy to get a SoundFile's volume level. Accepts 
-     *   an optional smoothing value (0.0 < 1.0).
-     *
-     *   @param [smoothing] Smoothing is 0.0 by default. 
-     *   Smooths values based on previous values.
-     *   @return Volume level (between 0.0 and 1.0)
-     */
-    getLevel(smoothing?: number): number;
 
     /**
      *   Reset the source for this SoundFile to a new path 
@@ -5950,6 +5946,18 @@ declare namespace p5 {
     getEnergy(frequency1: number|string, frequency2?: number): number;
 
     /**
+     *   Returns the  spectral centroid of the input 
+     *   signal. NOTE: analyze() must be called prior to 
+     *   getCentroid(). Analyze() tells the FFT to analyze 
+     *   frequency data, and getCentroid() uses the results 
+     *   determine the spectral centroid.
+     *
+     *   @return Spectral Centroid Frequency Frequency of 
+     *   the spectral centroid in Hz.
+     */
+    getCentroid(): number;
+
+    /**
      *   Smooth FFT analysis by averaging with the last 
      *   analysis frame.
      *
@@ -5979,25 +5987,25 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 3435:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 4206:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 3459:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 4230:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 3478:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 4249:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 3497:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 4268:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -6108,7 +6116,9 @@ declare namespace p5 {
     pan(panning: number, timeFromNow: number): void;
 
     /**
-     *   Set the phase of an oscillator between 0.0 and 1.0
+     *   Set the phase of an oscillator between 0.0 and 
+     *   1.0. In this implementation, phase is a delay time 
+     *   based on the oscillator's current frequency.
      *
      *   @param phase float between 0.0 and 1.0
      */
@@ -6153,28 +6163,28 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3959:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 4745:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3974:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 4760:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3989:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 4775:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 4004:
+    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 4790:
     //
     //   "p5.SqrOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -6185,55 +6195,108 @@ declare namespace p5 {
   class Env {
     /**
      *   Envelopes are pre-defined amplitude distribution 
-     *   over time. The p5.Env accepts up to four 
-     *   time/level pairs, where time determines how long 
-     *   of a ramp before value reaches level. Typically, 
-     *   envelopes are used to control the output volume of 
-     *   an object, a series of fades referred to as 
-     *   Attack, Decay, Sustain and Release (ADSR). But 
-     *   p5.Env can control any Web Audio Param, for 
-     *   example it can be passed to an Oscillator 
-     *   frequency like osc.freq(env)
+     *   over time. Typically, envelopes are used to 
+     *   control the output volume of an object, a series 
+     *   of fades referred to as Attack, Decay, Sustain and 
+     *   Release ( ADSR ). Envelopes can also control other 
+     *   Web Audio Parameters—for example, a p5.Env can 
+     *   control an Oscillator's frequency like this: 
+     *   osc.freq(env). Use setRange to change the 
+     *   attack/release level. Use setADSR to change 
+     *   attackTime, decayTime, sustainPercent and 
+     *   releaseTime. 
+     * 
+     *   Use the play method to play the entire envelope, 
+     *   the ramp method for a pingable trigger, or 
+     *   triggerAttack/ triggerRelease to trigger 
+     *   noteOn/noteOff.
      *
-     *   @param aTime Time (in seconds) before level 
-     *   reaches attackLevel
-     *   @param aLevel Typically an amplitude between 0.0 
-     *   and 1.0
-     *   @param dTime Time
-     *   @param [dLevel] Amplitude (In a standard ADSR 
-     *   envelope, decayLevel = sustainLevel)
-     *   @param [sTime] Time (in seconds)
-     *   @param [sLevel] Amplitude 0.0 to 1.0
-     *   @param [rTime] Time (in seconds)
-     *   @param [rLevel] Amplitude 0.0 to 1.0
      */
-    constructor(aTime: number, aLevel: number, dTime: number, dLevel?: number, sTime?: number, sLevel?: number, rTime?: number, rLevel?: number);
+    constructor();
+
+    /**
+     *   Time until envelope reaches attackLevel
+     *
+     */
     attackTime: any;
+
+    /**
+     *   Level once attack is complete.
+     *
+     */
     attackLevel: any;
+
+    /**
+     *   Time until envelope reaches decayLevel.
+     *
+     */
     decayTime: any;
+
+    /**
+     *   Level after decay. The envelope will sustain here 
+     *   until it is released.
+     *
+     */
     decayLevel: any;
-    sustainTime: any;
-    sustainLevel: any;
+
+    /**
+     *   Duration of the release portion of the envelope.
+     *
+     */
     releaseTime: any;
+
+    /**
+     *   Level at the end of the release.
+     *
+     */
     releaseLevel: any;
 
     /**
      *   Reset the envelope with a series of time/value 
      *   pairs.
      *
-     *   @param aTime Time (in seconds) before level 
+     *   @param attackTime Time (in seconds) before level 
      *   reaches attackLevel
-     *   @param aLevel Typically an amplitude between 0.0 
-     *   and 1.0
-     *   @param dTime Time
-     *   @param [dLevel] Amplitude (In a standard ADSR 
+     *   @param attackLevel Typically an amplitude between 
+     *   0.0 and 1.0
+     *   @param decayTime Time
+     *   @param decayLevel Amplitude (In a standard ADSR 
      *   envelope, decayLevel = sustainLevel)
-     *   @param [sTime] Time (in seconds)
-     *   @param [sLevel] Amplitude 0.0 to 1.0
-     *   @param [rTime] Time (in seconds)
-     *   @param [rLevel] Amplitude 0.0 to 1.0
+     *   @param releaseTime Release Time (in seconds)
+     *   @param releaseLevel Amplitude
      */
-    set(aTime: number, aLevel: number, dTime: number, dLevel?: number, sTime?: number, sLevel?: number, rTime?: number, rLevel?: number): void;
+    set(attackTime: number, attackLevel: number, decayTime: number, decayLevel: number, releaseTime: number, releaseLevel: number): void;
+
+    /**
+     *   Set values like a traditional  ADSR envelope .
+     *
+     *   @param attackTime Time (in seconds before envelope 
+     *   reaches Attack Level
+     *   @param [decayTime] Time (in seconds) before 
+     *   envelope reaches Decay/Sustain Level
+     *   @param [susRatio] Ratio between attackLevel and 
+     *   releaseLevel, on a scale from 0 to 1, where 1.0 = 
+     *   attackLevel, 0.0 = releaseLevel. The susRatio 
+     *   determines the decayLevel and the level at which 
+     *   the sustain portion of the envelope will sustain. 
+     *   For example, if attackLevel is 0.4, releaseLevel 
+     *   is 0, and susAmt is 0.5, the decayLevel would be 
+     *   0.2. If attackLevel is increased to 1.0 (using 
+     *   setRange), then decayLevel would increase 
+     *   proportionally, to become 0.5.
+     *   @param [releaseTime] Time in seconds from now 
+     *   (defaults to 0)
+     */
+    setADSR(attackTime: number, decayTime?: number, susRatio?: number, releaseTime?: number): void;
+
+    /**
+     *   Set max (attackLevel) and min (releaseLevel) of 
+     *   envelope.
+     *
+     *   @param aLevel attack level (defaults to 1)
+     *   @param rLevel release level (defaults to 0)
+     */
+    setRange(aLevel: number, rLevel: number): void;
 
     /**
      *   Assign a parameter to be controlled by this 
@@ -6247,6 +6310,16 @@ declare namespace p5 {
     setInput(unit: object): void;
 
     /**
+     *   Set whether the envelope ramp is linear (default) 
+     *   or exponential. Exponential ramps can be useful 
+     *   because we perceive amplitude and frequency 
+     *   logarithmically.
+     *
+     *   @param isExp true is exponential, false is linear
+     */
+    setExp(isExp: boolean): void;
+
+    /**
      *   Play tells the envelope to start acting on a given 
      *   input. If the input is a p5.sound object (i.e. 
      *   AudioIn, Oscillator, SoundFile), then Env will 
@@ -6254,12 +6327,15 @@ declare namespace p5 {
      *   used to control any  Web Audio Audio Param.
      *
      *   @param unit A p5.sound object or Web Audio Param.
-     *   @param secondsFromNow time from now (in seconds)
+     *   @param [startTime] time from now (in seconds) at 
+     *   which to play
+     *   @param [sustainTime] time to sustain before 
+     *   releasing the envelope
      */
-    play(unit: object, secondsFromNow: number): void;
+    play(unit: object, startTime?: number, sustainTime?: number): void;
 
     /**
-     *   Trigger the Attack, Decay, and Sustain of the 
+     *   Trigger the Attack, and Decay portion of the 
      *   Envelope. Similar to holding down a key on a 
      *   piano, but it will hold the sustain level until 
      *   you let go. Input can be any p5.sound object, or a  
@@ -6280,6 +6356,20 @@ declare namespace p5 {
      *   @param secondsFromNow time to trigger the release
      */
     triggerRelease(unit: object, secondsFromNow: number): void;
+
+    /**
+     *   Exponentially ramp to a value using the first two 
+     *   values from setADSR(attackTime, decayTime) as  
+     *   time constants for simple exponential ramps. If 
+     *   the value is higher than current value, it uses 
+     *   attackTime, while a decrease uses decayTime.
+     *
+     *   @param unit p5.sound Object or Web Audio Param
+     *   @param secondsFromNow When to trigger the ramp
+     *   @param v Target value
+     *   @param [v2] Second target value (optional)
+     */
+    ramp(unit: object, secondsFromNow: number, v: number, v2?: number): void;
 
     /**
      *   Add a value to the p5.Oscillator's output 
@@ -6431,8 +6521,13 @@ declare namespace p5 {
      *   p5.sound's output. So you won't hear anything 
      *   unless you use the connect() method.
      *
+     *   @param successCallback Name of a function to call 
+     *   on success.
+     *   @param errorCallback Name of a function to call if 
+     *   there was an error. For example, some browsers do 
+     *   not support getUserMedia.
      */
-    start(): void;
+    start(successCallback: Function, errorCallback: Function): void;
 
     /**
      *   Turn the AudioIn off. If the AudioIn is stopped, 
@@ -6517,7 +6612,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 5048:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 6593:
     //
     //   param "type" has invalid type: [String]
     //
@@ -6530,7 +6625,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 5138:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 6685:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -6603,19 +6698,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 5266:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 6824:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 5278:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 6836:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 5290:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 6848:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -6651,15 +6746,6 @@ declare namespace p5 {
      *
      */
     rightDelay: any;
-
-    /**
-     *   Internal filter. Set to lowPass by default, but 
-     *   can be accessed directly. See p5.Filter for 
-     *   methods. Or use the p5.Delay.filter() method to 
-     *   change frequency and q.
-     *
-     */
-    lowPass: any;
 
     /**
      *   Add delay to an audio signal according to a set of 
@@ -6818,11 +6904,31 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 5760:
-    //
-    //   param "callback" has invalid type: [Function]
-    //
-    // constructor(path: string, callback: any);
+    /**
+     *   p5.Convolver extends p5.Reverb. It can emulate the 
+     *   sound of real physical spaces through a process 
+     *   called  convolution. Convolution multiplies any 
+     *   audio input by an "impulse response" to simulate 
+     *   the dispersion of sound over time. The impulse 
+     *   response is generated from an audio file that you 
+     *   provide. One way to generate an impulse response 
+     *   is to pop a balloon in a reverberant space and 
+     *   record the echo. Convolution can also be used to 
+     *   experiment with sound. 
+     * 
+     *   Use the method createConvolution(path) to 
+     *   instantiate a p5.Convolver with a path to your 
+     *   impulse response audio file.
+     *
+     *   @param path path to a sound file
+     *   @param [callback] function to call when loading 
+     *   succeeds
+     *   @param [errorCallback] function to call if loading 
+     *   fails. This function will receive an error or 
+     *   XMLHttpRequest object with information about what 
+     *   went wrong.
+     */
+    constructor(path: string, callback?: Function, errorCallback?: Function);
 
     /**
      *   Internally, the p5.Convolver uses the a  Web Audio 
@@ -6831,11 +6937,20 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 5840:
-    //
-    //   param "callback" has invalid type: [Function]
-    //
-    // createConvolver(path: string, callback: any): p5.Convolver;
+    /**
+     *   Create a p5.Convolver. Accepts a path to a 
+     *   soundfile that will be used to generate an impulse 
+     *   response.
+     *
+     *   @param path path to a sound file
+     *   @param [callback] function to call if loading is 
+     *   successful. The object will be passed in as the 
+     *   argument to the callback function.
+     *   @param [errorCallback] function to call if loading 
+     *   is not successful. A custom error will be passed 
+     *   in as the argument to the callback function.
+     */
+    createConvolver(path: string, callback?: Function, errorCallback?: Function): p5.Convolver;
 
     /**
      *   Connect a source to the reverb, and assign reverb 
@@ -6855,17 +6970,29 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5958:
-    //
-    //   param "callback" has invalid type: [Function]
-    //
-    // addImpulse(path: string, callback: any): void;
+    /**
+     *   Load and assign a new Impulse Response to the 
+     *   p5.Convolver. The impulse is added to the 
+     *   .impulses array. Previous impulses can be accessed 
+     *   with the .toggleImpulse(id) method.
+     *
+     *   @param path path to a sound file
+     *   @param callback function (optional)
+     *   @param errorCallback function (optional)
+     */
+    addImpulse(path: string, callback: Function, errorCallback: Function): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5975:
-    //
-    //   param "callback" has invalid type: [Function]
-    //
-    // resetImpulse(path: string, callback: any): void;
+    /**
+     *   Similar to .addImpulse, except that the .impulses 
+     *   Array is reset to save memory. A new .impulses 
+     *   array is created with this impulse as the only 
+     *   item.
+     *
+     *   @param path path to a sound file
+     *   @param callback function (optional)
+     *   @param errorCallback function (optional)
+     */
+    resetImpulse(path: string, callback: Function, errorCallback: Function): void;
 
     /**
      *   If you have used .addImpulse() to add multiple 
@@ -7038,7 +7165,7 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 6565:
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 8267:
     //
     //   param "part(s)" is not a valid JS symbol name
     //
@@ -7175,7 +7302,7 @@ declare namespace p5 {
      *   @param [framesPerPeak] Defaults to 20.
      */
     constructor(freq1?: number, freq2?: number, threshold?: number, framesPerPeak?: number);
-    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 7076
+    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 8781
 
     /**
      *   The update method is run in the draw loop. Accepts 

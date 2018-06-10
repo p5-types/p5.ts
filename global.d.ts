@@ -3991,3 +3991,6 @@ declare function midiToFreq(midiNote: number): number;
  *   @param formats i.e. 'mp3', 'wav', 'ogg'
  */
 declare function soundFormats(formats: string|any): void;
+
+// TODO: Property "{String} failedPath path to the file that failed to load", defined in lib/addons/p5.sound.js, line 599, is not a valid JS symbol name
+

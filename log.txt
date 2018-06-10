@@ -59,7 +59,7 @@ createVideo() lib/addons/p5.dom.js, line 776, return has invalid type: Object/p5
 createAudio() lib/addons/p5.dom.js, line 804, return has invalid type: Object/p5.Element
 createCapture() lib/addons/p5.dom.js, line 840, return has invalid type: Object/p5.Element
 createElement() lib/addons/p5.dom.js, line 938, return has invalid type: Object/p5.Element
-drop() src/core/p5.Element.js, line 456, param "callback" is defined multiple times
+drop() src/core/p5.Element.js, line 502, param "callback" is defined multiple times
 addClass() lib/addons/p5.dom.js, line 964, return has invalid type: Object/p5.Element
 removeClass() lib/addons/p5.dom.js, line 991, return has invalid type: Object/p5.Element
 position() lib/addons/p5.dom.js, line 1129, return has invalid type: Object/p5.Element
@@ -81,33 +81,28 @@ loop() lib/addons/p5.dom.js, line 1593, return has invalid type: Object/p5.Eleme
 noLoop() lib/addons/p5.dom.js, line 1604, return has invalid type: Object/p5.Element
 autoplay() lib/addons/p5.dom.js, line 1617, return has invalid type: Object/p5.Element
 onended() lib/addons/p5.dom.js, line 1705, return has invalid type: Object/p5.MediaElement
-p5.SoundFile() lib/addons/p5.sound.js, line 699, param "path" has invalid type: String/Array
-loadSound() lib/addons/p5.sound.js, line 810, param "path" has invalid type: String/Array
-loadSound() lib/addons/p5.sound.js, line 810, param "callback" is defined multiple times
-pan() lib/addons/p5.sound.js, line 1366, required param "timeFromNow" follows an optional param
-fade() lib/addons/p5.sound.js, line 3435, param "secondsFromNow" has invalid type: [Number]
-add() lib/addons/p5.sound.js, line 3459, return has invalid type: p5.SignalAdd
-mult() lib/addons/p5.sound.js, line 3478, return has invalid type: Tone.Multiply
-scale() lib/addons/p5.sound.js, line 3497, return has invalid type: p5.SignalScale
-p5.SinOsc() lib/addons/p5.sound.js, line 3959, "p5.SinOsc" is not a valid JS symbol name
-p5.SinOsc() lib/addons/p5.sound.js, line 3959, param "freq" has invalid type: [Number]
-p5.TriOsc() lib/addons/p5.sound.js, line 3974, "p5.TriOsc" is not a valid JS symbol name
-p5.TriOsc() lib/addons/p5.sound.js, line 3974, param "freq" has invalid type: [Number]
-p5.SawOsc() lib/addons/p5.sound.js, line 3989, "p5.SawOsc" is not a valid JS symbol name
-p5.SawOsc() lib/addons/p5.sound.js, line 3989, param "freq" has invalid type: [Number]
-p5.SqrOsc() lib/addons/p5.sound.js, line 4004, "p5.SqrOsc" is not a valid JS symbol name
-p5.SqrOsc() lib/addons/p5.sound.js, line 4004, param "freq" has invalid type: [Number]
-p5.Filter() lib/addons/p5.sound.js, line 5048, param "type" has invalid type: [String]
-process() lib/addons/p5.sound.js, line 5138, param "freq" has invalid type: [Number]
-process() lib/addons/p5.sound.js, line 5138, param "res" has invalid type: [Number]
-p5.LowPass() lib/addons/p5.sound.js, line 5266, "p5.LowPass" is not a valid JS symbol name
-p5.HighPass() lib/addons/p5.sound.js, line 5278, "p5.HighPass" is not a valid JS symbol name
-p5.BandPass() lib/addons/p5.sound.js, line 5290, "p5.BandPass" is not a valid JS symbol name
-p5.Convolver() lib/addons/p5.sound.js, line 5760, param "callback" has invalid type: [Function]
-createConvolver() lib/addons/p5.sound.js, line 5840, param "callback" has invalid type: [Function]
-addImpulse() lib/addons/p5.sound.js, line 5958, param "callback" has invalid type: [Function]
-resetImpulse() lib/addons/p5.sound.js, line 5975, param "callback" has invalid type: [Function]
-p5.Score() lib/addons/p5.sound.js, line 6565, param "part(s)" is not a valid JS symbol name
+p5.SoundFile() lib/addons/p5.sound.js, line 738, param "path" has invalid type: String/Array
+loadSound() lib/addons/p5.sound.js, line 851, param "path" has invalid type: String/Array
+pan() lib/addons/p5.sound.js, line 1365, required param "timeFromNow" follows an optional param
+fade() lib/addons/p5.sound.js, line 4206, param "secondsFromNow" has invalid type: [Number]
+add() lib/addons/p5.sound.js, line 4230, return has invalid type: p5.SignalAdd
+mult() lib/addons/p5.sound.js, line 4249, return has invalid type: Tone.Multiply
+scale() lib/addons/p5.sound.js, line 4268, return has invalid type: p5.SignalScale
+p5.SinOsc() lib/addons/p5.sound.js, line 4745, "p5.SinOsc" is not a valid JS symbol name
+p5.SinOsc() lib/addons/p5.sound.js, line 4745, param "freq" has invalid type: [Number]
+p5.TriOsc() lib/addons/p5.sound.js, line 4760, "p5.TriOsc" is not a valid JS symbol name
+p5.TriOsc() lib/addons/p5.sound.js, line 4760, param "freq" has invalid type: [Number]
+p5.SawOsc() lib/addons/p5.sound.js, line 4775, "p5.SawOsc" is not a valid JS symbol name
+p5.SawOsc() lib/addons/p5.sound.js, line 4775, param "freq" has invalid type: [Number]
+p5.SqrOsc() lib/addons/p5.sound.js, line 4790, "p5.SqrOsc" is not a valid JS symbol name
+p5.SqrOsc() lib/addons/p5.sound.js, line 4790, param "freq" has invalid type: [Number]
+p5.Filter() lib/addons/p5.sound.js, line 6593, param "type" has invalid type: [String]
+process() lib/addons/p5.sound.js, line 6685, param "freq" has invalid type: [Number]
+process() lib/addons/p5.sound.js, line 6685, param "res" has invalid type: [Number]
+p5.LowPass() lib/addons/p5.sound.js, line 6824, "p5.LowPass" is not a valid JS symbol name
+p5.HighPass() lib/addons/p5.sound.js, line 6836, "p5.HighPass" is not a valid JS symbol name
+p5.BandPass() lib/addons/p5.sound.js, line 6848, "p5.BandPass" is not a valid JS symbol name
+p5.Score() lib/addons/p5.sound.js, line 8267, param "part(s)" is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
 directionalLight() src/3d/light.js, line 68, required param "x" follows an optional param
 pointLight() src/3d/light.js, line 188, required param "x" follows an optional param
@@ -193,6 +188,5 @@ MISSING: p5.SignalAdd
 MISSING: Tone.Multiply
 MISSING: p5.SignalScale
 MISSING: {Object}  Web Audio Delay Node
-MISSING: {p5.Filter}
 MISSING: {Object}  Web Audio Convolver Node
 MISSING: {Array} Array of Web Audio Buffers
