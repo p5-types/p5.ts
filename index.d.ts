@@ -79,7 +79,7 @@ declare class p5 {
    */
   hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 233:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 227:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
@@ -2276,7 +2276,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 294:
+  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 397:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -3062,38 +3062,44 @@ declare class p5 {
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 239:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 240:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 260:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 261:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 307:
+  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 279:
+  //
+  //   return has invalid type: Object/p5.Element
+  //
+  // createFileInput(callback?: Function, multiple?: string): any;
+
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 372:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 335:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 400:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 371:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 436:
   //
   //   param "type" has invalid type: String/Constant
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: any): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 422:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 487:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -3112,7 +3118,7 @@ declare class p5 {
    */
   getAudioContext(): object;
 
-  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 197, is not a valid JS symbol name
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 205, is not a valid JS symbol name
 
   /**
    *   Set the master amplitude (volume) for sound in 
@@ -3336,6 +3342,34 @@ declare namespace p5 {
      */
     touchEnded(fxn: Function): p5.Element;
 
+    /**
+     *   The .dragOver() function is called once after 
+     *   every time a file is dragged over the element. 
+     *   This can be used to attach an element specific 
+     *   event listener.
+     *
+     *   @param fxn function to be fired when mouse is 
+     *   dragged over the element.
+     */
+    dragOver(fxn: Function): p5.Element;
+
+    /**
+     *   The .dragLeave() function is called once after 
+     *   every time a dragged file leaves the element area. 
+     *   This can be used to attach an element specific 
+     *   event listener.
+     *
+     *   @param fxn function to be fired when mouse is 
+     *   dragged over the element.
+     */
+    dragLeave(fxn: Function): p5.Element;
+
+    // TODO: Fix drop() errors in src/objects/p5.Element.js, line 406:
+    //
+    //   param "callback" is defined multiple times
+    //
+    // drop(callback: Function, callback: Function): p5.Element;
+
     // lib/addons/p5.dom.js
 
     /**
@@ -3449,6 +3483,51 @@ declare namespace p5 {
      *
      */
     remove(): void;
+  }
+
+  // src/objects/p5.File.js
+
+  class File {
+    /**
+     *   Base class for a file Using this for 
+     *   createFileInput
+     *
+     *   @param file File that is wrapped
+     *   @param [pInst] pointer to p5 instance
+     */
+    constructor(file: File, pInst?: object);
+
+    /**
+     *   Underlying File object. All normal File methods 
+     *   can be called on this.
+     *
+     */
+    file: any;
+
+    /**
+     *   File type (image, text, etc.)
+     *
+     */
+    type: any;
+
+    /**
+     *   File subtype (usually the file extension jpg, png, 
+     *   xml, etc.)
+     *
+     */
+    subtype: any;
+
+    /**
+     *   File name
+     *
+     */
+    name: any;
+
+    /**
+     *   File size
+     *
+     */
+    size: any;
   }
 
   // src/objects/p5.Graphics.js
@@ -4159,7 +4238,7 @@ declare namespace p5 {
      *   Return a representation of this vector as a float 
      *   array. This is only for temporary use. If used in 
      *   any other fashion, the contents should be copied 
-     *   by using the p5.Vector.get() method to copy into 
+     *   by using the p5.Vector.copy() method to copy into 
      *   your own array.
      *
      *   @return an Array with the 3 values
@@ -4289,13 +4368,13 @@ declare namespace p5 {
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 522:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 530:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 601:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 609:
     //
     //   param "path" has invalid type: String/Array
     //   param "callback" is defined multiple times
@@ -4404,7 +4483,7 @@ declare namespace p5 {
      */
     setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1022:
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1030:
     //
     //   required param "timeFromNow" follows an optional param
     //
@@ -4744,25 +4823,25 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2596:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2603:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2620:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2627:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2639:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2646:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2658:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2665:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -4918,28 +4997,28 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3083:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3090:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3098:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3105:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3113:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3120:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3128:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3135:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -5260,7 +5339,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4107:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4114:
     //
     //   param "type" has invalid type: [String]
     //
@@ -5273,7 +5352,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4186:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4193:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -5346,19 +5425,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4314:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4321:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4326:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4333:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4338:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4345:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -5509,7 +5588,7 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4661:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4668:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5517,7 +5596,7 @@ declare namespace p5 {
     //
     // process(src: object, seconds: any, decayRate: any, reverse: any): void;
 
-    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4690:
+    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4697:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5549,7 +5628,7 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4792:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4799:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5562,7 +5641,7 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4872:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4879:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5586,13 +5665,13 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4990:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4997:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5007:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5014:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5767,7 +5846,7 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5557:
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5564:
     //
     //   param "part(s)" is not a valid JS symbol name
     //

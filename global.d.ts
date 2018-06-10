@@ -79,7 +79,7 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 233:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 227:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number
@@ -2276,7 +2276,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 294:
+// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 397:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -3062,38 +3062,44 @@ declare function removeElements(): void;
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 239:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 240:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 260:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 261:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 307:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 279:
+//
+//   return has invalid type: Object/p5.Element
+//
+// declare function createFileInput(callback?: Function, multiple?: string): any;
+
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 372:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 335:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 400:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 371:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 436:
 //
 //   param "type" has invalid type: String/Constant
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: any): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 422:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 487:
 //
 //   return has invalid type: Object/p5.Element
 //
@@ -3112,7 +3118,7 @@ declare function removeElements(): void;
  */
 declare function getAudioContext(): object;
 
-// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 197, is not a valid JS symbol name
+// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 205, is not a valid JS symbol name
 
 /**
  *   Set the master amplitude (volume) for sound in 
