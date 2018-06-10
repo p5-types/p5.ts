@@ -1,150 +1,44 @@
 Generating definitions...
 Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
-lerpColor() src/color/creating_reading.js, line 380, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 380, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 380, return has invalid type: Array/Number
-strokeCap() src/core/attributes.js, line 203, param "cap" has invalid type: Number/Constant
-strokeJoin() src/core/attributes.js, line 237, param "join" has invalid type: Number/Constant
-cursor() src/core/environment.js, line 129, param "type" has invalid type: Number/Constant
-rotateX() src/core/transform.js, line 137, return has invalid type: [type]
-rotateY() src/core/transform.js, line 152, return has invalid type: [type]
-rotateZ() src/core/transform.js, line 167, return has invalid type: [type]
-saveCanvas() src/image/image.js, line 103, param "canvas" has invalid type: [selectedCanvas]
-saveCanvas() src/image/image.js, line 103, param "filename" has invalid type: [String]
-saveCanvas() src/image/image.js, line 103, param "extension" has invalid type: [String]
-updatePixels() src/image/pixels.js, line 568, param "w" is defined multiple times
-save() src/io/files.js, line 1016, param "filename" has invalid type: [String]
-save() src/io/files.js, line 1016, param "options" has invalid type: [Boolean/String]
+saveCanvas() src/image/image.js, line 103, param "selectedCanvas" has invalid type: Canvas
 dist() src/math/calculation.js, line 120, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 120, required param "y2" follows an optional param
-textStyle() src/typography/attributes.js, line 115, param "theStyle" has invalid type: Number/Constant
 arrayCopy() src/utilities/array_functions.js, line 37, required param "dst" follows an optional param
 directionalLight() src/webgl/light.js, line 72, required param "x" follows an optional param
 pointLight() src/webgl/light.js, line 166, required param "x" follows an optional param
 loadModel() src/webgl/loading.js, line 14, return has invalid type: p5.Geometry
 model() src/webgl/loading.js, line 191, param "model" has invalid type: p5.Geometry
-createDiv() lib/addons/p5.dom.js, line 233, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 250, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 268, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 294, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 339, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 369, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 425, return has invalid type: Object/p5.Element
-createCheckbox() lib/addons/p5.dom.js, line 461, return has invalid type: Object/p5.Element
-createSelect() lib/addons/p5.dom.js, line 526, param "multiple] [true if dropdown should support multiple selections" is not a valid JS symbol name
-createSelect() lib/addons/p5.dom.js, line 526, return has invalid type: Object/p5.Element
-createRadio() lib/addons/p5.dom.js, line 591, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 717, return has invalid type: Object/p5.Element
-createFileInput() lib/addons/p5.dom.js, line 747, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 869, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 897, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 933, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 1038, return has invalid type: Object/p5.Element
-drop() src/core/p5.Element.js, line 764, param "callback" is defined multiple times
-addClass() lib/addons/p5.dom.js, line 1064, return has invalid type: Object/p5.Element
-removeClass() lib/addons/p5.dom.js, line 1091, return has invalid type: Object/p5.Element
-position() lib/addons/p5.dom.js, line 1238, return has invalid type: Object/p5.Element
-style() lib/addons/p5.dom.js, line 1319, param "value" is defined multiple times
-style() lib/addons/p5.dom.js, line 1319, param "value" is defined multiple times
-style() lib/addons/p5.dom.js, line 1319, param "value" is defined multiple times
-removeAttribute() lib/addons/p5.dom.js, line 1431, return has invalid type: Object/p5.Element
-show() lib/addons/p5.dom.js, line 1511, return has invalid type: Object/p5.Element
-hide() lib/addons/p5.dom.js, line 1529, return has invalid type: Object/p5.Element
-size() lib/addons/p5.dom.js, line 1545, return has invalid type: Object/p5.Element
 p5.Graphics() src/core/p5.Graphics.js, line 10, required param "whether" follows an optional param
 p5.Renderer() src/core/p5.Renderer.js, line 10, required param "whether" follows an optional param
 lerp() src/math/p5.Vector.js, line 628, required param "amt" follows an optional param
-play() lib/addons/p5.dom.js, line 1695, return has invalid type: Object/p5.Element
-stop() lib/addons/p5.dom.js, line 1716, return has invalid type: Object/p5.Element
-pause() lib/addons/p5.dom.js, line 1728, return has invalid type: Object/p5.Element
-loop() lib/addons/p5.dom.js, line 1739, return has invalid type: Object/p5.Element
-noLoop() lib/addons/p5.dom.js, line 1750, return has invalid type: Object/p5.Element
-autoplay() lib/addons/p5.dom.js, line 1763, return has invalid type: Object/p5.Element
-onended() lib/addons/p5.dom.js, line 1883, return has invalid type: Object/p5.MediaElement
-p5.SoundFile() lib/addons/p5.sound.js, line 738, param "path" has invalid type: String/Array
-loadSound() lib/addons/p5.sound.js, line 854, param "path" has invalid type: String/Array
 pan() lib/addons/p5.sound.js, line 1368, required param "timeFromNow" follows an optional param
-fade() lib/addons/p5.sound.js, line 4302, param "secondsFromNow" has invalid type: [Number]
 add() lib/addons/p5.sound.js, line 4326, return has invalid type: p5.SignalAdd
 mult() lib/addons/p5.sound.js, line 4345, return has invalid type: Tone.Multiply
 scale() lib/addons/p5.sound.js, line 4364, return has invalid type: p5.SignalScale
 p5.SinOsc() lib/addons/p5.sound.js, line 4844, "p5.SinOsc" is not a valid JS symbol name
-p5.SinOsc() lib/addons/p5.sound.js, line 4844, param "freq" has invalid type: [Number]
 p5.TriOsc() lib/addons/p5.sound.js, line 4859, "p5.TriOsc" is not a valid JS symbol name
-p5.TriOsc() lib/addons/p5.sound.js, line 4859, param "freq" has invalid type: [Number]
 p5.SawOsc() lib/addons/p5.sound.js, line 4874, "p5.SawOsc" is not a valid JS symbol name
-p5.SawOsc() lib/addons/p5.sound.js, line 4874, param "freq" has invalid type: [Number]
 p5.SqrOsc() lib/addons/p5.sound.js, line 4889, "p5.SqrOsc" is not a valid JS symbol name
-p5.SqrOsc() lib/addons/p5.sound.js, line 4889, param "freq" has invalid type: [Number]
-p5.Filter() lib/addons/p5.sound.js, line 6752, param "type" has invalid type: [String]
-process() lib/addons/p5.sound.js, line 6844, param "freq" has invalid type: [Number]
-process() lib/addons/p5.sound.js, line 6844, param "res" has invalid type: [Number]
 p5.LowPass() lib/addons/p5.sound.js, line 6983, "p5.LowPass" is not a valid JS symbol name
 p5.HighPass() lib/addons/p5.sound.js, line 6995, "p5.HighPass" is not a valid JS symbol name
 p5.BandPass() lib/addons/p5.sound.js, line 7007, "p5.BandPass" is not a valid JS symbol name
 p5.Score() lib/addons/p5.sound.js, line 8424, param "part(s)" is not a valid JS symbol name
-setType() lib/addons/p5.sound.js, line 9263, required param "UNKNOWN" follows an optional param
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
-lerpColor() src/color/creating_reading.js, line 380, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 380, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 380, return has invalid type: Array/Number
-strokeCap() src/core/attributes.js, line 203, param "cap" has invalid type: Number/Constant
-strokeJoin() src/core/attributes.js, line 237, param "join" has invalid type: Number/Constant
-cursor() src/core/environment.js, line 129, param "type" has invalid type: Number/Constant
-rotateX() src/core/transform.js, line 137, return has invalid type: [type]
-rotateY() src/core/transform.js, line 152, return has invalid type: [type]
-rotateZ() src/core/transform.js, line 167, return has invalid type: [type]
-saveCanvas() src/image/image.js, line 103, param "canvas" has invalid type: [selectedCanvas]
-saveCanvas() src/image/image.js, line 103, param "filename" has invalid type: [String]
-saveCanvas() src/image/image.js, line 103, param "extension" has invalid type: [String]
-updatePixels() src/image/pixels.js, line 568, param "w" is defined multiple times
-save() src/io/files.js, line 1016, param "filename" has invalid type: [String]
-save() src/io/files.js, line 1016, param "options" has invalid type: [Boolean/String]
+saveCanvas() src/image/image.js, line 103, param "selectedCanvas" has invalid type: Canvas
 dist() src/math/calculation.js, line 120, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 120, required param "y2" follows an optional param
-textStyle() src/typography/attributes.js, line 115, param "theStyle" has invalid type: Number/Constant
 arrayCopy() src/utilities/array_functions.js, line 37, required param "dst" follows an optional param
 directionalLight() src/webgl/light.js, line 72, required param "x" follows an optional param
 pointLight() src/webgl/light.js, line 166, required param "x" follows an optional param
 loadModel() src/webgl/loading.js, line 14, return has invalid type: p5.Geometry
 model() src/webgl/loading.js, line 191, param "model" has invalid type: p5.Geometry
-createDiv() lib/addons/p5.dom.js, line 233, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 250, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 268, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 294, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 339, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 369, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 425, return has invalid type: Object/p5.Element
-createCheckbox() lib/addons/p5.dom.js, line 461, return has invalid type: Object/p5.Element
-createSelect() lib/addons/p5.dom.js, line 526, param "multiple] [true if dropdown should support multiple selections" is not a valid JS symbol name
-createSelect() lib/addons/p5.dom.js, line 526, return has invalid type: Object/p5.Element
-createRadio() lib/addons/p5.dom.js, line 591, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 717, return has invalid type: Object/p5.Element
-createFileInput() lib/addons/p5.dom.js, line 747, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 869, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 897, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 933, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 1038, return has invalid type: Object/p5.Element
-MISSING: Array/Number
-MISSING: Number/Constant
-MISSING: [type]
-MISSING: [selectedCanvas]
-MISSING: [String]
-MISSING: Strings
-MISSING: [Object
-MISSING: String]
-MISSING: [Boolean/String]
+MISSING: Canvas
 MISSING: p5.Geometry3D
 MISSING: p5.Geometry
-MISSING: Object/p5.Element
 MISSING: {Object}
-MISSING: Array/Color
 MISSING: {Array}
 MISSING: {Number}
-MISSING: Object/p5.MediaElement
 MISSING: p5.sound object
-MISSING: String/Array
-MISSING: [Number]
 MISSING: p5.SignalAdd
 MISSING: Tone.Multiply
 MISSING: p5.SignalScale

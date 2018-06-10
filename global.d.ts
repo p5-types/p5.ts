@@ -60,7 +60,7 @@ declare function brightness(color: object): void;
  *   @param [alpha] alpha value relative to current 
  *   color range (default is 0-255)
  */
-declare function color(gray: number|string, alpha?: number): void;
+declare function color(gray: number, alpha?: number): void;
 
 /**
  *   Creates colors for storing in variables of the 
@@ -115,13 +115,26 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 380:
-//
-//   param "c1" has invalid type: Array/Number
-//   param "c2" has invalid type: Array/Number
-//   return has invalid type: Array/Number
-//
-// declare function lerpColor(c1: any, c2: any, amt: number): any;
+/**
+ *   Blends two colors to find a third color somewhere 
+ *   between them. The amt parameter is the amount to 
+ *   interpolate between the two values where 0.0 equal 
+ *   to the first color, 0.1 is very near the first 
+ *   color, 0.5 is halfway in between, etc. An amount 
+ *   below 0 will be treated as 0. Likewise, amounts 
+ *   above 1 will be capped at 1. This is different 
+ *   from the behavior of lerp(), but necessary because 
+ *   otherwise numbers outside the range will produce 
+ *   strange and unexpected colors.  The way that 
+ *   colours are interpolated depends on the current 
+ *   color mode.
+ *
+ *   @param c1 interpolate from this color
+ *   @param c2 interpolate to this color
+ *   @param amt number between 0 and 1
+ *   @return interpolated color
+ */
+declare function lerpColor(c1: any[]|number, c2: any[]|number, amt: number): any[]|number;
 
 /**
  *   Extracts the HSL lightness value from a color or 
@@ -649,17 +662,29 @@ declare function rectMode(mode: RECT_MODE): p5;
  */
 declare function smooth(): p5;
 
-// TODO: Fix strokeCap() errors in src/core/attributes.js, line 203:
-//
-//   param "cap" has invalid type: Number/Constant
-//
-// declare function strokeCap(cap: any): p5;
+/**
+ *   Sets the style for rendering line endings. These 
+ *   ends are either squared, extended, or rounded, 
+ *   each of which specified with the corresponding 
+ *   parameters: SQUARE, PROJECT, and ROUND. The 
+ *   default cap is ROUND.
+ *
+ *   @param cap either SQUARE, PROJECT, or ROUND
+ *   @return the p5 object
+ */
+declare function strokeCap(cap: number|STROKE_CAP): p5;
 
-// TODO: Fix strokeJoin() errors in src/core/attributes.js, line 237:
-//
-//   param "join" has invalid type: Number/Constant
-//
-// declare function strokeJoin(join: any): p5;
+/**
+ *   Sets the style of the joints which connect line 
+ *   segments. These joints are either mitered, 
+ *   beveled, or rounded and specified with the 
+ *   corresponding parameters MITER, BEVEL, and ROUND. 
+ *   The default joint is MITER.
+ *
+ *   @param join either MITER, BEVEL, ROUND
+ *   @return the p5 object
+ */
+declare function strokeJoin(join: number|STROKE_JOIN): p5;
 
 /**
  *   Sets the width of the stroke used for lines, 
@@ -1037,11 +1062,24 @@ declare var frameCount: any;
  */
 declare var focused: any;
 
-// TODO: Fix cursor() errors in src/core/environment.js, line 129:
-//
-//   param "type" has invalid type: Number/Constant
-//
-// declare function cursor(type: any, x?: number, y?: number): void;
+/**
+ *   Sets the cursor to a predefined symbol or an 
+ *   image, or makes it visible if already hidden. If 
+ *   you are trying to set an image as the cursor, the 
+ *   recommended size is 16x16 or 32x32 pixels. It is 
+ *   not possible to load an image as the cursor if you 
+ *   are exporting your program for the Web, and not 
+ *   all MODES work with all browsers. The values for 
+ *   parameters x and y must be less than the 
+ *   dimensions of the image.
+ *
+ *   @param type either ARROW, CROSS, HAND, MOVE, TEXT, 
+ *   or WAIT, or path for image
+ *   @param [x] the horizontal active spot of the 
+ *   cursor
+ *   @param [y] the vertical active spot of the cursor
+ */
+declare function cursor(type: number|CURSOR_TYPE, x?: number, y?: number): void;
 
 /**
  *   Specifies the number of frames to be displayed 
@@ -1053,8 +1091,10 @@ declare var focused: any;
  *   setup() is recommended. The default rate is 60 
  *   frames per second. This is the same as 
  *   setFrameRate(val).  Calling frameRate() with no 
- *   arguments returns the current framerate. This is 
- *   the same as getFrameRate(). 
+ *   arguments returns the current framerate. The draw 
+ *   function must run at least once before it will 
+ *   return a value. This is the same as 
+ *   getFrameRate(). 
  * 
  *  
  *   Calling frameRate() with arguments that are not of 
@@ -1477,23 +1517,29 @@ declare function rotate(angle: number): void;
  */
 declare function rotate(rad: number, axis: p5.Vector|any[]): void;
 
-// TODO: Fix rotateX() errors in src/core/transform.js, line 137:
-//
-//   return has invalid type: [type]
-//
-// declare function rotateX(rad: number): any;
+/**
+ *   Rotates around X axis.
+ *
+ *   @param rad angles in radians
+ *   @return the p5 object
+ */
+declare function rotateX(rad: number): p5;
 
-// TODO: Fix rotateY() errors in src/core/transform.js, line 152:
-//
-//   return has invalid type: [type]
-//
-// declare function rotateY(rad: number): any;
+/**
+ *   Rotates around Y axis.
+ *
+ *   @param rad angles in radians
+ *   @return the p5 object
+ */
+declare function rotateY(rad: number): p5;
 
-// TODO: Fix rotateZ() errors in src/core/transform.js, line 167:
-//
-//   return has invalid type: [type]
-//
-// declare function rotateZ(rad: number): any;
+/**
+ *   Rotates around Z axis. Webgl mode only.
+ *
+ *   @param rad angles in radians
+ *   @return the p5 object
+ */
+declare function rotateZ(rad: number): p5;
 
 /**
  *   Increases or decreases the size of a shape by 
@@ -2247,7 +2293,16 @@ declare function mouseWheel(): void;
 
 // src/events/touch.js
 
-// TODO: Property "touches[]", defined in src/events/touch.js, line 12, is not a valid JS symbol name
+/**
+ *   The system variable touches[] contains an array of 
+ *   the positions of all current touch points, 
+ *   relative to (0, 0) of the canvas, and IDs 
+ *   identifying a unique touch as it moves. Each 
+ *   element in the array is an object with x, y, and 
+ *   id properties.
+ *
+ */
+declare var touches: object[];
 
 /**
  *   The touchStarted() function is called once after 
@@ -2320,11 +2375,9 @@ declare function createImage(width: number, height: number): p5.Image;
 
 // TODO: Fix saveCanvas() errors in src/image/image.js, line 103:
 //
-//   param "canvas" has invalid type: [selectedCanvas]
-//   param "filename" has invalid type: [String]
-//   param "extension" has invalid type: [String]
+//   param "selectedCanvas" has invalid type: Canvas
 //
-// declare function saveCanvas(canvas: any, filename: any, extension: any): void;
+// declare function saveCanvas(selectedCanvas?: any, filename?: string, extension?: string): void;
 
 /**
  *   Capture a sequence of frames that can be used to 
@@ -2483,7 +2536,52 @@ declare function imageMode(mode: IMAGE_MODE): void;
 
 // src/image/pixels.js
 
-// TODO: Property "pixels[]", defined in src/image/pixels.js, line 14, is not a valid JS symbol name
+/**
+ *   Uint8ClampedArray containing the values for all 
+ *   the pixels in the display window. These values are 
+ *   numbers. This array is the size (include an 
+ *   appropriate factor for pixelDensity) of the 
+ *   display window x4, representing the R, G, B, A 
+ *   values in order for each pixel, moving from left 
+ *   to right across each row, then down each column. 
+ *   Retina and other high denisty displays will have 
+ *   more pixels[] (by a factor of pixelDensity^2). For 
+ *   example, if the image is 100x100 pixels, there 
+ *   will be 40,000. On a retina display, there will be 
+ *   160,000.  The first four values (indices 0-3) in 
+ *   the array will be the R, G, B, A values of the 
+ *   pixel at (0, 0). The second four values (indices 
+ *   4-7) will contain the R, G, B, A values of the 
+ *   pixel at (1, 0). More generally, to set values for 
+ *   a pixel at (x, y): 
+ * 
+ *   var d = pixelDensity; for (var i = 0; i < d; i++) 
+ *   { for (var j = 0; j < d; j++) { // loop over idx = 
+ *   4 * ((y * d + j) * width * d + (x * d + i)); 
+ *   pixels[idx] = r; pixels[idx+1] = g; pixels[idx+2] 
+ *   = b; pixels[idx+3] = a; } }  
+ * 
+ *   While the above method is complex, it is flexible 
+ *   enough to work with any pixelDensity. Note that 
+ *   set() will automatically take care of setting all 
+ *   the appropriate values in pixels[] for a given (x, 
+ *   y) at any pixelDensity, but the performance may 
+ *   not be as fast when lots of modifications are made 
+ *   to the pixel array. 
+ * 
+ *  
+ *   Before accessing this array, the data must loaded 
+ *   with the loadPixels() function. After the array 
+ *   data has been modified, the updatePixels() 
+ *   function must be run to update the changes. 
+ * 
+ *  
+ *   Note that this is not a standard javascript array. 
+ *   This means that standard javascript functions such 
+ *   as slice() or arrayCopy() do not work.
+ *
+ */
+declare var pixels: number[];
 
 /**
  *   Copies a region of pixels from one image to 
@@ -2654,7 +2752,8 @@ declare function loadPixels(): void;
  *  
  *   After using set(), you must call updatePixels() 
  *   for your changes to appear. This should be called 
- *   once all pixels have been set.  
+ *   once all pixels have been set, and must be called 
+ *   before calling .get() or drawing the image.  
  * 
  *   Setting the color of a single pixel with set(x, y) 
  *   is easy, but not as fast as putting the data 
@@ -2674,11 +2773,23 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 568:
-//
-//   param "w" is defined multiple times
-//
-// declare function updatePixels(x?: number, y?: number, w?: number, w?: number): void;
+/**
+ *   Updates the display window with the data in the 
+ *   pixels[] array. Use in conjunction with 
+ *   loadPixels(). If you're only reading pixels from 
+ *   the array, there's no need to call updatePixels() 
+ *   — updating is only necessary to apply changes. 
+ *   updatePixels() should be called anytime the pixels 
+ *   array is manipulated or set() is called.
+ *
+ *   @param [x] x-coordinate of the upper-left corner 
+ *   of region to update
+ *   @param [y] y-coordinate of the upper-left corner 
+ *   of region to update
+ *   @param [w] width of region to update
+ *   @param [h] height of region to update
+ */
+declare function updatePixels(x?: number, y?: number, w?: number, h?: number): void;
 
 // src/io/files.js
 
@@ -2703,19 +2814,25 @@ declare function loadFont(path: string, callback?: Function): object;
  *   Loads a JSON file from a file or a URL, and 
  *   returns an Object or Array. This method is 
  *   asynchronous, meaning it may not finish before the 
- *   next line in your sketch is executed.
+ *   next line in your sketch is executed. JSONP is 
+ *   supported via a polyfill and you can pass in as 
+ *   the second argument an object with definitions of 
+ *   the json callback following the syntax specified 
+ *   here.
  *
  *   @param path name of the file or url to load
+ *   @param [jsonpOptions] options object for jsonp 
+ *   related settings
+ *   @param [datatype] "json" or "jsonp"
  *   @param [callback] function to be executed after 
  *   loadJSON() completes, data is passed in as first 
  *   argument
  *   @param [errorCallback] function to be executed if 
  *   there is an error, response is passed in as first 
  *   argument
- *   @param [datatype] "json" or "jsonp"
  *   @return JSON data
  */
-declare function loadJSON(path: string, callback?: Function, errorCallback?: Function, datatype?: string): object|any[];
+declare function loadJSON(path: string, jsonpOptions?: object, datatype?: string, callback?: Function, errorCallback?: Function): object|any[];
 
 /**
  *   Reads the contents of a file and creates a String 
@@ -2782,11 +2899,13 @@ declare function loadStrings(filename: string, callback?: Function, errorCallbac
  *   @param [options] "header" "csv" "tsv"
  *   @param [callback] function to be executed after 
  *   loadTable() completes. On success, the Table 
- *   object is passed in as the first argument; 
- *   otherwise, false is passed in.
+ *   object is passed in as the first argument.
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
  *   @return Table object containing data
  */
-declare function loadTable(filename: string, options?: string|any, callback?: Function): object;
+declare function loadTable(filename: string, options?: string, callback?: Function, errorCallback?: Function): object;
 
 /**
  *   Reads the contents of a file and creates an XML 
@@ -2823,12 +2942,13 @@ declare function loadXML(filename: string, callback?: Function, errorCallback?: 
 /**
  *   Method for executing an HTTP GET request. If data 
  *   type is not specified, p5 will try to guess based 
- *   on the URL, defaulting to text.
+ *   on the URL, defaulting to text. This is equivalent 
+ *   to calling httpDo(path, 'GET').
  *
  *   @param path name of the file or url to load
- *   @param [data] param data passed sent with request
  *   @param [datatype] "json", "jsonp", "xml", or 
  *   "text"
+ *   @param [data] param data passed sent with request
  *   @param [callback] function to be executed after 
  *   httpGet() completes, data is passed in as first 
  *   argument
@@ -2836,17 +2956,18 @@ declare function loadXML(filename: string, callback?: Function, errorCallback?: 
  *   there is an error, response is passed in as first 
  *   argument
  */
-declare function httpGet(path: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
+declare function httpGet(path: string, datatype?: string, data?: object, callback?: Function, errorCallback?: Function): void;
 
 /**
  *   Method for executing an HTTP POST request. If data 
  *   type is not specified, p5 will try to guess based 
- *   on the URL, defaulting to text.
+ *   on the URL, defaulting to text. This is equivalent 
+ *   to calling httpDo(path, 'POST').
  *
  *   @param path name of the file or url to load
- *   @param [data] param data passed sent with request
  *   @param [datatype] "json", "jsonp", "xml", or 
  *   "text"
+ *   @param [data] param data passed sent with request
  *   @param [callback] function to be executed after 
  *   httpGet() completes, data is passed in as first 
  *   argument
@@ -2854,23 +2975,23 @@ declare function httpGet(path: string, data?: object, datatype?: string, callbac
  *   there is an error, response is passed in as first 
  *   argument
  */
-declare function httpPost(path: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
+declare function httpPost(path: string, datatype?: string, data?: object, callback?: Function, errorCallback?: Function): void;
 
 /**
  *   Method for executing an HTTP request. If data type 
  *   is not specified, p5 will try to guess based on 
- *   the URL, defaulting to text. You may also pass a 
- *   single object specifying all parameters for the 
- *   request following the examples inside the 
- *   reqwest() calls here:  
- *   https://github.com/ded/reqwest#api
+ *   the URL, defaulting to text. For more advanced 
+ *   use, you may also pass in the path as the first 
+ *   argument and a object as the second argument, the 
+ *   signature follows the one specified in the Fetch 
+ *   API specification.
  *
  *   @param path name of the file or url to load
  *   @param [method] either "GET", "POST", or "PUT", 
  *   defaults to "GET"
- *   @param [data] param data passed sent with request
  *   @param [datatype] "json", "jsonp", "xml", or 
  *   "text"
+ *   @param [data] param data passed sent with request
  *   @param [callback] function to be executed after 
  *   httpGet() completes, data is passed in as first 
  *   argument
@@ -2878,14 +2999,84 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  *   there is an error, response is passed in as first 
  *   argument
  */
-declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
+declare function httpDo(path: string, method?: string, datatype?: string, data?: object, callback?: Function, errorCallback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 1016:
-//
-//   param "filename" has invalid type: [String]
-//   param "options" has invalid type: [Boolean/String]
-//
-// declare function save(objectOrFilename: any|any, filename: any, options: any): void;
+/**
+ *   Method for executing an HTTP request. If data type 
+ *   is not specified, p5 will try to guess based on 
+ *   the URL, defaulting to text. For more advanced 
+ *   use, you may also pass in the path as the first 
+ *   argument and a object as the second argument, the 
+ *   signature follows the one specified in the Fetch 
+ *   API specification.
+ *
+ *   @param path name of the file or url to load
+ *   @param options Request object options as 
+ *   documented in the "fetch" API reference
+ *   @param [callback] function to be executed after 
+ *   httpGet() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
+ */
+declare function httpDo(path: string, options: object, callback?: Function, errorCallback?: Function): void;
+
+/**
+ *   Save an image, text, json, csv, wav, or html. 
+ *   Prompts download to the client's computer. Note 
+ *   that it is not recommended to call save() within 
+ *   draw if it's looping, as the save() function will 
+ *   open a new save dialog every frame. The default 
+ *   behavior is to save the canvas as an image. You 
+ *   can optionally specify a filename. For example: 
+ * 
+ *  
+ *   save(); save('myCanvas.jpg'); // save a specific 
+ *   canvas with a filename  
+ * 
+ *   Alternately, the first parameter can be a pointer 
+ *   to a canvas p5.Element, an Array of Strings, an 
+ *   Array of JSON, a JSON object, a p5.Table, a 
+ *   p5.Image, or a p5.SoundFile (requires p5.sound). 
+ *   The second parameter is a filename (including 
+ *   extension). The third parameter is for options 
+ *   specific to this type of object. This method will 
+ *   save a file that fits the given paramaters. For 
+ *   example: 
+ * 
+ *  
+ *   save('myCanvas.jpg'); // Saves canvas as an image 
+ *   var cnv = createCanvas(100, 100); save(cnv, 
+ *   'myCanvas.jpg'); // Saves canvas as an image var 
+ *   gb = createGraphics(100, 100); save(gb, 
+ *   'myGraphics.jpg'); // Saves p5.Renderer object as 
+ *   an image save(myTable, 'myTable.html'); // Saves 
+ *   table as html file save(myTable, 'myTable.csv',); 
+ *   // Comma Separated Values save(myTable, 
+ *   'myTable.tsv'); // Tab Separated Values 
+ *   save(myJSON, 'my.json'); // Saves pretty JSON 
+ *   save(myJSON, 'my.json', true); // Optimizes JSON 
+ *   filesize save(img, 'my.png'); // Saves pImage as a 
+ *   png image save(arrayOfStrings, 'my.txt'); // Saves 
+ *   strings to a text file with line // breaks after 
+ *   each item in the array
+ *
+ *   @param [objectOrFilename] If filename is provided, 
+ *   will save canvas as an image with either png or 
+ *   jpg extension depending on the filename. If object 
+ *   is provided, will save depending on the object and 
+ *   filename (see examples above).
+ *   @param [filename] If an object is provided as the 
+ *   first parameter, then the second parameter 
+ *   indicates the filename, and should include an 
+ *   appropriate file extension (see examples above).
+ *   @param [options] Additional options depend on 
+ *   filetype. For example, when saving JSON, true 
+ *   indicates that the output will be optimized for 
+ *   filesize, rather than readability.
+ */
+declare function save(objectOrFilename?: object|string, filename?: string, options?: boolean|string): void;
 
 /**
  *   Writes the contents of an Array or a JSON object 
@@ -3491,11 +3682,17 @@ declare function textLeading(leading: number): object|number;
  */
 declare function textSize(theSize: number): object|number;
 
-// TODO: Fix textStyle() errors in src/typography/attributes.js, line 115:
-//
-//   param "theStyle" has invalid type: Number/Constant
-//
-// declare function textStyle(theStyle: any): object|string;
+/**
+ *   Sets/gets the style of the text for system fonts 
+ *   to NORMAL, ITALIC, or BOLD. Note: this may be is 
+ *   overridden by CSS styling. For non-system fonts 
+ *   (opentype, truetype, etc.) please load styled 
+ *   fonts instead.
+ *
+ *   @param theStyle styling for text, either NORMAL, 
+ *   ITALIC, or BOLD
+ */
+declare function textStyle(theStyle: number|THE_STYLE): object|string;
 
 /**
  *   Calculates and returns the width of any character 
@@ -4290,7 +4487,7 @@ declare function torus(radius: number, tubeRadius: number, detailX?: number, det
  *   to search within
  *   @return p5.Element containing node found
  */
-declare function select(name: string, container?: string): any|null;
+declare function select(name: string, container?: string): object|p5.Element|null;
 
 /**
  *   Searches the page for elements with the given 
@@ -4319,102 +4516,243 @@ declare function selectAll(name: string, container?: string): any[];
  */
 declare function removeElements(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 233:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createDiv(html: string): any;
+/**
+ *   Creates a <div></div> element in the DOM with 
+ *   given inner HTML. Appends to the container node if 
+ *   one is specified, otherwise appends to body.
+ *
+ *   @param html inner HTML for element created
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createDiv(html: string): object|p5.Element;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 250:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createP(html: string): any;
+/**
+ *   Creates a <p></p> element in the DOM with given 
+ *   inner HTML. Used for paragraph length text. 
+ *   Appends to the container node if one is specified, 
+ *   otherwise appends to body.
+ *
+ *   @param html inner HTML for element created
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createP(html: string): object|p5.Element;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 268:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createSpan(html: string): any;
+/**
+ *   Creates a <span></span> element in the DOM with 
+ *   given inner HTML. Appends to the container node if 
+ *   one is specified, otherwise appends to body.
+ *
+ *   @param html inner HTML for element created
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createSpan(html: string): object|p5.Element;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 294:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createImg(src: string, alt?: string, successCallback?: Function): any;
+/**
+ *   Creates an <img> element in the DOM with given src 
+ *   and alternate text. Appends to the container node 
+ *   if one is specified, otherwise appends to body.
+ *
+ *   @param src src path or url for image
+ *   @param [alt] alternate text to be used if image 
+ *   does not load
+ *   @param [successCallback] callback to be called 
+ *   once image data is loaded
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createImg(src: string, alt?: string, successCallback?: Function): object|p5.Element;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 339:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createA(href: string, html: string, target?: string): any;
+/**
+ *   Creates an <a></a> element in the DOM for 
+ *   including a hyperlink. Appends to the container 
+ *   node if one is specified, otherwise appends to 
+ *   body.
+ *
+ *   @param href url of page to link to
+ *   @param html inner html of link element to display
+ *   @param [target] target where new link should open, 
+ *   could be _blank, _self, _parent, _top.
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createA(href: string, html: string, target?: string): object|p5.Element;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 369:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createSlider(min: number, max: number, value?: number, step?: number): any;
+/**
+ *   Creates a slider <input></input> element in the 
+ *   DOM. Use .size() to set the display length of the 
+ *   slider. Appends to the container node if one is 
+ *   specified, otherwise appends to body.
+ *
+ *   @param min minimum value of the slider
+ *   @param max maximum value of the slider
+ *   @param [value] default value of the slider
+ *   @param [step] step size for each tick of the 
+ *   slider (if step is set to 0, the slider will move 
+ *   continuously from the minimum to the maximum 
+ *   value)
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createSlider(min: number, max: number, value?: number, step?: number): object|p5.Element;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 425:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createButton(label: string, value?: string): any;
+/**
+ *   Creates a <button></button> element in the DOM. 
+ *   Use .size() to set the display size of the button. 
+ *   Use .mousePressed() to specify behavior on press. 
+ *   Appends to the container node if one is specified, 
+ *   otherwise appends to body.
+ *
+ *   @param label label displayed on the button
+ *   @param [value] value of the button
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createButton(label: string, value?: string): object|p5.Element;
 
-// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 461:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createCheckbox(label?: string, value?: boolean): any;
+/**
+ *   Creates a checkbox <input></input> element in the 
+ *   DOM. Calling .checked() on a checkbox returns if 
+ *   it is checked or not
+ *
+ *   @param [label] label displayed after checkbox
+ *   @param [value] value of the checkbox; checked is 
+ *   true, unchecked is false.Unchecked if no value 
+ *   given
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createCheckbox(label?: string, value?: boolean): object|p5.Element;
 
-// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 526:
-//
-//   param "multiple] [true if dropdown should support multiple selections" is not a valid JS symbol name
-//   return has invalid type: Object/p5.Element
-//
-// declare function createSelect(multiple] [true if dropdown should support multiple selections?: boolean): any;
+/**
+ *   Creates a dropdown menu <select></select> element 
+ *   in the DOM.
+ *
+ *   @param [multiple] true if dropdown should support 
+ *   multiple selections
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createSelect(multiple?: boolean): object|p5.Element;
 
-// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 591:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createRadio(divId?: string): any;
+/**
+ *   Creates a radio button <input></input> element in 
+ *   the DOM. The .option() method can be used to set 
+ *   options for the radio after it is created. The 
+ *   .value() method will return the currently selected 
+ *   option.
+ *
+ *   @param [divId] the id and name of the created div 
+ *   and input field respectively
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createRadio(divId?: string): object|p5.Element;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 717:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createInput(value?: number, type?: string): any;
+/**
+ *   Creates an <input></input> element in the DOM for 
+ *   text input. Use .size() to set the display length 
+ *   of the box. Appends to the container node if one 
+ *   is specified, otherwise appends to body.
+ *
+ *   @param [value] default value of the input box
+ *   @param [type] type of text, ie text, password etc. 
+ *   Defaults to text
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createInput(value?: number, type?: string): object|p5.Element;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 747:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createFileInput(callback?: Function, multiple?: string): any;
+/**
+ *   Creates an <input></input> element in the DOM of 
+ *   type 'file'. This allows users to select local 
+ *   files for use in a sketch.
+ *
+ *   @param [callback] callback function for when a 
+ *   file loaded
+ *   @param [multiple] optional to allow multiple files 
+ *   selected
+ *   @return pointer to p5.Element holding created DOM 
+ *   element
+ */
+declare function createFileInput(callback?: Function, multiple?: string): object|p5.Element;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 869:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createVideo(src: string|any[], callback?: object): any;
+/**
+ *   Creates an HTML5 <video> element in the DOM for 
+ *   simple playback of audio/video. Shown by default, 
+ *   can be hidden with .hide() and drawn into canvas 
+ *   using video(). Appends to the container node if 
+ *   one is specified, otherwise appends to body. The 
+ *   first parameter can be either a single string path 
+ *   to a video file, or an array of string paths to 
+ *   different formats of the same video. This is 
+ *   useful for ensuring that your video can play 
+ *   across different browsers, as each supports 
+ *   different formats. See this page for further 
+ *   information about supported formats.
+ *
+ *   @param src path to a video file, or array of paths 
+ *   for supporting different browsers
+ *   @param [callback] callback function to be called 
+ *   upon 'canplaythrough' event fire, that is, when 
+ *   the browser can play the media, and estimates that 
+ *   enough data has been loaded to play the media up 
+ *   to its end without having to stop for further 
+ *   buffering of content
+ *   @return pointer to video p5.Element
+ */
+declare function createVideo(src: string|any[], callback?: object): object|p5.Element;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 897:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createAudio(src: string|any[], callback?: object): any;
+/**
+ *   Creates a hidden HTML5 <audio> element in the DOM 
+ *   for simple audio playback. Appends to the 
+ *   container node if one is specified, otherwise 
+ *   appends to body. The first parameter can be either 
+ *   a single string path to a audio file, or an array 
+ *   of string paths to different formats of the same 
+ *   audio. This is useful for ensuring that your audio 
+ *   can play across different browsers, as each 
+ *   supports different formats. See this page for 
+ *   further information about supported formats.
+ *
+ *   @param src path to an audio file, or array of 
+ *   paths for supporting different browsers
+ *   @param [callback] callback function to be called 
+ *   upon 'canplaythrough' event fire, that is, when 
+ *   the browser can play the media, and estimates that 
+ *   enough data has been loaded to play the media up 
+ *   to its end without having to stop for further 
+ *   buffering of content
+ *   @return pointer to audio p5.Element
+ */
+declare function createAudio(src: string|any[], callback?: object): object|p5.Element;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 933:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createCapture(type: string|TYPE|object, callback: Function): any;
+/**
+ *   Creates a new <video> element that contains the 
+ *   audio/video feed from a webcam. This can be drawn 
+ *   onto the canvas using video(). More specific 
+ *   properties of the feed can be passing in a 
+ *   Constraints object. See the  W3C spec for possible 
+ *   properties. Note that not all of these are 
+ *   supported by all browsers. 
+ * 
+ *   Security note: A new browser security 
+ *   specification requires that getUserMedia, which is 
+ *   behind createCapture(), only works when you're 
+ *   running the code locally, or on HTTPS. Learn more 
+ *   here and here.
+ *
+ *   @param type type of capture, either VIDEO or AUDIO 
+ *   if none specified, default both, or a Constraints 
+ *   object
+ *   @param callback function to be called once stream 
+ *   has loaded
+ *   @return capture video p5.Element
+ */
+declare function createCapture(type: string|TYPE|object, callback: Function): object|p5.Element;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1038:
-//
-//   return has invalid type: Object/p5.Element
-//
-// declare function createElement(tag: string, content?: string): any;
+/**
+ *   Creates element with given tag in the DOM with 
+ *   given content. Appends to the container node if 
+ *   one is specified, otherwise appends to body.
+ *
+ *   @param tag tag for the new element
+ *   @param [content] html content to be inserted into 
+ *   the element
+ *   @return pointer to p5.Element holding created node
+ */
+declare function createElement(tag: string, content?: string): object|p5.Element;
 
 // Properties from p5.sound
 
@@ -4509,7 +4847,7 @@ declare function midiToFreq(midiNote: number): number;
  *
  *   @param formats i.e. 'mp3', 'wav', 'ogg'
  */
-declare function soundFormats(formats: string|any): void;
+declare function soundFormats(formats: string): void;
 
 // TODO: Property "{String} failedPath path to the file that failed to load", defined in lib/addons/p5.sound.js, line 599, is not a valid JS symbol name
 
