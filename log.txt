@@ -6,19 +6,19 @@ lerpColor() src/color/creating_reading.js, line 233, return has invalid type: Ar
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
-updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple times
+updatePixels() src/image/pixels.js, line 393, param "w" is defined multiple times
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
 blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
-quad() src/shape/2d_primitives.js, line 292, param "x1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "x2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "x3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "x4" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y4" has invalid type: Type
 ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: Number/Constant
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
@@ -40,43 +40,40 @@ createAudio() lib/addons/p5.dom.js, line 329, return has invalid type: Object/p5
 createCapture() lib/addons/p5.dom.js, line 365, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 365, return has invalid type: Object/p5.Element
 createElement() lib/addons/p5.dom.js, line 399, return has invalid type: Object/p5.Element
-lerp() src/objects/p5.Vector.js, line 519, required param "amt" follows an optional param
-p5.SoundFile() lib/addons/p5.sound.js, line 425, param "path" has invalid type: String/Array
-loadSound() lib/addons/p5.sound.js, line 504, param "path" has invalid type: String/Array
-fade() lib/addons/p5.sound.js, line 1970, param "secondsFromNow" has invalid type: [Number]
-add() lib/addons/p5.sound.js, line 2028, return has invalid type: p5.SignalAdd
-mult() lib/addons/p5.sound.js, line 2043, return has invalid type: p5.SignalMult
-scale() lib/addons/p5.sound.js, line 2058, return has invalid type: p5.SignalScale
-signalMult() lib/addons/p5.sound.js, line 2084, param "num" has invalid type: [type]
-signalMult() lib/addons/p5.sound.js, line 2084, param "input" has invalid type: [type]
-signalMult() lib/addons/p5.sound.js, line 2084, return has invalid type: p5.SignalMult
-add() lib/addons/p5.sound.js, line 2459, return has invalid type: p5.SignalMult
-scale() lib/addons/p5.sound.js, line 2477, return has invalid type: p5.SignalScale
-p5.SinOsc() lib/addons/p5.sound.js, line 2499, "p5.SinOsc" is not a valid JS symbol name
-p5.SinOsc() lib/addons/p5.sound.js, line 2499, param "freq" has invalid type: [Number]
-p5.TriOsc() lib/addons/p5.sound.js, line 2514, "p5.TriOsc" is not a valid JS symbol name
-p5.TriOsc() lib/addons/p5.sound.js, line 2514, param "freq" has invalid type: [Number]
-p5.SawOsc() lib/addons/p5.sound.js, line 2529, "p5.SawOsc" is not a valid JS symbol name
-p5.SawOsc() lib/addons/p5.sound.js, line 2529, param "freq" has invalid type: [Number]
-p5.SawOsc() lib/addons/p5.sound.js, line 2544, "p5.SawOsc" is not a valid JS symbol name
-p5.SawOsc() lib/addons/p5.sound.js, line 2544, param "freq" has invalid type: [Number]
-p5.Filter() lib/addons/p5.sound.js, line 3533, param "type" has invalid type: [String]
-process() lib/addons/p5.sound.js, line 3612, param "freq" has invalid type: [Number]
-process() lib/addons/p5.sound.js, line 3612, param "res" has invalid type: [Number]
-freq() lib/addons/p5.sound.js, line 3641, param "freq" has invalid type: [Number]
-p5.LowPass() lib/addons/p5.sound.js, line 3729, "p5.LowPass" is not a valid JS symbol name
-p5.HighPass() lib/addons/p5.sound.js, line 3741, "p5.HighPass" is not a valid JS symbol name
-p5.BandPass() lib/addons/p5.sound.js, line 3753, "p5.BandPass" is not a valid JS symbol name
-process() lib/addons/p5.sound.js, line 4076, param "seconds" has invalid type: [Number]
-process() lib/addons/p5.sound.js, line 4076, param "decayRate" has invalid type: [Number]
-process() lib/addons/p5.sound.js, line 4076, param "reverse" has invalid type: [Boolean]
-set() lib/addons/p5.sound.js, line 4105, param "seconds" has invalid type: [Number]
-set() lib/addons/p5.sound.js, line 4105, param "decayRate" has invalid type: [Number]
-set() lib/addons/p5.sound.js, line 4105, param "reverse" has invalid type: [Boolean]
-p5.Convolver() lib/addons/p5.sound.js, line 4207, param "callback" has invalid type: [Function]
-createConvolver() lib/addons/p5.sound.js, line 4287, param "callback" has invalid type: [Function]
-addImpulse() lib/addons/p5.sound.js, line 4405, param "callback" has invalid type: [Function]
-resetImpulse() lib/addons/p5.sound.js, line 4422, param "callback" has invalid type: [Function]
+lerp() src/objects/p5.Vector.js, line 517, required param "amt" follows an optional param
+p5.SoundFile() lib/addons/p5.sound.js, line 474, param "path" has invalid type: String/Array
+loadSound() lib/addons/p5.sound.js, line 553, param "path" has invalid type: String/Array
+loadSound() lib/addons/p5.sound.js, line 553, param "callback" is defined multiple times
+fade() lib/addons/p5.sound.js, line 2457, param "secondsFromNow" has invalid type: [Number]
+add() lib/addons/p5.sound.js, line 2481, return has invalid type: p5.SignalAdd
+mult() lib/addons/p5.sound.js, line 2500, return has invalid type: Tone.Multiply
+scale() lib/addons/p5.sound.js, line 2519, return has invalid type: p5.SignalScale
+p5.SinOsc() lib/addons/p5.sound.js, line 2888, "p5.SinOsc" is not a valid JS symbol name
+p5.SinOsc() lib/addons/p5.sound.js, line 2888, param "freq" has invalid type: [Number]
+p5.TriOsc() lib/addons/p5.sound.js, line 2903, "p5.TriOsc" is not a valid JS symbol name
+p5.TriOsc() lib/addons/p5.sound.js, line 2903, param "freq" has invalid type: [Number]
+p5.SawOsc() lib/addons/p5.sound.js, line 2918, "p5.SawOsc" is not a valid JS symbol name
+p5.SawOsc() lib/addons/p5.sound.js, line 2918, param "freq" has invalid type: [Number]
+p5.SawOsc() lib/addons/p5.sound.js, line 2933, "p5.SawOsc" is not a valid JS symbol name
+p5.SawOsc() lib/addons/p5.sound.js, line 2933, param "freq" has invalid type: [Number]
+p5.Filter() lib/addons/p5.sound.js, line 3964, param "type" has invalid type: [String]
+process() lib/addons/p5.sound.js, line 4043, param "freq" has invalid type: [Number]
+process() lib/addons/p5.sound.js, line 4043, param "res" has invalid type: [Number]
+freq() lib/addons/p5.sound.js, line 4072, param "freq" has invalid type: [Number]
+p5.LowPass() lib/addons/p5.sound.js, line 4160, "p5.LowPass" is not a valid JS symbol name
+p5.HighPass() lib/addons/p5.sound.js, line 4172, "p5.HighPass" is not a valid JS symbol name
+p5.BandPass() lib/addons/p5.sound.js, line 4184, "p5.BandPass" is not a valid JS symbol name
+process() lib/addons/p5.sound.js, line 4507, param "seconds" has invalid type: [Number]
+process() lib/addons/p5.sound.js, line 4507, param "decayRate" has invalid type: [Number]
+process() lib/addons/p5.sound.js, line 4507, param "reverse" has invalid type: [Boolean]
+set() lib/addons/p5.sound.js, line 4536, param "seconds" has invalid type: [Number]
+set() lib/addons/p5.sound.js, line 4536, param "decayRate" has invalid type: [Number]
+set() lib/addons/p5.sound.js, line 4536, param "reverse" has invalid type: [Boolean]
+p5.Convolver() lib/addons/p5.sound.js, line 4638, param "callback" has invalid type: [Function]
+createConvolver() lib/addons/p5.sound.js, line 4718, param "callback" has invalid type: [Function]
+addImpulse() lib/addons/p5.sound.js, line 4836, param "callback" has invalid type: [Function]
+resetImpulse() lib/addons/p5.sound.js, line 4853, param "callback" has invalid type: [Function]
+p5.Score() lib/addons/p5.sound.js, line 5365, param "part(s)" is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
 lerpColor() src/color/creating_reading.js, line 233, param "c1" has invalid type: Array/Number
 lerpColor() src/color/creating_reading.js, line 233, param "c2" has invalid type: Array/Number
@@ -84,19 +81,19 @@ lerpColor() src/color/creating_reading.js, line 233, return has invalid type: Ar
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
-updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple times
+updatePixels() src/image/pixels.js, line 393, param "w" is defined multiple times
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
 blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
-quad() src/shape/2d_primitives.js, line 292, param "x1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "x2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "x3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "x4" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 292, param "y4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "x4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 294, param "y4" has invalid type: Type
 ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: Number/Constant
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
@@ -135,9 +132,8 @@ MISSING: {Number}
 MISSING: String/Array
 MISSING: [Number]
 MISSING: p5.SignalAdd
-MISSING: p5.SignalMult
+MISSING: Tone.Multiply
 MISSING: p5.SignalScale
-MISSING: [type]
 MISSING: {Object}  Web Audio Delay Node
 MISSING: {p5.Filter}
 MISSING: [Boolean]

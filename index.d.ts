@@ -767,6 +767,14 @@ declare class p5 {
    */
   fullscreen(val?: boolean): boolean;
 
+  /**
+   *   Toggles pixel scaling for high pixel density 
+   *   displays. By default pixel scaling is on, call 
+   *   devicePixelScaling(false) to turn it off.
+   *
+   */
+  devicePixelScaling(): void;
+
   // src/image/image.js
 
   /**
@@ -1015,7 +1023,7 @@ declare class p5 {
    */
   set(x: number, y: number, c: number|any[]|object): void;
 
-  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 391:
+  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 393:
   //
   //   param "w" is defined multiple times
   //
@@ -1126,6 +1134,8 @@ declare class p5 {
    *   @return XML object containing data
    */
   loadXML(filename: string, callback?: Function): object;
+  httpGet(path: string, data?: object, datatype?: string, callback?: Function): void;
+  httpPost(path: string, data?: object, datatype?: string, callback?: Function): void;
 
   // src/input/keyboard.js
 
@@ -2186,7 +2196,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 292:
+  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 294:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -3019,7 +3029,7 @@ declare class p5 {
    */
   getAudioContext(): object;
 
-  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 193, is not a valid JS symbol name
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 197, is not a valid JS symbol name
 
   /**
    *   Set the master amplitude (volume) for sound in 
@@ -3212,6 +3222,36 @@ declare namespace p5 {
      *   moved off the element.
      */
     mouseOut(fxn: Function): p5.Element;
+
+    /**
+     *   The .touchStarted() function is called once after 
+     *   every time a touch is registered. This can be used 
+     *   to attach element specific event listeners.
+     *
+     *   @param fxn function to be fired when touch is 
+     *   started over the element.
+     */
+    touchStarted(fxn: Function): p5.Element;
+
+    /**
+     *   The .touchMoved() function is called once after 
+     *   every time a touch move is registered. This can be 
+     *   used to attach element specific event listeners.
+     *
+     *   @param fxn function to be fired when touch is 
+     *   moved over the element.
+     */
+    touchMoved(fxn: Function): p5.Element;
+
+    /**
+     *   The .touchEnded() function is called once after 
+     *   every time a touch is registered. This can be used 
+     *   to attach element specific event listeners.
+     *
+     *   @param fxn function to be fired when touch is 
+     *   ended over the element.
+     */
+    touchEnded(fxn: Function): p5.Element;
 
     // lib/addons/p5.dom.js
 
@@ -4026,7 +4066,7 @@ declare namespace p5 {
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 519:
+    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 517:
     //
     //   required param "amt" follows an optional param
     //
@@ -4166,17 +4206,18 @@ declare namespace p5 {
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 425:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 474:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 504:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 553:
     //
     //   param "path" has invalid type: String/Array
+    //   param "callback" is defined multiple times
     //
-    // loadSound(path: any, callback?: Function): SoundFile;
+    // loadSound(path: any, callback?: Function, callback?: Function): SoundFile;
 
     /**
      *   Returns true if the sound file finished loading 
@@ -4602,75 +4643,39 @@ declare namespace p5 {
      *   If we want to add a value to each of those 
      *   samples, we can't do it in the draw loop, but we 
      *   can do it by adding a constant-rate audio 
-     *   signal.This class and its children (p5.SignalAdd, 
-     *   p5.SignalMultiply, p5.SignalScale) mostly function 
-     *   behind the scenes in p5.sound. If you want to work 
-     *   directly with audio signals for modular synthesis, 
-     *   check out the source of this idea, tone.js.
+     *   signal.This class mostly functions behind the 
+     *   scenes in p5.sound, and returns a Tone.Signal from 
+     *   the Tone.js library by Yotam Mann. If you want to 
+     *   work directly with audio signals for modular 
+     *   synthesis, check out tone.js.
      *
+     *   @return A Signal object from the Tone.js library
      */
     constructor();
 
-    /**
-     *   Set the value of a signal.
-     *
-     */
-    setValue(value: number): void;
-
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 1970:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2457:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    /**
-     *   Connect a p5.sound object or Web Audio node to 
-     *   this p5.Signal so that its amplitude values can be 
-     *   scaled.
-     *
-     */
-    setInput(input: object): void;
-
-    /**
-     *   Connect a p5.Signal to an object, such a 
-     *   AudioParam
-     *
-     *   @param node An object that accepts a signal as 
-     *   input such as a Web Audio API AudioParam
-     */
-    connect(node: object): void;
-
-    /**
-     *   Disconnect the signal
-     *
-     */
-    disconnect(): void;
-
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2028:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2481:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2043:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2500:
     //
-    //   return has invalid type: p5.SignalMult
+    //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2058:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2519:
     //
     //   return has invalid type: p5.SignalScale
     //
     // scale(number: number, inMin: number, inMax: number, outMin: number, outMax: number): any;
-
-    // TODO: Fix signalMult() errors in lib/addons/p5.sound.js, line 2084:
-    //
-    //   param "num" has invalid type: [type]
-    //   param "input" has invalid type: [type]
-    //   return has invalid type: p5.SignalMult
-    //
-    // signalMult(num: any, input: any): any;
 
   }
   class Oscillator {
@@ -4778,53 +4783,65 @@ declare namespace p5 {
 
     /**
      *   Add a value to the p5.Oscillator's output 
-     *   amplitude, and return the result in the form of a 
-     *   p5.Signal. This method does not add to the 
-     *   p5.Oscillator itself, — the returned p5.Signal 
-     *   handles the math. This is useful for modulating 
-     *   parameters with an oscillating signal. 
-     *   p5.Oscillator's amplitude. on this oscillator's 
-     *   signal.
+     *   amplitude, and return the oscillator. Calling this 
+     *   method again will override the initial add() with 
+     *   a new value.
      *
      *   @param number Constant number to add
-     *   @return p5.Signal a p5.Signal does the math
+     *   @return Oscillator Returns this oscillator with 
+     *   scaled output
      */
-    add(number: number): p5.Signal;
+    add(number: number): p5.Oscillator;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2459:
-    //
-    //   return has invalid type: p5.SignalMult
-    //
-    // add(number: number): any;
+    /**
+     *   Multiply the p5.Oscillator's output amplitude by a 
+     *   fixed value (i.e. turn it up!). Calling this 
+     *   method again will override the initial mult() with 
+     *   a new value.
+     *
+     *   @param number Constant number to multiply
+     *   @return Oscillator Returns this oscillator with 
+     *   multiplied output
+     */
+    mult(number: number): p5.Oscillator;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2477:
-    //
-    //   return has invalid type: p5.SignalScale
-    //
-    // scale(inMin: number, inMax: number, outMin: number, outMax: number): any;
+    /**
+     *   Scale this oscillator's amplitude values to a 
+     *   given range, and return the oscillator. Calling 
+     *   this method again will override the initial 
+     *   scale() with new values.
+     *
+     *   @param inMin input range minumum
+     *   @param inMax input range maximum
+     *   @param outMin input range minumum
+     *   @param outMax input range maximum
+     *   @return Oscillator Returns this oscillator with 
+     *   scaled output
+     */
+    scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 2499:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 2888:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 2514:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 2903:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2529:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2918:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2544:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2933:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -4919,6 +4936,44 @@ declare namespace p5 {
      *   @param secondsFromNow time to trigger the release
      */
     triggerRelease(unit: object, secondsFromNow: number): void;
+
+    /**
+     *   Add a value to the p5.Oscillator's output 
+     *   amplitude, and return the oscillator. Calling this 
+     *   method again will override the initial add() with 
+     *   new values.
+     *
+     *   @param number Constant number to add
+     *   @return Envelope Returns this envelope with scaled 
+     *   output
+     */
+    add(number: number): p5.Env;
+
+    /**
+     *   Multiply the p5.Env's output amplitude by a fixed 
+     *   value. Calling this method again will override the 
+     *   initial mult() with new values.
+     *
+     *   @param number Constant number to multiply
+     *   @return Envelope Returns this envelope with scaled 
+     *   output
+     */
+    mult(number: number): p5.Env;
+
+    /**
+     *   Scale this envelope's amplitude values to a given 
+     *   range, and return the envelope. Calling this 
+     *   method again will override the initial scale() 
+     *   with new values.
+     *
+     *   @param inMin input range minumum
+     *   @param inMax input range maximum
+     *   @param outMin input range minumum
+     *   @param outMax input range maximum
+     *   @return Envelope Returns this envelope with scaled 
+     *   output
+     */
+    scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Env;
   }
   class Pulse {
     /**
@@ -5105,7 +5160,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 3533:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 3964:
     //
     //   param "type" has invalid type: [String]
     //
@@ -5118,7 +5173,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 3612:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4043:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -5133,7 +5188,7 @@ declare namespace p5 {
      */
     set(freq: number, res: number): void;
 
-    // TODO: Fix freq() errors in lib/addons/p5.sound.js, line 3641:
+    // TODO: Fix freq() errors in lib/addons/p5.sound.js, line 4072:
     //
     //   param "freq" has invalid type: [Number]
     //
@@ -5181,19 +5236,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 3729:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4160:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 3741:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4172:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 3753:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4184:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -5344,7 +5399,7 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4076:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4507:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5352,7 +5407,7 @@ declare namespace p5 {
     //
     // process(src: object, seconds: any, decayRate: any, reverse: any): void;
 
-    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4105:
+    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4536:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5384,7 +5439,7 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4207:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4638:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5397,7 +5452,7 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4287:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4718:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5421,13 +5476,13 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4405:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4836:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 4422:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 4853:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5452,6 +5507,182 @@ declare namespace p5 {
      *   .impulses Array (Number).
      */
     toggleImpulse(id: string|number): void;
+  }
+  class Phrase {
+    /**
+     *   A phrase is a pattern of musical events over time, 
+     *   i.e. a series of notes and rests. Phrases must be 
+     *   added to a p5.Part for playback, and each part can 
+     *   play multiple phrases at the same time. For 
+     *   example, one Phrase might be a kick drum, another 
+     *   could be a snare, and another could be the 
+     *   bassline. 
+     * 
+     *   The first parameter is a name so that the phrase 
+     *   can be modified or deleted later. The callback is 
+     *   a a function that this phrase will call at every 
+     *   step—for example it might be called 
+     *   playNote(value){}. The array determines which 
+     *   value is passed into the callback at each step of 
+     *   the phrase. It can be numbers, an object with 
+     *   multiple numbers, or a zero (0) indicates a rest 
+     *   so the callback won't be called).
+     *
+     *   @param name Name so that you can access the 
+     *   Phrase.
+     *   @param callback The name of a function that this 
+     *   phrase will call. Typically it will play a sound, 
+     *   and accept two parameters: a value from the 
+     *   sequence array, followed by a time at which to 
+     *   play the sound.
+     *   @param sequence Array of values to pass into the 
+     *   callback at each step of the phrase.
+     */
+    constructor(name: string, callback: Function, sequence: any[]);
+
+    /**
+     *   Array of values to pass into the callback at each 
+     *   step of the phrase. Depending on the callback 
+     *   function's requirements, these values may be 
+     *   numbers, strings, or an object with multiple 
+     *   parameters. Zero (0) indicates a rest.
+     *
+     */
+    sequence: any;
+  }
+  class Part {
+    /**
+     *   A p5.Part plays back one or more p5.Phrases. 
+     *   Instantiate a part with steps and tatums. By 
+     *   default, each step represents 1/16th note.
+     *
+     *   @param [steps] Steps in the part
+     *   @param [tatums] Divisions of a beat (default is 
+     *   1/16, a quarter note)
+     */
+    constructor(steps?: number, tatums?: number);
+
+    /**
+     *   Set the tempo of this part, in Beats Per Minute.
+     *
+     *   @param BPM Beats Per Minute
+     *   @param [rampTime] Seconds from now
+     */
+    setBPM(BPM: number, rampTime?: number): void;
+
+    /**
+     *   Returns the Beats Per Minute of this currently 
+     *   part.
+     *
+     */
+    getBPM(): number;
+
+    /**
+     *   Start playback of this part. It will play through 
+     *   all of its phrases at a speed determined by 
+     *   setBPM.
+     *
+     *   @param [time] seconds from now
+     */
+    start(time?: number): void;
+
+    /**
+     *   Loop playback of this part. It will begin looping 
+     *   through all of its phrases at a speed determined 
+     *   by setBPM.
+     *
+     */
+    loop(): void;
+
+    /**
+     *   Tell the part to stop looping.
+     *
+     */
+    noLoop(): void;
+
+    /**
+     *   Stop the part and cue it to step 0.
+     *
+     *   @param [time] seconds from now
+     */
+    stop(time?: number): void;
+
+    /**
+     *   Pause the part. Playback will resume from the 
+     *   current step.
+     *
+     *   @param time seconds from now
+     */
+    pause(time: number): void;
+
+    /**
+     *   Add a p5.Phrase to this Part.
+     *
+     *   @param phrase reference to a p5.Phrase
+     */
+    addPhrase(phrase: p5.Phrase): void;
+
+    /**
+     *   Remove a phrase from this part, based on the name 
+     *   it was given when it was created.
+     *
+     */
+    removePhrase(phraseName: string): void;
+
+    /**
+     *   Get a phrase from this part, based on the name it 
+     *   was given when it was created. Now you can modify 
+     *   its array.
+     *
+     */
+    getPhrase(phraseName: string): void;
+
+    /**
+     *   Fire a callback function at every step.
+     *
+     *   @param callback The name of the callback you want 
+     *   to fire on every beat/tatum.
+     */
+    onStep(callback: Function): void;
+  }
+  class Score {
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5365:
+    //
+    //   param "part(s)" is not a valid JS symbol name
+    //
+    // constructor(part(s): p5.Part);
+
+    /**
+     *   Start playback of the score.
+     *
+     */
+    start(): void;
+
+    /**
+     *   Stop playback of the score.
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Pause playback of the score.
+     *
+     */
+    pause(): void;
+
+    /**
+     *   Loop playback of the score.
+     *
+     */
+    loop(): void;
+
+    /**
+     *   Stop looping playback of the score. If it is 
+     *   currently playing, this will go into effect after 
+     *   the current round of playback completes.
+     *
+     */
+    noLoop(): void;
   }
   class SoundRecorder {
     /**

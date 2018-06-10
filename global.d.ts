@@ -767,6 +767,14 @@ declare var height: any;
  */
 declare function fullscreen(val?: boolean): boolean;
 
+/**
+ *   Toggles pixel scaling for high pixel density 
+ *   displays. By default pixel scaling is on, call 
+ *   devicePixelScaling(false) to turn it off.
+ *
+ */
+declare function devicePixelScaling(): void;
+
 // src/image/image.js
 
 /**
@@ -1015,7 +1023,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 391:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 393:
 //
 //   param "w" is defined multiple times
 //
@@ -1126,6 +1134,8 @@ declare function loadTable(filename: string, options?: string|any, callback?: Fu
  *   @return XML object containing data
  */
 declare function loadXML(filename: string, callback?: Function): object;
+declare function httpGet(path: string, data?: object, datatype?: string, callback?: Function): void;
+declare function httpPost(path: string, data?: object, datatype?: string, callback?: Function): void;
 
 // src/input/keyboard.js
 
@@ -2186,7 +2196,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 292:
+// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 294:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -3019,7 +3029,7 @@ declare function removeElements(): void;
  */
 declare function getAudioContext(): object;
 
-// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 193, is not a valid JS symbol name
+// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 197, is not a valid JS symbol name
 
 /**
  *   Set the master amplitude (volume) for sound in 
