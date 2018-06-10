@@ -1,4 +1,4 @@
-// Type definitions for p5 0.2
+// Type definitions for p5 0.3
 // Project: https://github.com/processing/p5.js
 // Definitions by: p5-types <https://github.com/p5-types>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -264,6 +264,18 @@ declare var TAU: any;
 declare var TWO_PI: any;
 
 // src/core/core.js
+
+/**
+ *   Called directly before setup(), the preload() 
+ *   function is used to handle asynchronous loading of 
+ *   external files. If a preload function is defined, 
+ *   setup() will wait until any load calls within have 
+ *   finished. Nothing besides load calls should be 
+ *   inside preload (loadImage, loadJSON, loadStrings, 
+ *   etc).
+ *
+ */
+declare function preload(): void;
 
 /**
  *   The setup() function is called once when the 
@@ -699,7 +711,10 @@ declare var height: any;
  *   If argument is given, sets the sketch to 
  *   fullscreen or not based on the value of the 
  *   argument. If no argument is given, returns the 
- *   current fullscreen state.
+ *   current fullscreen state. Note that due to browser 
+ *   restrictiions this can only be called on user 
+ *   input, for example, on mouse press like the 
+ *   example below.
  *
  *   @param [val] whether the sketch should be 
  *   fullscreened or not
@@ -992,6 +1007,24 @@ declare function loadJSON(path: string, callback?: Function): object|any[];
  *   @return Array of Strings
  */
 declare function loadStrings(filename: string, callback?: Function): any[];
+
+/**
+ *   Reads the contents of a file or URL and creates an 
+ *   Table object with its values. If a file is 
+ *   specified, it must be located in the sketch's 
+ *   "data" folder. The filename parameter can also be 
+ *   a URL to a file found online. By default, the file 
+ *   is assumed to be comma-separated (in CSV format), 
+ *   and to include a header row.  All files loaded and 
+ *   saved use UTF-8 encoding.
+ *
+ *   @param filename name of the file or URL to load
+ *   @param [callback] function to be executed after 
+ *   loadXML() completes, XML object is passed in as 
+ *   first argument
+ *   @return XML object containing data
+ */
+declare function loadTable(filename: string, callback?: Function): object;
 
 /**
  *   Reads the contents of a file and creates an XML 
@@ -1865,7 +1898,13 @@ declare function print(contents: any): void;
 // src/rendering/rendering.js
 
 /**
- *   Creates a canvas element in the document.
+ *   Creates a canvas element in the document, and sets 
+ *   the dimensions of it in pixels. This method should 
+ *   be called only once at the start of setup.  The 
+ *   system variables width and height are set by the 
+ *   parameters passed to this function. If size() is 
+ *   not used, the window will be given a default size 
+ *   of 100x100 pixels.
  *
  *   @param w width of the canvas
  *   @param h height of the canvas
@@ -1885,7 +1924,7 @@ declare function createCanvas(w: number, h: number): object;
  */
 declare function createGraphics(w: number, h: number): object;
 
-// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 120:
+// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 139:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -2698,102 +2737,78 @@ declare function getElements(theClass: string): any[];
  */
 declare function removeElements(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 82:
+// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 94:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 93:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 105:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 105:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 117:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 125:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 137:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt: string): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 148:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 160:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 172:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 184:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 194:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 206:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 215:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 227:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 262:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 274:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 285:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 297:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 316:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 328:
 //
 //   param "type" has invalid type: String/Constant
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: any): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 348:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 360:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createElement(tag: string, content?: string): any;
-
-/**
- *   Adds specified class to the element.
- *
- *   @param class name of class to add
- */
-declare function addClass(theClass: string): void;
-
-/**
- *   Removes specified class from the element.
- *
- *   @param class name of class to remove
- */
-declare function removeClass(theClass: string): void;
-
-/**
- *   Attaches the element to the parent specified. A 
- *   way of setting the container for the element. 
- *   Accepts either a string ID or DOM node.
- *
- *   @param child the ID or node to add to the current 
- *   element
- */
-declare function child(child: string|object): void;
 
 // Properties from p5.sound
 
@@ -2807,6 +2822,8 @@ declare function child(child: string|object): void;
  *   @return AudioContext for this sketch
  */
 declare function getAudioContext(): object;
+
+// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 168, is not a valid JS symbol name
 
 /**
  *   Set the master amplitude (volume) for sound in 
@@ -2838,3 +2855,24 @@ declare function masterVolume(volume: number): void;
  *   @return samplerate samples per second
  */
 declare function sampleRate(): number;
+
+/**
+ *   Returns the frequency value of a MIDI note value. 
+ *   General MIDI treats notes as integers where middle 
+ *   C is 60, C# is 61, D is 62 etc. Useful for 
+ *   generating musical frequencies with oscillators.
+ *
+ *   @param midiNote The number of a MIDI note
+ *   @return Frequency value of the given MIDI note
+ */
+declare function midiToFreq(midiNote: number): number;
+
+/**
+ *   List the SoundFile formats that you will include. 
+ *   LoadSound will search your directory for these 
+ *   extensions, and will pick a format that is 
+ *   compatable with the client's web browser.
+ *
+ *   @param formats i.e. 'mp3', 'wav', 'ogg'
+ */
+declare function soundFormats(formats: string|any): void;

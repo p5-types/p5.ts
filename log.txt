@@ -8,7 +8,7 @@ arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid typ
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
 updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple times
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
-blendMode() src/rendering/rendering.js, line 120, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 139, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 280, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 280, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 280, param "x2" has invalid type: Type
@@ -25,19 +25,19 @@ beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 20, param "a" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 121, param "s" has invalid type: Number/Constant
-createDiv() lib/addons/p5.dom.js, line 82, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 93, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 105, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 125, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 148, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 172, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 194, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 215, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 262, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 285, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 316, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 316, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 348, return has invalid type: Object/p5.Element
+createDiv() lib/addons/p5.dom.js, line 94, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 105, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 117, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 137, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 160, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 184, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 206, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 227, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 274, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 297, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 328, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 328, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 360, return has invalid type: Object/p5.Element
 getNormalizedColor() src/objects/p5.Color.js, line 30, param "args" has invalid type: Array-like
 save() src/objects/p5.Image.js, line 290, param "extension
 
@@ -46,6 +46,9 @@ save() src/objects/p5.Image.js, line 290, param "extension
 
 TODO:" has invalid type: [type]
 lerp() src/objects/p5.Vector.js, line 371, required param "amt" follows an optional param
+p5.SoundFile() lib/addons/p5.sound.js, line 326, param "path" has invalid type: String/Array
+loadSound() lib/addons/p5.sound.js, line 456, param "path" has invalid type: String/Array
+stop() lib/addons/p5.sound.js, line 1740, param "time," is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
 lerpColor() src/color/creating_reading.js, line 233, param "c1" has invalid type: Array/Number
 lerpColor() src/color/creating_reading.js, line 233, param "c2" has invalid type: Array/Number
@@ -55,7 +58,7 @@ arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid typ
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
 updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple times
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
-blendMode() src/rendering/rendering.js, line 120, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 139, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 280, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 280, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 280, param "x2" has invalid type: Type
@@ -72,34 +75,29 @@ beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 20, param "a" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 121, param "s" has invalid type: Number/Constant
-createDiv() lib/addons/p5.dom.js, line 82, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 93, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 105, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 125, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 148, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 172, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 194, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 215, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 262, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 285, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 316, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 316, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 348, return has invalid type: Object/p5.Element
-UNKNOWN CLASS: SoundFile
-UNKNOWN CLASS: Amplitude
-UNKNOWN CLASS: FFT
-UNKNOWN CLASS: Oscillator
-UNKNOWN CLASS: Pulse
-UNKNOWN CLASS: Noise
-UNKNOWN CLASS: AudioIn
-UNKNOWN CLASS: Env
+createDiv() lib/addons/p5.dom.js, line 94, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 105, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 117, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 137, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 160, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 184, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 206, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 227, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 274, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 297, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 328, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 328, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 360, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant
 MISSING: String/Constant
 MISSING: Type
 MISSING: Object/p5.Element
+MISSING: Strings
 MISSING: Array-like
 MISSING: Array/Color
 MISSING: [type]
+MISSING: {Array}
 MISSING: {Number}
+MISSING: String/Array

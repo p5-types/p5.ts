@@ -1,4 +1,4 @@
-// Type definitions for p5 0.2
+// Type definitions for p5 0.3
 // Project: https://github.com/processing/p5.js
 // Definitions by: p5-types <https://github.com/p5-types>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -7,14 +7,6 @@
 
 export = p5;
 type UNKNOWN_P5_CONSTANT = any;
-type SoundFile = any;
-type Amplitude = any;
-type FFT = any;
-type Oscillator = any;
-type Pulse = any;
-type Noise = any;
-type AudioIn = any;
-type Env = any;
 declare class p5 {
   // Properties from p5
 
@@ -272,6 +264,18 @@ declare class p5 {
   TWO_PI: any;
 
   // src/core/core.js
+
+  /**
+   *   Called directly before setup(), the preload() 
+   *   function is used to handle asynchronous loading of 
+   *   external files. If a preload function is defined, 
+   *   setup() will wait until any load calls within have 
+   *   finished. Nothing besides load calls should be 
+   *   inside preload (loadImage, loadJSON, loadStrings, 
+   *   etc).
+   *
+   */
+  preload(): void;
 
   /**
    *   The setup() function is called once when the 
@@ -707,7 +711,10 @@ declare class p5 {
    *   If argument is given, sets the sketch to 
    *   fullscreen or not based on the value of the 
    *   argument. If no argument is given, returns the 
-   *   current fullscreen state.
+   *   current fullscreen state. Note that due to browser 
+   *   restrictiions this can only be called on user 
+   *   input, for example, on mouse press like the 
+   *   example below.
    *
    *   @param [val] whether the sketch should be 
    *   fullscreened or not
@@ -1000,6 +1007,24 @@ declare class p5 {
    *   @return Array of Strings
    */
   loadStrings(filename: string, callback?: Function): any[];
+
+  /**
+   *   Reads the contents of a file or URL and creates an 
+   *   Table object with its values. If a file is 
+   *   specified, it must be located in the sketch's 
+   *   "data" folder. The filename parameter can also be 
+   *   a URL to a file found online. By default, the file 
+   *   is assumed to be comma-separated (in CSV format), 
+   *   and to include a header row.  All files loaded and 
+   *   saved use UTF-8 encoding.
+   *
+   *   @param filename name of the file or URL to load
+   *   @param [callback] function to be executed after 
+   *   loadXML() completes, XML object is passed in as 
+   *   first argument
+   *   @return XML object containing data
+   */
+  loadTable(filename: string, callback?: Function): object;
 
   /**
    *   Reads the contents of a file and creates an XML 
@@ -1873,7 +1898,13 @@ declare class p5 {
   // src/rendering/rendering.js
 
   /**
-   *   Creates a canvas element in the document.
+   *   Creates a canvas element in the document, and sets 
+   *   the dimensions of it in pixels. This method should 
+   *   be called only once at the start of setup.  The 
+   *   system variables width and height are set by the 
+   *   parameters passed to this function. If size() is 
+   *   not used, the window will be given a default size 
+   *   of 100x100 pixels.
    *
    *   @param w width of the canvas
    *   @param h height of the canvas
@@ -1893,7 +1924,7 @@ declare class p5 {
    */
   createGraphics(w: number, h: number): object;
 
-  // TODO: Fix blendMode() errors in src/rendering/rendering.js, line 120:
+  // TODO: Fix blendMode() errors in src/rendering/rendering.js, line 139:
   //
   //   param "mode" has invalid type: String/Constant
   //
@@ -2706,102 +2737,78 @@ declare class p5 {
    */
   removeElements(): void;
 
-  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 82:
+  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 94:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createDiv(html: string): any;
 
-  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 93:
+  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 105:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createP(html: string): any;
 
-  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 105:
+  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 117:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSpan(html: string): any;
 
-  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 125:
+  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 137:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createImg(src: string, alt: string): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 148:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 160:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 172:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 184:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 194:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 206:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 215:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 227:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 262:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 274:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 285:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 297:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 316:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 328:
   //
   //   param "type" has invalid type: String/Constant
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: any): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 348:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 360:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createElement(tag: string, content?: string): any;
-
-  /**
-   *   Adds specified class to the element.
-   *
-   *   @param class name of class to add
-   */
-  addClass(theClass: string): void;
-
-  /**
-   *   Removes specified class from the element.
-   *
-   *   @param class name of class to remove
-   */
-  removeClass(theClass: string): void;
-
-  /**
-   *   Attaches the element to the parent specified. A 
-   *   way of setting the container for the element. 
-   *   Accepts either a string ID or DOM node.
-   *
-   *   @param child the ID or node to add to the current 
-   *   element
-   */
-  child(child: string|object): void;
 
   // Properties from p5.sound
 
@@ -2815,6 +2822,8 @@ declare class p5 {
    *   @return AudioContext for this sketch
    */
   getAudioContext(): object;
+
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 168, is not a valid JS symbol name
 
   /**
    *   Set the master amplitude (volume) for sound in 
@@ -2846,6 +2855,27 @@ declare class p5 {
    *   @return samplerate samples per second
    */
   sampleRate(): number;
+
+  /**
+   *   Returns the frequency value of a MIDI note value. 
+   *   General MIDI treats notes as integers where middle 
+   *   C is 60, C# is 61, D is 62 etc. Useful for 
+   *   generating musical frequencies with oscillators.
+   *
+   *   @param midiNote The number of a MIDI note
+   *   @return Frequency value of the given MIDI note
+   */
+  midiToFreq(midiNote: number): number;
+
+  /**
+   *   List the SoundFile formats that you will include. 
+   *   LoadSound will search your directory for these 
+   *   extensions, and will pick a format that is 
+   *   compatable with the client's web browser.
+   *
+   *   @param formats i.e. 'mp3', 'wav', 'ogg'
+   */
+  soundFormats(formats: string|any): void;
 }
 
 declare namespace p5 {
@@ -2866,7 +2896,14 @@ declare namespace p5 {
 
   class Element {
     /**
-     *   A class to describe...
+     *   Base class for all elements added to a sketch, 
+     *   including canvas, graphics buffers, and other HTML 
+     *   elements. Methods in blue are included in the core 
+     *   functionality, methods in black are added with the 
+     *   p5.dom library. It is not called directly, but 
+     *   p5.Element objects are created by calling 
+     *   createCanvas, createGraphics, or in the p5.dom 
+     *   library, createDiv, createImg, createInput, etc.
      *
      *   @param elt DOM node that is wrapped
      *   @param [pInst] pointer to p5 instance
@@ -2969,6 +3006,30 @@ declare namespace p5 {
     mouseOut(fxn: Function): void;
 
     // lib/addons/p5.dom.js
+
+    /**
+     *   Adds specified class to the element.
+     *
+     *   @param class name of class to add
+     */
+    addClass(theClass: string): void;
+
+    /**
+     *   Removes specified class from the element.
+     *
+     *   @param class name of class to remove
+     */
+    removeClass(theClass: string): void;
+
+    /**
+     *   Attaches the element to the parent specified. A 
+     *   way of setting the container for the element. 
+     *   Accepts either a string ID or DOM node.
+     *
+     *   @param child the ID or node to add to the current 
+     *   element
+     */
+    child(child: string|object): void;
 
     /**
      *   Sets the inner HTML of the element. Replaces any 
@@ -3269,6 +3330,230 @@ TODO:: any): void;
 
   }
 
+  // src/objects/p5.Table.js
+
+  class Table {
+    /**
+     *   Table objects store data with multiple rows and 
+     *   columns, much like in a traditional spreadsheet. 
+     *   Tables can be generated from scratch, dynamically, 
+     *   or using data from an existing file.
+     *
+     *   @param [rows] An array of p5.TableRow objects
+     *   @return p5.Table generated
+     */
+    constructor(rows?: any[]);
+    columns: any;
+    rows: any;
+
+    /**
+     *   Use addRow() to add a new row of data to a 
+     *   p5.Table object. By default, an empty row is 
+     *   created. Typically, you would store a reference to 
+     *   the new row in a TableRow object (see newRow in 
+     *   the example above), and then set individual values 
+     *   using set(). If a p5.TableRow object is included 
+     *   as a parameter, then that row is duplicated and 
+     *   added to the table.
+     *
+     *   @param [row] row to be added to the table
+     */
+    addRow(row?: p5.TableRow): void;
+
+    /**
+     *   Removes a row from the table object.
+     *
+     *   @param id ID number of the row to remove
+     */
+    removeRow(id: number): void;
+
+    /**
+     *   Returns a reference to the specified p5.TableRow. 
+     *   The reference can then be used to get and set 
+     *   values of the selected row.
+     *
+     *   @param rowID ID number of the row to get
+     *   @return p5.TableRow object
+     */
+    getRow(rowID: number): TableRow;
+
+    /**
+     *   Gets all rows from the table. Returns an array of 
+     *   p5.TableRows.
+     *
+     *   @return Array of p5.TableRows
+     */
+    getRows(): any[];
+
+    /**
+     *   Finds the first row in the Table that contains the 
+     *   value provided, and returns a reference to that 
+     *   row. Even if multiple rows are possible matches, 
+     *   only the first matching row is returned. The 
+     *   column to search may be specified by either its ID 
+     *   or title.
+     *
+     *   @param value The value to match
+     *   @param column ID number or title of the column to 
+     *   search
+     */
+    findRow(value: string, column: number|string): TableRow;
+
+    /**
+     *   Finds the rows in the Table that contain the value 
+     *   provided, and returns references to those rows. 
+     *   Returns an Array, so for must be used to iterate 
+     *   through all the rows, as shown in the example 
+     *   above. The column to search may be specified by 
+     *   either its ID or title.
+     *
+     *   @param value The value to match
+     *   @param column ID number or title of the column to 
+     *   search
+     *   @return An Array of TableRow objects
+     */
+    findRows(value: string, column: number|string): any[];
+
+    /**
+     *   Finds the first row in the Table that matches the 
+     *   regular expression provided, and returns a 
+     *   reference to that row. Even if multiple rows are 
+     *   possible matches, only the first matching row is 
+     *   returned. The column to search may be specified by 
+     *   either its ID or title.
+     *
+     *   @param regexp The regular expression to match
+     *   @param column The column ID (number) or title 
+     *   (string)
+     *   @return TableRow object
+     */
+    matchRow(regexp: string, column: string|number): TableRow;
+
+    /**
+     *   Finds the first row in the Table that matches the 
+     *   regular expression provided, and returns a 
+     *   reference to that row. Even if multiple rows are 
+     *   possible matches, only the first matching row is 
+     *   returned. The column to search may be specified by 
+     *   either its ID or title.
+     *
+     *   @param regexp The regular expression to match
+     *   @param [column] The column ID (number) or title 
+     *   (string)
+     *   @return An Array of TableRow objects
+     */
+    matchRows(regexp: string, column?: string|number): any[];
+
+    /**
+     *   Retrieves all values in the specified column, and 
+     *   returns them as an array. The column may be 
+     *   specified by either its ID or title.
+     *
+     *   @param column String or Number of the column to 
+     *   return
+     *   @return Array of column values
+     */
+    getColumn(column: string|number): any[];
+
+    /**
+     *   Removes all rows from a Table. While all rows are 
+     *   removed, columns and column titles are maintained.
+     *
+     */
+    clearRows(): void;
+
+    /**
+     *   Use addColumn() to add a new column to a Table 
+     *   object. Typically, you will want to specify a 
+     *   title, so the column may be easily referenced 
+     *   later by name. (If no title is specified, the new 
+     *   column's title will be null.)
+     *
+     *   @param [title] Title of the given column
+     */
+    addColumn(title?: string): void;
+
+    /**
+     *   Returns the total number of rows in a Table.
+     *
+     *   @return Number of rows in this table
+     */
+    getRowCount(): number;
+
+    /**
+     *   Removes any of the specified characters (or 
+     *   "tokens"). If no column is specified, then the 
+     *   values in all columns and rows are processed. A 
+     *   specific column may be referenced by either its ID 
+     *   or title.
+     *
+     *   @param chars String listing characters to be 
+     *   removed
+     *   @param [column] Column ID (number) or name 
+     *   (string)
+     */
+    removeTokens(chars: string, column?: string|number): void;
+
+    /**
+     *   Trims leading and trailing whitespace, such as 
+     *   spaces and tabs, from String table values. If no 
+     *   column is specified, then the values in all 
+     *   columns and rows are trimmed. A specific column 
+     *   may be referenced by either its ID or title.
+     *
+     *   @param column Column ID (number) or name (string)
+     */
+    trim(column: string|number): void;
+
+    /**
+     *   Use removeColumn() to remove an existing column 
+     *   from a Table object. The column to be removed may 
+     *   be identified by either its title (a String) or 
+     *   its index value (an int). removeColumn(0) would 
+     *   remove the first column, removeColumn(1) would 
+     *   remove the second column, and so on.
+     *
+     *   @param column columnName (string) or ID (number)
+     */
+    removeColumn(column: string|number): void;
+  }
+
+  // src/objects/p5.TableRow.js
+
+  class TableRow {
+    /**
+     *   A TableRow object represents a single row of data 
+     *   values, stored in columns, from a table. A Table 
+     *   Row contains both an ordered array, and an 
+     *   unordered JSON object.
+     *
+     *   @param [str] optional: populate the row with a 
+     *   string of values, separated by the separator
+     *   @param [separator] comma separated values (csv) by 
+     *   default
+     */
+    constructor(str?: string, separator?: string);
+
+    /**
+     *   Stores a value in the TableRow's specified column. 
+     *   The column may be specified by either its ID or 
+     *   title.
+     *
+     *   @param column Column ID (Number) or Title (String)
+     *   @param value The value to be stored
+     */
+    set(column: string|number, value: string|number): void;
+
+    /**
+     *   Retrieves a float value from the TableRow's 
+     *   specified column. The column may be specified by 
+     *   either its ID or title.
+     *
+     *   @param column columnName (string) or ID (number)
+     */
+    get(column: string|number): object|p5.TableRow;
+  }
+
   // src/objects/p5.Vector.js
 
   class Vector {
@@ -3519,7 +3804,12 @@ TODO:: any): void;
 
   class MediaElement {
     /**
-     *   A class to describe...
+     *   Extends p5.Element to handle audio and video. In 
+     *   addition to the methods of p5.Element, it also 
+     *   contains methods for controlling media. It is not 
+     *   called directly, but p5.MediaElements are created 
+     *   by calling createVideo, createAudio, and 
+     *   createCapture.
      *
      *   @param elt DOM node that is wrapped
      *   @param [pInst] pointer to p5 instance
@@ -3592,6 +3882,701 @@ TODO:: any): void;
      *   @return duration
      */
     duration(): number;
+  }
+
+  // lib/addons/p5.sound.js
+
+  class SoundFile {
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 326:
+    //
+    //   param "path" has invalid type: String/Array
+    //
+    // constructor(path: any, callback?: Function);
+
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 456:
+    //
+    //   param "path" has invalid type: String/Array
+    //
+    // loadSound(path: any, callback?: Function): SoundFile;
+
+    /**
+     *   Returns true if the sound file finished loading 
+     *   successfully.
+     *
+     */
+    isLoaded(): boolean;
+
+    /**
+     *   Play the p5.SoundFile
+     *
+     *   @param [rate] (optional) playback rate
+     *   @param [amp] (optional) amplitude (volume) of 
+     *   playback
+     *   @param [startTime] (optional) startTime in seconds
+     *   @param [endTime] (optional) endTime in seconds
+     */
+    play(rate?: number, amp?: number, startTime?: number, endTime?: number): void;
+
+    /**
+     *   p5.SoundFile has two play modes: restart and 
+     *   sustain. Play Mode determines what happens to a 
+     *   p5.SoundFile if it is triggered while in the 
+     *   middle of playback. In sustain mode, playback will 
+     *   continue simultaneous to the new playback. In 
+     *   restart mode, play() will stop playback and start 
+     *   over. Sustain is the default mode.
+     *
+     *   @param str 'restart' or 'sustain'
+     */
+    playMode(str: string): void;
+
+    /**
+     *   Toggle whether a sound file is playing or paused. 
+     *   Pauses a file that is currently playing. If the 
+     *   file is not playing, then nothing will happen. 
+     *   Resume playback with .play(), will play from the 
+     *   paused position. If p5.SoundFile had been set to 
+     *   loop before it was paused, it will continue to 
+     *   loop after it is unpaused with .play().
+     *
+     */
+    pause(): void;
+
+    /**
+     *   Loop the p5.SoundFile. Accepts optional parameters 
+     *   to set the playback rate, playback volume, 
+     *   loopStart, loopEnd.
+     *
+     *   @param [rate] (optional) playback rate
+     *   @param [amp] (optional) playback volume
+     *   @param [loopStart] (optional) startTime in seconds
+     *   @param [loopEnd] (optional) endTime in seconds
+     */
+    loop(rate?: number, amp?: number, loopStart?: number, loopEnd?: number): void;
+
+    /**
+     *   Returns true if a p5.SoundFile is playing, false 
+     *   if not (i.e. paused or stopped).
+     *
+     */
+    isPlaying(): boolean;
+
+    /**
+     *   Returns true if a p5.SoundFile is paused, false if 
+     *   not (i.e. playing or stopped).
+     *
+     */
+    isPaused(): boolean;
+
+    /**
+     *   Stop soundfile playback.
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Multiply the output volume (amplitude) of a sound 
+     *   file between 0.0 (silence) and 1.0 (full volume). 
+     *   1.0 is the maximum amplitude of a digital sound, 
+     *   so multiplying by greater than 1.0 may cause 
+     *   digital distortion. To fade, provide a rampTime 
+     *   parameter. For more complex fades, see the Env 
+     *   class.
+     *
+     *   @param volume Volume (amplitude) between 0.0 and 
+     *   1.0
+     *   @param [rampTime] Fade for t seconds
+     *   @param [timeFromNow] Schedule this event to happen 
+     *   at t seconds in the future
+     */
+    setVolume(volume: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Set the stereo panning of a p5Sound object to a 
+     *   floating point number between -1.0 (left) and 1.0 
+     *   (right). Default is 0.0 (center).
+     *
+     *   @param [panValue] Set the stereo panner
+     */
+    pan(panValue?: number): void;
+
+    /**
+     *   Set the playback rate of a sound file. Will change 
+     *   the speed and the pitch. Values less than zero 
+     *   will reverse the audio buffer.
+     *
+     *   @param [playbackRate] Set the playback rate. 1.0 
+     *   is normal, .5 is half-speed, 2.0 is twice as fast. 
+     *   Must be greater than zero.
+     */
+    rate(playbackRate?: number): void;
+
+    /**
+     *   Returns the duration of a sound file.
+     *
+     *   @return The duration of the soundFile in seconds.
+     */
+    duration(): number;
+
+    /**
+     *   Return the current position of the p5.SoundFile 
+     *   playhead, in seconds. Note that if you change the 
+     *   playbackRate while the p5.SoundFile is playing, 
+     *   the results may not be accurate.
+     *
+     *   @return currentTime of the soundFile in seconds.
+     */
+    currentTime(): number;
+
+    /**
+     *   Move the playhead of the song to a position, in 
+     *   seconds. Start and Stop time. If none are given, 
+     *   will reset the file to play entire duration from 
+     *   start to finish.
+     *
+     *   @param cueTime cueTime of the soundFile in 
+     *   seconds.
+     *   @param endTime endTime of the soundFile in 
+     *   seconds.
+     */
+    jump(cueTime: number, endTime: number): void;
+
+    /**
+     *   Return the number of channels in a sound file. For 
+     *   example, Mono = 1, Stereo = 2.
+     *
+     *   @return [channels]
+     */
+    channels(): number;
+
+    /**
+     *   Return the sample rate of the sound file.
+     *
+     *   @return [sampleRate]
+     */
+    sampleRate(): number;
+
+    /**
+     *   Return the number of samples in a sound file. 
+     *   Equal to sampleRate * duration.
+     *
+     *   @return [sampleCount]
+     */
+    frames(): number;
+
+    /**
+     *   Returns an array of amplitude peaks in a 
+     *   p5.SoundFile that can be used to draw a static 
+     *   waveform. Scans through the p5.SoundFile's audio 
+     *   buffer to find the greatest amplitudes. Accepts 
+     *   one parameter, 'length', which determines size of 
+     *   the array. Larger arrays result in more precise 
+     *   waveform visualizations. Inspired by 
+     *   Wavesurfer.js.
+     *
+     *   @param [length] length is the size of the returned 
+     *   array. Larger length results in more precision. 
+     *   Defaults to 5*width of the browser window.
+     *   @return Array of peaks.
+     */
+    getPeaks(length?: number): Float32Array;
+
+    /**
+     *   Reverses the p5.SoundFile's buffer source. 
+     *   Playback must be handled separately (see example).
+     *
+     */
+    reverseBuffer(): void;
+
+    /**
+     *   Connects the output of a p5sound object to input 
+     *   of another p5Sound object. For example, you may 
+     *   connect a p5.SoundFile to an FFT or an Effect. If 
+     *   no parameter is given, it will connect to the 
+     *   master output. Most p5sound objects connect to the 
+     *   master output when they are created.
+     *
+     *   @param [object] Audio object that accepts an input
+     */
+    connect(object?: object): void;
+
+    /**
+     *   Disconnects the output of this p5sound object.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Read the Amplitude (volume level) of a 
+     *   p5.SoundFile. The p5.SoundFile class contains its 
+     *   own instance of the Amplitude class to help make 
+     *   it easy to get a microphone's volume level. 
+     *   Accepts an optional smoothing value (0.0 < 1.0).
+     *
+     *   @param [smoothing] Smoothing is 0.0 by default. 
+     *   Smooths values based on previous values.
+     *   @return Volume level (between 0.0 and 1.0)
+     */
+    getLevel(smoothing?: number): number;
+  }
+  class Amplitude {
+    /**
+     *   Amplitude measures volume between 0.0 and 1.0. 
+     *   Listens to all p5sound by default, or use 
+     *   setInput() to listen to a specific sound source. 
+     *   Accepts an optional smoothing value, which 
+     *   defaults to 0.
+     *
+     *   @param [smoothing] between 0.0 and .999 to smooth 
+     *   amplitude readings (defaults to 0)
+     *   @return Amplitude Object
+     */
+    constructor(smoothing?: number);
+
+    /**
+     *   Connects to the p5sound instance (master output) 
+     *   by default. Optionally, you can pass in a specific 
+     *   source (i.e. a soundfile).
+     *
+     *   @param [snd] set the sound source (optional, 
+     *   defaults to master output)
+     *   @param [smoothing] a range between 0.0 and 1.0 to 
+     *   smooth amplitude readings
+     */
+    setInput(snd?: any, smoothing?: number): void;
+
+    /**
+     *   Returns a single Amplitude reading at the moment 
+     *   it is called. For continuous readings, run in the 
+     *   draw loop.
+     *
+     *   @return Amplitude as a number between 0.0 and 1.0
+     */
+    getLevel(): number;
+
+    /**
+     *   Determines whether the results of 
+     *   Amplitude.process() will be Normalized. To 
+     *   normalize, Amplitude finds the difference the 
+     *   loudest reading it has processed and the maximum 
+     *   amplitude of 1.0. Amplitude adds this difference 
+     *   to all values to produce results that will 
+     *   reliably map between 0.0 and 1.0. However, if a 
+     *   louder moment occurs, the amount that Normalize 
+     *   adds to all the values will change. Accepts an 
+     *   optional boolean parameter (true or false). 
+     *   Normalizing is off by default.
+     *
+     *   @param [boolean] set normalize to true (1) or 
+     *   false (0)
+     */
+    toggleNormalize(boolean?: boolean): void;
+
+    /**
+     *   Smooth Amplitude analysis by averaging with the 
+     *   last analysis frame. Off by default.
+     *
+     *   @param set smoothing from 0.0
+     */
+    smooth(set: number): void;
+  }
+  class FFT {
+    /**
+     *   FFT (Fast Fourier Transform) is an analysis 
+     *   algorithm that isolates individual frequencies 
+     *   within a waveform. Once instantiated, a p5.FFT 
+     *   object can return an array based on two types of 
+     *   analyses: 
+     *  
+     *   • FFT.waveform() computes amplitude values along 
+     *   the time domain. The array indices correspond to 
+     *   samples across a brief moment in time. Each value 
+     *   represents amplitude of the waveform at that 
+     *   sample of time.
+     *  
+     *   • FFT.analyze()  computes amplitude values along 
+     *   the frequency domain. The array indices correspond 
+     *   to frequencies (i.e. pitches), from the lowest to 
+     *   the highest that humans can hear. Each value 
+     *   represents amplitude at that slice of the 
+     *   frequency spectrum. Use with getFreq() to measure 
+     *   amplitude at specific frequencies, or within a 
+     *   range of frequencies.  
+     * 
+     *   FFT analyzes a very short snapshot of sound called 
+     *   a sample buffer. It returns an array of amplitude 
+     *   measurements, referred to as bins. The array is 
+     *   1024 bins long by default. You can change the bin 
+     *   array length, but it must be a power of 2 between 
+     *   16 and 1024 in order for the FFT algorithm to 
+     *   function correctly. The actual size of the FFT 
+     *   buffer is twice the number of bins, so given a 
+     *   standard sample rate, the buffer is 2048/44100 
+     *   seconds long.
+     *
+     *   @param [smoothing] Smooth results of Freq 
+     *   Spectrum. 0.0 < smoothing < 1.0. Defaults to 0.8.
+     *   @param [bins] Length of resulting array. Must be a 
+     *   power of two between 16 and 1024. Defaults to 
+     *   1024.
+     *   @return FFT Object
+     */
+    constructor(smoothing?: number, bins?: number);
+
+    /**
+     *   Set the input source for the FFT analysis. If no 
+     *   source is provided, FFT will analyze all sound in 
+     *   the sketch.
+     *
+     *   @param [source] p5.sound object (or web audio API 
+     *   source node)
+     *   @param [bins] Must be a power of two between 16 
+     *   and 1024
+     */
+    setInput(source?: object, bins?: number): void;
+
+    /**
+     *   Returns an array of amplitude values (between 
+     *   0-255) that represent a snapshot of amplitude 
+     *   readings in a single buffer. Length will be equal 
+     *   to bins (defaults to 1024). Can be used to draw 
+     *   the waveform of a sound.
+     *
+     *   @param [bins] Must be a power of two between 16 
+     *   and 1024. Defaults to 1024.
+     *   @return Array Array of amplitude values (0-255) 
+     *   over time. Array length = bins.
+     */
+    waveform(bins?: number): any[];
+
+    /**
+     *   Returns an array of amplitude values (between 0 
+     *   and 255) across the frequency spectrum. Length is 
+     *   equal to FFT bins (1024 by default). The array 
+     *   indices correspond to frequencies (i.e. pitches), 
+     *   from the lowest to the highest that humans can 
+     *   hear. Each value represents amplitude at that 
+     *   slice of the frequency spectrum. Must be called 
+     *   prior to using getFreq().
+     *
+     *   @param [bins] Must be a power of two between 16 
+     *   and 1024. Defaults to 1024.
+     *   @return spectrum Array of amplitude values across 
+     *   the frequency spectrum.
+     */
+    analyze(bins?: number): any[];
+
+    /**
+     *   Returns the amount of energy (volume) at a 
+     *   specific frequency, or the average amount of 
+     *   energy between two given frequencies. NOTE: 
+     *   analyze() must be called prior to getFreq(). 
+     *   Analyze() tells the FFT to analyze frequency data, 
+     *   and getFreq() uses the results determine the value 
+     *   at a specific frequency or range of frequencies.
+     *
+     *   @param frequency1 Will return a value representing 
+     *   energy at this frequency.
+     *   @param [frequency2] If a second frequency is 
+     *   given, will return average amount of energy that 
+     *   exists between the two frequencies.
+     */
+    getFreq(frequency1: number, frequency2?: number): number;
+
+    /**
+     *   Smooth FFT analysis by averaging with the last 
+     *   analysis frame.
+     *
+     *   @param smoothing 0.0 < smoothing < 1.0. Defaults 
+     *   to 0.8.
+     */
+    smooth(smoothing: number): void;
+  }
+  class Oscillator {
+    /**
+     *   Creates a signal that oscillates between -1.0 and 
+     *   1.0. By default, the oscillation takes the form of 
+     *   a sinusoidal shape ('sine'). Additional types 
+     *   include 'triangle', 'sawtooth' and 'square'. The 
+     *   frequency defaults to 440 oscillations per second 
+     *   (440Hz, equal to the pitch of an 'A' note). Set 
+     *   the type of oscillation with setType(), or by 
+     *   creating a specific oscillator. For example: new 
+     *   p5.SinOsc(freq) new p5.TriOsc(freq) new 
+     *   p5.SqrOsc(freq) new p5.SawOsc(freq).
+     *
+     *   @param [freq] frequency defaults to 440Hz
+     *   @param [type] type of oscillator. Options: 'sine' 
+     *   (default), 'triangle', 'sawtooth', 'square'
+     *   @return Oscillator object
+     */
+    constructor(freq?: number, type?: string);
+
+    /**
+     *   Start an oscillator. Accepts an optional parameter 
+     *   to determine how long (in seconds from now) until 
+     *   the oscillator starts.
+     *
+     *   @param [time] startTime in seconds from now.
+     *   @param [frequency] frequency in Hz.
+     */
+    start(time?: number, frequency?: number): void;
+
+    // TODO: Fix stop() errors in lib/addons/p5.sound.js, line 1740:
+    //
+    //   param "time," is not a valid JS symbol name
+    //
+    // stop(time,: number): void;
+
+    /**
+     *   Set amplitude (volume) of an oscillator between 0 
+     *   and 1.0
+     *
+     *   @param vol between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(vol: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Set frequency of an oscillator.
+     *
+     *   @param Frequency Frequency in Hz
+     *   @param [rampTime] Ramp time (in seconds)
+     *   @param [timeFromNow] Schedule this event to happen 
+     *   at x seconds from now
+     */
+    freq(Frequency: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Set type to 'sine', 'triangle', 'sawtooth' or 
+     *   'square'.
+     *
+     *   @param type 'sine', 'triangle', 'sawtooth' or 
+     *   'square'.
+     */
+    setType(type: string): void;
+
+    /**
+     *   Connect to a p5.Sound / Web Audio object.
+     *
+     *   @param unit A p5.Sound or Web Audio object
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all outputs
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Pan between Left (-1) and Right (1)
+     *
+     *   @param panning Number between -1 and 1
+     */
+    pan(panning: number): void;
+
+    /**
+     *   Modulate any audio param.
+     *
+     *   @param AudioParam The param to modulate
+     */
+    mod(AudioParam: AudioParam): void;
+
+    /**
+     *   Set the phase of an oscillator between 0.0 and 1.0
+     *
+     *   @param phase float between 0.0 and 1.0
+     */
+    phase(phase: number): void;
+  }
+  class Pulse {
+    /**
+     *   Creates a Pulse object, an oscillator that 
+     *   implements Pulse Width Modulation. The pulse is 
+     *   created with two oscillators. Accepts a parameter 
+     *   for frequency, and to set the width between the 
+     *   pulses. See Oscillator for a full list of methods.
+     *
+     *   @param [freq] Frequency in oscillations per second 
+     *   (Hz)
+     *   @param [w] Width between the pulses (0 to 1.0, 
+     *   defaults to 0)
+     */
+    constructor(freq?: number, w?: number);
+
+    /**
+     *   Set the width of a Pulse object (an oscillator 
+     *   that implements Pulse Width Modulation).
+     *
+     *   @param [width] Width between the pulses (0 to 1.0, 
+     *   defaults to 0)
+     */
+    width(width?: number): void;
+  }
+  class AudioIn {
+    /**
+     *   Get audio from an input, i.e. your computer's 
+     *   microphone. Turn the mic on/off with the start() 
+     *   and stop() methods. When the mic is on, its volume 
+     *   can be measured with getLevel or by connecting an 
+     *   FFT object. 
+     * 
+     *   If you want to hear the AudioIn, use the 
+     *   .connect() method. AudioIn does not connect to 
+     *   p5.sound output by default to prevent feedback.
+     *
+     *   @return AudioIn
+     */
+    constructor();
+
+    /**
+     *   Start processing audio input. This enables the use 
+     *   of other AudioIn methods like getLevel(). Note 
+     *   that by default, AudioIn is not connected to 
+     *   p5.sound's output. So you won't hear anything 
+     *   unless you use the connect() method.
+     *
+     */
+    start(): void;
+
+    /**
+     *   Turn the AudioIn off. If the AudioIn is stopped, 
+     *   it cannot getLevel().
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Connect to an audio unit. If no parameter is 
+     *   provided, will connect to the master output (i.e. 
+     *   your speakers).
+     *
+     *   @param [unit] An object that accepts audio input, 
+     *   such as an FFT
+     */
+    connect(unit?: object): void;
+
+    /**
+     *   Disconnect the AudioIn from all audio units. For 
+     *   example, if connect() had been called, 
+     *   disconnect() will stop sending signal to your 
+     *   speakers.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Read the Amplitude (volume level) of an AudioIn. 
+     *   The AudioIn class contains its own instance of the 
+     *   Amplitude class to help make it easy to get a 
+     *   microphone's volume level. Accepts an optional 
+     *   smoothing value (0.0 < 1.0). NOTE: AudioIn must 
+     *   .start() before using .getLevel().
+     *
+     *   @param [smoothing] Smoothing is 0.0 by default. 
+     *   Smooths values based on previous values.
+     *   @return Volume level (between 0.0 and 1.0)
+     */
+    getLevel(smoothing?: number): number;
+
+    /**
+     *   Set amplitude (volume) of a mic input between 0 
+     *   and 1.0.
+     *
+     *   @param vol between 0 and 1.0
+     *   @param [time] ramp time (optional)
+     */
+    amp(vol: number, time?: number): void;
+
+    /**
+     *   Returns a list of available input sources. Some 
+     *   browsers give the client the option to set their 
+     *   own media source. Others allow JavaScript to 
+     *   determine which source, and for this we have 
+     *   listSources() and setSource().
+     *
+     */
+    listSources(): any[];
+
+    /**
+     *   Set the input source. Accepts a number 
+     *   representing a position in the array returned by 
+     *   listSources(). This is only available in browsers 
+     *   that support MediaStreamTrack.getSources(). 
+     *   Instead, some browsers give users the option to 
+     *   set their own media source.
+     *
+     *   @param num position of input source in the array
+     */
+    setSource(num: number): void;
+  }
+  class Env {
+    /**
+     *   Envelopes are pre-defined amplitude distribution 
+     *   over time. The p5.Env accepts up to four 
+     *   time/level pairs, where time determines how long 
+     *   of a ramp before value reaches level. Typically, 
+     *   envelopes are used to control the output volume of 
+     *   an object, a series of fades referred to as 
+     *   Attack, Decay, Sustain and Release (ADSR). But 
+     *   p5.Env can control any Web Audio Param.
+     *
+     *   @param attackTime Time (in seconds) before level 
+     *   reaches attackLevel
+     *   @param attackLevel Typically an amplitude between 
+     *   0.0 and 1.0
+     *   @param decayTime Time
+     *   @param [decayLevel] Amplitude (In a standard ADSR 
+     *   envelope, decayLevel = sustainLevel)
+     *   @param [sustainTime] Time
+     *   @param [sustainLevel] Amplitude
+     *   @param [releaseTime] Time
+     *   @param [releaseLevel] Amplitude
+     */
+    constructor(attackTime: number, attackLevel: number, decayTime: number, decayLevel?: number, sustainTime?: number, sustainLevel?: number, releaseTime?: number, releaseLevel?: number);
+    attackTime: any;
+    attackLevel: any;
+    decayTime: any;
+    decayLevel: any;
+    sustainTime: any;
+    sustainLevel: any;
+    releaseTime: any;
+    releaseLevel: any;
+
+    /**
+     *   Play tells the envelope to start acting on a given 
+     *   input. If the input is a p5Sound object (i.e. 
+     *   AudioIn, Oscillator, SoundFile), then Env will 
+     *   control its output volume. Envelopes can also be 
+     *   used to control any Web Audio Param.
+     *
+     *   @param input A p5Sound object or Web Audio Param
+     */
+    play(input: object): void;
+
+    /**
+     *   Trigger the Attack, Decay, and Sustain of the 
+     *   Envelope. Similar to holding down a key on a 
+     *   piano, but it will hold the sustain level until 
+     *   you let go.
+     *
+     *   @param input p5.Sound Object or Web Audio Param
+     */
+    triggerAttack(input: object): void;
+
+    /**
+     *   Trigger the Release of the Envelope. This is 
+     *   similar to release the key on a piano and letting 
+     *   the sound fade according to the release level and 
+     *   release time.
+     *
+     *   @param input p5.Sound Object or Web Audio Param
+     */
+    triggerRelease(input: object): void;
   }
 }
 
