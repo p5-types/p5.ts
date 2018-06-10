@@ -1090,7 +1090,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number, renderer: string): object;
 
-// TODO: Fix blendMode() errors in src/core/rendering.js, line 189:
+// TODO: Fix blendMode() errors in src/core/rendering.js, line 193:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -1605,7 +1605,8 @@ declare var pRotationZ: any;
 
 /**
  *   The setMoveThreshold() function is used to set the 
- *   movement threshold for the deviceMoved() function.
+ *   movement threshold for the deviceMoved() function. 
+ *   The default threshold is set to 0.5.
  *
  *   @param value The threshold value
  */
@@ -1622,8 +1623,9 @@ declare function setShakeThreshold(value: number): void;
 
 /**
  *   The deviceMoved() function is called when the 
- *   devices orientation changes by more than the 
- *   threshold value.
+ *   device is moved by more than the threshold value 
+ *   along X, Y or Z axis. The default threshold is set 
+ *   to 0.5.
  *
  */
 declare function deviceMoved(): void;
@@ -2363,7 +2365,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 512:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 511:
 //
 //   param "w" is defined multiple times
 //
@@ -3679,85 +3681,85 @@ declare function removeElements(): void;
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 169:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 176:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 180:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 194:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 199:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 220:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt?: string, successCallback?: Function): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 237:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 265:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 260:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 295:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 282:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 331:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 302:
+// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 367:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCheckbox(label?: string, value?: boolean): any;
 
-// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 344:
+// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 409:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSelect(multiple?: boolean): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 388:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 453:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 405:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 470:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 497:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 562:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 525:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 590:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 561:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 626:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 657:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 722:
 //
 //   return has invalid type: Object/p5.Element
 //
