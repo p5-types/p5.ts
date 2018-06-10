@@ -10,7 +10,7 @@ updatePixels() src/image/pixels.js, line 435, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 99, param "filename" has invalid type: [String]
 save() src/output/files.js, line 99, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 171, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 294, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 294, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 294, param "x2" has invalid type: Type
@@ -25,8 +25,9 @@ strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Num
 strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: Number/Constant
 beginShape() src/shape/vertex.js, line 79, param "kind" has invalid type: Number/Constant
 endShape() src/shape/vertex.js, line 405, param "mode" has invalid type: Number/Constant
-textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
-textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
+textAlign() src/typography/attributes.js, line 22, param "h" has invalid type: Number/Constant
+textAlign() src/typography/attributes.js, line 22, param "v" has invalid type: Number/Constant
+textStyle() src/typography/attributes.js, line 111, param "s" has invalid type: Number/Constant
 createDiv() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
 createP() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
 createSpan() lib/addons/p5.dom.js, line 144, return has invalid type: Object/p5.Element
@@ -39,7 +40,7 @@ createVideo() lib/addons/p5.dom.js, line 301, return has invalid type: Object/p5
 createAudio() lib/addons/p5.dom.js, line 329, return has invalid type: Object/p5.Element
 createCapture() lib/addons/p5.dom.js, line 365, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 365, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 399, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 416, return has invalid type: Object/p5.Element
 lerp() src/objects/p5.Vector.js, line 517, required param "amt" follows an optional param
 p5.SoundFile() lib/addons/p5.sound.js, line 474, param "path" has invalid type: String/Array
 loadSound() lib/addons/p5.sound.js, line 553, param "path" has invalid type: String/Array
@@ -85,7 +86,7 @@ updatePixels() src/image/pixels.js, line 435, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 99, param "filename" has invalid type: [String]
 save() src/output/files.js, line 99, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 171, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 294, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 294, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 294, param "x2" has invalid type: Type
@@ -100,8 +101,9 @@ strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Num
 strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: Number/Constant
 beginShape() src/shape/vertex.js, line 79, param "kind" has invalid type: Number/Constant
 endShape() src/shape/vertex.js, line 405, param "mode" has invalid type: Number/Constant
-textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
-textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
+textAlign() src/typography/attributes.js, line 22, param "h" has invalid type: Number/Constant
+textAlign() src/typography/attributes.js, line 22, param "v" has invalid type: Number/Constant
+textStyle() src/typography/attributes.js, line 111, param "s" has invalid type: Number/Constant
 createDiv() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
 createP() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
 createSpan() lib/addons/p5.dom.js, line 144, return has invalid type: Object/p5.Element
@@ -114,7 +116,7 @@ createVideo() lib/addons/p5.dom.js, line 301, return has invalid type: Object/p5
 createAudio() lib/addons/p5.dom.js, line 329, return has invalid type: Object/p5.Element
 createCapture() lib/addons/p5.dom.js, line 365, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 365, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 399, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 416, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant

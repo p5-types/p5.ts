@@ -770,7 +770,9 @@ declare function fullscreen(val?: boolean): boolean;
 /**
  *   Toggles pixel scaling for high pixel density 
  *   displays. By default pixel scaling is on, call 
- *   devicePixelScaling(false) to turn it off.
+ *   devicePixelScaling(false) to turn it off. This 
+ *   devicePixelScaling() function must be the first 
+ *   line of code inside setup().
  *
  */
 declare function devicePixelScaling(): void;
@@ -2188,7 +2190,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number): object;
 
-// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 169:
+// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 171:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -2896,9 +2898,10 @@ declare function translate(x: number, y: number): p5;
 
 // TODO: Fix textAlign() errors in src/typography/attributes.js, line 22:
 //
-//   param "a" has invalid type: Number/Constant
+//   param "h" has invalid type: Number/Constant
+//   param "v" has invalid type: Number/Constant
 //
-// declare function textAlign(a: any): void;
+// declare function textAlign(h: any, v: any): void;
 
 /**
  *   Sets the spacing between lines of text in units of 
@@ -2920,7 +2923,7 @@ declare function textLeading(l: number): void;
  */
 declare function textSize(s: number): void;
 
-// TODO: Fix textStyle() errors in src/typography/attributes.js, line 103:
+// TODO: Fix textStyle() errors in src/typography/attributes.js, line 111:
 //
 //   param "s" has invalid type: Number/Constant
 //
@@ -2944,10 +2947,12 @@ declare function textWidth(s: string): void;
  *   font is set with the textFont() function and a 
  *   default size will be used unless a font is set 
  *   with textSize(). Change the color of the text with 
- *   the fill() function. The text displays in relation 
- *   to the textAlign() function, which gives the 
- *   option to draw to the left, right, and center of 
- *   the coordinates. The x2 and y2 parameters define a 
+ *   the fill() function. Change the outline of the 
+ *   text with the stroke() and strokeWeight() 
+ *   functions. The text displays in relation to the 
+ *   textAlign() function, which gives the option to 
+ *   draw to the left, right, and center of the 
+ *   coordinates. The x2 and y2 parameters define a 
  *   rectangular area to display within and may only be 
  *   used with string data. When these parameters are 
  *   specified, they are interpreted based on the 
@@ -3076,7 +3081,7 @@ declare function removeElements(): void;
 //
 // declare function createCapture(type: any): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 399:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 416:
 //
 //   return has invalid type: Object/p5.Element
 //
