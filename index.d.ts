@@ -21,26 +21,27 @@ declare class p5 {
   // src/color/creating_reading.js
 
   /**
-   *   Extracts the alpha value from a color.
+   *   Extracts the alpha value from a color or pixel 
+   *   array.
    *
-   *   @param an array representing a color
+   *   @param obj p5.Color object or pixel array
    */
-  alpha(an: any[]): void;
+  alpha(obj: object): void;
 
   /**
-   *   Extracts the blue value from a color, scaled to 
-   *   match current colorMode().
+   *   Extracts the blue value from a color or a pixel 
+   *   array.
    *
-   *   @param an array representing a color
+   *   @param obj p5.Color object or pixel array
    */
-  blue(an: any[]): void;
+  blue(obj: object): void;
 
   /**
    *   Extracts the brightness value from a color.
    *
-   *   @param an array representing a color
+   *   @param color p5.Color object
    */
-  brightness(an: any[]): void;
+  brightness(color: object): void;
 
   /**
    *   Creates colors for storing in variables of the 
@@ -72,21 +73,21 @@ declare class p5 {
   color(v1: number, v2?: number, v3?: number, alpha?: number): any[];
 
   /**
-   *   Extracts the green value from a color, scaled to 
-   *   match current colorMode().
+   *   Extracts the green value from a color or pixel 
+   *   array.
    *
-   *   @param an array representing a color
+   *   @param color p5.Color object
    */
-  green(an: any[]): void;
+  green(color: object): void;
 
   /**
    *   Extracts the hue value from a color.
    *
-   *   @param an array representing a color
+   *   @param color p5.Color object
    */
-  hue(an: any[]): void;
+  hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 240:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 233:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
@@ -95,19 +96,19 @@ declare class p5 {
   // lerpColor(c1: any, c2: any, amt: number): any;
 
   /**
-   *   Extracts the red value from a color, scaled to 
-   *   match current colorMode().
+   *   Extracts the red value from a color or pixel 
+   *   array.
    *
-   *   @param rgb an array representing a color
+   *   @param obj p5.Color object or pixel array
    */
-  red(rgb: any[]): void;
+  red(obj: object): void;
 
   /**
    *   Extracts the saturation value from a color.
    *
-   *   @param an array representing a color
+   *   @param color p5.Color object
    */
-  saturation(an: any[]): void;
+  saturation(color: object): void;
 
   // src/color/setting.js
 
@@ -122,18 +123,18 @@ declare class p5 {
    *   need only be set once.
    *
    *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color Array
+   *   on the current color mode), or color or p5.Image
    *   @param [v2] green or saturation value (depending 
    *   on the current color mode)
    *   @param [v3] blue or brightness value (depending on 
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  background(v1: number|any[], v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  background(v1: number|Color|p5.Image, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
 
   /**
    *   Clears the pixels within a buffer. This function 
-   *   only works on PGraphics objects created with the 
+   *   only works on p5.Canvas objects created with the 
    *   createCanvas() function; it won't work with the 
    *   main display window. Unlike the main graphics 
    *   context, pixels in additional graphics areas 
@@ -216,12 +217,6 @@ declare class p5 {
    *   @param [a] opacity of the background
    */
   stroke(v1: number|any[], v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
-
-  // TODO: Fix getNormalizedColor() errors in src/color/setting.js, line 247:
-  //
-  //   param "args" has invalid type: Array-like
-  //
-  // getNormalizedColor(args: any): any[];
 
   // src/core/constants.js
 
@@ -820,7 +815,7 @@ declare class p5 {
 
   // src/image/pixels.js
 
-  // TODO: Property "pixels[]", defined in src/image/pixels.js, line 14, is not a valid JS symbol name
+  // TODO: Property "pixels[]", defined in src/image/pixels.js, line 15, is not a valid JS symbol name
 
   /**
    *   Copies a region of pixels from one image to 
@@ -883,13 +878,37 @@ declare class p5 {
    */
   filter(operation: string, value: number|undefined): void;
 
-  // TODO: Fix get() errors in src/image/pixels.js, line 144:
-  //
-  //   required param "w" follows an optional param
-  //   required param "h" follows an optional param
-  //   return has invalid type: Array/Color
-  //
-  // get(x?: number, y?: number, w: number, h: number): any;
+  /**
+   *   Returns an array of [R,G,B,A] values for any pixel 
+   *   or grabs a section of an image. If no parameters 
+   *   are specified, the entire image is returned. Use 
+   *   the x and y parameters to get the value of one 
+   *   pixel. Get a section of the display window by 
+   *   specifying additional w and h parameters. When 
+   *   getting an image, the x and y parameters define 
+   *   the coordinates for the upper-left corner of the 
+   *   image, regardless of the current imageMode(). If 
+   *   the pixel requested is outside of the image 
+   *   window, [0,0,0,255] is returned. To get the 
+   *   numbers scaled according to the current color 
+   *   ranges and taking into account colorMode, use 
+   *   getColor instead of get. Getting the color of a 
+   *   single pixel with get(x, y) is easy, but not as 
+   *   fast as grabbing the data directly from pixels[]. 
+   *   The equivalent statement to get(x, y) using 
+   *   pixels[] is [ pixels[y*width+x], 
+   *   pixels[y*width+x+1], pixels[y*width+x+2], 
+   *   pixels[y*width+3] ]. See the reference for 
+   *   pixels[] for more information.
+   *
+   *   @param [x] x-coordinate of the pixel
+   *   @param [y] y-coordinate of the pixel
+   *   @param [w] width
+   *   @param [h] height
+   *   @return values of pixel at x,y in array format [R, 
+   *   G, B, A] or p5.Image
+   */
+  get(x?: number, y?: number, w?: number, h?: number): any[]|p5.Image;
 
   /**
    *   Loads the pixel data for the display window into 
@@ -903,35 +922,39 @@ declare class p5 {
    *   Changes the color of any pixel, or writes an image 
    *   directly to the display window. The x and y 
    *   parameters specify the pixel to change and the c 
-   *   parameter specifies the color value. The c 
-   *   parameter is interpreted according to the current 
-   *   color mode. (The default color mode is RGB values 
-   *   from 0 to 255.) When setting an image, the x and y 
-   *   parameters define the coordinates for the 
-   *   upper-left corner of the image, regardless of the 
-   *   current imageMode(). Setting the color of a single 
-   *   pixel with set(x, y) is easy, but not as fast as 
-   *   putting the data directly into pixels[]. The 
-   *   equivalent statement to set(x, y, #000000) using 
-   *   pixels[] is pixels[y*width+x] = #000000. See the 
-   *   reference for pixels[] for more information.
+   *   parameter specifies the color value. This can be a 
+   *   p5.COlor object, or [R, G, B, A] pixel array. It 
+   *   can also be a single grayscale value. When setting 
+   *   an image, the x and y parameters define the 
+   *   coordinates for the upper-left corner of the 
+   *   image, regardless of the current imageMode().  
+   * 
+   *   Setting the color of a single pixel with set(x, y) 
+   *   is easy, but not as fast as putting the data 
+   *   directly into pixels[]. The equivalent statement 
+   *   to set(x, y, [100, 50, 10, 255]) using pixels[] 
+   *   is: 
+   * 
+   *   pixels[4*(y*width+x)] = 100; 
+   *   pixels[4*(y*width+x)+1] = 50; 
+   *   pixels[4*(y*width+x)+2] = 10; 
+   *   pixels[4*(y*width+x)+3] = 255; 
+   * 
+   *   See the reference for pixels[] for more 
+   *   information.
    *
    *   @param x x-coordinate of the pixel
    *   @param y y-coordinate of the pixel
-   *   @param insert a grayscale value | a color array | 
-   *   image to copy
+   *   @param c insert a grayscale value | a pixel array 
+   *   | a p5.Color object | a p5.Image to copy
    */
-  set(x: number, y: number, insert: number|any[]|object): void;
+  set(x: number, y: number, c: number|any[]|object): void;
 
-  /**
-   *   Updates the display window with the data in the 
-   *   pixels[] array. Use in conjunction with 
-   *   loadPixels(). If you're only reading pixels from 
-   *   the array, there's no need to call updatePixels() 
-   *   — updating is only necessary to apply changes.
-   *
-   */
-  updatePixels(): void;
+  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 391:
+  //
+  //   param "w" is defined multiple times
+  //
+  // updatePixels(x?: number, y?: number, w?: number, w?: number): void;
 
   // src/input/files.js
 
@@ -1372,12 +1395,12 @@ declare class p5 {
    *   Constrains a value to not exceed a maximum and 
    *   minimum value.
    *
-   *   @param amt number to constrain
+   *   @param n number to constrain
    *   @param low minimum limit
    *   @param high maximum limit
    *   @return constrained number
    */
-  constrain(amt: number, low: number, high: number): number;
+  constrain(n: number, low: number, high: number): number;
 
   /**
    *   Calculates the distance between two points.
@@ -1944,7 +1967,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 260:
+  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 280:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -2675,74 +2698,75 @@ declare class p5 {
   getElements(theClass: string): any[];
 
   /**
-   *   Removes all elements created by p5, except the 
-   *   original canvas. Event handlers are removed, and 
+   *   Removes all elements created by p5, except any 
+   *   canvas / graphics elements created by createCanvas 
+   *   or createGraphics. Event handlers are removed, and 
    *   element is removed from the DOM.
    *
    */
   removeElements(): void;
 
-  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 81:
+  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 82:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createDiv(html: string): any;
 
-  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 92:
+  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 93:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createP(html: string): any;
 
-  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 104:
+  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 105:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSpan(html: string): any;
 
-  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 124:
+  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 125:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createImg(src: string, alt: string): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 147:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 148:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 171:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 172:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 193:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 194:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 214:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 215:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 261:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 262:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 284:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 285:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 315:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 316:
   //
   //   param "type" has invalid type: String/Constant
   //   return has invalid type: Object/p5.Element
@@ -2784,6 +2808,15 @@ declare class p5 {
   // lib/addons/p5.sound.js
 
   /**
+   *   Returns the Audio Context for this sketch. Useful 
+   *   for users who would like to dig deeper into the 
+   *   Web Audio API .
+   *
+   *   @return AudioContext for this sketch
+   */
+  getAudioContext(): object;
+
+  /**
    *   Set the master amplitude (volume) for sound in 
    *   this sketch. Note that values greater than 1.0 may 
    *   lead to digital distortion. 
@@ -2813,26 +2846,22 @@ declare class p5 {
    *   @return samplerate samples per second
    */
   sampleRate(): number;
-
-  /**
-   *   Returns the Audio Context for this sketch. Useful 
-   *   for users who would like to dig deeper into the 
-   *   Web Audio API .
-   *
-   *   @return AudioContext for this sketch
-   */
-  getAudioContext(): object;
-
-  // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 238:
-  //
-  //   param "path" has invalid type: String/Array
-  //   return has invalid type: SoundFile
-  //
-  // loadSound(path: any, callback?: Function): any;
-
 }
 
 declare namespace p5 {
+  // src/objects/p5.Color.js
+
+  class Color {
+    constructor();
+
+    // TODO: Fix getNormalizedColor() errors in src/objects/p5.Color.js, line 30:
+    //
+    //   param "args" has invalid type: Array-like
+    //
+    // getNormalizedColor(args: any): any[];
+
+  }
+
   // src/objects/p5.Element.js
 
   class Element {
@@ -2877,13 +2906,45 @@ declare namespace p5 {
     /**
      *   The .mousePressed() function is called once after 
      *   every time a mouse button is pressed over the 
-     *   element. This can be used to attach an element 
+     *   element. This can be used to attach element 
      *   specific event listeners.
      *
      *   @param fxn function to be fired when mouse is 
      *   pressed over the element.
      */
     mousePressed(fxn: Function): void;
+
+    /**
+     *   The .mouseReleased() function is called once after 
+     *   every time a mouse button is released over the 
+     *   element. This can be used to attach element 
+     *   specific event listeners.
+     *
+     *   @param fxn function to be fired when mouse is 
+     *   released over the element.
+     */
+    mouseReleased(fxn: Function): void;
+
+    /**
+     *   The .mouseClicked() function is called once after 
+     *   a mouse button is pressed and released over the 
+     *   element. This can be used to attach element 
+     *   specific event listeners.
+     *
+     *   @param fxn function to be fired when mouse is 
+     *   clicked over the element.
+     */
+    mouseClicked(fxn: Function): void;
+
+    /**
+     *   The .mouseMoved() function is called once every 
+     *   time a mouse moves over the element. This can be 
+     *   used to attach an element specific event listener.
+     *
+     *   @param fxn function to be fired when mouse is 
+     *   moved over the element.
+     */
+    mouseMoved(fxn: Function): void;
 
     /**
      *   The .mouseOver() function is called once after 
@@ -2906,16 +2967,6 @@ declare namespace p5 {
      *   moved off the element.
      */
     mouseOut(fxn: Function): void;
-
-    /**
-     *   The .mouseMoved() function is called once every 
-     *   time a mouse moves over the element. This can be 
-     *   used to attach an element specific event listener.
-     *
-     *   @param fxn function to be fired when mouse is 
-     *   moved over the element.
-     */
-    mouseMoved(fxn: Function): void;
 
     // lib/addons/p5.dom.js
 
@@ -3106,15 +3157,14 @@ declare namespace p5 {
      *   into this p5.Image. Note that for a large number 
      *   of pixels this will be slower than directly 
      *   manipulating the pixels array and then calling 
-     *   updatePixels() TODO: Should me make the update 
-     *   operation toggleable?
+     *   updatePixels()
      *
      *   @param x x-coordinate of the pixel
      *   @param y y-coordinate of the pixel
-     *   @param insert a grayscale value | a color array | 
-     *   image to copy
+     *   @param a grayscale value | pixel array | a 
+     *   p5.Color | image to copy
      */
-    set(x: number, y: number, insert: number|any[]|object): void;
+    set(x: number, y: number, a: number|any[]|object): void;
 
     /**
      *   Resize the image to a new width and height. To 
@@ -3204,7 +3254,7 @@ declare namespace p5 {
      */
     blend(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: number): void;
 
-    // TODO: Fix save() errors in src/objects/p5.Image.js, line 293:
+    // TODO: Fix save() errors in src/objects/p5.Image.js, line 290:
     //
     //   param "extension
 
@@ -3425,7 +3475,7 @@ TODO:: any): void;
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 341:
+    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 371:
     //
     //   required param "amt" follows an optional param
     //
