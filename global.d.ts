@@ -1,4 +1,4 @@
-// Type definitions for p5 0.0
+// Type definitions for p5 0.5
 // Project: https://github.com/processing/p5.js
 // Definitions by: p5-types <https://github.com/p5-types>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -115,7 +115,7 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 335:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 380:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number
@@ -647,13 +647,13 @@ declare function rectMode(mode: RECT_MODE): p5;
  */
 declare function smooth(): p5;
 
-// TODO: Fix strokeCap() errors in src/core/attributes.js, line 185:
+// TODO: Fix strokeCap() errors in src/core/attributes.js, line 203:
 //
 //   param "cap" has invalid type: Number/Constant
 //
 // declare function strokeCap(cap: any): p5;
 
-// TODO: Fix strokeJoin() errors in src/core/attributes.js, line 215:
+// TODO: Fix strokeJoin() errors in src/core/attributes.js, line 237:
 //
 //   param "join" has invalid type: Number/Constant
 //
@@ -997,13 +997,13 @@ declare function curveTangent(a: number, b: number, c: number, d: number, t: num
 // src/core/environment.js
 
 /**
- *   The println() function writes to the console area 
- *   of your browser. This function is often helpful 
- *   for looking at the data a program is producing. 
- *   This function creates a new line of text for each 
- *   call to the function. Individual elements can be 
+ *   The print() function writes to the console area of 
+ *   your browser. This function is often helpful for 
+ *   looking at the data a program is producing. This 
+ *   function creates a new line of text for each call 
+ *   to the function. Individual elements can be 
  *   separated with quotes ("") and joined with the 
- *   addition operator (+).  While println() is similar 
+ *   addition operator (+).  While print() is similar 
  *   to console.log(), it does not directly map to it 
  *   in order to simulate easier to understand behavior 
  *   than console.log(). Due to this, it is slower. For 
@@ -1012,7 +1012,7 @@ declare function curveTangent(a: number, b: number, c: number, d: number, t: num
  *   @param contents any combination of Number, String, 
  *   Object, Boolean, Array to print
  */
-declare function println(contents: any): void;
+declare function print(contents: any): void;
 
 /**
  *   The system variable frameCount contains the number 
@@ -1032,7 +1032,7 @@ declare var frameCount: any;
  */
 declare var focused: any;
 
-// TODO: Fix cursor() errors in src/core/environment.js, line 114:
+// TODO: Fix cursor() errors in src/core/environment.js, line 129:
 //
 //   param "type" has invalid type: Number/Constant
 //
@@ -1472,19 +1472,19 @@ declare function rotate(angle: number): void;
  */
 declare function rotate(rad: number, axis: p5.Vector|any[]): void;
 
-// TODO: Fix rotateX() errors in src/core/transform.js, line 125:
+// TODO: Fix rotateX() errors in src/core/transform.js, line 137:
 //
 //   return has invalid type: [type]
 //
 // declare function rotateX(rad: number): any;
 
-// TODO: Fix rotateY() errors in src/core/transform.js, line 151:
+// TODO: Fix rotateY() errors in src/core/transform.js, line 163:
 //
 //   return has invalid type: [type]
 //
 // declare function rotateY(rad: number): any;
 
-// TODO: Fix rotateZ() errors in src/core/transform.js, line 177:
+// TODO: Fix rotateZ() errors in src/core/transform.js, line 189:
 //
 //   return has invalid type: [type]
 //
@@ -2273,7 +2273,41 @@ declare var ptouchX: any;
  */
 declare var ptouchY: any;
 
-// TODO: Property "touches[]", defined in src/events/touch.js, line 92, is not a valid JS symbol name
+/**
+ *   The system variable winTouchX always contains the 
+ *   horizontal position of one finger, relative to (0, 
+ *   0) of the window.
+ *
+ */
+declare var winTouchX: any;
+
+/**
+ *   The system variable winTouchY always contains the 
+ *   vertical position of one finger, relative to (0, 
+ *   0) of the window.
+ *
+ */
+declare var winTouchY: any;
+
+/**
+ *   The system variable pwinTouchX always contains the 
+ *   horizontal position of one finger, relative to (0, 
+ *   0) of the window, in the frame previous to the 
+ *   current frame.
+ *
+ */
+declare var pwinTouchX: any;
+
+/**
+ *   The system variable pwinTouchY always contains the 
+ *   vertical position of one finger, relative to (0, 
+ *   0) of the window, in the frame previous to the 
+ *   current frame.
+ *
+ */
+declare var pwinTouchY: any;
+
+// TODO: Property "touches[]", defined in src/events/touch.js, line 134, is not a valid JS symbol name
 
 /**
  *   The boolean system variable touchIsDown is true if 
@@ -2351,7 +2385,7 @@ declare function touchEnded(): void;
  */
 declare function createImage(width: number, height: number): p5.Image;
 
-// TODO: Fix saveCanvas() errors in src/image/image.js, line 97:
+// TODO: Fix saveCanvas() errors in src/image/image.js, line 103:
 //
 //   param "canvas" has invalid type: [selectedCanvas]
 //   param "filename" has invalid type: [String]
@@ -2695,7 +2729,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 521:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 564:
 //
 //   param "w" is defined multiple times
 //
@@ -2901,7 +2935,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  */
 declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 995:
+// TODO: Fix save() errors in src/io/files.js, line 1016:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -2981,7 +3015,7 @@ declare function ceil(n: number): number;
  */
 declare function constrain(n: number, low: number, high: number): number;
 
-// TODO: Fix dist() errors in src/math/calculation.js, line 108:
+// TODO: Fix dist() errors in src/math/calculation.js, line 120:
 //
 //   required param "x2" follows an optional param
 //   required param "y2" follows an optional param
@@ -3512,7 +3546,7 @@ declare function textLeading(leading: number): object|number;
  */
 declare function textSize(theSize: number): object|number;
 
-// TODO: Fix textStyle() errors in src/typography/attributes.js, line 103:
+// TODO: Fix textStyle() errors in src/typography/attributes.js, line 115:
 //
 //   param "theStyle" has invalid type: Number/Constant
 //
@@ -3569,7 +3603,8 @@ declare function text(str: string, x: number, y: number, x2: number, y2: number)
  *   text() function.
  *
  *   @param f a font loaded via loadFont(), or a String 
- *   representing a browser-based default font.
+ *   representing a web safe font (a font that is 
+ *   generally available across all systems).
  *   @return this
  */
 declare function textFont(f: object|string): object;
@@ -4110,13 +4145,13 @@ declare function ortho(left: number, right: number, bottom: number, top: number,
  */
 declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
 
-// TODO: Fix directionalLight() errors in src/webgl/light.js, line 68:
+// TODO: Fix directionalLight() errors in src/webgl/light.js, line 72:
 //
 //   required param "x" follows an optional param
 //
 // declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
-// TODO: Fix pointLight() errors in src/webgl/light.js, line 192:
+// TODO: Fix pointLight() errors in src/webgl/light.js, line 200:
 //
 //   required param "x" follows an optional param
 //
@@ -4130,7 +4165,7 @@ declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?
 //
 // declare function loadModel(path: string, normalize?: boolean, successCallback?: (p1: any) => any, failureCallback?: (p1: Event) => any): any;
 
-// TODO: Fix model() errors in src/webgl/loading.js, line 187:
+// TODO: Fix model() errors in src/webgl/loading.js, line 191:
 //
 //   param "model" has invalid type: p5.Geometry
 //
@@ -4373,61 +4408,62 @@ declare function removeElements(): void;
 //
 // declare function createSlider(min: number, max: number, value?: number, step?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 420:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 424:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 456:
+// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 460:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCheckbox(label?: string, value?: boolean): any;
 
-// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 521:
+// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 525:
 //
+//   param "multiple] [true if dropdown should support multiple selections" is not a valid JS symbol name
 //   return has invalid type: Object/p5.Element
 //
-// declare function createSelect(multiple?: boolean): any;
+// declare function createSelect(multiple] [true if dropdown should support multiple selections?: boolean): any;
 
-// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 586:
+// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 590:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createRadio(divId?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 712:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 716:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 741:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 745:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 841:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 845:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 869:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 873:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 905:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 909:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1005:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1009:
 //
 //   return has invalid type: Object/p5.Element
 //
@@ -4484,7 +4520,15 @@ declare function getMasterVolume(): number;
  */
 declare function masterVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 376, is not a valid JS symbol name
+/**
+ *   p5.soundOut is the p5.sound master output. It 
+ *   sends output to the destination of this window's 
+ *   web audio context. It contains Web Audio API nodes 
+ *   including a dyanmicsCompressor (.limiter), and 
+ *   Gain Nodes for .input and .output.
+ *
+ */
+declare var soundOut: any;
 
 /**
  *   Returns a number representing the sample rate, in 
