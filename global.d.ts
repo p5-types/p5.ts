@@ -58,7 +58,7 @@ declare function brightness(color: object): void;
  *   @param gray number specifying value between white 
  *   and black.
  *   @param [alpha] alpha value relative to current 
- *   color range (default is 0-100)
+ *   color range (default is 0-255)
  */
 declare function color(gray: number|string, alpha?: number): void;
 
@@ -88,7 +88,7 @@ declare function color(gray: number|string, alpha?: number): void;
  *   @param v3 blue or brightness value relative to the 
  *   current color range
  *   @param [alpha] alpha value relative to current 
- *   color range (default is 0-100)
+ *   color range (default is 0-255)
  */
 declare function color(v1: number|string, v2: number, v3: number, alpha?: number): void;
 
@@ -385,8 +385,9 @@ declare function arc(a: number, b: number, c: number, d: number, start: number, 
  *   location, and the third and fourth parameters set 
  *   the shape's width and height. If no height is 
  *   specified, the value of width is used for both the 
- *   width and height. The origin may be changed with 
- *   the ellipseMode() function.
+ *   width and height. If a negative height or width is 
+ *   specified, the absolute value is taken. The origin 
+ *   may be changed with the ellipseMode() function.
  *
  *   @param x x-coordinate of the ellipse.
  *   @param y y-coordinate of the ellipse.
@@ -402,8 +403,9 @@ declare function ellipse(x: number, y: number, w: number, h?: number): void;
  *   location, and the third and fourth parameters set 
  *   the shape's width and height. If no height is 
  *   specified, the value of width is used for both the 
- *   width and height. The origin may be changed with 
- *   the ellipseMode() function.
+ *   width and height. If a negative height or width is 
+ *   specified, the absolute value is taken. The origin 
+ *   may be changed with the ellipseMode() function.
  *
  *   @param x x-coordinate of the ellipse.
  *   @param y y-coordinate of the ellipse.
@@ -1102,7 +1104,7 @@ declare var windowHeight: any;
  *   The windowResized() function is called once every 
  *   time the browser window is resized. This is a good 
  *   place to resize the canvas or do any other 
- *   adjustements to accomodate the new window size.
+ *   adjustments to accommodate the new window size.
  *
  */
 declare function windowResized(): void;
@@ -1478,13 +1480,13 @@ declare function rotate(rad: number, axis: p5.Vector|any[]): void;
 //
 // declare function rotateX(rad: number): any;
 
-// TODO: Fix rotateY() errors in src/core/transform.js, line 163:
+// TODO: Fix rotateY() errors in src/core/transform.js, line 152:
 //
 //   return has invalid type: [type]
 //
 // declare function rotateY(rad: number): any;
 
-// TODO: Fix rotateZ() errors in src/core/transform.js, line 189:
+// TODO: Fix rotateZ() errors in src/core/transform.js, line 167:
 //
 //   return has invalid type: [type]
 //
@@ -1971,7 +1973,10 @@ declare var key: any;
  *   The variable keyCode is used to detect special 
  *   keys such as BACKSPACE, DELETE, ENTER, RETURN, 
  *   TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, 
- *   UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW.
+ *   UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW. You 
+ *   can also check for custom keys by looking up the 
+ *   keyCode of any key on a site like this: 
+ *   keycode.info.
  *
  */
 declare var keyCode: any;
@@ -2061,7 +2066,9 @@ declare function keyIsDown(code: number): boolean;
 /**
  *   The system variable mouseX always contains the 
  *   current horizontal position of the mouse, relative 
- *   to (0, 0) of the canvas.
+ *   to (0, 0) of the canvas. If touch is used instead 
+ *   of mouse input, mouseX will hold the x value of 
+ *   the most recent touch point.
  *
  */
 declare var mouseX: any;
@@ -2069,25 +2076,27 @@ declare var mouseX: any;
 /**
  *   The system variable mouseY always contains the 
  *   current vertical position of the mouse, relative 
- *   to (0, 0) of the canvas.
+ *   to (0, 0) of the canvas. If touch is used instead 
+ *   of mouse input, mouseY will hold the y value of 
+ *   the most recent touch point.
  *
  */
 declare var mouseY: any;
 
 /**
  *   The system variable pmouseX always contains the 
- *   horizontal position of the mouse in the frame 
- *   previous to the current frame, relative to (0, 0) 
- *   of the canvas.
+ *   horizontal position of the mouse or finger in the 
+ *   frame previous to the current frame, relative to 
+ *   (0, 0) of the canvas.
  *
  */
 declare var pmouseX: any;
 
 /**
  *   The system variable pmouseY always contains the 
- *   vertical position of the mouse in the frame 
- *   previous to the current frame, relative to (0, 0) 
- *   of the canvas.
+ *   vertical position of the mouse or finger in the 
+ *   frame previous to the current frame, relative to 
+ *   (0, 0) of the canvas.
  *
  */
 declare var pmouseY: any;
@@ -2235,86 +2244,7 @@ declare function mouseWheel(): void;
 
 // src/events/touch.js
 
-/**
- *   The system variable touchX always contains the 
- *   horizontal position of one finger, relative to (0, 
- *   0) of the canvas. This is best used for single 
- *   touch interactions. For multi-touch interactions, 
- *   use the touches[] array.
- *
- */
-declare function touchX(): void;
-
-/**
- *   The system variable touchY always contains the 
- *   vertical position of one finger, relative to (0, 
- *   0) of the canvas. This is best used for single 
- *   touch interactions. For multi-touch interactions, 
- *   use the touches[] array.
- *
- */
-declare function touchY(): void;
-
-/**
- *   The system variable ptouchX always contains the 
- *   horizontal position of one finger, relative to (0, 
- *   0) of the canvas, in the frame previous to the 
- *   current frame.
- *
- */
-declare var ptouchX: any;
-
-/**
- *   The system variable ptouchY always contains the 
- *   vertical position of one finger, relative to (0, 
- *   0) of the canvas, in the frame previous to the 
- *   current frame.
- *
- */
-declare var ptouchY: any;
-
-/**
- *   The system variable winTouchX always contains the 
- *   horizontal position of one finger, relative to (0, 
- *   0) of the window.
- *
- */
-declare var winTouchX: any;
-
-/**
- *   The system variable winTouchY always contains the 
- *   vertical position of one finger, relative to (0, 
- *   0) of the window.
- *
- */
-declare var winTouchY: any;
-
-/**
- *   The system variable pwinTouchX always contains the 
- *   horizontal position of one finger, relative to (0, 
- *   0) of the window, in the frame previous to the 
- *   current frame.
- *
- */
-declare var pwinTouchX: any;
-
-/**
- *   The system variable pwinTouchY always contains the 
- *   vertical position of one finger, relative to (0, 
- *   0) of the window, in the frame previous to the 
- *   current frame.
- *
- */
-declare var pwinTouchY: any;
-
-// TODO: Property "touches[]", defined in src/events/touch.js, line 134, is not a valid JS symbol name
-
-/**
- *   The boolean system variable touchIsDown is true if 
- *   the screen is touched and false if not.
- *
- */
-declare var touchIsDown: any;
+// TODO: Property "touches[]", defined in src/events/touch.js, line 12, is not a valid JS symbol name
 
 /**
  *   The touchStarted() function is called once after 
@@ -2451,32 +2381,44 @@ declare function loadImage(path: string, successCallback?: (p1: p5.Image) => any
  *   sketch
  *
  *   @param img the image to display
- *   @param [sx] The X coordinate of the top left 
- *   corner of the sub-rectangle of the source image to 
- *   draw into the destination canvas.
- *   @param [sy] The Y coordinate of the top left 
- *   corner of the sub-rectangle of the source image to 
- *   draw into the destination canvas.
- *   @param [sWidth] The width of the sub-rectangle of 
- *   the source image to draw into the destination 
- *   canvas.
- *   @param [sHeight] The height of the sub-rectangle 
- *   of the source image to draw into the destination 
- *   context.
- *   @param [dx] The X coordinate in the destination 
- *   canvas at which to place the top-left corner of 
- *   the source image.
- *   @param [dy] The Y coordinate in the destination 
- *   canvas at which to place the top-left corner of 
- *   the source image.
- *   @param [dWidth] The width to draw the image in the 
- *   destination canvas. This allows scaling of the 
- *   drawn image.
- *   @param [dHeight] The height to draw the image in 
- *   the destination canvas. This allows scaling of the 
- *   drawn image.
+ *   @param x the x-coordinate at which to place the 
+ *   top-left corner of the source image
+ *   @param y the y-coordinate at which to place the 
+ *   top-left corner of the source image
+ *   @param width the width to draw the image
+ *   @param height the height to draw the image
  */
-declare function image(img: p5.Image, sx?: number, sy?: number, sWidth?: number, sHeight?: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number): void;
+declare function image(img: p5.Image, x: number, y: number, width: number, height: number): void;
+
+/**
+ *   Draw an image to the main canvas of the p5js 
+ *   sketch
+ *
+ *   @param img the image to display
+ *   @param dx the -xcoordinate in the destination 
+ *   canvas at which to place the top-left corner of 
+ *   the source image
+ *   @param dy the y-coordinate in the destination 
+ *   canvas at which to place the top-left corner of 
+ *   the source image
+ *   @param dWidth the width to draw the image in the 
+ *   destination canvas
+ *   @param dHeight the height to draw the image in the 
+ *   destination canvas
+ *   @param sx the x-coordinate of the top left corner 
+ *   of the sub-rectangle of the source image to draw 
+ *   into the destination canvas
+ *   @param sy the y-coordinate of the top left corner 
+ *   of the sub-rectangle of the source image to draw 
+ *   into the destination canvas
+ *   @param [sWidth] the width of the sub-rectangle of 
+ *   the source image to draw into the destination 
+ *   canvas
+ *   @param [sHeight] the height of the sub-rectangle 
+ *   of the source image to draw into the destination 
+ *   context
+ */
+declare function image(img: p5.Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
 
 /**
  *   Sets the fill value for displaying images. Images 
@@ -3722,7 +3664,9 @@ declare function subset(list: any[], start: number, count?: number): any[];
  *   representation. The contents of a string must 
  *   resemble a number, or NaN (not a number) will be 
  *   returned. For example, float("1234.56") evaluates 
- *   to 1234.56, but float("giraffe") will return NaN.
+ *   to 1234.56, but float("giraffe") will return NaN. 
+ *   When an array of values is passed in, then an 
+ *   array of floats of the same length is returned.
  *
  *   @param str float string to parse
  *   @return floating point representation of string
@@ -4151,7 +4095,7 @@ declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?
 //
 // declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
-// TODO: Fix pointLight() errors in src/webgl/light.js, line 200:
+// TODO: Fix pointLight() errors in src/webgl/light.js, line 166:
 //
 //   required param "x" follows an optional param
 //
@@ -4290,7 +4234,7 @@ declare function cylinder(radius: number, height: number, detailX?: number, deta
 declare function cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
 
 /**
- *   Draw an ellipsoid with given raduis
+ *   Draw an ellipsoid with given radius
  *
  *   @param radiusx xradius of circle
  *   @param radiusy yradius of circle
@@ -4372,98 +4316,98 @@ declare function selectAll(name: string, container?: string): any[];
  */
 declare function removeElements(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 232:
+// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 233:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 249:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 250:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 267:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 268:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 293:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 294:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt?: string, successCallback?: Function): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 338:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 339:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 368:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 369:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number, step?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 424:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 425:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 460:
+// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 461:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCheckbox(label?: string, value?: boolean): any;
 
-// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 525:
+// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 526:
 //
 //   param "multiple] [true if dropdown should support multiple selections" is not a valid JS symbol name
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSelect(multiple] [true if dropdown should support multiple selections?: boolean): any;
 
-// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 590:
+// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 591:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createRadio(divId?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 716:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 717:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 745:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 746:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 845:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 846:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 873:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 874:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 909:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 910:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1009:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1015:
 //
 //   return has invalid type: Object/p5.Element
 //
