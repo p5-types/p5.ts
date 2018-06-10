@@ -10,225 +10,6 @@
 
 // Properties from p5
 
-// src/3d/camera.js
-
-/**
- *   Sets camera position
- *
- *   @param x camera postion value on x axis
- *   @param y camera postion value on y axis
- *   @param z camera postion value on z axis
- *   @return the p5 object
- */
-declare function camera(x: number, y: number, z: number): p5;
-
-/**
- *   Sets perspective camera
- *
- *   @param fovy camera frustum vertical field of view, 
- *   from bottom to top of view, in degrees
- *   @param aspect camera frustum aspect ratio
- *   @param near frustum near plane length
- *   @param far frustum far plane length
- *   @return the p5 object
- */
-declare function perspective(fovy: number, aspect: number, near: number, far: number): p5;
-
-/**
- *   Setup ortho camera
- *
- *   @param left camera frustum left plane
- *   @param right camera frustum right plane
- *   @param bottom camera frustum bottom plane
- *   @param top camera frustum top plane
- *   @param near camera frustum near plane
- *   @param far camera frustum far plane
- *   @return the p5 object
- */
-declare function ortho(left: number, right: number, bottom: number, top: number, near: number, far: number): p5;
-
-// src/3d/light.js
-
-/**
- *   Creates an ambient light with a color
- *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array, or CSS 
- *   color string
- *   @param [v2] optional: green or saturation value
- *   @param [v3] optional: blue or brightness value
- *   @param [a] optional: opacity
- *   @return the p5 object
- */
-declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
-
-// TODO: Fix directionalLight() errors in src/3d/light.js, line 68:
-//
-//   required param "x" follows an optional param
-//
-// declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
-
-// TODO: Fix pointLight() errors in src/3d/light.js, line 188:
-//
-//   required param "x" follows an optional param
-//
-// declare function pointLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
-
-// src/3d/loading.js
-
-// TODO: Fix loadModel() errors in src/3d/loading.js, line 14:
-//
-//   return has invalid type: p5.Geometry
-//
-// declare function loadModel(path: string): any;
-
-// TODO: Fix model() errors in src/3d/loading.js, line 151:
-//
-//   param "model" has invalid type: p5.Geometry
-//
-// declare function model(model: any): void;
-
-// src/3d/material.js
-
-/**
- *   Normal material for geometry
- *
- *   @return the p5 object
- */
-declare function normalMaterial(): p5;
-
-/**
- *   Texture for geometry
- *
- *   @return the p5 object
- */
-declare function texture(): p5;
-
-/**
- *   Ambient material for geometry with a given color
- *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array, or CSS 
- *   color string
- *   @param [v2] optional: green or saturation value
- *   @param [v3] optional: blue or brightness value
- *   @param [a] optional: opacity
- *   @return the p5 object
- */
-declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
-
-/**
- *   Specular material for geometry with a given color
- *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array, or CSS 
- *   color string
- *   @param [v2] optional: green or saturation value
- *   @param [v3] optional: blue or brightness value
- *   @param [a] optional: opacity
- *   @return the p5 object
- */
-declare function specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
-
-// src/3d/primitives.js
-
-/**
- *   Draw a plane with given a width and height
- *
- *   @param width width of the plane
- *   @param height height of the plane
- *   @param [detailX] Optional number of triangle 
- *   subdivisions in x-dimension
- *   @param [detailY] Optional number of triangle 
- *   subdivisions in y-dimension
- *   @return the p5 object
- */
-declare function plane(width: number, height: number, detailX?: number, detailY?: number): p5;
-
-/**
- *   Draw a box with given width, height and depth
- *
- *   @param width width of the box
- *   @param Height height of the box
- *   @param depth depth of the box
- *   @param [detailX] Optional number of triangle 
- *   subdivisions in x-dimension
- *   @param [detailY] Optional number of triangle 
- *   subdivisions in y-dimension
- *   @return the p5 object
- */
-declare function box(width: number, Height: number, depth: number, detailX?: number, detailY?: number): p5;
-
-/**
- *   Draw a sphere with given radius
- *
- *   @param radius radius of circle
- *   @param [detailX] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @param [detailY] optional: number of segments, the 
- *   more segments the smoother geometry default is 16
- *   @return the p5 object
- */
-declare function sphere(radius: number, detailX?: number, detailY?: number): p5;
-
-/**
- *   Draw a cylinder with given radius and height
- *
- *   @param radius radius of the surface
- *   @param height height of the cylinder
- *   @param [detailX] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @param [detailY] optional: number of segments in 
- *   y-dimension, the more segments the smoother 
- *   geometry default is 16
- *   @return the p5 object
- */
-declare function cylinder(radius: number, height: number, detailX?: number, detailY?: number): p5;
-
-/**
- *   Draw a cone with given radius and height
- *
- *   @param radius radius of the bottom surface
- *   @param height height of the cone
- *   @param [detailX] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @param [detailY] optional: number of segments, the 
- *   more segments the smoother geometry default is 16
- *   @return the p5 object
- */
-declare function cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
-
-/**
- *   Draw an ellipsoid with given raduis
- *
- *   @param radiusx xradius of circle
- *   @param radiusy yradius of circle
- *   @param radiusz zradius of circle
- *   @param [detail] number of segments, the more 
- *   segments the smoother geometry default is 24. 
- *   Avoid detail number above 
- * 
- *  
- *   150. It may crash the browser.
- *   @return the p5 object
- */
-declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, detail?: number): p5;
-
-/**
- *   Draw a torus with given radius and tube radius
- *
- *   @param radius radius of the whole ring
- *   @param tubeRadius radius of the tube
- *   @param [detailX] optional: number of segments in 
- *   x-dimension, the more segments the smoother 
- *   geometry default is 24
- *   @param [detailY] optional: number of segments in 
- *   y-dimension, the more segments the smoother 
- *   geometry default is 16
- *   @return the p5 object
- */
-declare function torus(radius: number, tubeRadius: number, detailX?: number, detailY?: number): p5;
-
 // src/color/creating_reading.js
 
 /**
@@ -597,31 +378,35 @@ declare function arc(a: number, b: number, c: number, d: number, start: number, 
  *   with equal width and height is a circle. By 
  *   default, the first two parameters set the 
  *   location, and the third and fourth parameters set 
- *   the shape's width and height. The origin may be 
- *   changed with the ellipseMode() function.
+ *   the shape's width and height. If no height is 
+ *   specified, the value of width is used for both the 
+ *   width and height. The origin may be changed with 
+ *   the ellipseMode() function.
  *
  *   @param x x-coordinate of the ellipse.
  *   @param y y-coordinate of the ellipse.
  *   @param w width of the ellipse.
- *   @param h height of the ellipse.
+ *   @param [h] height of the ellipse.
  */
-declare function ellipse(x: number, y: number, w: number, h: number): void;
+declare function ellipse(x: number, y: number, w: number, h?: number): void;
 
 /**
  *   Draws an ellipse (oval) to the screen. An ellipse 
  *   with equal width and height is a circle. By 
  *   default, the first two parameters set the 
  *   location, and the third and fourth parameters set 
- *   the shape's width and height. The origin may be 
- *   changed with the ellipseMode() function.
+ *   the shape's width and height. If no height is 
+ *   specified, the value of width is used for both the 
+ *   width and height. The origin may be changed with 
+ *   the ellipseMode() function.
  *
  *   @param x x-coordinate of the ellipse.
  *   @param y y-coordinate of the ellipse.
  *   @param z z-coordinate of the ellipse
  *   @param w width of the ellipse.
- *   @param h height of the ellipse.
+ *   @param [h] height of the ellipse.
  */
-declare function ellipse(x: number, y: number, z: number, w: number, h: number): void;
+declare function ellipse(x: number, y: number, z: number, w: number, h?: number): void;
 
 /**
  *   Draws a line (a direct path between two points) to 
@@ -683,12 +468,20 @@ declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number
  *   pairs should proceed clockwise or 
  *   counter-clockwise around the defined shape.
  *
+ *   @param x1 the x-coordinate of the first point
+ *   @param y1 the y-coordinate of the first point
  *   @param z1 the z-coordinate of the first point
+ *   @param x2 the x-coordinate of the second point
+ *   @param y2 the y-coordinate of the second point
  *   @param z2 the z-coordinate of the second point
+ *   @param x3 the x-coordinate of the third point
+ *   @param y3 the y-coordinate of the third point
  *   @param z3 the z-coordinate of the third point
+ *   @param x4 the x-coordinate of the fourth point
+ *   @param y4 the y-coordinate of the fourth point
  *   @param z4 the z-coordinate of the fourth point
  */
-declare function quad(z1: number, z2: number, z3: number, z4: number): void;
+declare function quad(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, x3: number, y3: number, z3: number, x4: number, y4: number, z4: number): void;
 
 /**
  *   Draws a rectangle to the screen. A rectangle is a 
@@ -732,9 +525,18 @@ declare function rect(x: number, y: number, w: number, h: number, tl?: number, t
  *   parameter is set to the value of the previously 
  *   specified radius value in the parameter list.
  *
+ *   @param x x-coordinate of the rectangle.
+ *   @param y y-coordinate of the rectangle.
  *   @param z z-coordinate of the rectangle.
+ *   @param w width of the rectangle.
+ *   @param h height of the rectangle.
+ *   @param [tl] optional radius of top-left corner.
+ *   @param [tr] optional radius of top-right corner.
+ *   @param [br] optional radius of bottom-right 
+ *   corner.
+ *   @param [bl] optional radius of bottom-left corner.
  */
-declare function rect(z: number): void;
+declare function rect(x: number, y: number, z: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): void;
 
 /**
  *   A triangle is a plane created by connecting three 
@@ -1546,9 +1348,51 @@ declare function resetMatrix(): p5;
  *
  *   @param angle the angle of rotation, specified in 
  *   radians or degrees, depending on current angleMode
- *   @return the p5 object
  */
-declare function rotate(angle: number): p5;
+declare function rotate(angle: number): void;
+
+/**
+ *   Rotates a shape the amount specified by the angle 
+ *   parameter. This function accounts for angleMode, 
+ *   so angles can be entered in either RADIANS or 
+ *   DEGREES.  Objects are always rotated around their 
+ *   relative position to the origin and positive 
+ *   numbers rotate objects in a clockwise direction. 
+ *   Transformations apply to everything that happens 
+ *   after and subsequent calls to the function 
+ *   accumulates the effect. For example, calling 
+ *   rotate(HALF_PI) and then rotate(HALF_PI) is the 
+ *   same as rotate(PI). All tranformations are reset 
+ *   when draw() begins again. 
+ * 
+ *  
+ *   Technically, rotate() multiplies the current 
+ *   transformation matrix by a rotation matrix. This 
+ *   function can be further controlled by the push() 
+ *   and pop().
+ *
+ *   @param rad angle in radians
+ *   @param axis axis to rotate around
+ */
+declare function rotate(rad: number, axis: p5.Vector|any[]): void;
+
+// TODO: Fix rotateX() errors in src/core/transform.js, line 123:
+//
+//   return has invalid type: [type]
+//
+// declare function rotateX(rad: number): any;
+
+// TODO: Fix rotateY() errors in src/core/transform.js, line 149:
+//
+//   return has invalid type: [type]
+//
+// declare function rotateY(rad: number): any;
+
+// TODO: Fix rotateZ() errors in src/core/transform.js, line 175:
+//
+//   return has invalid type: [type]
+//
+// declare function rotateZ(rad: number): any;
 
 /**
  *   Increases or decreases the size of a shape by 
@@ -1566,9 +1410,8 @@ declare function rotate(angle: number): p5;
  *   again. 
  * 
  *  
- *   Using this fuction with the z parameter requires 
- *   using P3D as a parameter for size(), as shown in 
- *   the third example above. This function can be 
+ *   Using this function with the z parameter is only 
+ *   available in WEBGL mode. This function can be 
  *   further controlled with push() and pop().
  *
  *   @param s percent to scale the object, or 
@@ -2406,10 +2249,9 @@ declare function createImage(width: number, height: number): p5.Image;
  *   @param [callback] A callback function that will be 
  *   executed to handle the image data. This function 
  *   should accept an array as argument. The array will 
- *   contain the spcecified number of frames of 
- *   objects. Each object has three properties: 
- *   imageData - an image/octet-stream, filename and 
- *   extension.
+ *   contain the specified number of frames of objects. 
+ *   Each object has three properties: imageData - an 
+ *   image/octet-stream, filename and extension.
  */
 declare function saveFrames(filename: string, extension: string, duration: number, framerate: number, callback?: Function): void;
 
@@ -2911,9 +2753,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  *   the URL, defaulting to text. You may also pass a 
  *   single object specifying all parameters for the 
  *   request following the examples inside the 
- *   reqwest() calls here: <a 
- *   href='https://github.com/ded/reqwest#api'  
- * 
+ *   reqwest() calls here:  
  *   https://github.com/ded/reqwest#api
  *
  *   @param path name of the file or url to load
@@ -4045,6 +3885,229 @@ declare function second(): number;
  */
 declare function year(): number;
 
+// src/webgl/camera.js
+
+/**
+ *   Sets camera position
+ *
+ *   @param x camera position value on x axis
+ *   @param y camera position value on y axis
+ *   @param z camera position value on z axis
+ *   @return the p5 object
+ */
+declare function camera(x: number, y: number, z: number): p5;
+
+/**
+ *   Sets perspective camera
+ *
+ *   @param fovy camera frustum vertical field of view, 
+ *   from bottom to top of view, in degrees
+ *   @param aspect camera frustum aspect ratio
+ *   @param near frustum near plane length
+ *   @param far frustum far plane length
+ *   @return the p5 object
+ */
+declare function perspective(fovy: number, aspect: number, near: number, far: number): p5;
+
+/**
+ *   Setup ortho camera
+ *
+ *   @param left camera frustum left plane
+ *   @param right camera frustum right plane
+ *   @param bottom camera frustum bottom plane
+ *   @param top camera frustum top plane
+ *   @param near camera frustum near plane
+ *   @param far camera frustum far plane
+ *   @return the p5 object
+ */
+declare function ortho(left: number, right: number, bottom: number, top: number, near: number, far: number): p5;
+
+// src/webgl/light.js
+
+/**
+ *   Creates an ambient light with a color
+ *
+ *   @param v1 gray value, red or hue value (depending 
+ *   on the current color mode), or color Array, or CSS 
+ *   color string
+ *   @param [v2] optional: green or saturation value
+ *   @param [v3] optional: blue or brightness value
+ *   @param [a] optional: opacity
+ *   @return the p5 object
+ */
+declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+// TODO: Fix directionalLight() errors in src/webgl/light.js, line 68:
+//
+//   required param "x" follows an optional param
+//
+// declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
+
+// TODO: Fix pointLight() errors in src/webgl/light.js, line 188:
+//
+//   required param "x" follows an optional param
+//
+// declare function pointLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
+
+// src/webgl/loading.js
+
+// TODO: Fix loadModel() errors in src/webgl/loading.js, line 14:
+//
+//   return has invalid type: p5.Geometry
+//
+// declare function loadModel(path: string, normalize?: boolean, successCallback?: (p1: any) => any, failureCallback?: (p1: Event) => any): any;
+
+// TODO: Fix model() errors in src/webgl/loading.js, line 187:
+//
+//   param "model" has invalid type: p5.Geometry
+//
+// declare function model(model: any): void;
+
+// src/webgl/material.js
+
+/**
+ *   Normal material for geometry
+ *
+ *   @return the p5 object
+ */
+declare function normalMaterial(): p5;
+
+/**
+ *   Texture for geometry
+ *
+ *   @param tex 2-dimensional graphics to render as 
+ *   texture
+ *   @return the p5 object
+ */
+declare function texture(tex: p5.Image|p5.MediaElement|p5.Graphics): p5;
+
+/**
+ *   Ambient material for geometry with a given color
+ *
+ *   @param v1 gray value, red or hue value (depending 
+ *   on the current color mode), or color Array, or CSS 
+ *   color string
+ *   @param [v2] optional: green or saturation value
+ *   @param [v3] optional: blue or brightness value
+ *   @param [a] optional: opacity
+ *   @return the p5 object
+ */
+declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+/**
+ *   Specular material for geometry with a given color
+ *
+ *   @param v1 gray value, red or hue value (depending 
+ *   on the current color mode), or color Array, or CSS 
+ *   color string
+ *   @param [v2] optional: green or saturation value
+ *   @param [v3] optional: blue or brightness value
+ *   @param [a] optional: opacity
+ *   @return the p5 object
+ */
+declare function specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+// src/webgl/primitives.js
+
+/**
+ *   Draw a plane with given a width and height
+ *
+ *   @param width width of the plane
+ *   @param height height of the plane
+ *   @param [detailX] Optional number of triangle 
+ *   subdivisions in x-dimension
+ *   @param [detailY] Optional number of triangle 
+ *   subdivisions in y-dimension
+ *   @return the p5 object
+ */
+declare function plane(width: number, height: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a box with given width, height and depth
+ *
+ *   @param width width of the box
+ *   @param Height height of the box
+ *   @param depth depth of the box
+ *   @param [detailX] Optional number of triangle 
+ *   subdivisions in x-dimension
+ *   @param [detailY] Optional number of triangle 
+ *   subdivisions in y-dimension
+ *   @return the p5 object
+ */
+declare function box(width: number, Height: number, depth: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a sphere with given radius
+ *
+ *   @param radius radius of circle
+ *   @param [detailX] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @param [detailY] optional: number of segments, the 
+ *   more segments the smoother geometry default is 16
+ *   @return the p5 object
+ */
+declare function sphere(radius: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a cylinder with given radius and height
+ *
+ *   @param radius radius of the surface
+ *   @param height height of the cylinder
+ *   @param [detailX] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @param [detailY] optional: number of segments in 
+ *   y-dimension, the more segments the smoother 
+ *   geometry default is 16
+ *   @return the p5 object
+ */
+declare function cylinder(radius: number, height: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a cone with given radius and height
+ *
+ *   @param radius radius of the bottom surface
+ *   @param height height of the cone
+ *   @param [detailX] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @param [detailY] optional: number of segments, the 
+ *   more segments the smoother geometry default is 16
+ *   @return the p5 object
+ */
+declare function cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw an ellipsoid with given raduis
+ *
+ *   @param radiusx xradius of circle
+ *   @param radiusy yradius of circle
+ *   @param radiusz zradius of circle
+ *   @param [detailX] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24. 
+ *   Avoid detail number above 150, it may crash the 
+ *   browser.
+ *   @param [detailY] optional: number of segments, the 
+ *   more segments the smoother geometry default is 16. 
+ *   Avoid detail number above 150, it may crash the 
+ *   browser.
+ *   @return the p5 object
+ */
+declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a torus with given radius and tube radius
+ *
+ *   @param radius radius of the whole ring
+ *   @param tubeRadius radius of the tube
+ *   @param [detailX] optional: number of segments in 
+ *   x-dimension, the more segments the smoother 
+ *   geometry default is 24
+ *   @param [detailY] optional: number of segments in 
+ *   y-dimension, the more segments the smoother 
+ *   geometry default is 16
+ *   @return the p5 object
+ */
+declare function torus(radius: number, tubeRadius: number, detailX?: number, detailY?: number): p5;
+
 // Properties from p5.dom
 
 // lib/addons/p5.dom.js
@@ -4129,63 +4192,63 @@ declare function removeElements(): void;
 //
 //   return has invalid type: Object/p5.Element
 //
-// declare function createSlider(min: number, max: number, value?: number): any;
+// declare function createSlider(min: number, max: number, value?: number, step?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 404:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 420:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 440:
+// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 456:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCheckbox(label?: string, value?: boolean): any;
 
-// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 505:
+// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 521:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSelect(multiple?: boolean): any;
 
-// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 570:
+// TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 586:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createRadio(divId?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 697:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 713:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 726:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 742:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 826:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 842:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 854:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 870:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 890:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 906:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 990:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1006:
 //
 //   return has invalid type: Object/p5.Element
 //
