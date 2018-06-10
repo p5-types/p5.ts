@@ -10,6 +10,189 @@
 
 // Properties from p5
 
+// src/3d/3d_primitives.js
+
+/**
+ *   Draw a plane with given a width and height
+ *
+ *   @param width width of the plane
+ *   @param height height of the plane
+ *   @return the p5 object
+ */
+declare function plane(width: number, height: number): p5;
+
+/**
+ *   Draw a sphere with given raduis
+ *
+ *   @param radius radius of circle
+ *   @param [detail] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @return the p5 object
+ */
+declare function sphere(radius: number, detail?: number): p5;
+
+/**
+ *   Draw a cylinder with given radius and height
+ *
+ *   @param radius radius of the surface
+ *   @param height height of the cylinder
+ *   @param [detail] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @return the p5 object
+ */
+declare function cylinder(radius: number, height: number, detail?: number): p5;
+
+/**
+ *   Draw a cone with given radius and height
+ *
+ *   @param radius radius of the bottom surface
+ *   @param height height of the cone
+ *   @param [detail] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @return the p5 object
+ */
+declare function cone(radius: number, height: number, detail?: number): p5;
+
+/**
+ *   Draw a torus with given radius and tube radius
+ *
+ *   @param radius radius of the whole ring
+ *   @param tubeRadius radius of the tube
+ *   @param [detail] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @return the p5 object
+ */
+declare function torus(radius: number, tubeRadius: number, detail?: number): p5;
+
+/**
+ *   Draw a box with given width, height and depth
+ *
+ *   @param width width of the box
+ *   @param height height of the box
+ *   @param depth depth of the box
+ *   @return the p5 object
+ */
+declare function box(width: number, height: number, depth: number): p5;
+
+// src/3d/camera.js
+
+/**
+ *   Sets camera position
+ *
+ *   @param x camera postion value on x axis
+ *   @param y camera postion value on y axis
+ *   @param z camera postion value on z axis
+ *   @return the p5 object
+ */
+declare function camera(x: number, y: number, z: number): p5;
+
+/**
+ *   Sets perspective camera
+ *
+ *   @param fovy camera frustum vertical field of view, 
+ *   from bottom to top of view, in degrees
+ *   @param aspect camera frustum aspect ratio
+ *   @param near frustum near plane length
+ *   @param far frustum far plane length
+ *   @return the p5 object
+ */
+declare function perspective(fovy: number, aspect: number, near: number, far: number): p5;
+
+/**
+ *   Setup ortho camera
+ *
+ *   @param left camera frustum left plane
+ *   @param right camera frustum right plane
+ *   @param bottom camera frustum bottom plane
+ *   @param top camera frustum top plane
+ *   @param near camera frustum near plane
+ *   @param far camera frustum far plane
+ *   @return the p5 object
+ */
+declare function ortho(left: number, right: number, bottom: number, top: number, near: number, far: number): p5;
+
+// src/3d/light.js
+
+/**
+ *   Creates an ambient light with a color
+ *
+ *   @param v1 gray value, red or hue value (depending 
+ *   on the current color mode), or color Array, or CSS 
+ *   color string
+ *   @param [v2] optional: green or saturation value
+ *   @param [v3] optional: blue or brightness value
+ *   @param [a] optional: opacity
+ *   @return the p5 object
+ */
+declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+// TODO: Fix directionalLight() errors in src/3d/light.js, line 68:
+//
+//   required param "x" follows an optional param
+//
+// declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
+
+// TODO: Fix pointLight() errors in src/3d/light.js, line 188:
+//
+//   required param "x" follows an optional param
+//
+// declare function pointLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
+
+// src/3d/material.js
+
+/**
+ *   Normal material for geometry
+ *
+ *   @return the p5 object
+ */
+declare function normalMaterial(): p5;
+
+/**
+ *   Texture for geometry
+ *
+ *   @return the p5 object
+ */
+declare function texture(): p5;
+
+/**
+ *   Basic material for geometry with a given color
+ *
+ *   @param v1 gray value, red or hue value (depending 
+ *   on the current color mode), or color Array, or CSS 
+ *   color string
+ *   @param [v2] optional: green or saturation value
+ *   @param [v3] optional: blue or brightness value
+ *   @param [a] optional: opacity
+ *   @return the p5 object
+ */
+declare function basicMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+/**
+ *   Ambient material for geometry with a given color
+ *
+ *   @param v1 gray value, red or hue value (depending 
+ *   on the current color mode), or color Array, or CSS 
+ *   color string
+ *   @param [v2] optional: green or saturation value
+ *   @param [v3] optional: blue or brightness value
+ *   @param [a] optional: opacity
+ *   @return the p5 object
+ */
+declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+/**
+ *   Specular material for geometry with a given color
+ *
+ *   @param v1 gray value, red or hue value (depending 
+ *   on the current color mode), or color Array, or CSS 
+ *   color string
+ *   @param [v2] optional: green or saturation value
+ *   @param [v3] optional: blue or brightness value
+ *   @param [a] optional: opacity
+ *   @return the p5 object
+ */
+declare function specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
 // src/color/creating_reading.js
 
 /**
@@ -81,7 +264,7 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 307:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 312:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number
@@ -309,7 +492,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/core/2d_primitives.js, line 294:
+// TODO: Fix quad() errors in src/core/2d_primitives.js, line 310:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -1084,14 +1267,16 @@ declare function rotate(angle: number): p5;
  *   shown in the third example above. This function 
  *   can be further controlled with push() and pop().
  *
- *   @param s percentage to scale the object, or 
+ *   @param s percent to scale the object, or 
  *   percentage to scale the object in the x-axis if 
  *   multiple arguments are given
- *   @param [y] percentage to scale the object in the 
+ *   @param [y] percent to scale the object in the 
  *   y-axis
+ *   @param [z] percent to scale the object in the 
+ *   z-axis (webgl only)
  *   @return the p5 object
  */
-declare function scale(s: number, y?: number): p5;
+declare function scale(s: number|p5.Vector|any[], y?: number, z?: number): p5;
 
 /**
  *   Shears a shape around the x-axis the amount 
@@ -1360,6 +1545,65 @@ declare var pAccelerationY: any;
 declare var pAccelerationZ: any;
 
 /**
+ *   The system variable rotationX always contains the 
+ *   rotation of the device along the x axis. Value is 
+ *   represented as 0 to +/-180 degrees.
+ *
+ */
+declare var rotationX: any;
+
+/**
+ *   The system variable rotationY always contains the 
+ *   rotation of the device along the y axis. Value is 
+ *   represented as 0 to +/-180 degrees.
+ *
+ */
+declare var rotationY: any;
+
+/**
+ *   The system variable rotationZ always contains the 
+ *   rotation of the device along the z axis. Value is 
+ *   represented as 0 to 359 degrees.  Unlike rotationX 
+ *   and rotationY, this variable is available for 
+ *   devices with a built-in compass only.
+ *
+ */
+declare var rotationZ: any;
+
+/**
+ *   The system variable pRotationX always contains the 
+ *   rotation of the device along the x axis in the 
+ *   frame previous to the current frame. Value is 
+ *   represented as 0 to +/-180 degrees.  pRotationX 
+ *   can also be used with rotationX to determine the 
+ *   rotate direction of the device along the X-axis.
+ *
+ */
+declare var pRotationX: any;
+
+/**
+ *   The system variable pRotationY always contains the 
+ *   rotation of the device along the y axis in the 
+ *   frame previous to the current frame. Value is 
+ *   represented as 0 to +/-180 degrees.  pRotationY 
+ *   can also be used with rotationY to determine the 
+ *   rotate direction of the device along the Y-axis.
+ *
+ */
+declare var pRotationY: any;
+
+/**
+ *   The system variable pRotationZ always contains the 
+ *   rotation of the device along the z axis in the 
+ *   frame previous to the current frame. Value is 
+ *   represented as 0 to 359 degrees.  pRotationZ can 
+ *   also be used with rotationZ to determine the 
+ *   rotate direction of the device along the Z-axis.
+ *
+ */
+declare var pRotationZ: any;
+
+/**
  *   The setMoveThreshold() function is used to set the 
  *   movement threshold for the deviceMoved() function.
  *
@@ -1386,7 +1630,12 @@ declare function deviceMoved(): void;
 
 /**
  *   The deviceTurned() function is called when the 
- *   device rotates by more than 90 degrees.
+ *   device rotates by more than 90 degrees 
+ *   continuously.  The axis that triggers the 
+ *   deviceTurned() method is stored in the turnAxis 
+ *   variable. The deviceTurned() method can be locked 
+ *   to trigger on any axis: X, Y or Z by comparing the 
+ *   turnAxis variable to 'X', 'Y' or 'Z'.
  *
  */
 declare function deviceTurned(): void;
@@ -1825,10 +2074,10 @@ declare function createImage(width: number, height: number): p5.Image;
  *   Loads an image from a path and creates a p5.Image 
  *   from it.  The image may not be immediately 
  *   available for rendering If you want to ensure that 
- *   the image is ready before doing anything with it 
- *   you can do perform those operations in the 
- *   callback, or place the loadImage() call in 
- *   preload(). 
+ *   the image is ready before doing anything with it, 
+ *   place the loadImage() call in preload(). You may 
+ *   also supply a callback function to handle the 
+ *   image when it's ready. 
  * 
  *  
  *   The path to the image should be relative to the 
@@ -1850,13 +2099,33 @@ declare function loadImage(path: string, successCallback?: (p1: p5.Image) => any
  *   Draw an image to the main canvas of the p5js 
  *   sketch
  *
- *   @param image the image to display
- *   @param [x] x-coordinate of the image
- *   @param [y] y-coordinate of the image
- *   @param [width] width to display the image
- *   @param [height] height to display the image
+ *   @param img the image to display
+ *   @param [sx] The X coordinate of the top left 
+ *   corner of the sub-rectangle of the source image to 
+ *   draw into the destination canvas.
+ *   @param [sy] The Y coordinate of the top left 
+ *   corner of the sub-rectangle of the source image to 
+ *   draw into the destination canvas.
+ *   @param [sWidth] The width of the sub-rectangle of 
+ *   the source image to draw into the destination 
+ *   canvas.
+ *   @param [sHeight] The height of the sub-rectangle 
+ *   of the source image to draw into the destination 
+ *   context.
+ *   @param [dx] The X coordinate in the destination 
+ *   canvas at which to place the top-left corner of 
+ *   the source image.
+ *   @param [dy] The Y coordinate in the destination 
+ *   canvas at which to place the top-left corner of 
+ *   the source image.
+ *   @param [dWidth] The width to draw the image in the 
+ *   destination canvas. This allows scaling of the 
+ *   drawn image.
+ *   @param [dHeight] The height to draw the image in 
+ *   the destination canvas. This allows scaling of the 
+ *   drawn image.
  */
-declare function image(image: p5.Image, x?: number, y?: number, width?: number, height?: number): void;
+declare function image(img: p5.Image, sx?: number, sy?: number, sWidth?: number, sHeight?: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number): void;
 
 /**
  *   Sets the fill value for displaying images. Images 
@@ -2106,7 +2375,11 @@ declare function set(x: number, y: number, c: number|any[]|object): void;
  *   Loads an opentype font file (.otf, .ttf) from a 
  *   file or a URL, and returns a PFont Object. This 
  *   method is asynchronous, meaning it may not finish 
- *   before the next line in your sketch is executed.
+ *   before the next line in your sketch is executed.  
+ *   The path to the font should be relative to the 
+ *   HTML file that links in your sketch. Loading an 
+ *   from a URL or other remote location may be blocked 
+ *   due to your browser's built-in security.
  *
  *   @param path name of the file or url to load
  *   @param [callback] function to be executed after 
@@ -2180,9 +2453,10 @@ declare function loadStrings(filename: string, callback?: Function): any[];
  *   finish before the next line in your sketch is 
  *   executed. Calling loadTable() inside preload() 
  *   guarantees to complete the operation before 
- *   setup() and draw() are called. Outside preload(), 
- *   you may supply a callback function to handle the 
- *   object.
+ *   setup() and draw() are called. 
+ * 
+ *   Outside of preload(), you may supply a callback 
+ *   function to handle the object:
  *
  *   @param filename name of the file or URL to load
  *   @param [options] "header" "csv" "tsv"
@@ -2207,9 +2481,9 @@ declare function loadTable(filename: string, options?: string|any, callback?: Fu
  *   meaning it may not finish before the next line in 
  *   your sketch is executed. Calling loadXML() inside 
  *   preload() guarantees to complete the operation 
- *   before setup() and draw() are called. Outside 
+ *   before setup() and draw() are called. Outside of 
  *   preload(), you may supply a callback function to 
- *   handle the object.
+ *   handle the object:
  *
  *   @param filename name of the file or URL to load
  *   @param [callback] function to be executed after 
@@ -2266,7 +2540,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  */
 declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 806:
+// TODO: Fix save() errors in src/io/files.js, line 879:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -2296,7 +2570,7 @@ declare function saveJSON(json: any[]|object, filename: string, optimize?: boole
  */
 declare function saveStrings(list: any[], filename: string): void;
 
-// TODO: Fix saveTable() errors in src/io/files.js, line 1048:
+// TODO: Fix saveTable() errors in src/io/files.js, line 1121:
 //
 //   param "options" has invalid type: [String]
 //

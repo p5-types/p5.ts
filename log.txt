@@ -1,16 +1,18 @@
 Generating definitions...
 Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
-lerpColor() src/color/creating_reading.js, line 307, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 307, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 307, return has invalid type: Array/Number
-quad() src/core/2d_primitives.js, line 294, param "x1" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y1" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "x2" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y2" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "x3" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y3" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "x4" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y4" has invalid type: Type
+directionalLight() src/3d/light.js, line 68, required param "x" follows an optional param
+pointLight() src/3d/light.js, line 188, required param "x" follows an optional param
+lerpColor() src/color/creating_reading.js, line 312, param "c1" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 312, param "c2" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 312, return has invalid type: Array/Number
+quad() src/core/2d_primitives.js, line 310, param "x1" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y1" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "x2" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y2" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "x3" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y3" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "x4" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y4" has invalid type: Type
 ellipseMode() src/core/attributes.js, line 14, param "mode" has invalid type: Number/Constant
 rectMode() src/core/attributes.js, line 99, param "mode" has invalid type: Number/Constant
 strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Number/Constant
@@ -30,9 +32,9 @@ saveFrames() src/image/image.js, line 216, param "_fps" has invalid type: [type]
 saveFrames() src/image/image.js, line 216, param "callback" has invalid type: [Function]
 saveFrames() src/image/image.js, line 216, return has invalid type: [type]
 updatePixels() src/image/pixels.js, line 512, param "w" is defined multiple times
-save() src/io/files.js, line 806, param "filename" has invalid type: [String]
-save() src/io/files.js, line 806, param "options" has invalid type: [Boolean/String]
-saveTable() src/io/files.js, line 1048, param "options" has invalid type: [String]
+save() src/io/files.js, line 879, param "filename" has invalid type: [String]
+save() src/io/files.js, line 879, param "options" has invalid type: [Boolean/String]
+saveTable() src/io/files.js, line 1121, param "options" has invalid type: [String]
 angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "horizAlign" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "vertAlign" has invalid type: Number/Constant
@@ -100,17 +102,19 @@ addImpulse() lib/addons/p5.sound.js, line 5737, param "callback" has invalid typ
 resetImpulse() lib/addons/p5.sound.js, line 5754, param "callback" has invalid type: [Function]
 p5.Score() lib/addons/p5.sound.js, line 6344, param "part(s)" is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
-lerpColor() src/color/creating_reading.js, line 307, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 307, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 307, return has invalid type: Array/Number
-quad() src/core/2d_primitives.js, line 294, param "x1" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y1" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "x2" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y2" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "x3" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y3" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "x4" has invalid type: Type
-quad() src/core/2d_primitives.js, line 294, param "y4" has invalid type: Type
+directionalLight() src/3d/light.js, line 68, required param "x" follows an optional param
+pointLight() src/3d/light.js, line 188, required param "x" follows an optional param
+lerpColor() src/color/creating_reading.js, line 312, param "c1" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 312, param "c2" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 312, return has invalid type: Array/Number
+quad() src/core/2d_primitives.js, line 310, param "x1" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y1" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "x2" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y2" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "x3" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y3" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "x4" has invalid type: Type
+quad() src/core/2d_primitives.js, line 310, param "y4" has invalid type: Type
 ellipseMode() src/core/attributes.js, line 14, param "mode" has invalid type: Number/Constant
 rectMode() src/core/attributes.js, line 99, param "mode" has invalid type: Number/Constant
 strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Number/Constant
@@ -130,9 +134,9 @@ saveFrames() src/image/image.js, line 216, param "_fps" has invalid type: [type]
 saveFrames() src/image/image.js, line 216, param "callback" has invalid type: [Function]
 saveFrames() src/image/image.js, line 216, return has invalid type: [type]
 updatePixels() src/image/pixels.js, line 512, param "w" is defined multiple times
-save() src/io/files.js, line 806, param "filename" has invalid type: [String]
-save() src/io/files.js, line 806, param "options" has invalid type: [Boolean/String]
-saveTable() src/io/files.js, line 1048, param "options" has invalid type: [String]
+save() src/io/files.js, line 879, param "filename" has invalid type: [String]
+save() src/io/files.js, line 879, param "options" has invalid type: [Boolean/String]
+saveTable() src/io/files.js, line 1121, param "options" has invalid type: [String]
 angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "horizAlign" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "vertAlign" has invalid type: Number/Constant
