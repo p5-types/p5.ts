@@ -1376,19 +1376,19 @@ declare function rotate(angle: number): void;
  */
 declare function rotate(rad: number, axis: p5.Vector|any[]): void;
 
-// TODO: Fix rotateX() errors in src/core/transform.js, line 123:
+// TODO: Fix rotateX() errors in src/core/transform.js, line 125:
 //
 //   return has invalid type: [type]
 //
 // declare function rotateX(rad: number): any;
 
-// TODO: Fix rotateY() errors in src/core/transform.js, line 149:
+// TODO: Fix rotateY() errors in src/core/transform.js, line 151:
 //
 //   return has invalid type: [type]
 //
 // declare function rotateY(rad: number): any;
 
-// TODO: Fix rotateZ() errors in src/core/transform.js, line 175:
+// TODO: Fix rotateZ() errors in src/core/transform.js, line 177:
 //
 //   return has invalid type: [type]
 //
@@ -1495,9 +1495,11 @@ declare function shearY(angle: number): p5;
  *
  *   @param x left/right translation
  *   @param y up/down translation
+ *   @param [z] forward/backward translation (webgl 
+ *   only)
  *   @return the p5 object
  */
-declare function translate(x: number, y: number): p5;
+declare function translate(x: number, y: number, z?: number): p5;
 
 // src/core/vertex.js
 
@@ -2143,7 +2145,7 @@ declare var ptouchX: any;
  */
 declare var ptouchY: any;
 
-// TODO: Property "touches[]", defined in src/events/touch.js, line 61, is not a valid JS symbol name
+// TODO: Property "touches[]", defined in src/events/touch.js, line 58, is not a valid JS symbol name
 
 /**
  *   The boolean system variable touchIsDown is true if 
@@ -2771,7 +2773,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  */
 declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 987:
+// TODO: Fix save() errors in src/io/files.js, line 993:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -3155,8 +3157,12 @@ declare function randomSeed(seed: number): void;
  *   If no argument is given, returns a random number 
  *   from 0 up to (but not including) 1. 
  * 
- *   If one argument is given, returns a random number 
- *   from 0 up to (but not including) the number. 
+ *   If one argument is given and it is a number, 
+ *   returns a random number from 0 up to (but not 
+ *   including) the number. 
+ * 
+ *   If one argument is given and it is an array, 
+ *   returns a random element from that array. 
  * 
  *   If two arguments are given, returns a random 
  *   number from the first argument up to (but not 
@@ -3164,9 +3170,30 @@ declare function randomSeed(seed: number): void;
  *
  *   @param [min] the lower bound (inclusive)
  *   @param [max] the upper bound (exclusive)
- *   @return the random number
  */
-declare function random(min?: number, max?: number): number;
+declare function random(min?: number, max?: number): void;
+
+/**
+ *   Return a random floating-point number. Takes 
+ *   either 0, 1 or 2 arguments. 
+ * 
+ *   If no argument is given, returns a random number 
+ *   from 0 up to (but not including) 1. 
+ * 
+ *   If one argument is given and it is a number, 
+ *   returns a random number from 0 up to (but not 
+ *   including) the number. 
+ * 
+ *   If one argument is given and it is an array, 
+ *   returns a random element from that array. 
+ * 
+ *   If two arguments are given, returns a random 
+ *   number from the first argument up to (but not 
+ *   including) the second argument.
+ *
+ *   @param choices the array to choose from
+ */
+declare function random(choices: any[]): void;
 
 /**
  *   Returns a random number fitting a Gaussian, or 
@@ -3943,7 +3970,7 @@ declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?
 //
 // declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
-// TODO: Fix pointLight() errors in src/webgl/light.js, line 188:
+// TODO: Fix pointLight() errors in src/webgl/light.js, line 192:
 //
 //   required param "x" follows an optional param
 //
