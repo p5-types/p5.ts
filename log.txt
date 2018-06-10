@@ -10,7 +10,7 @@ loadModel() src/webgl/loading.js, line 14, return has invalid type: p5.Geometry
 model() src/webgl/loading.js, line 191, param "model" has invalid type: p5.Geometry
 p5.Graphics() src/core/p5.Graphics.js, line 10, required param "whether" follows an optional param
 p5.Renderer() src/core/p5.Renderer.js, line 10, required param "whether" follows an optional param
-lerp() src/math/p5.Vector.js, line 628, required param "amt" follows an optional param
+lerp() src/math/p5.Vector.js, line 654, required param "amt" follows an optional param
 pan() lib/addons/p5.sound.js, line 1368, required param "timeFromNow" follows an optional param
 add() lib/addons/p5.sound.js, line 4326, return has invalid type: p5.SignalAdd
 mult() lib/addons/p5.sound.js, line 4345, return has invalid type: Tone.Multiply

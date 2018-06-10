@@ -2259,6 +2259,13 @@ declare class p5 {
   /**
    *   The mouseClicked() function is called once after a 
    *   mouse button has been pressed and then released. 
+   *   Browsers handle clicks differently, so this 
+   *   function is only guaranteed to be run when the 
+   *   left mouse button is clicked. To handle other 
+   *   mouse buttons being pressed or released, see 
+   *   mousePressed() or mouseReleased().
+   * 
+   *  
    *   Browsers may have different default behaviors 
    *   attached to various mouse events. To prevent any 
    *   default behavior for this event, add "return 
@@ -6274,7 +6281,16 @@ declare namespace p5 {
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/math/p5.Vector.js, line 628:
+    /**
+     *   Calculates and returns the angle (in radians) 
+     *   between two vectors.
+     *
+     *   @param the x, y, and z components of a p5.Vector
+     *   @return the angle between (in radians)
+     */
+    angleBetween(the: p5.Vector): number;
+
+    // TODO: Fix lerp() errors in src/math/p5.Vector.js, line 654:
     //
     //   required param "amt" follows an optional param
     //
@@ -6323,18 +6339,6 @@ declare namespace p5 {
      *   @return the new p5.Vector object
      */
     static random3D(): p5.Vector;
-
-    /**
-     *   Calculates and returns the angle (in radians) 
-     *   between two vectors.
-     *
-     *   @param v1 the x, y, and z components of a 
-     *   p5.Vector
-     *   @param v2 the x, y, and z components of a 
-     *   p5.Vector
-     *   @return the angle between (in radians)
-     */
-    static angleBetween(v1: p5.Vector, v2: p5.Vector): number;
   }
 
   // src/typography/p5.Font.js
