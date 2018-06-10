@@ -58,7 +58,7 @@ declare function brightness(color: object): void;
  *   @param gray number specifying value between white 
  *   and black.
  *   @param [alpha] alpha value relative to current 
- *   color range
+ *   color range (default is 0-100)
  */
 declare function color(gray: number|string, alpha?: number): void;
 
@@ -88,7 +88,7 @@ declare function color(gray: number|string, alpha?: number): void;
  *   @param v3 blue or brightness value relative to the 
  *   current color range
  *   @param [alpha] alpha value relative to current 
- *   color range
+ *   color range (default is 0-100)
  */
 declare function color(v1: number|string, v2: number, v3: number, alpha?: number): void;
 
@@ -115,7 +115,7 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 330:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 335:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number
@@ -166,7 +166,8 @@ declare function saturation(color: object): void;
  *
  *   @param color any value created by the color() 
  *   function
- *   @param [a] opacity of the background
+ *   @param [a] opacity of the background relative to 
+ *   current color range (default is 0-100)
  */
 declare function background(color: p5.Color, a?: number): void;
 
@@ -183,7 +184,8 @@ declare function background(color: p5.Color, a?: number): void;
  *   @param colorstring color string, possible formats 
  *   include: integer rgb() or rgba(), percentage rgb() 
  *   or rgba(), 3-digit hex, 6-digit hex
- *   @param [a] opacity of the background
+ *   @param [a] opacity of the background relative to 
+ *   current color range (default is 0-100)
  */
 declare function background(colorstring: string, a?: number): void;
 
@@ -199,7 +201,8 @@ declare function background(colorstring: string, a?: number): void;
  *
  *   @param gray specifies a value between white and 
  *   black
- *   @param [a] opacity of the background
+ *   @param [a] opacity of the background relative to 
+ *   current color range (default is 0-100)
  */
 declare function background(gray: number, a?: number): void;
 
@@ -219,7 +222,8 @@ declare function background(gray: number, a?: number): void;
  *   the current color mode)
  *   @param v3 blue or brightness value (depending on 
  *   the current color mode)
- *   @param [a] opacity of the background
+ *   @param [a] opacity of the background relative to 
+ *   current color range (default is 0-100)
  */
 declare function background(v1: number, v2: number, v3: number, a?: number): void;
 
@@ -236,7 +240,8 @@ declare function background(v1: number, v2: number, v3: number, a?: number): voi
  *   @param image image created with loadImage() or 
  *   createImage(), to set as background (must be same 
  *   size as the sketch window)
- *   @param [a] opacity of the background
+ *   @param [a] opacity of the background relative to 
+ *   current color range (default is 0-100)
  */
 declare function background(image: p5.Image, a?: number): void;
 
@@ -280,7 +285,7 @@ declare function clear(): void;
  *   color mode
  *   @param [maxA] range for the alpha
  */
-declare function colorMode(mode: number|COLOR_MODE, max1?: number|UNKNOWN_P5_CONSTANT, max2?: number|UNKNOWN_P5_CONSTANT, max3?: number|UNKNOWN_P5_CONSTANT, maxA?: number|UNKNOWN_P5_CONSTANT): void;
+declare function colorMode(mode: COLOR_MODE, max1?: number, max2?: number, max3?: number, maxA?: number): void;
 
 /**
  *   Sets the color used to fill shapes. For example, 
@@ -371,7 +376,7 @@ declare function stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: numb
  *   way of drawing the arc
  *   @return the p5 object
  */
-declare function arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: string): object;
+declare function arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: UNKNOWN_P5_CONSTANT): object;
 
 /**
  *   Draws an ellipse (oval) to the screen. An ellipse 
@@ -402,11 +407,10 @@ declare function ellipse(x: number, y: number, w: number, h?: number): void;
  *
  *   @param x x-coordinate of the ellipse.
  *   @param y y-coordinate of the ellipse.
- *   @param z z-coordinate of the ellipse
  *   @param w width of the ellipse.
  *   @param [h] height of the ellipse.
  */
-declare function ellipse(x: number, y: number, z: number, w: number, h?: number): void;
+declare function ellipse(x: number, y: number, w: number, h?: number): void;
 
 /**
  *   Draws a line (a direct path between two points) to 
@@ -470,18 +474,14 @@ declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number
  *
  *   @param x1 the x-coordinate of the first point
  *   @param y1 the y-coordinate of the first point
- *   @param z1 the z-coordinate of the first point
  *   @param x2 the x-coordinate of the second point
  *   @param y2 the y-coordinate of the second point
- *   @param z2 the z-coordinate of the second point
  *   @param x3 the x-coordinate of the third point
  *   @param y3 the y-coordinate of the third point
- *   @param z3 the z-coordinate of the third point
  *   @param x4 the x-coordinate of the fourth point
  *   @param y4 the y-coordinate of the fourth point
- *   @param z4 the z-coordinate of the fourth point
  */
-declare function quad(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, x3: number, y3: number, z3: number, x4: number, y4: number, z4: number): void;
+declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
 
 /**
  *   Draws a rectangle to the screen. A rectangle is a 
@@ -527,16 +527,10 @@ declare function rect(x: number, y: number, w: number, h: number, tl?: number, t
  *
  *   @param x x-coordinate of the rectangle.
  *   @param y y-coordinate of the rectangle.
- *   @param z z-coordinate of the rectangle.
  *   @param w width of the rectangle.
  *   @param h height of the rectangle.
- *   @param [tl] optional radius of top-left corner.
- *   @param [tr] optional radius of top-right corner.
- *   @param [br] optional radius of bottom-right 
- *   corner.
- *   @param [bl] optional radius of bottom-left corner.
  */
-declare function rect(x: number, y: number, z: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): void;
+declare function rect(x: number, y: number, w: number, h: number, detailX?: number, detailY?: number): void;
 
 /**
  *   A triangle is a plane created by connecting three 
@@ -557,11 +551,43 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
 
 // src/core/attributes.js
 
-// TODO: Fix ellipseMode() errors in src/core/attributes.js, line 14:
-//
-//   param "mode" has invalid type: Number/Constant
-//
-// declare function ellipseMode(mode: any): p5;
+/**
+ *   Modifies the location from which ellipses are 
+ *   drawn by changing the way in which parameters 
+ *   given to ellipse() are interpreted.  The default 
+ *   mode is ellipseMode(CENTER), which interprets the 
+ *   first two parameters of ellipse() as the shape's 
+ *   center point, while the third and fourth 
+ *   parameters are its width and height. 
+ * 
+ *  
+ *   ellipseMode(RADIUS) also uses the first two 
+ *   parameters of ellipse() as the shape's center 
+ *   point, but uses the third and fourth parameters to 
+ *   specify half of the shapes's width and height. 
+ * 
+ *  
+ *   ellipseMode(CORNER) interprets the first two 
+ *   parameters of ellipse() as the upper-left corner 
+ *   of the shape, while the third and fourth 
+ *   parameters are its width and height. 
+ * 
+ *  
+ *   ellipseMode(CORNERS) interprets the first two 
+ *   parameters of ellipse() as the location of one 
+ *   corner of the ellipse's bounding box, and the 
+ *   third and fourth parameters as the location of the 
+ *   opposite corner. 
+ * 
+ *  
+ *   The parameter must be written in ALL CAPS because 
+ *   Javascript is a case-sensitive language.
+ *
+ *   @param mode either CENTER, RADIUS, CORNER, or 
+ *   CORNERS
+ *   @return the p5 object
+ */
+declare function ellipseMode(mode: ELLIPSE_MODE): p5;
 
 /**
  *   Draws all geometry with jagged (aliased) edges. 
@@ -573,11 +599,42 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
  */
 declare function noSmooth(): p5;
 
-// TODO: Fix rectMode() errors in src/core/attributes.js, line 99:
-//
-//   param "mode" has invalid type: Number/Constant
-//
-// declare function rectMode(mode: any): p5;
+/**
+ *   Modifies the location from which rectangles are 
+ *   drawn by changing the way in which parameters 
+ *   given to rect() are interpreted.  The default mode 
+ *   is rectMode(CORNER), which interprets the first 
+ *   two parameters of rect() as the upper-left corner 
+ *   of the shape, while the third and fourth 
+ *   parameters are its width and height. 
+ * 
+ *  
+ *   rectMode(CORNERS) interprets the first two 
+ *   parameters of rect() as the location of one 
+ *   corner, and the third and fourth parameters as the 
+ *   location of the opposite corner. 
+ * 
+ *  
+ *   rectMode(CENTER) interprets the first two 
+ *   parameters of rect() as the shape's center point, 
+ *   while the third and fourth parameters are its 
+ *   width and height. 
+ * 
+ *  
+ *   rectMode(RADIUS) also uses the first two 
+ *   parameters of rect() as the shape's center point, 
+ *   but uses the third and fourth parameters to 
+ *   specify half of the shapes's width and height. 
+ * 
+ *  
+ *   The parameter must be written in ALL CAPS because 
+ *   Javascript is a case-sensitive language.
+ *
+ *   @param mode either CORNER, CORNERS, CENTER, or 
+ *   RADIUS
+ *   @return the p5 object
+ */
+declare function rectMode(mode: RECT_MODE): p5;
 
 /**
  *   Draws all geometry with smooth (anti-aliased) 
@@ -940,13 +997,13 @@ declare function curveTangent(a: number, b: number, c: number, d: number, t: num
 // src/core/environment.js
 
 /**
- *   The print() function writes to the console area of 
- *   your browser. This function is often helpful for 
- *   looking at the data a program is producing. This 
- *   function creates a new line of text for each call 
- *   to the function. Individual elements can be 
+ *   The println() function writes to the console area 
+ *   of your browser. This function is often helpful 
+ *   for looking at the data a program is producing. 
+ *   This function creates a new line of text for each 
+ *   call to the function. Individual elements can be 
  *   separated with quotes ("") and joined with the 
- *   addition operator (+).  While print() is similar 
+ *   addition operator (+).  While println() is similar 
  *   to console.log(), it does not directly map to it 
  *   in order to simulate easier to understand behavior 
  *   than console.log(). Due to this, it is slower. For 
@@ -955,7 +1012,7 @@ declare function curveTangent(a: number, b: number, c: number, d: number, t: num
  *   @param contents any combination of Number, String, 
  *   Object, Boolean, Array to print
  */
-declare function print(contents: any): void;
+declare function println(contents: any): void;
 
 /**
  *   The system variable frameCount contains the number 
@@ -975,7 +1032,7 @@ declare var frameCount: any;
  */
 declare var focused: any;
 
-// TODO: Fix cursor() errors in src/core/environment.js, line 111:
+// TODO: Fix cursor() errors in src/core/environment.js, line 114:
 //
 //   param "type" has invalid type: Number/Constant
 //
@@ -1152,10 +1209,10 @@ declare function getURLParams(): object;
  *
  *   @param w width of the canvas
  *   @param h height of the canvas
- *   @param [renderer] 'p2d' | 'webgl'
+ *   @param [renderer] P2D or WEBGL
  *   @return canvas generated
  */
-declare function createCanvas(w: number, h: number, renderer?: string): object;
+declare function createCanvas(w: number, h: number, renderer?: UNKNOWN_P5_CONSTANT): object;
 
 /**
  *   Resizes the canvas to given width and height. The 
@@ -1181,17 +1238,49 @@ declare function noCanvas(): void;
  *
  *   @param w width of the offscreen graphics buffer
  *   @param h height of the offscreen graphics buffer
- *   @param renderer either 'p2d' or 'webgl'. undefined 
- *   defaults to p2d
+ *   @param [renderer] P2D or WEBGL undefined defaults 
+ *   to p2d
  *   @return offscreen graphics buffer
  */
-declare function createGraphics(w: number, h: number, renderer: string): object;
+declare function createGraphics(w: number, h: number, renderer?: UNKNOWN_P5_CONSTANT): object;
 
-// TODO: Fix blendMode() errors in src/core/rendering.js, line 211:
-//
-//   param "mode" has invalid type: String/Constant
-//
-// declare function blendMode(mode: any): void;
+/**
+ *   Blends the pixels in the display window according 
+ *   to the defined mode. There is a choice of the 
+ *   following modes to blend the source pixels (A) 
+ *   with the ones of pixels already in the display 
+ *   window (B): - BLEND - linear interpolation of 
+ *   colours: C = Afactor + B. This is the default 
+ *   blending mode.
+ *   - ADD - sum of A and B
+ *   - DARKEST - only the darkest colour succeeds: C = 
+ *   min(Afactor, B).
+ *   - LIGHTEST - only the lightest colour succeeds: C 
+ *   = max(A*factor, B).
+ *   - DIFFERENCE - subtract colors from underlying 
+ *   image.
+ *   - EXCLUSION - similar to DIFFERENCE, but less 
+ *   extreme.
+ *   - MULTIPLY - multiply the colors, result will 
+ *   always be darker.
+ *   - SCREEN - opposite multiply, uses inverse values 
+ *   of the colors.
+ *   - REPLACE - the pixels entirely replace the others 
+ *   and don't utilize alpha (transparency) values.
+ *   - OVERLAY - mix of MULTIPLY and SCREEN . 
+ *   Multiplies dark values, and screens light values.
+ *   - HARD_LIGHT - SCREEN when greater than 50% gray, 
+ *   MULTIPLY when lower.
+ *   - SOFT_LIGHT - mix of DARKEST and LIGHTEST. Works 
+ *   like OVERLAY, but not as harsh. 
+ *   - DODGE - lightens light tones and increases 
+ *   contrast, ignores darks.
+ *   - BURN - darker areas are applied, increasing 
+ *   contrast, ignores lights.
+ *
+ *   @param mode blend mode to set for canvas
+ */
+declare function blendMode(mode: UNKNOWN_P5_CONSTANT): void;
 
 // src/core/structure.js
 
@@ -1289,10 +1378,17 @@ declare function pop(): void;
  *  
  *   The redraw() function does not work properly when 
  *   called inside draw(). To enable/disable 
- *   animations, use loop() and noLoop().
+ *   animations, use loop() and noLoop(). 
+ * 
+ *  
+ *   In addition you can set the number of redraws per 
+ *   method call. Just add an integer as single 
+ *   parameter for the number of redraws.
  *
+ *   @param [n] Redraw for n-times. The default value 
+ *   is 1.
  */
-declare function redraw(): void;
+declare function redraw(n?: number): void;
 
 // src/core/transform.js
 
@@ -1525,11 +1621,34 @@ declare function translate(x: number, y: number, z?: number): p5;
  */
 declare function beginContour(): object;
 
-// TODO: Fix beginShape() errors in src/core/vertex.js, line 66:
-//
-//   param "kind" has invalid type: Number/Constant
-//
-// declare function beginShape(kind: any): object;
+/**
+ *   Using the beginShape() and endShape() functions 
+ *   allow creating more complex forms. beginShape() 
+ *   begins recording vertices for a shape and 
+ *   endShape() stops recording. The value of the kind 
+ *   parameter tells it which types of shapes to create 
+ *   from the provided vertices. With no mode 
+ *   specified, the shape can be any irregular polygon.  
+ *   The parameters available for beginShape() are 
+ *   POINTS, LINES, TRIANGLES, TRIANGLE_FAN, 
+ *   TRIANGLE_STRIP, QUADS, and QUAD_STRIP. After 
+ *   calling the beginShape() function, a series of 
+ *   vertex() commands must follow. To stop drawing the 
+ *   shape, call endShape(). Each shape will be 
+ *   outlined with the current stroke color and filled 
+ *   with the fill color. 
+ * 
+ *  
+ *   Transformations such as translate(), rotate(), and 
+ *   scale() do not work within beginShape(). It is 
+ *   also not possible to use other shapes, such as 
+ *   ellipse() or rect() within beginShape().
+ *
+ *   @param kind either POINTS, LINES, TRIANGLES, 
+ *   TRIANGLE_FAN TRIANGLE_STRIP, QUADS, or QUAD_STRIP
+ *   @return the p5 object
+ */
+declare function beginShape(kind: BEGIN_KIND): object;
 
 /**
  *   Specifies vertex coordinates for Bezier curves. 
@@ -1597,11 +1716,20 @@ declare function curveVertex(x: number, y: number): object;
  */
 declare function endContour(): object;
 
-// TODO: Fix endShape() errors in src/core/vertex.js, line 405:
-//
-//   param "mode" has invalid type: Number/Constant
-//
-// declare function endShape(mode: any): object;
+/**
+ *   The endShape() function is the companion to 
+ *   beginShape() and may only be called after 
+ *   beginShape(). When endshape() is called, all of 
+ *   image data defined since the previous call to 
+ *   beginShape() is written into the image buffer. The 
+ *   constant CLOSE as the value for the MODE parameter 
+ *   to close the shape (to connect the beginning and 
+ *   the end).
+ *
+ *   @param mode use CLOSE to close the shape
+ *   @return the p5 object
+ */
+declare function endShape(mode: END_MODE): object;
 
 /**
  *   Specifies vertex coordinates for quadratic Bezier 
@@ -2115,7 +2243,7 @@ declare function mouseWheel(): void;
  *   use the touches[] array.
  *
  */
-declare var touchX: any;
+declare function touchX(): void;
 
 /**
  *   The system variable touchY always contains the 
@@ -2125,7 +2253,7 @@ declare var touchX: any;
  *   use the touches[] array.
  *
  */
-declare var touchY: any;
+declare function touchY(): void;
 
 /**
  *   The system variable ptouchX always contains the 
@@ -2145,7 +2273,7 @@ declare var ptouchX: any;
  */
 declare var ptouchY: any;
 
-// TODO: Property "touches[]", defined in src/events/touch.js, line 58, is not a valid JS symbol name
+// TODO: Property "touches[]", defined in src/events/touch.js, line 92, is not a valid JS symbol name
 
 /**
  *   The boolean system variable touchIsDown is true if 
@@ -2370,10 +2498,9 @@ declare function noTint(): void;
  *   If two additional parameters are specified, they 
  *   are used to set the image's width and height.
  *
- *   @param m The mode: either CORNER, CORNERS, or 
- *   CENTER.
+ *   @param mode either CORNER, CORNERS, or CENTER
  */
-declare function imageMode(m: string): void;
+declare function imageMode(mode: IMAGE_MODE): void;
 
 // src/image/pixels.js
 
@@ -2487,7 +2614,7 @@ declare function copy(srcImage: p5.Image|undefined, sx: number, sy: number, sw: 
  *   @param filterParam an optional parameter unique to 
  *   each filter, see above
  */
-declare function filter(filterType: string, filterParam: number): void;
+declare function filter(filterType: UNKNOWN_P5_CONSTANT, filterParam: number): void;
 
 /**
  *   Returns an array of [R,G,B,A] values for any pixel 
@@ -2675,8 +2802,9 @@ declare function loadStrings(filename: string, callback?: Function, errorCallbac
  *   @param filename name of the file or URL to load
  *   @param [options] "header" "csv" "tsv"
  *   @param [callback] function to be executed after 
- *   loadTable() completes, Table object is passed in 
- *   as first argument
+ *   loadTable() completes. On success, the Table 
+ *   object is passed in as the first argument; 
+ *   otherwise, false is passed in.
  *   @return Table object containing data
  */
 declare function loadTable(filename: string, options?: string|any, callback?: Function): object;
@@ -2773,7 +2901,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  */
 declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 993:
+// TODO: Fix save() errors in src/io/files.js, line 995:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -3331,20 +3459,38 @@ declare function degrees(radians: number): number;
  */
 declare function radians(degrees: number): number;
 
-// TODO: Fix angleMode() errors in src/math/trigonometry.js, line 306:
-//
-//   param "mode" has invalid type: Number/Constant
-//
-// declare function angleMode(mode: any): void;
+/**
+ *   Sets the current mode of p5 to given mode. Default 
+ *   mode is RADIANS.
+ *
+ *   @param mode either RADIANS or DEGREES
+ */
+declare function angleMode(mode: ANGLE_MODE): void;
 
 // src/typography/attributes.js
 
-// TODO: Fix textAlign() errors in src/typography/attributes.js, line 13:
-//
-//   param "horizAlign" has invalid type: Number/Constant
-//   param "vertAlign" has invalid type: Number/Constant
-//
-// declare function textAlign(horizAlign: any, vertAlign: any): number;
+/**
+ *   Sets the current alignment for drawing text. 
+ *   Accepts two arguments: horizAlign (LEFT, CENTER, 
+ *   or RIGHT) and vertAlign (TOP, BOTTOM, CENTER, or 
+ *   BASELINE). The horizAlign parameter is in 
+ *   reference to the x value of the text() function, 
+ *   while the vertAlign parameter is in reference to 
+ *   the y value. 
+ * 
+ *   So if you write textAlign(LEFT), you are aligning 
+ *   the left edge of your text to the x value you give 
+ *   in text(). If you write textAlign(RIGHT, TOP), you 
+ *   are aligning the right edge of your text to the x 
+ *   value and the top of edge of the text to the y 
+ *   value.
+ *
+ *   @param horizAlign horizontal alignment, either 
+ *   LEFT, CENTER, or RIGHT
+ *   @param vertAlign vertical alignment, either TOP, 
+ *   BOTTOM, CENTER, or BASELINE
+ */
+declare function textAlign(horizAlign: HORIZ_ALIGN, vertAlign: VERT_ALIGN): number;
 
 /**
  *   Sets/gets the spacing, in pixels, between lines of 
@@ -3993,14 +4139,16 @@ declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?
 // src/webgl/material.js
 
 /**
- *   Normal material for geometry
+ *   Normal material for geometry. You can view all 
+ *   possible materials in this example.
  *
  *   @return the p5 object
  */
 declare function normalMaterial(): p5;
 
 /**
- *   Texture for geometry
+ *   Texture for geometry. You can view other possible 
+ *   materials in this example.
  *
  *   @param tex 2-dimensional graphics to render as 
  *   texture
@@ -4009,7 +4157,9 @@ declare function normalMaterial(): p5;
 declare function texture(tex: p5.Image|p5.MediaElement|p5.Graphics): p5;
 
 /**
- *   Ambient material for geometry with a given color
+ *   Ambient material for geometry with a given color. 
+ *   You can view all possible materials in this 
+ *   example.
  *
  *   @param v1 gray value, red or hue value (depending 
  *   on the current color mode), or color Array, or CSS 
@@ -4022,7 +4172,9 @@ declare function texture(tex: p5.Image|p5.MediaElement|p5.Graphics): p5;
 declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
 
 /**
- *   Specular material for geometry with a given color
+ *   Specular material for geometry with a given color. 
+ *   You can view all possible materials in this 
+ *   example.
  *
  *   @param v1 gray value, red or hue value (depending 
  *   on the current color mode), or color Array, or CSS 
@@ -4245,37 +4397,37 @@ declare function removeElements(): void;
 //
 // declare function createRadio(divId?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 713:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 712:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 742:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 741:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 842:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 841:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 870:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 869:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 906:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 905:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1006:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 1005:
 //
 //   return has invalid type: Object/p5.Element
 //
