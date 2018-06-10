@@ -3697,67 +3697,67 @@ declare class p5 {
   //
   // createImg(src: string, alt?: string, successCallback?: Function): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 238:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 237:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 261:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 260:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 283:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 282:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 303:
+  // TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 302:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createCheckbox(label?: string, value?: boolean): any;
 
-  // TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 345:
+  // TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 344:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSelect(multiple?: boolean): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 389:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 388:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 406:
+  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 405:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createFileInput(callback?: Function, multiple?: string): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 498:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 497:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 526:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 525:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 562:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 561:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: string|TYPE|object, callback: Function): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 658:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 657:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -3887,7 +3887,8 @@ declare namespace p5 {
      *   Attaches the element to the parent specified. A 
      *   way of setting the container for the element. 
      *   Accepts either a string ID, DOM node, or 
-     *   p5.Element.
+     *   p5.Element. If no arguments given, parent node is 
+     *   returned.
      *
      *   @param parent the ID, DOM node, or p5.Element of 
      *   desired parent element
@@ -3983,10 +3984,22 @@ declare namespace p5 {
      *   of an element is changed. This can be used to 
      *   attach an element specific event listener.
      *
-     *   @param fxn function to be fired when mouse is 
-     *   moved over the element.
+     *   @param fxn function to be fired when the value of 
+     *   an element changes.
      */
     changed(fxn: Function): p5.Element;
+
+    /**
+     *   The .input() function is called when any user 
+     *   input is detected with an element. The input event 
+     *   is often used to detect keystrokes in a input 
+     *   element, or changes on a slider element. This can 
+     *   be used to attach an element specific event 
+     *   listener.
+     *
+     *   @param fxn function to be fired on user input.
+     */
+    input(fxn: Function): p5.Element;
 
     /**
      *   The .mouseOut() function is called once after 
@@ -4051,7 +4064,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/core/p5.Element.js, line 420:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 441:
     //
     //   param "callback" is defined multiple times
     //
@@ -4059,13 +4072,13 @@ declare namespace p5 {
 
     // lib/addons/p5.dom.js
 
-    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 680:
+    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 679:
     //
     //   return has invalid type: Object/p5.Element
     //
     // addClass(theClass: string): any;
 
-    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 702:
+    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 701:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4092,19 +4105,19 @@ declare namespace p5 {
      */
     html(html?: string): any|string;
 
-    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 775:
+    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 774:
     //
     //   return has invalid type: Object/p5.Element
     //
     // position(x?: number, y?: number): any;
 
-    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 809:
+    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 808:
     //
     //   return has invalid type: Object/p5.Element
     //
     // translate(x: number, y: number, z?: number, perspective?: number): any;
 
-    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 851:
+    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 850:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4145,19 +4158,19 @@ declare namespace p5 {
      */
     value(value?: string|number): string|any;
 
-    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 982:
+    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 981:
     //
     //   return has invalid type: Object/p5.Element
     //
     // show(): any;
 
-    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 994:
+    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 993:
     //
     //   return has invalid type: Object/p5.Element
     //
     // hide(): any;
 
-    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1005:
+    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1004:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -5091,37 +5104,37 @@ declare namespace p5 {
      */
     constructor(elt: string, pInst?: object);
 
-    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1119:
+    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1118:
     //
     //   return has invalid type: Object/p5.Element
     //
     // play(): any;
 
-    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1140:
+    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1139:
     //
     //   return has invalid type: Object/p5.Element
     //
     // stop(): any;
 
-    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1152:
+    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1151:
     //
     //   return has invalid type: Object/p5.Element
     //
     // pause(): any;
 
-    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1163:
+    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1162:
     //
     //   return has invalid type: Object/p5.Element
     //
     // loop(): any;
 
-    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1174:
+    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1173:
     //
     //   return has invalid type: Object/p5.Element
     //
     // noLoop(): any;
 
-    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1187:
+    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1186:
     //
     //   return has invalid type: Object/p5.Element
     //

@@ -45,35 +45,35 @@ createDiv() lib/addons/p5.dom.js, line 159, return has invalid type: Object/p5.E
 createP() lib/addons/p5.dom.js, line 169, return has invalid type: Object/p5.Element
 createSpan() lib/addons/p5.dom.js, line 180, return has invalid type: Object/p5.Element
 createImg() lib/addons/p5.dom.js, line 199, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 238, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 261, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 283, return has invalid type: Object/p5.Element
-createCheckbox() lib/addons/p5.dom.js, line 303, return has invalid type: Object/p5.Element
-createSelect() lib/addons/p5.dom.js, line 345, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 389, return has invalid type: Object/p5.Element
-createFileInput() lib/addons/p5.dom.js, line 406, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 498, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 526, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 562, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 658, return has invalid type: Object/p5.Element
-drop() src/core/p5.Element.js, line 420, param "callback" is defined multiple times
-addClass() lib/addons/p5.dom.js, line 680, return has invalid type: Object/p5.Element
-removeClass() lib/addons/p5.dom.js, line 702, return has invalid type: Object/p5.Element
-position() lib/addons/p5.dom.js, line 775, return has invalid type: Object/p5.Element
-translate() lib/addons/p5.dom.js, line 809, return has invalid type: Object/p5.Element
-rotate() lib/addons/p5.dom.js, line 851, return has invalid type: Object/p5.Element
-show() lib/addons/p5.dom.js, line 982, return has invalid type: Object/p5.Element
-hide() lib/addons/p5.dom.js, line 994, return has invalid type: Object/p5.Element
-size() lib/addons/p5.dom.js, line 1005, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 237, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 260, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 282, return has invalid type: Object/p5.Element
+createCheckbox() lib/addons/p5.dom.js, line 302, return has invalid type: Object/p5.Element
+createSelect() lib/addons/p5.dom.js, line 344, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 388, return has invalid type: Object/p5.Element
+createFileInput() lib/addons/p5.dom.js, line 405, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 497, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 525, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 561, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 657, return has invalid type: Object/p5.Element
+drop() src/core/p5.Element.js, line 441, param "callback" is defined multiple times
+addClass() lib/addons/p5.dom.js, line 679, return has invalid type: Object/p5.Element
+removeClass() lib/addons/p5.dom.js, line 701, return has invalid type: Object/p5.Element
+position() lib/addons/p5.dom.js, line 774, return has invalid type: Object/p5.Element
+translate() lib/addons/p5.dom.js, line 808, return has invalid type: Object/p5.Element
+rotate() lib/addons/p5.dom.js, line 850, return has invalid type: Object/p5.Element
+show() lib/addons/p5.dom.js, line 981, return has invalid type: Object/p5.Element
+hide() lib/addons/p5.dom.js, line 993, return has invalid type: Object/p5.Element
+size() lib/addons/p5.dom.js, line 1004, return has invalid type: Object/p5.Element
 p5.Graphics() src/core/p5.Graphics.js, line 10, required param "whether" follows an optional param
 p5.Renderer() src/core/p5.Renderer.js, line 10, required param "whether" follows an optional param
 lerp() src/math/p5.Vector.js, line 622, required param "amt" follows an optional param
-play() lib/addons/p5.dom.js, line 1119, return has invalid type: Object/p5.Element
-stop() lib/addons/p5.dom.js, line 1140, return has invalid type: Object/p5.Element
-pause() lib/addons/p5.dom.js, line 1152, return has invalid type: Object/p5.Element
-loop() lib/addons/p5.dom.js, line 1163, return has invalid type: Object/p5.Element
-noLoop() lib/addons/p5.dom.js, line 1174, return has invalid type: Object/p5.Element
-autoplay() lib/addons/p5.dom.js, line 1187, return has invalid type: Object/p5.Element
+play() lib/addons/p5.dom.js, line 1118, return has invalid type: Object/p5.Element
+stop() lib/addons/p5.dom.js, line 1139, return has invalid type: Object/p5.Element
+pause() lib/addons/p5.dom.js, line 1151, return has invalid type: Object/p5.Element
+loop() lib/addons/p5.dom.js, line 1162, return has invalid type: Object/p5.Element
+noLoop() lib/addons/p5.dom.js, line 1173, return has invalid type: Object/p5.Element
+autoplay() lib/addons/p5.dom.js, line 1186, return has invalid type: Object/p5.Element
 p5.SoundFile() lib/addons/p5.sound.js, line 583, param "path" has invalid type: String/Array
 loadSound() lib/addons/p5.sound.js, line 685, param "path" has invalid type: String/Array
 loadSound() lib/addons/p5.sound.js, line 685, param "callback" is defined multiple times
@@ -147,17 +147,17 @@ createDiv() lib/addons/p5.dom.js, line 159, return has invalid type: Object/p5.E
 createP() lib/addons/p5.dom.js, line 169, return has invalid type: Object/p5.Element
 createSpan() lib/addons/p5.dom.js, line 180, return has invalid type: Object/p5.Element
 createImg() lib/addons/p5.dom.js, line 199, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 238, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 261, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 283, return has invalid type: Object/p5.Element
-createCheckbox() lib/addons/p5.dom.js, line 303, return has invalid type: Object/p5.Element
-createSelect() lib/addons/p5.dom.js, line 345, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 389, return has invalid type: Object/p5.Element
-createFileInput() lib/addons/p5.dom.js, line 406, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 498, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 526, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 562, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 658, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 237, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 260, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 282, return has invalid type: Object/p5.Element
+createCheckbox() lib/addons/p5.dom.js, line 302, return has invalid type: Object/p5.Element
+createSelect() lib/addons/p5.dom.js, line 344, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 388, return has invalid type: Object/p5.Element
+createFileInput() lib/addons/p5.dom.js, line 405, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 497, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 525, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 561, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 657, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Type
 MISSING: Number/Constant

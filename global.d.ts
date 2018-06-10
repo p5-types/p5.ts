@@ -3697,67 +3697,67 @@ declare function removeElements(): void;
 //
 // declare function createImg(src: string, alt?: string, successCallback?: Function): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 238:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 237:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 261:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 260:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 283:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 282:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 303:
+// TODO: Fix createCheckbox() errors in lib/addons/p5.dom.js, line 302:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCheckbox(label?: string, value?: boolean): any;
 
-// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 345:
+// TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 344:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSelect(multiple?: boolean): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 389:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 388:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 406:
+// TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 405:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 498:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 497:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 526:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 525:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 562:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 561:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 658:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 657:
 //
 //   return has invalid type: Object/p5.Element
 //
