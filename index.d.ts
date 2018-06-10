@@ -154,10 +154,8 @@ declare class p5 {
    *   supported, the RGBA form should be used.
    *
    *   @param value a color string
-   *   @param [alpha] alpha value relative to current 
-   *   color range (default is 0-255)
    */
-  color(value: string, alpha?: number): p5.Color;
+  color(value: string): p5.Color;
 
   /**
    *   Creates colors for storing in variables of the 
@@ -324,7 +322,7 @@ declare class p5 {
    * 
    *  
    *   A p5.Image can also be provided to set the 
-   *   background iamge.
+   *   background image.
    *
    *   @param color any value created by the color() 
    *   function
@@ -360,7 +358,7 @@ declare class p5 {
    * 
    *  
    *   A p5.Image can also be provided to set the 
-   *   background iamge.
+   *   background image.
    *
    *   @param colorstring color string, possible formats 
    *   include: integer rgb() or rgba(), percentage rgb() 
@@ -399,7 +397,7 @@ declare class p5 {
    * 
    *  
    *   A p5.Image can also be provided to set the 
-   *   background iamge.
+   *   background image.
    *
    *   @param gray specifies a value between white and 
    *   black
@@ -437,7 +435,7 @@ declare class p5 {
    * 
    *  
    *   A p5.Image can also be provided to set the 
-   *   background iamge.
+   *   background image.
    *
    *   @param v1 red or hue value (depending on the 
    *   current color mode)
@@ -479,7 +477,7 @@ declare class p5 {
    * 
    *  
    *   A p5.Image can also be provided to set the 
-   *   background iamge.
+   *   background image.
    *
    *   @param values an array containing the 
    *   red,green,blue & and alpha components of the color
@@ -515,7 +513,7 @@ declare class p5 {
    * 
    *  
    *   A p5.Image can also be provided to set the 
-   *   background iamge.
+   *   background image.
    *
    *   @param image image created with loadImage() or 
    *   createImage(), to set as background (must be same 
@@ -641,7 +639,30 @@ declare class p5 {
    *   @param value a color string
    *   @chainable
    */
-  fill(value: string, alpha?: number): p5;
+  fill(value: string): p5;
+
+  /**
+   *   Sets the color used to fill shapes. For example, 
+   *   if you run fill(204, 102, 0), all subsequent 
+   *   shapes will be filled with orange. This color is 
+   *   either specified in terms of the RGB or HSB color 
+   *   depending on the current colorMode(). (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255). The alpha range by default is also 
+   *   0 to 255.  If a single string argument is 
+   *   provided, RGB, RGBA and Hex CSS color strings and 
+   *   all named color strings are supported. In this 
+   *   case, an alpha number value as a second argument 
+   *   is not supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   fill color.
+   *
+   *   @param gray a gray value
+   *   @chainable
+   */
+  fill(gray: number, alpha?: number): p5;
 
   /**
    *   Sets the color used to fill shapes. For example, 
@@ -755,7 +776,29 @@ declare class p5 {
    *   @param value a color string
    *   @chainable
    */
-  stroke(value: string, alpha?: number): p5;
+  stroke(value: string): p5;
+
+  /**
+   *   Sets the color used to draw lines and borders 
+   *   around shapes. This color is either specified in 
+   *   terms of the RGB or HSB color depending on the 
+   *   current colorMode() (the default color space is 
+   *   RGB, with each value in the range from 0 to 255). 
+   *   The alpha range by default is also 0 to 255.  If a 
+   *   single string argument is provided, RGB, RGBA and 
+   *   Hex CSS color strings and all named color strings 
+   *   are supported. In this case, an alpha number value 
+   *   as a second argument is not supported, the RGBA 
+   *   form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   stroke color.
+   *
+   *   @param gray a gray value
+   *   @chainable
+   */
+  stroke(gray: number, alpha?: number): p5;
 
   /**
    *   Sets the color used to draw lines and borders 
@@ -868,12 +911,9 @@ declare class p5 {
    *   @param y y-coordinate of the ellipse.
    *   @param w width of the ellipse.
    *   @param h height of the ellipse.
-   *   @param detailX number of segments in the 
-   *   x-direction
-   *   @param [detailY] number of segments in the 
-   *   y-direction
+   *   @param detail number of radial sectors to draw
    */
-  ellipse(x: number, y: number, w: number, h: number, detailX: number, detailY?: number): void;
+  ellipse(x: number, y: number, w: number, h: number, detail: number): void;
 
   /**
    *   Draws a line (a direct path between two points) to 
@@ -1307,14 +1347,18 @@ declare class p5 {
   /**
    *   Called directly before setup(), the preload() 
    *   function is used to handle asynchronous loading of 
-   *   external files. If a preload function is defined, 
-   *   setup() will wait until any load calls within have 
-   *   finished. Nothing besides load calls should be 
-   *   inside preload (loadImage, loadJSON, loadFont, 
-   *   loadStrings, etc). By default the text 
-   *   "loading..." will be displayed. To make your own 
-   *   loading page, include an HTML element with id 
-   *   "p5_loading" in your page. More information here.
+   *   external files in a blocking way. If a preload 
+   *   function is defined, setup() will wait until any 
+   *   load calls within have finished. Nothing besides 
+   *   load calls (loadImage, loadJSON, loadFont, 
+   *   loadStrings, etc.) should be inside preload 
+   *   function. If asynchronous loading is preferred, 
+   *   the load methods can instead be called in setup() 
+   *   or anywhere else with the use of a callback 
+   *   parameter.  By default the text "loading..." will 
+   *   be displayed. To make your own loading page, 
+   *   include an HTML element with id "p5_loading" in 
+   *   your page. More information here.
    *
    */
   preload(): void;
@@ -1366,7 +1410,7 @@ declare class p5 {
    *   coordinate system will be reset at the beginning 
    *   of each draw() call. If any transformations are 
    *   performed within draw() (ex: scale, rotate, 
-   *   translate, their effects will be undone at the 
+   *   translate), their effects will be undone at the 
    *   beginning of draw(), so transformations will not 
    *   accumulate over time. On the other hand, styling 
    *   applied (ex: fill, stroke, etc) will remain in 
@@ -1457,7 +1501,11 @@ declare class p5 {
 
   /**
    *   Sets the resolution at which Beziers display. The 
-   *   default value is 20.
+   *   default value is 20. 
+   * 
+   *   This function is only useful when using the WEBGL 
+   *   renderer as the default canvas renderer does not 
+   *   use this information.
    *
    *   @param detail resolution of the curves
    *   @chainable
@@ -1567,7 +1615,11 @@ declare class p5 {
 
   /**
    *   Sets the resolution at which curves display. The 
-   *   default value is 20.
+   *   default value is 20. 
+   * 
+   *   This function is only useful when using the WEBGL 
+   *   renderer as the default canvas renderer does not 
+   *   use this information.
    *
    *   @param resolution of the curves
    *   @chainable
@@ -1876,9 +1928,8 @@ declare class p5 {
    *   @param w width of the canvas
    *   @param h height of the canvas
    *   @param [renderer] either P2D or WEBGL
-   *   @return canvas generated
    */
-  createCanvas(w: number, h: number, renderer?: RENDERER): HTMLCanvasElement;
+  createCanvas(w: number, h: number, renderer?: RENDERER): p5.Renderer;
 
   /**
    *   Resizes the canvas to given width and height. The 
@@ -1920,11 +1971,11 @@ declare class p5 {
    *   following modes to blend the source pixels (A) 
    *   with the ones of pixels already in the display 
    *   window (B): - BLEND - linear interpolation of 
-   *   colours: C = Afactor + B. This is the default 
+   *   colours: C = A*factor + B. This is the default 
    *   blending mode.
    *   - ADD - sum of A and B
    *   - DARKEST - only the darkest colour succeeds: C = 
-   *   min(Afactor, B).
+   *   min(A*factor, B).
    *   - LIGHTEST - only the lightest colour succeeds: C 
    *   = max(A*factor, B).
    *   - DIFFERENCE - subtract colors from underlying 
@@ -2130,26 +2181,29 @@ declare class p5 {
   /**
    *   Rotates around X axis.
    *
-   *   @param rad angles in radians
+   *   @param angle the angle of rotation, specified in 
+   *   radians or degrees, depending on current angleMode
    *   @chainable
    */
-  rotateX(rad: number): p5;
+  rotateX(angle: number): p5;
 
   /**
    *   Rotates around Y axis.
    *
-   *   @param rad angles in radians
+   *   @param angle the angle of rotation, specified in 
+   *   radians or degrees, depending on current angleMode
    *   @chainable
    */
-  rotateY(rad: number): p5;
+  rotateY(angle: number): p5;
 
   /**
    *   Rotates around Z axis. Webgl mode only.
    *
-   *   @param rad angles in radians
+   *   @param angle the angle of rotation, specified in 
+   *   radians or degrees, depending on current angleMode
    *   @chainable
    */
-  rotateZ(rad: number): p5;
+  rotateZ(angle: number): p5;
 
   /**
    *   Increases or decreases the size of a shape by 
@@ -2283,6 +2337,25 @@ declare class p5 {
    *   @chainable
    */
   translate(x: number, y: number, z?: number): p5;
+
+  /**
+   *   Specifies an amount to displace objects within the 
+   *   display window. The x parameter specifies 
+   *   left/right translation, the y parameter specifies 
+   *   up/down translation.  Transformations are 
+   *   cumulative and apply to everything that happens 
+   *   after and subsequent calls to the function 
+   *   accumulates the effect. For example, calling 
+   *   translate(50, 0) and then translate(20, 0) is the 
+   *   same as translate(70, 0). If translate() is called 
+   *   within draw(), the transformation is reset when 
+   *   the loop begins again. This function can be 
+   *   further controlled by using push() and pop().
+   *
+   *   @param vector the vector to translate by
+   *   @chainable
+   */
+  translate(vector: p5.Vector): p5;
 
   // src/core/vertex.js
 
@@ -2472,17 +2545,31 @@ declare class p5 {
    *   Creates a new instance of p5.StringDict using the 
    *   key, value pair or object you provide.
    *
-   *   @param key or object
    */
-  createStringDict(key: string|object, value: string): p5.StringDict;
+  createStringDict(key: string, value: string): p5.StringDict;
+
+  /**
+   *   Creates a new instance of p5.StringDict using the 
+   *   key, value pair or object you provide.
+   *
+   *   @param object object
+   */
+  createStringDict(object: object): p5.StringDict;
 
   /**
    *   Creates a new instance of p5.NumberDict using the 
    *   key, value pair or object you provide.
    *
-   *   @param key or object
    */
-  createNumberDict(key: number|object, value: number): p5.NumberDict;
+  createNumberDict(key: number, value: number): p5.NumberDict;
+
+  /**
+   *   Creates a new instance of p5.NumberDict using the 
+   *   key, value pair or object you provide.
+   *
+   *   @param object object
+   */
+  createNumberDict(object: object): p5.NumberDict;
 
   // src/events/acceleration.js
 
@@ -3264,7 +3351,27 @@ declare class p5 {
    *
    *   @param value a color string
    */
-  tint(value: string, alpha?: number): void;
+  tint(value: string): void;
+
+  /**
+   *   Sets the fill value for displaying images. Images 
+   *   can be tinted to specified colors or made 
+   *   transparent by including an alpha value.  To apply 
+   *   transparency to an image without affecting its 
+   *   color, use white as the tint color and specify an 
+   *   alpha value. For instance, tint(255, 128) will 
+   *   make an image 50% transparent (assuming the 
+   *   default alpha range of 0-255, which can be changed 
+   *   with colorMode()). 
+   * 
+   *  
+   *   The value for the gray parameter must be less than 
+   *   or equal to the current maximum value as specified 
+   *   by colorMode(). The default maximum value is 255.
+   *
+   *   @param gray a gray value
+   */
+  tint(gray: number, alpha?: number): void;
 
   /**
    *   Sets the fill value for displaying images. Images 
@@ -3681,6 +3788,51 @@ declare class p5 {
   loadJSON(path: string, jsonpOptions?: object, datatype?: string, callback?: Function, errorCallback?: Function): object|any[];
 
   /**
+   *   Loads a JSON file from a file or a URL, and 
+   *   returns an Object. Note that even if the JSON file 
+   *   contains an Array, an Object will be returned with 
+   *   index numbers as keys. This method is 
+   *   asynchronous, meaning it may not finish before the 
+   *   next line in your sketch is executed. JSONP is 
+   *   supported via a polyfill and you can pass in as 
+   *   the second argument an object with definitions of 
+   *   the json callback following the syntax specified 
+   *   here.
+   *
+   *   @param path name of the file or url to load
+   *   @param datatype "json" or "jsonp"
+   *   @param [callback] function to be executed after 
+   *   loadJSON() completes, data is passed in as first 
+   *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
+   */
+  loadJSON(path: string, datatype: string, callback?: Function, errorCallback?: Function): object|any[];
+
+  /**
+   *   Loads a JSON file from a file or a URL, and 
+   *   returns an Object. Note that even if the JSON file 
+   *   contains an Array, an Object will be returned with 
+   *   index numbers as keys. This method is 
+   *   asynchronous, meaning it may not finish before the 
+   *   next line in your sketch is executed. JSONP is 
+   *   supported via a polyfill and you can pass in as 
+   *   the second argument an object with definitions of 
+   *   the json callback following the syntax specified 
+   *   here.
+   *
+   *   @param path name of the file or url to load
+   *   @param callback function to be executed after 
+   *   loadJSON() completes, data is passed in as first 
+   *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
+   */
+  loadJSON(path: string, callback: Function, errorCallback?: Function): object|any[];
+
+  /**
    *   Reads the contents of a file and creates a String 
    *   array of its individual lines. If the name of the 
    *   file is used as the parameter, as in the above 
@@ -3827,16 +3979,21 @@ declare class p5 {
    *   @return XML object containing data
    */
   loadXML(filename: string, callback?: Function, errorCallback?: Function): object;
+  loadBytes(file: string, callback?: Function, errorCallback?: Function): object;
 
   /**
    *   Method for executing an HTTP GET request. If data 
    *   type is not specified, p5 will try to guess based 
    *   on the URL, defaulting to text. This is equivalent 
-   *   to calling httpDo(path, 'GET').
+   *   to calling httpDo(path, 'GET'). The 'binary' 
+   *   datatype will return a Blob object, and the 
+   *   'arrayBuffer' datatype will return an ArrayBuffer 
+   *   which can be used to initialize typed arrays (such 
+   *   as Uint8Array).
    *
    *   @param path name of the file or url to load
-   *   @param [datatype] "json", "jsonp", "xml", or 
-   *   "text"
+   *   @param [datatype] "json", "jsonp", "binary", 
+   *   "arrayBuffer", "xml", or "text"
    *   @param [data] param data passed sent with request
    *   @param [callback] function to be executed after 
    *   httpGet() completes, data is passed in as first 
@@ -3845,7 +4002,48 @@ declare class p5 {
    *   there is an error, response is passed in as first 
    *   argument
    */
-  httpGet(path: string, datatype?: string, data?: object, callback?: Function, errorCallback?: Function): void;
+  httpGet(path: string, datatype?: string, data?: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+  /**
+   *   Method for executing an HTTP GET request. If data 
+   *   type is not specified, p5 will try to guess based 
+   *   on the URL, defaulting to text. This is equivalent 
+   *   to calling httpDo(path, 'GET'). The 'binary' 
+   *   datatype will return a Blob object, and the 
+   *   'arrayBuffer' datatype will return an ArrayBuffer 
+   *   which can be used to initialize typed arrays (such 
+   *   as Uint8Array).
+   *
+   *   @param path name of the file or url to load
+   *   @param data param data passed sent with request
+   *   @param [callback] function to be executed after 
+   *   httpGet() completes, data is passed in as first 
+   *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
+   */
+  httpGet(path: string, data: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+  /**
+   *   Method for executing an HTTP GET request. If data 
+   *   type is not specified, p5 will try to guess based 
+   *   on the URL, defaulting to text. This is equivalent 
+   *   to calling httpDo(path, 'GET'). The 'binary' 
+   *   datatype will return a Blob object, and the 
+   *   'arrayBuffer' datatype will return an ArrayBuffer 
+   *   which can be used to initialize typed arrays (such 
+   *   as Uint8Array).
+   *
+   *   @param path name of the file or url to load
+   *   @param callback function to be executed after 
+   *   httpGet() completes, data is passed in as first 
+   *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
+   */
+  httpGet(path: string, callback: Function, errorCallback?: Function): void;
 
   /**
    *   Method for executing an HTTP POST request. If data 
@@ -3864,7 +4062,40 @@ declare class p5 {
    *   there is an error, response is passed in as first 
    *   argument
    */
-  httpPost(path: string, datatype?: string, data?: object, callback?: Function, errorCallback?: Function): void;
+  httpPost(path: string, datatype?: string, data?: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+  /**
+   *   Method for executing an HTTP POST request. If data 
+   *   type is not specified, p5 will try to guess based 
+   *   on the URL, defaulting to text. This is equivalent 
+   *   to calling httpDo(path, 'POST').
+   *
+   *   @param path name of the file or url to load
+   *   @param data param data passed sent with request
+   *   @param [callback] function to be executed after 
+   *   httpPost() completes, data is passed in as first 
+   *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
+   */
+  httpPost(path: string, data: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+  /**
+   *   Method for executing an HTTP POST request. If data 
+   *   type is not specified, p5 will try to guess based 
+   *   on the URL, defaulting to text. This is equivalent 
+   *   to calling httpDo(path, 'POST').
+   *
+   *   @param path name of the file or url to load
+   *   @param callback function to be executed after 
+   *   httpPost() completes, data is passed in as first 
+   *   argument
+   *   @param [errorCallback] function to be executed if 
+   *   there is an error, response is passed in as first 
+   *   argument
+   */
+  httpPost(path: string, callback: Function, errorCallback?: Function): void;
 
   /**
    *   Method for executing an HTTP request. If data type 
@@ -4010,19 +4241,6 @@ declare class p5 {
    *   "html"
    */
   saveTable(Table: p5.Table, filename: string, options?: string): void;
-
-  /**
-   *   Forces download. Accepts a url to filedata/blob, a 
-   *   filename, and an extension (optional). This is a 
-   *   private function because it does not do any 
-   *   formatting, but it is used by saveStrings, 
-   *   saveJSON, saveTable etc.
-   *
-   *   @param data either an href generated by 
-   *   createObjectURL, or a Blob object containing the 
-   *   data
-   */
-  downloadFile(data: string|Blob, filename?: string, extension?: string): void;
 
   // src/math/calculation.js
 
@@ -4558,7 +4776,8 @@ declare class p5 {
    *   value in degrees. Radians and degrees are two ways 
    *   of measuring the same thing. There are 360 degrees 
    *   in a circle and 2*PI radians in a circle. For 
-   *   example, 90° = PI/2 = 1.5707964.
+   *   example, 90° = PI/2 = 1.5707964. This function 
+   *   does not take into account the current angleMode.
    *
    *   @param radians the radians value to convert to 
    *   degrees
@@ -4571,7 +4790,8 @@ declare class p5 {
    *   value in radians. Radians and degrees are two ways 
    *   of measuring the same thing. There are 360 degrees 
    *   in a circle and 2*PI radians in a circle. For 
-   *   example, 90° = PI/2 = 1.5707964.
+   *   example, 90° = PI/2 = 1.5707964. This function 
+   *   does not take into account the current angleMode.
    *
    *   @param degrees the degree value to convert to 
    *   radians
@@ -4774,7 +4994,7 @@ declare class p5 {
    *   box, see rectMode() for more info
    *   @chainable
    */
-  text(str: string|object|any[], x: number, y: number, x2?: number, y2?: number): p5;
+  text(str: string|object|any[]|number|boolean, x: number, y: number, x2?: number, y2?: number): p5;
 
   /**
    *   Sets the current font that will be drawn with the 
@@ -4977,9 +5197,11 @@ declare class p5 {
    *   returned.
    *
    *   @param n value to parse
+   *   @param [radix] the radix to convert to (default: 
+   *   10)
    *   @return integer representation of value
    */
-  int(n: string|boolean|number): number;
+  int(n: string|boolean|number, radix?: number): number;
 
   /**
    *   Converts a boolean, string, or float to its 
@@ -5532,7 +5754,8 @@ declare class p5 {
    *   tan(PI60.0/360.0));
    *
    *   @param [fovy] camera frustum vertical field of 
-   *   view, from bottom to top of view, in degrees
+   *   view, from bottom to top of view, in angleMode 
+   *   units
    *   @param [aspect] camera frustum aspect ratio
    *   @param [near] frustum near plane length
    *   @param [far] frustum far plane length
@@ -5578,7 +5801,15 @@ declare class p5 {
    *   @param value a color string
    *   @chainable
    */
-  ambientLight(value: string, alpha?: number): p5;
+  ambientLight(value: string): p5;
+
+  /**
+   *   Creates an ambient light with a color
+   *
+   *   @param gray a gray value
+   *   @chainable
+   */
+  ambientLight(gray: number, alpha?: number): p5;
 
   /**
    *   Creates an ambient light with a color
@@ -5992,10 +6223,14 @@ declare class p5 {
    *   segments the smoother geometry default is 24
    *   @param [detailY] number of segments in 
    *   y-dimension, the more segments the smoother 
-   *   geometry default is 16
+   *   geometry default is 1
+   *   @param [bottomCap] whether to draw the bottom of 
+   *   the cylinder
+   *   @param [topCap] whether to draw the top of the 
+   *   cylinder
    *   @chainable
    */
-  cylinder(radius?: number, height?: number, detailX?: number, detailY?: number): p5;
+  cylinder(radius?: number, height?: number, detailX?: number, detailY?: number, bottomCap?: boolean, topCap?: boolean): p5;
 
   /**
    *   Draw a cone with given radius and height
@@ -6005,10 +6240,11 @@ declare class p5 {
    *   @param [detailX] number of segments, the more 
    *   segments the smoother geometry default is 24
    *   @param [detailY] number of segments, the more 
-   *   segments the smoother geometry default is 16
+   *   segments the smoother geometry default is 1
+   *   @param [cap] whether to draw the base of the cone
    *   @chainable
    */
-  cone(radius?: number, height?: number, detailX?: number, detailY?: number): p5;
+  cone(radius?: number, height?: number, detailX?: number, detailY?: number, cap?: boolean): p5;
 
   /**
    *   Draw an ellipsoid with given radius
@@ -6110,7 +6346,7 @@ declare class p5 {
    *   to search within
    *   @return p5.Element containing node found
    */
-  select(name: string, container?: string): object|p5.Element|null;
+  select(name: string, container?: string|p5.Element|HTMLElement): object|p5.Element|null;
 
   /**
    *   Searches the page for elements with the given 
@@ -6352,13 +6588,15 @@ declare class p5 {
   createAudio(src?: string|string[], callback?: object): p5.MediaElement|p5.Element;
 
   /**
-   *   Creates a new <video> element that contains the 
-   *   audio/video feed from a webcam. This can be drawn 
-   *   onto the canvas using video(). More specific 
-   *   properties of the feed can be passing in a 
-   *   Constraints object. See the  W3C spec for possible 
-   *   properties. Note that not all of these are 
-   *   supported by all browsers. 
+   *   Creates a new HTML5 <video> element that contains 
+   *   the audio/video feed from a webcam. The element is 
+   *   separate from the canvas and is displayed by 
+   *   default. The element can be hidden using .hide(). 
+   *   The feed can be drawn onto the canvas using 
+   *   image(). More specific properties of the feed can 
+   *   be passing in a Constraints object. See the  W3C 
+   *   spec for possible properties. Note that not all of 
+   *   these are supported by all browsers. 
    * 
    *   Security note: A new browser security 
    *   specification requires that getUserMedia, which is 
@@ -6454,27 +6692,22 @@ declare namespace p5 {
 
   class Color {
     /**
-     *   Each color stores the color mode and level maxes 
-     *   that applied at the time of its construction. 
-     *   These are used to interpret the input arguments 
-     *   (at construction and later for that instance of 
-     *   color) and to format the output e.g. when 
-     *   saturation() is requested. Internally we store an 
-     *   array representing the ideal RGBA values in 
-     *   floating point form, normalized from 0 to 1. From 
-     *   this we calculate the closest screen color (RGBA 
-     *   levels from 0 to 255) and expose this to the 
-     *   renderer. 
-     * 
-     *   We also cache normalized, floating point 
-     *   components of the color in various representations 
-     *   as they are calculated. This is done to prevent 
-     *   repeating a conversion that has already been 
-     *   performed.
+     *   This function returns the color formatted as a 
+     *   string. This can be useful for debugging, or for 
+     *   using p5.js with other libraries.
      *
+     *   @param [format] How the color string will be 
+     *   formatted. Leaving this empty formats the string 
+     *   as rgba(r, g, b, a). '#rgb' '#rgba' '#rrggbb' and 
+     *   '#rrggbbaa' format as hexadecimal color codes. 
+     *   'rgb' 'hsb' and 'hsl' return the color formatted 
+     *   in the specified color mode. 'rgba' 'hsba' and 
+     *   'hsla' are the same as above but with alpha 
+     *   channels. 'rgb%' 'hsb%' 'hsl%' 'rgba%' 'hsba%' and 
+     *   'hsla%' format as percentages.
+     *   @return the formatted string
      */
-    constructor();
-    toString(): string;
+    toString(format?: string): string;
     setRed(red: number): void;
     setGreen(green: number): void;
     setBlue(blue: number): void;
@@ -6484,21 +6717,6 @@ declare namespace p5 {
   // src/core/p5.Element.js
 
   class Element {
-    /**
-     *   Base class for all elements added to a sketch, 
-     *   including canvas, graphics buffers, and other HTML 
-     *   elements. Methods in blue are included in the core 
-     *   functionality, methods in brown are added with the 
-     *   p5.dom library. It is not called directly, but 
-     *   p5.Element objects are created by calling 
-     *   createCanvas, createGraphics, or in the p5.dom 
-     *   library, createDiv, createImg, createInput, etc.
-     *
-     *   @param elt DOM node that is wrapped
-     *   @param [pInst] pointer to p5 instance
-     */
-    constructor(elt: string, pInst?: p5);
-
     /**
      *   Underlying HTML element. All normal HTML methods 
      *   can be called on this.
@@ -6966,21 +7184,10 @@ declare namespace p5 {
 
   class Graphics extends p5.Element {
     /**
-     *   Thin wrapper around a renderer, to be used for 
-     *   creating a graphics buffer object. Use this class 
-     *   if you need to draw into an off-screen graphics 
-     *   buffer. The two parameters define the width and 
-     *   height in pixels. The fields and methods for this 
-     *   class are extensive, but mirror the normal drawing 
-     *   API for p5.
+     *   Removes a Graphics object from the page and frees 
+     *   any resources associated with it.
      *
-     *   @param w width
-     *   @param h height
-     *   @param renderer the renderer to use, either P2D or 
-     *   WEBGL
-     *   @param [pInst] pointer to p5 instance
      */
-    constructor(w: number, h: number, renderer: GRAPHICS_RENDERER, pInst?: p5);
     remove(): void;
   }
 
@@ -7004,14 +7211,6 @@ declare namespace p5 {
   // src/data/p5.TypedDict.js
 
   class TypedDict {
-    /**
-     *   Base class for all p5.Dictionary types. More 
-     *   specifically typed Dictionary objects inherit from 
-     *   this
-     *
-     */
-    constructor();
-
     /**
      *   Returns the number of key-value pairs currently in 
      *   Dictionary object
@@ -7094,19 +7293,8 @@ declare namespace p5 {
     saveJSON(): void;
   }
   class StringDict extends p5.TypedDict {
-    /**
-     *   A Dictionary class for Strings.
-     *
-     */
-    constructor();
   }
   class NumberDict extends p5.TypedDict {
-    /**
-     *   A simple Dictionary class for Numbers.
-     *
-     */
-    constructor();
-
     /**
      *   Add to a value stored at a certain key The sum is 
      *   stored in that location in the Dictionary.
@@ -7174,30 +7362,6 @@ declare namespace p5 {
   // src/image/p5.Image.js
 
   class Image {
-    /**
-     *   Creates a new p5.Image. A p5.Image is a canvas 
-     *   backed representation of an image.  p5 can display 
-     *   .gif, .jpg and .png images. Images may be 
-     *   displayed in 2D and 3D space. Before an image is 
-     *   used, it must be loaded with the loadImage() 
-     *   function. The p5.Image class contains fields for 
-     *   the width and height of the image, as well as an 
-     *   array called pixels[] that contains the values for 
-     *   every pixel in the image. 
-     * 
-     *  
-     *   The methods described below allow easy access to 
-     *   the image's pixels and alpha channel and simplify 
-     *   the process of compositing. 
-     * 
-     *  
-     *   Before using the pixels[] array, be sure to use 
-     *   the loadPixels() method on the image to make sure 
-     *   that the pixel data is properly loaded.
-     *
-     */
-    constructor(width: number, height: number);
-
     /**
      *   Image width.
      *
@@ -7465,10 +7629,34 @@ declare namespace p5 {
   // src/io/files.js
 
   class PrintWriter {
-    constructor(filename: string, extension?: string);
+    /**
+     *   Writes data to the PrintWriter stream
+     *
+     *   @param data all data to be written by the 
+     *   PrintWriter
+     */
     write(data: any[]): void;
+
+    /**
+     *   Writes data to the PrintWriter stream, and adds a 
+     *   new line at the end
+     *
+     *   @param data all data to be printed by the 
+     *   PrintWriter
+     */
     print(data: any[]): void;
-    flush(): void;
+
+    /**
+     *   Clears the data already written to the PrintWriter 
+     *   object
+     *
+     */
+    clear(): void;
+
+    /**
+     *   Closes the PrintWriter
+     *
+     */
     close(): void;
   }
 
@@ -7568,7 +7756,7 @@ declare namespace p5 {
      *   (string)
      *   @return TableRow object
      */
-    matchRow(regexp: string, column: string|number): p5.TableRow;
+    matchRow(regexp: string|RegExp, column: string|number): p5.TableRow;
 
     /**
      *   Finds the rows in the Table that match the regular 
@@ -7671,10 +7859,11 @@ declare namespace p5 {
      *   column. The row is specified by its ID, while the 
      *   column may be specified by either its ID or title.
      *
+     *   @param row row ID
      *   @param column column ID (Number) or title (String)
      *   @param value value to assign
      */
-    set(column: string|number, value: string|number): void;
+    set(row: number, column: string|number, value: string|number): void;
 
     /**
      *   Stores a Float value in the Table's specified row 
@@ -7785,7 +7974,7 @@ declare namespace p5 {
      *   @param column Column ID (Number) or Title (String)
      *   @param value The value to be stored as a Float
      */
-    setNum(column: string|number, value: number): void;
+    setNum(column: string|number, value: number|string): void;
 
     /**
      *   Stores a String value in the TableRow's specified 
@@ -7795,7 +7984,7 @@ declare namespace p5 {
      *   @param column Column ID (Number) or Title (String)
      *   @param value The value to be stored as a String
      */
-    setString(column: string|number, value: string): void;
+    setString(column: string|number, value: string|number|boolean|object): void;
 
     /**
      *   Retrieves a value from the TableRow's specified 
@@ -7908,10 +8097,10 @@ declare namespace p5 {
      *   newly created child is returned as an p5.XML 
      *   object.
      *
-     *   @param a p5.XML Object which will be the child to 
-     *   be added
+     *   @param node a p5.XML Object which will be the 
+     *   child to be added
      */
-    addChild(a: p5.XML): void;
+    addChild(node: p5.XML): void;
 
     /**
      *   Removes the element specified by name or index.
@@ -7972,7 +8161,7 @@ declare namespace p5 {
      *   @param [defaultValue] the default value of the 
      *   attribute
      */
-    getString(name: string, defaultValue?: number): number;
+    getString(name: string, defaultValue?: number): string;
 
     /**
      *   Sets the content of an element's attribute. The 
@@ -7982,7 +8171,7 @@ declare namespace p5 {
      *   @param name the full name of the attribute
      *   @param value the value of the attribute
      */
-    setAttribute(name: string, value: number): void;
+    setAttribute(name: string, value: number|string|boolean): void;
 
     /**
      *   Returns the content of an element. If there is no 
@@ -8005,39 +8194,6 @@ declare namespace p5 {
   // src/math/p5.Vector.js
 
   class Vector {
-    /**
-     *   A class to describe a two or three dimensional 
-     *   vector, specifically a Euclidean (also known as 
-     *   geometric) vector. A vector is an entity that has 
-     *   both magnitude and direction. The datatype, 
-     *   however, stores the components of the vector (x, y 
-     *   for 2D, and x, y, z for 3D). The magnitude and 
-     *   direction can be accessed via the methods mag() 
-     *   and heading().  In many of the p5.js examples, you 
-     *   will see p5.Vector used to describe a position, 
-     *   velocity, or acceleration. For example, if you 
-     *   consider a rectangle moving across the screen, at 
-     *   any given instant it has a position (a vector that 
-     *   points from the origin to its location), a 
-     *   velocity (the rate at which the object's position 
-     *   changes per time unit, expressed as a vector), and 
-     *   acceleration (the rate at which the object's 
-     *   velocity changes per time unit, expressed as a 
-     *   vector). 
-     * 
-     *  
-     *   Since vectors represent groupings of values, we 
-     *   cannot simply use traditional 
-     *   addition/multiplication/etc. Instead, we'll need 
-     *   to do some "vector" math, which is made easy by 
-     *   the methods inside the p5.Vector class.
-     *
-     *   @param [x] x component of the vector
-     *   @param [y] y component of the vector
-     *   @param [z] z component of the vector
-     */
-    constructor(x?: number, y?: number, z?: number);
-
     /**
      *   The x component of the vector
      *
@@ -8524,7 +8680,7 @@ declare namespace p5 {
     /**
      *   Make a new 2D vector from an angle
      *
-     *   @param angle the desired angle
+     *   @param angle the desired angle, in radians
      *   @param [length] the length of the new vector 
      *   (defaults to 1)
      *   @return the new p5.Vector object
@@ -8535,9 +8691,10 @@ declare namespace p5 {
      *   Make a new 3D vector from a pair of ISO spherical 
      *   angles
      *
-     *   @param theta the polar angle (zero is up)
-     *   @param phi the azimuthal angle (zero is out of the 
-     *   screen)
+     *   @param theta the polar angle, in radians (zero is 
+     *   up)
+     *   @param phi the azimuthal angle, in radians (zero 
+     *   is out of the screen)
      *   @param [length] the length of the new vector 
      *   (defaults to 1)
      *   @return the new p5.Vector object
@@ -8562,13 +8719,6 @@ declare namespace p5 {
   // src/typography/p5.Font.js
 
   class Font {
-    /**
-     *   Base class for font handling
-     *
-     *   @param [pInst] pointer to p5 instance
-     */
-    constructor(pInst?: p5);
-
     /**
      *   Underlying opentype font implementation
      *
@@ -8669,127 +8819,9 @@ declare namespace p5 {
     normalize(): p5.Geometry;
   }
 
-  // src/webgl/p5.RendererGL.js
-
-  class RendererGL extends p5.Renderer {
-    /**
-     *   Basic fill material for geometry with a given 
-     *   color
-     *
-     *   @param v1 gray value, red or hue value (depending 
-     *   on the current color mode), or color Array, or CSS 
-     *   color string
-     *   @param [v2] green or saturation value
-     *   @param [v3] blue or brightness value
-     *   @param [a] opacity
-     *   @chainable
-     */
-    constructor(v1: number|number[]|string|p5.Color, v2?: number, v3?: number, a?: number);
-
-    // src/webgl/p5.RendererGL.Immediate.js
-
-    /**
-     *   Begin shape drawing. This is a helpful way of 
-     *   generating custom shapes quickly. However in WEBGL 
-     *   mode, application performance will likely drop as 
-     *   a result of too many calls to beginShape() / 
-     *   endShape(). As a high performance alternative, 
-     *   please use p5.js geometry primitives.
-     *
-     *   @param mode webgl primitives mode. beginShape 
-     *   supports the following modes: 
-     *   POINTS,LINES,LINE_STRIP,LINE_LOOP,TRIANGLES, 
-     *   TRIANGLE_STRIP,and TRIANGLE_FAN.
-     *   @chainable
-     */
-    beginShape(mode: number): p5.RendererGL;
-
-    /**
-     *   adds a vertex to be drawn in a custom Shape.
-     *
-     *   @param x x-coordinate of vertex
-     *   @param y y-coordinate of vertex
-     *   @param z z-coordinate of vertex
-     *   @chainable
-     */
-    vertex(x: number, y: number, z: number): p5.RendererGL;
-
-    // src/webgl/p5.RendererGL.js
-
-    /**
-     *   Basic stroke material for geometry with a given 
-     *   color
-     *
-     *   @param v1 gray value, red or hue value (depending 
-     *   on the current color mode), or color Array, or CSS 
-     *   color string
-     *   @param [v2] green or saturation value
-     *   @param [v3] blue or brightness value
-     *   @param [a] opacity
-     */
-    stroke(v1: number|number[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
-
-    /**
-     *   Change weight of stroke
-     *
-     *   @param stroke weight to be used for drawing
-     */
-    strokeWeight(stroke: number): void;
-
-    /**
-     *   Returns an array of [R,G,B,A] values for any pixel 
-     *   or grabs a section of an image. If no parameters 
-     *   are specified, the entire image is returned. Use 
-     *   the x and y parameters to get the value of one 
-     *   pixel. Get a section of the display window by 
-     *   specifying additional w and h parameters. When 
-     *   getting an image, the x and y parameters define 
-     *   the coordinates for the upper-left corner of the 
-     *   image, regardless of the current imageMode().  If 
-     *   the pixel requested is outside of the image 
-     *   window, [0,0,0,255] is returned. 
-     * 
-     *  
-     *   Getting the color of a single pixel with get(x, y) 
-     *   is easy, but not as fast as grabbing the data 
-     *   directly from pixels[]. The equivalent statement 
-     *   to get(x, y) is using pixels[] with pixel density 
-     *   d
-     *
-     *   @param [x] x-coordinate of the pixel
-     *   @param [y] y-coordinate of the pixel
-     *   @param [w] width
-     *   @param [h] height
-     *   @return color of pixel at x,y in array format [R, 
-     *   G, B, A] or p5.Image
-     */
-    get(x?: number, y?: number, w?: number, h?: number): number[]|Color|p5.Image;
-
-    /**
-     *   Loads the pixels data for this canvas into the 
-     *   pixels[] attribute. Note that updatePixels() and 
-     *   set() do not work. Any pixel manipulation must be 
-     *   done directly to the pixels[] array.
-     *
-     */
-    loadPixels(): void;
-  }
-
   // src/webgl/p5.Shader.js
 
   class Shader {
-    /**
-     *   Shader class for WEBGL Mode
-     *
-     *   @param renderer an instance of p5.RendererGL that 
-     *   will provide the GL context for this new p5.Shader
-     *   @param vertSrc source code for the vertex shader 
-     *   (as a string)
-     *   @param fragSrc source code for the fragment shader 
-     *   (as a string)
-     */
-    constructor(renderer: p5.RendererGL, vertSrc: string, fragSrc: string);
-
     /**
      *   Wrapper around gl.uniform functions. As we store 
      *   uniform info in the shader we can use that to do 
@@ -8805,45 +8837,6 @@ declare namespace p5 {
      *   @chainable
      */
     setUniform(uniformName: string, data: object|number|boolean|number[]): p5.Shader;
-  }
-
-  // src/webgl/p5.Texture.js
-
-  class Texture {
-    /**
-     *   Texture class for WEBGL Mode
-     *
-     *   @param renderer an instance of p5.RendererGL that 
-     *   will provide the GL context for this new 
-     *   p5.Texture
-     *   @param [obj] the object containing the image data 
-     *   to store in the texture.
-     */
-    constructor(renderer: p5.RendererGL, obj?: p5.Image|p5.Graphics|p5.Element|p5.MediaElement);
-
-    /**
-     *   Checks if the source data for this texture has 
-     *   changed (if it's easy to do so) and reuploads the 
-     *   texture if necessary. If it's not possible or to 
-     *   expensive to do a calculation to determine wheter 
-     *   or not the data has occurred, this method simply 
-     *   re-uploads the texture.
-     *
-     */
-    update(): void;
-
-    /**
-     *   Binds the texture to the appropriate GL target.
-     *
-     */
-    bindTexture(): void;
-
-    /**
-     *   Unbinds the texture from the appropriate GL 
-     *   target.
-     *
-     */
-    unbindTexture(): void;
   }
 
   // lib/addons/p5.dom.js
@@ -9764,11 +9757,13 @@ declare namespace p5 {
      *   If we want to add a value to each of those 
      *   samples, we can't do it in the draw loop, but we 
      *   can do it by adding a constant-rate audio 
-     *   signal.This class mostly functions behind the 
-     *   scenes in p5.sound, and returns a Tone.Signal from 
-     *   the Tone.js library by Yotam Mann. If you want to 
-     *   work directly with audio signals for modular 
-     *   synthesis, check out tone.js.
+     *   signal.</p. 
+     * 
+     *   This class mostly functions behind the scenes in 
+     *   p5.sound, and returns a Tone.Signal from the 
+     *   Tone.js library by Yotam Mann. If you want to work 
+     *   directly with audio signals for modular synthesis, 
+     *   check out tone.js.
      *
      *   @return A Signal object from the Tone.js library
      */
@@ -12270,8 +12265,4 @@ type SIZE_W =
 
 type SIZE_H =
       AUTO;
-
-type GRAPHICS_RENDERER =
-      P2D
-    | WEBGL;
 

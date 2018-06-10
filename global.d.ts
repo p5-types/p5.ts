@@ -154,10 +154,8 @@ declare function color(v1: number, v2: number, v3: number, alpha?: number): p5.C
  *   supported, the RGBA form should be used.
  *
  *   @param value a color string
- *   @param [alpha] alpha value relative to current 
- *   color range (default is 0-255)
  */
-declare function color(value: string, alpha?: number): p5.Color;
+declare function color(value: string): p5.Color;
 
 /**
  *   Creates colors for storing in variables of the 
@@ -324,7 +322,7 @@ declare function saturation(color: p5.Color|number[]|string): number;
  * 
  *  
  *   A p5.Image can also be provided to set the 
- *   background iamge.
+ *   background image.
  *
  *   @param color any value created by the color() 
  *   function
@@ -360,7 +358,7 @@ declare function background(color: p5.Color): p5;
  * 
  *  
  *   A p5.Image can also be provided to set the 
- *   background iamge.
+ *   background image.
  *
  *   @param colorstring color string, possible formats 
  *   include: integer rgb() or rgba(), percentage rgb() 
@@ -399,7 +397,7 @@ declare function background(colorstring: string, a?: number): p5;
  * 
  *  
  *   A p5.Image can also be provided to set the 
- *   background iamge.
+ *   background image.
  *
  *   @param gray specifies a value between white and 
  *   black
@@ -437,7 +435,7 @@ declare function background(gray: number, a?: number): p5;
  * 
  *  
  *   A p5.Image can also be provided to set the 
- *   background iamge.
+ *   background image.
  *
  *   @param v1 red or hue value (depending on the 
  *   current color mode)
@@ -479,7 +477,7 @@ declare function background(v1: number, v2: number, v3: number, a?: number): p5;
  * 
  *  
  *   A p5.Image can also be provided to set the 
- *   background iamge.
+ *   background image.
  *
  *   @param values an array containing the 
  *   red,green,blue & and alpha components of the color
@@ -515,7 +513,7 @@ declare function background(values: number[]): p5;
  * 
  *  
  *   A p5.Image can also be provided to set the 
- *   background iamge.
+ *   background image.
  *
  *   @param image image created with loadImage() or 
  *   createImage(), to set as background (must be same 
@@ -641,7 +639,30 @@ declare function fill(v1: number, v2: number, v3: number, alpha?: number): p5;
  *   @param value a color string
  *   @chainable
  */
-declare function fill(value: string, alpha?: number): p5;
+declare function fill(value: string): p5;
+
+/**
+ *   Sets the color used to fill shapes. For example, 
+ *   if you run fill(204, 102, 0), all subsequent 
+ *   shapes will be filled with orange. This color is 
+ *   either specified in terms of the RGB or HSB color 
+ *   depending on the current colorMode(). (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255). The alpha range by default is also 
+ *   0 to 255.  If a single string argument is 
+ *   provided, RGB, RGBA and Hex CSS color strings and 
+ *   all named color strings are supported. In this 
+ *   case, an alpha number value as a second argument 
+ *   is not supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   fill color.
+ *
+ *   @param gray a gray value
+ *   @chainable
+ */
+declare function fill(gray: number, alpha?: number): p5;
 
 /**
  *   Sets the color used to fill shapes. For example, 
@@ -755,7 +776,29 @@ declare function stroke(v1: number, v2: number, v3: number, alpha?: number): p5;
  *   @param value a color string
  *   @chainable
  */
-declare function stroke(value: string, alpha?: number): p5;
+declare function stroke(value: string): p5;
+
+/**
+ *   Sets the color used to draw lines and borders 
+ *   around shapes. This color is either specified in 
+ *   terms of the RGB or HSB color depending on the 
+ *   current colorMode() (the default color space is 
+ *   RGB, with each value in the range from 0 to 255). 
+ *   The alpha range by default is also 0 to 255.  If a 
+ *   single string argument is provided, RGB, RGBA and 
+ *   Hex CSS color strings and all named color strings 
+ *   are supported. In this case, an alpha number value 
+ *   as a second argument is not supported, the RGBA 
+ *   form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   stroke color.
+ *
+ *   @param gray a gray value
+ *   @chainable
+ */
+declare function stroke(gray: number, alpha?: number): p5;
 
 /**
  *   Sets the color used to draw lines and borders 
@@ -868,12 +911,9 @@ declare function ellipse(x: number, y: number, w: number, h?: number): p5;
  *   @param y y-coordinate of the ellipse.
  *   @param w width of the ellipse.
  *   @param h height of the ellipse.
- *   @param detailX number of segments in the 
- *   x-direction
- *   @param [detailY] number of segments in the 
- *   y-direction
+ *   @param detail number of radial sectors to draw
  */
-declare function ellipse(x: number, y: number, w: number, h: number, detailX: number, detailY?: number): void;
+declare function ellipse(x: number, y: number, w: number, h: number, detail: number): void;
 
 /**
  *   Draws a line (a direct path between two points) to 
@@ -1307,14 +1347,18 @@ declare const PORTRAIT: PORTRAIT;
 /**
  *   Called directly before setup(), the preload() 
  *   function is used to handle asynchronous loading of 
- *   external files. If a preload function is defined, 
- *   setup() will wait until any load calls within have 
- *   finished. Nothing besides load calls should be 
- *   inside preload (loadImage, loadJSON, loadFont, 
- *   loadStrings, etc). By default the text 
- *   "loading..." will be displayed. To make your own 
- *   loading page, include an HTML element with id 
- *   "p5_loading" in your page. More information here.
+ *   external files in a blocking way. If a preload 
+ *   function is defined, setup() will wait until any 
+ *   load calls within have finished. Nothing besides 
+ *   load calls (loadImage, loadJSON, loadFont, 
+ *   loadStrings, etc.) should be inside preload 
+ *   function. If asynchronous loading is preferred, 
+ *   the load methods can instead be called in setup() 
+ *   or anywhere else with the use of a callback 
+ *   parameter.  By default the text "loading..." will 
+ *   be displayed. To make your own loading page, 
+ *   include an HTML element with id "p5_loading" in 
+ *   your page. More information here.
  *
  */
 declare function preload(): void;
@@ -1366,7 +1410,7 @@ declare function setup(): void;
  *   coordinate system will be reset at the beginning 
  *   of each draw() call. If any transformations are 
  *   performed within draw() (ex: scale, rotate, 
- *   translate, their effects will be undone at the 
+ *   translate), their effects will be undone at the 
  *   beginning of draw(), so transformations will not 
  *   accumulate over time. On the other hand, styling 
  *   applied (ex: fill, stroke, etc) will remain in 
@@ -1457,7 +1501,11 @@ declare function bezier(x1: number, y1: number, z1: number, x2: number, y2: numb
 
 /**
  *   Sets the resolution at which Beziers display. The 
- *   default value is 20.
+ *   default value is 20. 
+ * 
+ *   This function is only useful when using the WEBGL 
+ *   renderer as the default canvas renderer does not 
+ *   use this information.
  *
  *   @param detail resolution of the curves
  *   @chainable
@@ -1567,7 +1615,11 @@ declare function curve(x1: number, y1: number, z1: number, x2: number, y2: numbe
 
 /**
  *   Sets the resolution at which curves display. The 
- *   default value is 20.
+ *   default value is 20. 
+ * 
+ *   This function is only useful when using the WEBGL 
+ *   renderer as the default canvas renderer does not 
+ *   use this information.
  *
  *   @param resolution of the curves
  *   @chainable
@@ -1876,9 +1928,8 @@ declare function getURLParams(): object;
  *   @param w width of the canvas
  *   @param h height of the canvas
  *   @param [renderer] either P2D or WEBGL
- *   @return canvas generated
  */
-declare function createCanvas(w: number, h: number, renderer?: RENDERER): HTMLCanvasElement;
+declare function createCanvas(w: number, h: number, renderer?: RENDERER): p5.Renderer;
 
 /**
  *   Resizes the canvas to given width and height. The 
@@ -1920,11 +1971,11 @@ declare function createGraphics(w: number, h: number, renderer?: RENDERER): p5.G
  *   following modes to blend the source pixels (A) 
  *   with the ones of pixels already in the display 
  *   window (B): - BLEND - linear interpolation of 
- *   colours: C = Afactor + B. This is the default 
+ *   colours: C = A*factor + B. This is the default 
  *   blending mode.
  *   - ADD - sum of A and B
  *   - DARKEST - only the darkest colour succeeds: C = 
- *   min(Afactor, B).
+ *   min(A*factor, B).
  *   - LIGHTEST - only the lightest colour succeeds: C 
  *   = max(A*factor, B).
  *   - DIFFERENCE - subtract colors from underlying 
@@ -2130,26 +2181,29 @@ declare function rotate(angle: number, axis?: p5.Vector|number[]): p5;
 /**
  *   Rotates around X axis.
  *
- *   @param rad angles in radians
+ *   @param angle the angle of rotation, specified in 
+ *   radians or degrees, depending on current angleMode
  *   @chainable
  */
-declare function rotateX(rad: number): p5;
+declare function rotateX(angle: number): p5;
 
 /**
  *   Rotates around Y axis.
  *
- *   @param rad angles in radians
+ *   @param angle the angle of rotation, specified in 
+ *   radians or degrees, depending on current angleMode
  *   @chainable
  */
-declare function rotateY(rad: number): p5;
+declare function rotateY(angle: number): p5;
 
 /**
  *   Rotates around Z axis. Webgl mode only.
  *
- *   @param rad angles in radians
+ *   @param angle the angle of rotation, specified in 
+ *   radians or degrees, depending on current angleMode
  *   @chainable
  */
-declare function rotateZ(rad: number): p5;
+declare function rotateZ(angle: number): p5;
 
 /**
  *   Increases or decreases the size of a shape by 
@@ -2283,6 +2337,25 @@ declare function shearY(angle: number): p5;
  *   @chainable
  */
 declare function translate(x: number, y: number, z?: number): p5;
+
+/**
+ *   Specifies an amount to displace objects within the 
+ *   display window. The x parameter specifies 
+ *   left/right translation, the y parameter specifies 
+ *   up/down translation.  Transformations are 
+ *   cumulative and apply to everything that happens 
+ *   after and subsequent calls to the function 
+ *   accumulates the effect. For example, calling 
+ *   translate(50, 0) and then translate(20, 0) is the 
+ *   same as translate(70, 0). If translate() is called 
+ *   within draw(), the transformation is reset when 
+ *   the loop begins again. This function can be 
+ *   further controlled by using push() and pop().
+ *
+ *   @param vector the vector to translate by
+ *   @chainable
+ */
+declare function translate(vector: p5.Vector): p5;
 
 // src/core/vertex.js
 
@@ -2472,17 +2545,31 @@ declare function vertex(x: number, y: number, z?: number, u?: number, v?: number
  *   Creates a new instance of p5.StringDict using the 
  *   key, value pair or object you provide.
  *
- *   @param key or object
  */
-declare function createStringDict(key: string|object, value: string): p5.StringDict;
+declare function createStringDict(key: string, value: string): p5.StringDict;
+
+/**
+ *   Creates a new instance of p5.StringDict using the 
+ *   key, value pair or object you provide.
+ *
+ *   @param object object
+ */
+declare function createStringDict(object: object): p5.StringDict;
 
 /**
  *   Creates a new instance of p5.NumberDict using the 
  *   key, value pair or object you provide.
  *
- *   @param key or object
  */
-declare function createNumberDict(key: number|object, value: number): p5.NumberDict;
+declare function createNumberDict(key: number, value: number): p5.NumberDict;
+
+/**
+ *   Creates a new instance of p5.NumberDict using the 
+ *   key, value pair or object you provide.
+ *
+ *   @param object object
+ */
+declare function createNumberDict(object: object): p5.NumberDict;
 
 // src/events/acceleration.js
 
@@ -3264,7 +3351,27 @@ declare function tint(v1: number, v2: number, v3: number, alpha?: number): void;
  *
  *   @param value a color string
  */
-declare function tint(value: string, alpha?: number): void;
+declare function tint(value: string): void;
+
+/**
+ *   Sets the fill value for displaying images. Images 
+ *   can be tinted to specified colors or made 
+ *   transparent by including an alpha value.  To apply 
+ *   transparency to an image without affecting its 
+ *   color, use white as the tint color and specify an 
+ *   alpha value. For instance, tint(255, 128) will 
+ *   make an image 50% transparent (assuming the 
+ *   default alpha range of 0-255, which can be changed 
+ *   with colorMode()). 
+ * 
+ *  
+ *   The value for the gray parameter must be less than 
+ *   or equal to the current maximum value as specified 
+ *   by colorMode(). The default maximum value is 255.
+ *
+ *   @param gray a gray value
+ */
+declare function tint(gray: number, alpha?: number): void;
 
 /**
  *   Sets the fill value for displaying images. Images 
@@ -3681,6 +3788,51 @@ declare function updatePixels(x?: number, y?: number, w?: number, h?: number): v
 declare function loadJSON(path: string, jsonpOptions?: object, datatype?: string, callback?: Function, errorCallback?: Function): object|any[];
 
 /**
+ *   Loads a JSON file from a file or a URL, and 
+ *   returns an Object. Note that even if the JSON file 
+ *   contains an Array, an Object will be returned with 
+ *   index numbers as keys. This method is 
+ *   asynchronous, meaning it may not finish before the 
+ *   next line in your sketch is executed. JSONP is 
+ *   supported via a polyfill and you can pass in as 
+ *   the second argument an object with definitions of 
+ *   the json callback following the syntax specified 
+ *   here.
+ *
+ *   @param path name of the file or url to load
+ *   @param datatype "json" or "jsonp"
+ *   @param [callback] function to be executed after 
+ *   loadJSON() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
+ */
+declare function loadJSON(path: string, datatype: string, callback?: Function, errorCallback?: Function): object|any[];
+
+/**
+ *   Loads a JSON file from a file or a URL, and 
+ *   returns an Object. Note that even if the JSON file 
+ *   contains an Array, an Object will be returned with 
+ *   index numbers as keys. This method is 
+ *   asynchronous, meaning it may not finish before the 
+ *   next line in your sketch is executed. JSONP is 
+ *   supported via a polyfill and you can pass in as 
+ *   the second argument an object with definitions of 
+ *   the json callback following the syntax specified 
+ *   here.
+ *
+ *   @param path name of the file or url to load
+ *   @param callback function to be executed after 
+ *   loadJSON() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
+ */
+declare function loadJSON(path: string, callback: Function, errorCallback?: Function): object|any[];
+
+/**
  *   Reads the contents of a file and creates a String 
  *   array of its individual lines. If the name of the 
  *   file is used as the parameter, as in the above 
@@ -3827,16 +3979,21 @@ declare function loadTable(filename: string, callback?: Function, errorCallback?
  *   @return XML object containing data
  */
 declare function loadXML(filename: string, callback?: Function, errorCallback?: Function): object;
+declare function loadBytes(file: string, callback?: Function, errorCallback?: Function): object;
 
 /**
  *   Method for executing an HTTP GET request. If data 
  *   type is not specified, p5 will try to guess based 
  *   on the URL, defaulting to text. This is equivalent 
- *   to calling httpDo(path, 'GET').
+ *   to calling httpDo(path, 'GET'). The 'binary' 
+ *   datatype will return a Blob object, and the 
+ *   'arrayBuffer' datatype will return an ArrayBuffer 
+ *   which can be used to initialize typed arrays (such 
+ *   as Uint8Array).
  *
  *   @param path name of the file or url to load
- *   @param [datatype] "json", "jsonp", "xml", or 
- *   "text"
+ *   @param [datatype] "json", "jsonp", "binary", 
+ *   "arrayBuffer", "xml", or "text"
  *   @param [data] param data passed sent with request
  *   @param [callback] function to be executed after 
  *   httpGet() completes, data is passed in as first 
@@ -3845,7 +4002,48 @@ declare function loadXML(filename: string, callback?: Function, errorCallback?: 
  *   there is an error, response is passed in as first 
  *   argument
  */
-declare function httpGet(path: string, datatype?: string, data?: object, callback?: Function, errorCallback?: Function): void;
+declare function httpGet(path: string, datatype?: string, data?: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+/**
+ *   Method for executing an HTTP GET request. If data 
+ *   type is not specified, p5 will try to guess based 
+ *   on the URL, defaulting to text. This is equivalent 
+ *   to calling httpDo(path, 'GET'). The 'binary' 
+ *   datatype will return a Blob object, and the 
+ *   'arrayBuffer' datatype will return an ArrayBuffer 
+ *   which can be used to initialize typed arrays (such 
+ *   as Uint8Array).
+ *
+ *   @param path name of the file or url to load
+ *   @param data param data passed sent with request
+ *   @param [callback] function to be executed after 
+ *   httpGet() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
+ */
+declare function httpGet(path: string, data: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+/**
+ *   Method for executing an HTTP GET request. If data 
+ *   type is not specified, p5 will try to guess based 
+ *   on the URL, defaulting to text. This is equivalent 
+ *   to calling httpDo(path, 'GET'). The 'binary' 
+ *   datatype will return a Blob object, and the 
+ *   'arrayBuffer' datatype will return an ArrayBuffer 
+ *   which can be used to initialize typed arrays (such 
+ *   as Uint8Array).
+ *
+ *   @param path name of the file or url to load
+ *   @param callback function to be executed after 
+ *   httpGet() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
+ */
+declare function httpGet(path: string, callback: Function, errorCallback?: Function): void;
 
 /**
  *   Method for executing an HTTP POST request. If data 
@@ -3864,7 +4062,40 @@ declare function httpGet(path: string, datatype?: string, data?: object, callbac
  *   there is an error, response is passed in as first 
  *   argument
  */
-declare function httpPost(path: string, datatype?: string, data?: object, callback?: Function, errorCallback?: Function): void;
+declare function httpPost(path: string, datatype?: string, data?: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+/**
+ *   Method for executing an HTTP POST request. If data 
+ *   type is not specified, p5 will try to guess based 
+ *   on the URL, defaulting to text. This is equivalent 
+ *   to calling httpDo(path, 'POST').
+ *
+ *   @param path name of the file or url to load
+ *   @param data param data passed sent with request
+ *   @param [callback] function to be executed after 
+ *   httpPost() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
+ */
+declare function httpPost(path: string, data: object|boolean, callback?: Function, errorCallback?: Function): void;
+
+/**
+ *   Method for executing an HTTP POST request. If data 
+ *   type is not specified, p5 will try to guess based 
+ *   on the URL, defaulting to text. This is equivalent 
+ *   to calling httpDo(path, 'POST').
+ *
+ *   @param path name of the file or url to load
+ *   @param callback function to be executed after 
+ *   httpPost() completes, data is passed in as first 
+ *   argument
+ *   @param [errorCallback] function to be executed if 
+ *   there is an error, response is passed in as first 
+ *   argument
+ */
+declare function httpPost(path: string, callback: Function, errorCallback?: Function): void;
 
 /**
  *   Method for executing an HTTP request. If data type 
@@ -4010,19 +4241,6 @@ declare function saveStrings(list: string[], filename: string, extension?: strin
  *   "html"
  */
 declare function saveTable(Table: p5.Table, filename: string, options?: string): void;
-
-/**
- *   Forces download. Accepts a url to filedata/blob, a 
- *   filename, and an extension (optional). This is a 
- *   private function because it does not do any 
- *   formatting, but it is used by saveStrings, 
- *   saveJSON, saveTable etc.
- *
- *   @param data either an href generated by 
- *   createObjectURL, or a Blob object containing the 
- *   data
- */
-declare function downloadFile(data: string|Blob, filename?: string, extension?: string): void;
 
 // src/math/calculation.js
 
@@ -4558,7 +4776,8 @@ declare function tan(angle: number): number;
  *   value in degrees. Radians and degrees are two ways 
  *   of measuring the same thing. There are 360 degrees 
  *   in a circle and 2*PI radians in a circle. For 
- *   example, 90° = PI/2 = 1.5707964.
+ *   example, 90° = PI/2 = 1.5707964. This function 
+ *   does not take into account the current angleMode.
  *
  *   @param radians the radians value to convert to 
  *   degrees
@@ -4571,7 +4790,8 @@ declare function degrees(radians: number): number;
  *   value in radians. Radians and degrees are two ways 
  *   of measuring the same thing. There are 360 degrees 
  *   in a circle and 2*PI radians in a circle. For 
- *   example, 90° = PI/2 = 1.5707964.
+ *   example, 90° = PI/2 = 1.5707964. This function 
+ *   does not take into account the current angleMode.
  *
  *   @param degrees the degree value to convert to 
  *   radians
@@ -4774,7 +4994,7 @@ declare function loadFont(path: string, callback?: Function, onError?: Function)
  *   box, see rectMode() for more info
  *   @chainable
  */
-declare function text(str: string|object|any[], x: number, y: number, x2?: number, y2?: number): p5;
+declare function text(str: string|object|any[]|number|boolean, x: number, y: number, x2?: number, y2?: number): p5;
 
 /**
  *   Sets the current font that will be drawn with the 
@@ -4977,9 +5197,11 @@ declare function float(str: string): number;
  *   returned.
  *
  *   @param n value to parse
+ *   @param [radix] the radix to convert to (default: 
+ *   10)
  *   @return integer representation of value
  */
-declare function int(n: string|boolean|number): number;
+declare function int(n: string|boolean|number, radix?: number): number;
 
 /**
  *   Converts a boolean, string, or float to its 
@@ -5532,7 +5754,8 @@ declare function camera(x?: number, y?: number, z?: number, centerX?: number, ce
  *   tan(PI60.0/360.0));
  *
  *   @param [fovy] camera frustum vertical field of 
- *   view, from bottom to top of view, in degrees
+ *   view, from bottom to top of view, in angleMode 
+ *   units
  *   @param [aspect] camera frustum aspect ratio
  *   @param [near] frustum near plane length
  *   @param [far] frustum far plane length
@@ -5578,7 +5801,15 @@ declare function ambientLight(v1: number, v2: number, v3: number, alpha?: number
  *   @param value a color string
  *   @chainable
  */
-declare function ambientLight(value: string, alpha?: number): p5;
+declare function ambientLight(value: string): p5;
+
+/**
+ *   Creates an ambient light with a color
+ *
+ *   @param gray a gray value
+ *   @chainable
+ */
+declare function ambientLight(gray: number, alpha?: number): p5;
 
 /**
  *   Creates an ambient light with a color
@@ -5992,10 +6223,14 @@ declare function sphere(radius?: number, detailX?: number, detailY?: number): p5
  *   segments the smoother geometry default is 24
  *   @param [detailY] number of segments in 
  *   y-dimension, the more segments the smoother 
- *   geometry default is 16
+ *   geometry default is 1
+ *   @param [bottomCap] whether to draw the bottom of 
+ *   the cylinder
+ *   @param [topCap] whether to draw the top of the 
+ *   cylinder
  *   @chainable
  */
-declare function cylinder(radius?: number, height?: number, detailX?: number, detailY?: number): p5;
+declare function cylinder(radius?: number, height?: number, detailX?: number, detailY?: number, bottomCap?: boolean, topCap?: boolean): p5;
 
 /**
  *   Draw a cone with given radius and height
@@ -6005,10 +6240,11 @@ declare function cylinder(radius?: number, height?: number, detailX?: number, de
  *   @param [detailX] number of segments, the more 
  *   segments the smoother geometry default is 24
  *   @param [detailY] number of segments, the more 
- *   segments the smoother geometry default is 16
+ *   segments the smoother geometry default is 1
+ *   @param [cap] whether to draw the base of the cone
  *   @chainable
  */
-declare function cone(radius?: number, height?: number, detailX?: number, detailY?: number): p5;
+declare function cone(radius?: number, height?: number, detailX?: number, detailY?: number, cap?: boolean): p5;
 
 /**
  *   Draw an ellipsoid with given radius
@@ -6110,7 +6346,7 @@ declare function soundFormats(formats?: string): void;
  *   to search within
  *   @return p5.Element containing node found
  */
-declare function select(name: string, container?: string): object|p5.Element|null;
+declare function select(name: string, container?: string|p5.Element|HTMLElement): object|p5.Element|null;
 
 /**
  *   Searches the page for elements with the given 
@@ -6352,13 +6588,15 @@ declare function createVideo(src: string|any[], callback?: object): p5.MediaElem
 declare function createAudio(src?: string|string[], callback?: object): p5.MediaElement|p5.Element;
 
 /**
- *   Creates a new <video> element that contains the 
- *   audio/video feed from a webcam. This can be drawn 
- *   onto the canvas using video(). More specific 
- *   properties of the feed can be passing in a 
- *   Constraints object. See the  W3C spec for possible 
- *   properties. Note that not all of these are 
- *   supported by all browsers. 
+ *   Creates a new HTML5 <video> element that contains 
+ *   the audio/video feed from a webcam. The element is 
+ *   separate from the canvas and is displayed by 
+ *   default. The element can be hidden using .hide(). 
+ *   The feed can be drawn onto the canvas using 
+ *   image(). More specific properties of the feed can 
+ *   be passing in a Constraints object. See the  W3C 
+ *   spec for possible properties. Note that not all of 
+ *   these are supported by all browsers. 
  * 
  *   Security note: A new browser security 
  *   specification requires that getUserMedia, which is 
