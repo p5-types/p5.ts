@@ -1886,6 +1886,37 @@ declare function radians(degrees: number): number;
 //
 // declare function angleMode(mode: any): void;
 
+// src/output/files.js
+
+/**
+ *   Writes the contents of an Array or a JSON object 
+ *   to a .json file. The file saving process and 
+ *   location of the saved file will vary between web 
+ *   browsers.
+ *
+ *   @param [optimize] If true, removes line breaks and 
+ *   spaces from the output file to optimize filesize 
+ *   (but not readability).
+ */
+declare function saveJSON(json: any[]|object, filename: string, optimize?: boolean): void;
+
+/**
+ *   Writes an array of Strings to a text file, one 
+ *   line per String. The file saving process and 
+ *   location of the saved file will vary between web 
+ *   browsers.
+ *
+ *   @param list string array to be written
+ *   @param filename filename for output
+ */
+declare function saveStrings(list: any[], filename: string): void;
+
+// TODO: Fix saveTable() errors in src/output/files.js, line 213:
+//
+//   param "options" has invalid type: [String]
+//
+// declare function saveTable(Table: p5.Table, filename: string, options: any): void;
+
 // src/output/text_area.js
 
 /**
@@ -2833,14 +2864,14 @@ declare function removeElements(): void;
  */
 declare function getAudioContext(): object;
 
-// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 168, is not a valid JS symbol name
+// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 176, is not a valid JS symbol name
 
 /**
  *   Set the master amplitude (volume) for sound in 
  *   this sketch. Note that values greater than 1.0 may 
  *   lead to digital distortion. 
  * 
- *   How This Works: When you load the p5Sound module, 
+ *   How This Works: When you load the p5.sound module, 
  *   it creates a single instance of p5sound. All sound 
  *   objects in this module output to p5sound before 
  *   reaching your computer's output. So if you change 

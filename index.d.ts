@@ -1886,6 +1886,37 @@ declare class p5 {
   //
   // angleMode(mode: any): void;
 
+  // src/output/files.js
+
+  /**
+   *   Writes the contents of an Array or a JSON object 
+   *   to a .json file. The file saving process and 
+   *   location of the saved file will vary between web 
+   *   browsers.
+   *
+   *   @param [optimize] If true, removes line breaks and 
+   *   spaces from the output file to optimize filesize 
+   *   (but not readability).
+   */
+  saveJSON(json: any[]|object, filename: string, optimize?: boolean): void;
+
+  /**
+   *   Writes an array of Strings to a text file, one 
+   *   line per String. The file saving process and 
+   *   location of the saved file will vary between web 
+   *   browsers.
+   *
+   *   @param list string array to be written
+   *   @param filename filename for output
+   */
+  saveStrings(list: any[], filename: string): void;
+
+  // TODO: Fix saveTable() errors in src/output/files.js, line 213:
+  //
+  //   param "options" has invalid type: [String]
+  //
+  // saveTable(Table: p5.Table, filename: string, options: any): void;
+
   // src/output/text_area.js
 
   /**
@@ -2833,14 +2864,14 @@ declare class p5 {
    */
   getAudioContext(): object;
 
-  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 168, is not a valid JS symbol name
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 176, is not a valid JS symbol name
 
   /**
    *   Set the master amplitude (volume) for sound in 
    *   this sketch. Note that values greater than 1.0 may 
    *   lead to digital distortion. 
    * 
-   *   How This Works: When you load the p5Sound module, 
+   *   How This Works: When you load the p5.sound module, 
    *   it creates a single instance of p5sound. All sound 
    *   objects in this module output to p5sound before 
    *   reaching your computer's output. So if you change 
@@ -2963,6 +2994,22 @@ declare namespace p5 {
     mousePressed(fxn: Function): void;
 
     /**
+     *   The .mouseWheel() function is called once after 
+     *   every time a mouse wheel is scrolled over the 
+     *   element. This can be used to attach element 
+     *   specific event listeners. The event.wheelDelta or 
+     *   event.detail property returns negative values if 
+     *   the mouse wheel if rotated up or away from the 
+     *   user and positive in the other direction. On OS X 
+     *   with "natural" scrolling enabled, the values are 
+     *   opposite.
+     *
+     *   @param fxn function to be fired when mouse wheel 
+     *   is scrolled over the element.
+     */
+    mouseWheel(fxn: Function): void;
+
+    /**
      *   The .mouseReleased() function is called once after 
      *   every time a mouse button is released over the 
      *   element. This can be used to attach element 
@@ -3023,14 +3070,14 @@ declare namespace p5 {
      *
      *   @param class name of class to add
      */
-    addClass(theClass: string): void;
+    addClass(theClass: string): p5.Element;
 
     /**
      *   Removes specified class from the element.
      *
      *   @param class name of class to remove
      */
-    removeClass(theClass: string): void;
+    removeClass(theClass: string): p5.Element;
 
     /**
      *   Attaches the element to the parent specified. A 
@@ -3040,16 +3087,18 @@ declare namespace p5 {
      *   @param child the ID or node to add to the current 
      *   element
      */
-    child(child: string|object): void;
+    child(child: string|object): p5.Element;
 
     /**
-     *   Sets the inner HTML of the element. Replaces any 
-     *   existing html.
+     *   If an argument is given, sets the inner HTML of 
+     *   the element, replacing any existing html. If no 
+     *   arguments are given, returns the inner HTML of the 
+     *   element.
      *
-     *   @param html the HTML to be placed inside the 
+     *   @param [html] the HTML to be placed inside the 
      *   element
      */
-    html(html: string): void;
+    html(html?: string): p5.Element|string;
 
     /**
      *   Sets the position of the element relative to (0, 
@@ -3062,7 +3111,7 @@ declare namespace p5 {
      *   @param y y-position relative to upper left of 
      *   window
      */
-    position(x: number, y: number): void;
+    position(x: number, y: number): p5.Element;
 
     /**
      *   Sets the given style (css) property of the element 
@@ -3071,11 +3120,11 @@ declare namespace p5 {
      *   undefined if the property is not.
      *
      *   @param property property to be set
-     *   @param value value to assign to property
+     *   @param [value] value to assign to property
      *   @return value of property, if no value is 
-     *   specified
+     *   specified or p5.Element
      */
-    style(property: string, value: string): string;
+    style(property: string, value?: string): string|p5.Element;
 
     /**
      *   Adds a new attribute or changes the value of an 
@@ -3086,30 +3135,32 @@ declare namespace p5 {
      *   @param attr attribute to set
      *   @param [value] value to assign to attribute
      *   @return value of attribute, if no value is 
-     *   specified
+     *   specified or p5.Element
      */
-    attribute(attr: string, value?: string): string;
+    attribute(attr: string, value?: string): string|p5.Element;
 
     /**
      *   Either returns the value of the element if no 
      *   arguments given, or sets the value of the element.
      *
+     *   @return value of element, if no value is specified 
+     *   or p5.Element
      */
-    value(value?: string|number): string|number;
+    value(value?: string|number): string|p5.Element;
 
     /**
      *   Shows the current element. Essentially, setting 
      *   display:block for the style.
      *
      */
-    show(): void;
+    show(): p5.Element;
 
     /**
      *   Hides the current element. Essentially, setting 
      *   display:none for the style.
      *
      */
-    hide(): void;
+    hide(): p5.Element;
 
     /**
      *   Sets the width and height of the element. AUTO can 
@@ -3118,7 +3169,7 @@ declare namespace p5 {
      *   @param w width of the element
      *   @param h height of the element
      */
-    size(w: number, h: number): void;
+    size(w: number, h: number): p5.Element;
 
     /**
      *   Removes the element and deregisters all listeners.
@@ -3880,34 +3931,34 @@ TODO:: any): void;
      *   Play an HTML5 media element.
      *
      */
-    play(): void;
+    play(): p5.Element;
 
     /**
      *   Stops an HTML5 media element (sets current time to 
      *   zero).
      *
      */
-    stop(): void;
+    stop(): p5.Element;
 
     /**
      *   Pauses an HTML5 media element.
      *
      */
-    pause(): void;
+    pause(): p5.Element;
 
     /**
      *   Set 'loop' to true for an HTML5 media element, and 
      *   starts playing.
      *
      */
-    loop(): void;
+    loop(): p5.Element;
 
     /**
      *   Set 'loop' to false for an HTML5 media element. 
      *   Element will stop when it reaches the end.
      *
      */
-    noLoop(): void;
+    noLoop(): p5.Element;
 
     /**
      *   Set HTML5 media element to autoplay or not.
@@ -3915,16 +3966,16 @@ TODO:: any): void;
      *   @param autoplay whether the element should 
      *   autoplay
      */
-    autoplay(autoplay: boolean): void;
+    autoplay(autoplay: boolean): p5.Element;
 
     /**
      *   Sets volume for this HTML5 media element. If no 
-     *   argument is given, returns the current volume;
+     *   argument is given, returns the current volume.
      *
      *   @param [val] volume between 0.0 and 1.0
-     *   @return current volume
+     *   @return current volume or p5.MediaElement
      */
-    volume(val?: number): number;
+    volume(val?: number): number|p5.MediaElement;
 
     /**
      *   If no arguments are given, returns the current 
@@ -3932,9 +3983,10 @@ TODO:: any): void;
      *   current time of the element is set to it.
      *
      *   @param [time] time to jump to (in seconds)
-     *   @return current time (in seconds)
+     *   @return current time (in seconds) or 
+     *   p5.MediaElement
      */
-    time(time?: number): number;
+    time(time?: number): number|p5.MediaElement;
 
     /**
      *   Returns the duration of the HTML5 media element.
@@ -3947,13 +3999,13 @@ TODO:: any): void;
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 328:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 397:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 458:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 473:
     //
     //   param "path" has invalid type: String/Array
     //
@@ -3991,13 +4043,12 @@ TODO:: any): void;
     playMode(str: string): void;
 
     /**
-     *   Toggle whether a sound file is playing or paused. 
      *   Pauses a file that is currently playing. If the 
      *   file is not playing, then nothing will happen. 
-     *   Resume playback with .play(), will play from the 
-     *   paused position. If p5.SoundFile had been set to 
-     *   loop before it was paused, it will continue to 
-     *   loop after it is unpaused with .play().
+     *   After pausing, .play() will resume from the paused 
+     *   position. If p5.SoundFile had been set to loop 
+     *   before it was paused, it will continue to loop 
+     *   after it is unpaused with .play().
      *
      */
     pause(): void;
@@ -4052,7 +4103,7 @@ TODO:: any): void;
     setVolume(volume: number, rampTime?: number, timeFromNow?: number): void;
 
     /**
-     *   Set the stereo panning of a p5Sound object to a 
+     *   Set the stereo panning of a p5.sound object to a 
      *   floating point number between -1.0 (left) and 1.0 
      *   (right). Default is 0.0 (center).
      *
@@ -4072,7 +4123,7 @@ TODO:: any): void;
     rate(playbackRate?: number): void;
 
     /**
-     *   Returns the duration of a sound file.
+     *   Returns the duration of a sound file in seconds.
      *
      *   @return The duration of the soundFile in seconds.
      */
@@ -4150,7 +4201,7 @@ TODO:: any): void;
 
     /**
      *   Connects the output of a p5sound object to input 
-     *   of another p5Sound object. For example, you may 
+     *   of another p5.sound object. For example, you may 
      *   connect a p5.SoundFile to an FFT or an Effect. If 
      *   no parameter is given, it will connect to the 
      *   master output. Most p5sound objects connect to the 
@@ -4170,8 +4221,8 @@ TODO:: any): void;
      *   Read the Amplitude (volume level) of a 
      *   p5.SoundFile. The p5.SoundFile class contains its 
      *   own instance of the Amplitude class to help make 
-     *   it easy to get a microphone's volume level. 
-     *   Accepts an optional smoothing value (0.0 < 1.0).
+     *   it easy to get a SoundFile's volume level. Accepts 
+     *   an optional smoothing value (0.0 < 1.0).
      *
      *   @param [smoothing] Smoothing is 0.0 by default. 
      *   Smooths values based on previous values.
@@ -4388,7 +4439,7 @@ TODO:: any): void;
      */
     start(time?: number, frequency?: number): void;
 
-    // TODO: Fix stop() errors in lib/addons/p5.sound.js, line 1830:
+    // TODO: Fix stop() errors in lib/addons/p5.sound.js, line 1860:
     //
     //   param "time," is not a valid JS symbol name
     //
@@ -4426,9 +4477,9 @@ TODO:: any): void;
     setType(type: string): void;
 
     /**
-     *   Connect to a p5.Sound / Web Audio object.
+     *   Connect to a p5.sound / Web Audio object.
      *
-     *   @param unit A p5.Sound or Web Audio object
+     *   @param unit A p5.sound or Web Audio object
      */
     connect(unit: object): void;
 
@@ -4458,6 +4509,35 @@ TODO:: any): void;
      *   @param phase float between 0.0 and 1.0
      */
     phase(phase: number): void;
+
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 2061:
+    //
+    //   "p5.SinOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.SinOsc(freq: any): void;
+
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 2076:
+    //
+    //   "p5.TriOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.TriOsc(freq: any): void;
+
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2091:
+    //
+    //   "p5.SawOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.SawOsc(freq: any): void;
+
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2106:
+    //
+    //   "p5.SawOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.SawOsc(freq: any): void;
+
   }
   class Pulse {
     /**
@@ -4649,10 +4729,10 @@ TODO:: any): void;
      *   @param decayTime Time
      *   @param [decayLevel] Amplitude (In a standard ADSR 
      *   envelope, decayLevel = sustainLevel)
-     *   @param [sustainTime] Time
-     *   @param [sustainLevel] Amplitude
-     *   @param [releaseTime] Time
-     *   @param [releaseLevel] Amplitude
+     *   @param [sustainTime] Time (in seconds)
+     *   @param [sustainLevel] Amplitude 0.0 to 1.0
+     *   @param [releaseTime] Time (in seconds)
+     *   @param [releaseLevel] Amplitude 0.0 to 1.0
      */
     constructor(attackTime: number, attackLevel: number, decayTime: number, decayLevel?: number, sustainTime?: number, sustainLevel?: number, releaseTime?: number, releaseLevel?: number);
     attackTime: any;
@@ -4666,12 +4746,12 @@ TODO:: any): void;
 
     /**
      *   Play tells the envelope to start acting on a given 
-     *   input. If the input is a p5Sound object (i.e. 
+     *   input. If the input is a p5.sound object (i.e. 
      *   AudioIn, Oscillator, SoundFile), then Env will 
      *   control its output volume. Envelopes can also be 
-     *   used to control any Web Audio Param.
+     *   used to control any  Web Audio Audio Param.
      *
-     *   @param input A p5Sound object or Web Audio Param
+     *   @param input A p5.sound object or Web Audio Param
      */
     play(input: object): void;
 
@@ -4679,21 +4759,380 @@ TODO:: any): void;
      *   Trigger the Attack, Decay, and Sustain of the 
      *   Envelope. Similar to holding down a key on a 
      *   piano, but it will hold the sustain level until 
-     *   you let go.
+     *   you let go. Input can be any p5.sound object, or a  
+     *   Web Audio Param.
      *
-     *   @param input p5.Sound Object or Web Audio Param
+     *   @param input p5.sound Object or Web Audio Param
      */
     triggerAttack(input: object): void;
 
     /**
      *   Trigger the Release of the Envelope. This is 
-     *   similar to release the key on a piano and letting 
-     *   the sound fade according to the release level and 
-     *   release time.
+     *   similar to releasing the key on a piano and 
+     *   letting the sound fade according to the release 
+     *   level and release time.
      *
-     *   @param input p5.Sound Object or Web Audio Param
+     *   @param input p5.sound Object or Web Audio Param
      */
     triggerRelease(input: object): void;
+  }
+  class Filter {
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 2889:
+    //
+    //   param "type" has invalid type: [String]
+    //
+    // constructor(type: any);
+
+    /**
+     *   The p5.Filter is built with a  Web Audio 
+     *   BiquadFilter Node.
+     *
+     */
+    biquadFilter: any;
+
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 2968:
+    //
+    //   param "freq" has invalid type: [Number]
+    //   param "res" has invalid type: [Number]
+    //
+    // process(Signal: object, freq: any, res: any): void;
+
+    /**
+     *   Set the frequency and the resonance of the filter.
+     *
+     *   @param freq Frequency in Hz, from 10 to 22050
+     *   @param res Resonance (Q) from 0.001 to 1000
+     */
+    set(freq: number, res: number): void;
+
+    // TODO: Fix freq() errors in lib/addons/p5.sound.js, line 2997:
+    //
+    //   param "freq" has invalid type: [Number]
+    //
+    // freq(freq: any): number;
+
+    /**
+     *   Controls either width of a bandpass frequency, or 
+     *   the resonance of a low/highpass cutoff frequency.
+     *
+     *   @param res Resonance/Width of filter freq from 
+     *   0.001 to 1000
+     *   @return value Returns the current res value
+     */
+    res(res: number): number;
+
+    /**
+     *   Set the type of a p5.Filter. Possible types 
+     *   include: "lowpass" (default), "highpass", 
+     *   "bandpass", "lowshelf", "highshelf", "peaking", 
+     *   "notch", "allpass".
+     *
+     */
+    setType(UNKNOWN: string): void;
+
+    /**
+     *   Set the output level of the filter.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 3085:
+    //
+    //   "p5.LowPass" is not a valid JS symbol name
+    //
+    // p5.LowPass(): void;
+
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 3097:
+    //
+    //   "p5.HighPass" is not a valid JS symbol name
+    //
+    // p5.HighPass(): void;
+
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 3109:
+    //
+    //   "p5.BandPass" is not a valid JS symbol name
+    //
+    // p5.BandPass(): void;
+
+  }
+  class Delay {
+    /**
+     *   Delay is an echo effect. It processes an existing 
+     *   sound source, and outputs a delayed version of 
+     *   that sound. The p5.Delay can produce different 
+     *   effects depending on the delayTime, feedback, 
+     *   filter, and type. In the example below, a feedback 
+     *   of 0.5 will produce a looping delay that decreases 
+     *   in volume by 50% each repeat. A filter will cut 
+     *   out the high frequencies so that the delay does 
+     *   not sound as piercing as the original source.
+     *
+     *   @return Returns a p5.Delay object
+     */
+    constructor();
+
+    /**
+     *   The p5.Delay is built with two  Web Audio Delay 
+     *   Nodes, one for each stereo channel.
+     *
+     */
+    leftDelay: any;
+
+    /**
+     *   The p5.Delay is built with two  Web Audio Delay 
+     *   Nodes, one for each stereo channel.
+     *
+     */
+    rightDelay: any;
+
+    /**
+     *   Internal filter. Set to lowPass by default, but 
+     *   can be accessed directly. See p5.Filter for 
+     *   methods. Or use the p5.Delay.filter() method to 
+     *   change frequency and q.
+     *
+     */
+    lowPass: any;
+
+    /**
+     *   Add delay to an audio signal according to a set of 
+     *   delay parameters.
+     *
+     *   @param Signal An object that outputs audio
+     *   @param [delayTime] Time (in seconds) of the 
+     *   delay/echo. Some browsers limit delayTime to 1 
+     *   second.
+     *   @param [feedback] sends the delay back through 
+     *   itself in a loop that decreases in volume each 
+     *   time.
+     *   @param [lowPass] Cutoff frequency. Only 
+     *   frequencies below the lowPass will be part of the 
+     *   delay.
+     */
+    process(Signal: object, delayTime?: number, feedback?: number, lowPass?: number): void;
+
+    /**
+     *   Set the delay (echo) time, in seconds. Usually 
+     *   this value will be a floating point number between 
+     *   0.0 and 1.0.
+     *
+     *   @param delayTime Time (in seconds) of the delay
+     */
+    delayTime(delayTime: number): void;
+
+    /**
+     *   Feedback occurs when Delay sends its signal back 
+     *   through its input in a loop. The feedback amount 
+     *   determines how much signal to send each time 
+     *   through the loop. A feedback greater than 1.0 is 
+     *   not desirable because it will increase the overall 
+     *   output each time through the loop, creating an 
+     *   infinite feedback loop.
+     *
+     *   @param feedback 0.0 to 1.0, or an object such as 
+     *   an Oscillator that can be used to modulate this 
+     *   param
+     */
+    feedback(feedback: number|object): void;
+
+    /**
+     *   Set a lowpass filter frequency for the delay. A 
+     *   lowpass filter will cut off any frequencies higher 
+     *   than the filter frequency.
+     *
+     *   @param cutoffFreq A lowpass filter will cut off 
+     *   any frequencies higher than the filter frequency.
+     *   @param res Resonance of the filter frequency 
+     *   cutoff, or an object (i.e. a p5.Oscillator) that 
+     *   can be used to modulate this parameter. High 
+     *   numbers (i.e. 15) will produce a resonance, low 
+     *   numbers (i.e. .2) will produce a slope.
+     */
+    filter(cutoffFreq: number|object, res: number|object): void;
+
+    /**
+     *   Choose a preset type of delay. 'pingPong' bounces 
+     *   the signal from the left to the right channel to 
+     *   produce a stereo effect. Any other parameter will 
+     *   revert to the default delay setting.
+     *
+     *   @param type 'pingPong' (1) or 'default' (0)
+     */
+    setType(type: string|number): void;
+
+    /**
+     *   Set the output level of the delay effect.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+  }
+  class Reverb {
+    /**
+     *   Reverb adds depth to a sound through a large 
+     *   number of decaying echoes. It creates the 
+     *   perception that sound is occurring in a physical 
+     *   space. The p5.Reverb has paramters for Time (how 
+     *   long does the reverb last) and decayRate (how much 
+     *   the sound decays with each echo) that can be set 
+     *   with the .set() or .process() methods. The 
+     *   p5.Convolver extends p5.Reverb allowing you to 
+     *   recreate the sound of actual physical spaces 
+     *   through convolution.
+     *
+     */
+    constructor();
+
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 3431:
+    //
+    //   param "seconds" has invalid type: [Number]
+    //   param "decayRate" has invalid type: [Number]
+    //   param "reverse" has invalid type: [Boolean]
+    //
+    // process(src: object, seconds: any, decayRate: any, reverse: any): void;
+
+    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 3460:
+    //
+    //   param "seconds" has invalid type: [Number]
+    //   param "decayRate" has invalid type: [Number]
+    //   param "reverse" has invalid type: [Boolean]
+    //
+    // set(seconds: any, decayRate: any, reverse: any): void;
+
+    /**
+     *   Set the output level of the delay effect.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Inspired by Simple Reverb by Jordan Santell 
+     *   https://github.com/web-audio-components/simple-reverb/blob/master/index.js 
+     *   Utility function for building an impulse response 
+     *   based on the module parameters.
+     *
+     */
+    _buildImpulse(): void;
+  }
+  class Convolver {
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 3551:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // constructor(path: string, callback: any);
+
+    /**
+     *   Internally, the p5.Convolver uses the a  Web Audio 
+     *   Convolver Node.
+     *
+     */
+    convolverNode: any;
+
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 3630:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // createConvolver(path: string, callback: any): p5.Convolver;
+
+    /**
+     *   Connect a source to the reverb, and assign reverb 
+     *   parameters.
+     *
+     *   @param src p5.sound / Web Audio object with a 
+     *   sound output.
+     */
+    process(src: object): void;
+
+    /**
+     *   If you load multiple impulse files using the 
+     *   .addImpulse method, they will be stored as Objects 
+     *   in this Array. Toggle between them with the 
+     *   toggleImpulse(id) method.
+     *
+     */
+    impulses: any;
+
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 3748:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // addImpulse(path: string, callback: any): void;
+
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 3765:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // resetImpulse(path: string, callback: any): void;
+
+    /**
+     *   If you have used .addImpulse() to add multiple 
+     *   impulses to a p5.Convolver, then you can use this 
+     *   method to toggle between the items in the 
+     *   .impulses Array. Accepts a parameter to identify 
+     *   which impulse you wish to use, identified either 
+     *   by its original filename (String) or by its 
+     *   position in the .impulses  Array (Number). You can 
+     *   access the objects in the .impulses Array 
+     *   directly. Each Object has two attributes: an 
+     *   .audioBuffer (type: Web Audio  AudioBuffer) and a 
+     *   .name, a String that corresponds with the original 
+     *   filename.
+     *
+     *   @param id Identify the impulse by its original 
+     *   filename (String), or by its position in the 
+     *   .impulses Array (Number).
+     */
+    toggleImpulse(id: string|number): void;
   }
 }
 
