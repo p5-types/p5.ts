@@ -1054,7 +1054,7 @@ declare function getURLParams(): object;
 
 // src/core/rendering.js
 
-// TODO: Fix createCanvas() errors in src/core/rendering.js, line 13:
+// TODO: Fix createCanvas() errors in src/core/rendering.js, line 14:
 //
 //   param "optional:" is not a valid JS symbol name
 //
@@ -1090,7 +1090,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number, renderer: string): object;
 
-// TODO: Fix blendMode() errors in src/core/rendering.js, line 193:
+// TODO: Fix blendMode() errors in src/core/rendering.js, line 195:
 //
 //   param "mode" has invalid type: String/Constant
 //

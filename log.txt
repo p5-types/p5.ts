@@ -18,8 +18,8 @@ rectMode() src/core/attributes.js, line 99, param "mode" has invalid type: Numbe
 strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Number/Constant
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
-createCanvas() src/core/rendering.js, line 13, param "optional:" is not a valid JS symbol name
-blendMode() src/core/rendering.js, line 193, param "mode" has invalid type: String/Constant
+createCanvas() src/core/rendering.js, line 14, param "optional:" is not a valid JS symbol name
+blendMode() src/core/rendering.js, line 195, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 65, param "kind" has invalid type: Number/Constant
 endShape() src/core/vertex.js, line 395, param "mode" has invalid type: Number/Constant
 saveCanvas() src/image/image.js, line 98, param "canvas" has invalid type: [selectedCanvas]
@@ -123,8 +123,8 @@ rectMode() src/core/attributes.js, line 99, param "mode" has invalid type: Numbe
 strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Number/Constant
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
-createCanvas() src/core/rendering.js, line 13, param "optional:" is not a valid JS symbol name
-blendMode() src/core/rendering.js, line 193, param "mode" has invalid type: String/Constant
+createCanvas() src/core/rendering.js, line 14, param "optional:" is not a valid JS symbol name
+blendMode() src/core/rendering.js, line 195, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 65, param "kind" has invalid type: Number/Constant
 endShape() src/core/vertex.js, line 395, param "mode" has invalid type: Number/Constant
 saveCanvas() src/image/image.js, line 98, param "canvas" has invalid type: [selectedCanvas]
