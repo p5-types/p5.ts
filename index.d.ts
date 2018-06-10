@@ -1,4 +1,4 @@
-// Type definitions for p5 0.4
+// Type definitions for p5 0.0
 // Project: https://github.com/processing/p5.js
 // Definitions by: p5-types <https://github.com/p5-types>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -22,7 +22,7 @@ declare class p5 {
   plane(width: number, height: number): p5;
 
   /**
-   *   Draw a sphere with given raduis
+   *   Draw a sphere with given radius
    *
    *   @param radius radius of circle
    *   @param [detail] number of segments, the more 
@@ -53,8 +53,10 @@ declare class p5 {
    *   @param height height of the cylinder
    *   @param [detail] number of segments, the more 
    *   segments the smoother geometry default is 24. 
-   *   Avoid detail number above 150. It may crash the 
-   *   browser.
+   *   Avoid detail number above 
+   * 
+   *  
+   *   150. It may crash the browser.
    *   @return the p5 object
    */
   cylinder(radius: number, height: number, detail?: number): p5;
@@ -66,8 +68,10 @@ declare class p5 {
    *   @param height height of the cone
    *   @param [detail] number of segments, the more 
    *   segments the smoother geometry default is 24. 
-   *   Avoid detail number above 150. It may crash the 
-   *   browser.
+   *   Avoid detail number above 
+   * 
+   *  
+   *   150. It may crash the browser.
    */
   cone(radius: number, height: number, detail?: number): void;
 
@@ -78,8 +82,10 @@ declare class p5 {
    *   @param tubeRadius radius of the tube
    *   @param [detail] number of segments, the more 
    *   segments the smoother geometry default is 24. 
-   *   Avoid detail number above 150. It may crash the 
-   *   browser.
+   *   Avoid detail number above 
+   * 
+   *  
+   *   150. It may crash the browser.
    */
   torus(radius: number, tubeRadius: number, detail?: number): void;
 
@@ -253,21 +259,46 @@ declare class p5 {
    *   HSB values. Adding a fourth value applies alpha 
    *   transparency. If a single string parameter is 
    *   provided it will be interpreted as a 
-   *   CSS-compatible color string. Colors are stored as 
-   *   Numbers or Arrays.
+   *   CSS-compatible color string. 
+   * 
+   *   Colors are stored as Numbers or Arrays.
    *
-   *   @param v1 gray value or red or hue value relative 
-   *   to the current color range, or a color string
-   *   @param [v2] gray value or green or saturation 
-   *   value relative to the current color range (or 
-   *   alpha value if first param is gray value)
-   *   @param [v3] gray value or blue or brightness value 
-   *   relative to the current color range
+   *   @param gray number specifying value between white 
+   *   and black.
    *   @param [alpha] alpha value relative to current 
    *   color range
-   *   @return resulting color
    */
-  color(v1: number|string, v2?: number, v3?: number, alpha?: number): any[];
+  color(gray: number|string, alpha?: number): void;
+
+  /**
+   *   Creates colors for storing in variables of the 
+   *   color datatype. The parameters are interpreted as 
+   *   RGB or HSB values depending on the current 
+   *   colorMode(). The default mode is RGB values from 0 
+   *   to 255 and, therefore, the function call 
+   *   color(255, 204, 0) will return a bright yellow 
+   *   color.  Note that if only one value is provided to 
+   *   color(), it will be interpreted as a grayscale 
+   *   value. Add a second value, and it will be used for 
+   *   alpha transparency. When three values are 
+   *   specified, they are interpreted as either RGB or 
+   *   HSB values. Adding a fourth value applies alpha 
+   *   transparency. If a single string parameter is 
+   *   provided it will be interpreted as a 
+   *   CSS-compatible color string. 
+   * 
+   *   Colors are stored as Numbers or Arrays.
+   *
+   *   @param v1 red or hue value relative to the current 
+   *   color range, or a color string
+   *   @param v2 green or saturation value relative to 
+   *   the current color range
+   *   @param v3 blue or brightness value relative to the 
+   *   current color range
+   *   @param [alpha] alpha value relative to current 
+   *   color range
+   */
+  color(v1: number|string, v2: number, v3: number, alpha?: number): void;
 
   /**
    *   Extracts the green value from a color or pixel 
@@ -292,7 +323,7 @@ declare class p5 {
    */
   hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 323:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 330:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
@@ -341,16 +372,81 @@ declare class p5 {
    *   the first frame of animation or if the background 
    *   need only be set once.
    *
-   *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), color string, 
-   *   p5.Color, or p5.Image
-   *   @param [v2] green or saturation value (depending 
-   *   on the current color mode)
-   *   @param [v3] blue or brightness value (depending on 
+   *   @param color any value created by the color() 
+   *   function
+   *   @param [a] opacity of the background
+   */
+  background(color: p5.Color, a?: number): void;
+
+  /**
+   *   The background() function sets the color used for 
+   *   the background of the p5.js canvas. The default 
+   *   background is light gray. This function is 
+   *   typically used within draw() to clear the display 
+   *   window at the beginning of each frame, but it can 
+   *   be used inside setup() to set the background on 
+   *   the first frame of animation or if the background 
+   *   need only be set once.
+   *
+   *   @param colorstring color string, possible formats 
+   *   include: integer rgb() or rgba(), percentage rgb() 
+   *   or rgba(), 3-digit hex, 6-digit hex
+   *   @param [a] opacity of the background
+   */
+  background(colorstring: string, a?: number): void;
+
+  /**
+   *   The background() function sets the color used for 
+   *   the background of the p5.js canvas. The default 
+   *   background is light gray. This function is 
+   *   typically used within draw() to clear the display 
+   *   window at the beginning of each frame, but it can 
+   *   be used inside setup() to set the background on 
+   *   the first frame of animation or if the background 
+   *   need only be set once.
+   *
+   *   @param gray specifies a value between white and 
+   *   black
+   *   @param [a] opacity of the background
+   */
+  background(gray: number, a?: number): void;
+
+  /**
+   *   The background() function sets the color used for 
+   *   the background of the p5.js canvas. The default 
+   *   background is light gray. This function is 
+   *   typically used within draw() to clear the display 
+   *   window at the beginning of each frame, but it can 
+   *   be used inside setup() to set the background on 
+   *   the first frame of animation or if the background 
+   *   need only be set once.
+   *
+   *   @param v1 red or hue value (depending on the 
+   *   current color mode)
+   *   @param v2 green or saturation value (depending on 
+   *   the current color mode)
+   *   @param v3 blue or brightness value (depending on 
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  background(v1: number|string|p5.Color|p5.Image, v2?: number, v3?: number, a?: number): void;
+  background(v1: number, v2: number, v3: number, a?: number): void;
+
+  /**
+   *   The background() function sets the color used for 
+   *   the background of the p5.js canvas. The default 
+   *   background is light gray. This function is 
+   *   typically used within draw() to clear the display 
+   *   window at the beginning of each frame, but it can 
+   *   be used inside setup() to set the background on 
+   *   the first frame of animation or if the background 
+   *   need only be set once.
+   *
+   *   @param image image created with loadImage() or 
+   *   createImage(), to set as background (must be same 
+   *   size as the sketch window)
+   *   @param [a] opacity of the background
+   */
+  background(image: p5.Image, a?: number): void;
 
   /**
    *   Clears the pixels within a buffer. This function 
@@ -741,8 +837,10 @@ declare class p5 {
    *   Called directly after setup(), the draw() function 
    *   continuously executes the lines of code contained 
    *   inside its block until the program is stopped or 
-   *   noLoop() is called. draw() is called automatically 
-   *   and should never be called explicitly.  It should 
+   *   noLoop() is called. Note if noLoop() is called in 
+   *   setup(), draw() will still be executed once before 
+   *   stopping. draw() is called automatically and 
+   *   should never be called explicitly.  It should 
    *   always be controlled with noLoop(), redraw() and 
    *   loop(). After noLoop() stops the code in draw() 
    *   from executing, redraw() causes the code inside 
@@ -1465,7 +1563,7 @@ declare class p5 {
    */
   beginContour(): object;
 
-  // TODO: Fix beginShape() errors in src/core/vertex.js, line 65:
+  // TODO: Fix beginShape() errors in src/core/vertex.js, line 66:
   //
   //   param "kind" has invalid type: Number/Constant
   //
@@ -1537,7 +1635,7 @@ declare class p5 {
    */
   endContour(): object;
 
-  // TODO: Fix endShape() errors in src/core/vertex.js, line 399:
+  // TODO: Fix endShape() errors in src/core/vertex.js, line 405:
   //
   //   param "mode" has invalid type: Number/Constant
   //
@@ -2176,9 +2274,13 @@ declare class p5 {
    *   create a movie. Accepts a callback. For example, 
    *   you may wish to send the frames to a server where 
    *   they can be stored or converted into a movie. If 
-   *   no callback is provided, the browser will attempt 
-   *   to download all of the images that have just been 
-   *   created.
+   *   no callback is provided, the browser will pop up 
+   *   save dialogues in an attempt to download all of 
+   *   the images that have just been created. With the 
+   *   callback provided the image data isn't saved by 
+   *   default but instead passed as an argument to the 
+   *   callback function as an array of objects, with the 
+   *   size of array equal to the total number of frames.
    *
    *   @param extension 'jpg' or 'png'
    *   @param duration Duration in seconds to save the 
@@ -2188,7 +2290,7 @@ declare class p5 {
    *   executed to handle the image data. This function 
    *   should accept an array as argument. The array will 
    *   contain the spcecified number of frames of 
-   *   objects. Each object have three properties: 
+   *   objects. Each object has three properties: 
    *   imageData - an image/octet-stream, filename and 
    *   extension.
    */
@@ -2368,10 +2470,12 @@ declare class p5 {
   copy(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
 
   /**
-   *   Applies a filter to the canvas.  The presets 
-   *   options are: 
+   *   Applies a filter to the canvas.  
+   * 
+   *   The presets options are: 
    * 
    *  
+   * 
    *   THRESHOLD Converts the image to black and white 
    *   pixels depending if they are above or below the 
    *   threshold defined by the level parameter. The 
@@ -2379,18 +2483,22 @@ declare class p5 {
    *   (white). If no level is specified, 0.5 is used. 
    * 
    *  
+   * 
    *   GRAY Converts any colors in the image to grayscale 
    *   equivalents. No parameter is used. 
    * 
    *  
+   * 
    *   OPAQUE Sets the alpha channel to entirely opaque. 
    *   No parameter is used. 
    * 
    *  
+   * 
    *   INVERT Sets each pixel to its inverse value. No 
    *   parameter is used. 
    * 
    *  
+   * 
    *   POSTERIZE Limits each channel of the image to the 
    *   number of colors specified as the parameter. The 
    *   parameter can be set to values between 2 and 255, 
@@ -2398,6 +2506,7 @@ declare class p5 {
    *   ranges. 
    * 
    *  
+   * 
    *   BLUR Executes a Guassian blur with the level 
    *   parameter specifying the extent of the blurring. 
    *   If no parameter is used, the blur is equivalent to 
@@ -2405,10 +2514,12 @@ declare class p5 {
    *   the blur. 
    * 
    *  
+   * 
    *   ERODE Reduces the light areas. No parameter is 
    *   used. 
    * 
    *  
+   * 
    *   DILATE Increases the light areas. No parameter is 
    *   used.
    *
@@ -2438,10 +2549,8 @@ declare class p5 {
    *   is easy, but not as fast as grabbing the data 
    *   directly from pixels[]. The equivalent statement 
    *   to get(x, y) using pixels[] with pixel density d 
-   *   is [pixels[(y*width*d+x)*d], 
-   *   pixels[(y*width*d+x)*d+1], 
-   *   pixels[(y*width*d+x)*d+2], 
-   *   pixels[(y*width*d+x)*d+3]]. 
+   *   is  var off = (y  width + x)  d * 4; [pixels[off], 
+   *   pixels[off+1], pixels[off+2], pixels[off+3]] 
    * 
    *  
    *   See the reference for pixels[] for more 
@@ -2498,7 +2607,7 @@ declare class p5 {
    */
   set(x: number, y: number, c: number|any[]|object): void;
 
-  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 515:
+  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 521:
   //
   //   param "w" is defined multiple times
   //
@@ -2616,21 +2725,19 @@ declare class p5 {
    *   object with its values. If the name of the file is 
    *   used as the parameter, as in the above example, 
    *   the file must be located in the sketch 
-   *   directory/folder.  Alternatively, the file maybe 
-   *   be loaded from anywhere on the local computer 
-   *   using an absolute path (something that starts with 
-   *   / on Unix and Linux, or a drive letter on 
-   *   Windows), or the filename parameter can be a URL 
-   *   for a file found on a network. 
+   *   directory/folder. Alternatively, the file maybe be 
+   *   loaded from anywhere on the local computer using 
+   *   an absolute path (something that starts with / on 
+   *   Unix and Linux, or a drive letter on Windows), or 
+   *   the filename parameter can be a URL for a file 
+   *   found on a network. 
    * 
-   *  
    *   This method is asynchronous, meaning it may not 
    *   finish before the next line in your sketch is 
    *   executed. Calling loadXML() inside preload() 
    *   guarantees to complete the operation before 
    *   setup() and draw() are called. 
    * 
-   *  
    *   Outside of preload(), you may supply a callback 
    *   function to handle the object:
    *
@@ -2687,7 +2794,9 @@ declare class p5 {
    *   the URL, defaulting to text. You may also pass a 
    *   single object specifying all parameters for the 
    *   request following the examples inside the 
-   *   reqwest() calls here: 
+   *   reqwest() calls here: <a 
+   *   href='https://github.com/ded/reqwest#api'  
+   * 
    *   https://github.com/ded/reqwest#api
    *
    *   @param path name of the file or url to load
@@ -2705,7 +2814,7 @@ declare class p5 {
    */
   httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function, errorCallback?: Function): void;
 
-  // TODO: Fix save() errors in src/io/files.js, line 967:
+  // TODO: Fix save() errors in src/io/files.js, line 987:
   //
   //   param "filename" has invalid type: [String]
   //   param "options" has invalid type: [Boolean/String]
@@ -2750,6 +2859,167 @@ declare class p5 {
    *   "html"
    */
   saveTable(Table: p5.Table, filename: string, options?: string): void;
+
+  // src/io/p5.XML.js
+
+  /**
+   *   Gets a copy of the element's parent. Returns the 
+   *   parent as another p5.XML object.
+   *
+   *   @return element parent
+   */
+  getParent(): object;
+
+  /**
+   *   Gets the element's full name, which is returned as 
+   *   a String.
+   *
+   *   @return the name of the node
+   */
+  getName(): string;
+
+  /**
+   *   Sets the element's name, which is specified as a 
+   *   String.
+   *
+   *   @param the new name of the node
+   */
+  setName(the: string): void;
+
+  /**
+   *   Checks whether or not the element has any 
+   *   children, and returns the result as a boolean.
+   *
+   */
+  hasChildren(): boolean;
+
+  /**
+   *   Get the names of all of the element's children, 
+   *   and returns the names as an array of Strings. This 
+   *   is the same as looping through and calling 
+   *   getName() on each child element individually.
+   *
+   *   @return names of the children of the element
+   */
+  listChildren(): any[];
+
+  /**
+   *   Returns all of the element's children as an array 
+   *   of p5.XML objects. When the name parameter is 
+   *   specified, then it will return all children that 
+   *   match that name.
+   *
+   *   @param [name] element name
+   *   @return children of the element
+   */
+  getChildren(name?: string): any[];
+
+  // TODO: Fix getChild() errors in src/io/p5.XML.js, line 254:
+  //
+  //   return has invalid type: p5.XML
+  //
+  // getChild(name: string|number): any;
+
+  /**
+   *   Appends a new child to the element. The child can 
+   *   be specified with either a String, which will be 
+   *   used as the new tag's name, or as a reference to 
+   *   an existing p5.XML object. A reference to the 
+   *   newly created child is returned as an p5.XML 
+   *   object.
+   *
+   *   @param a p5.XML Object which will be the child to 
+   *   be added
+   */
+  addChild(a: object): void;
+
+  /**
+   *   Removes the element specified by name or index.
+   *
+   *   @param name element name or index
+   */
+  removeChild(name: string|number): void;
+
+  /**
+   *   Counts the specified element's number of 
+   *   attributes, returned as an Number.
+   *
+   */
+  getAttributeCount(): number;
+
+  /**
+   *   Gets all of the specified element's attributes, 
+   *   and returns them as an array of Strings.
+   *
+   *   @return an array of strings containing the names 
+   *   of attributes
+   */
+  listAttributes(): any[];
+
+  /**
+   *   Checks whether or not an element has the specified 
+   *   attribute.
+   *
+   *   @param the attribute to be checked
+   *   @return true if attribute found else false
+   */
+  hasAttribute(the: string): boolean;
+
+  /**
+   *   Returns an attribute value of the element as an 
+   *   Number. If the defaultValue parameter is specified 
+   *   and the attribute doesn't exist, then defaultValue 
+   *   is returned. If no defaultValue is specified and 
+   *   the attribute doesn't exist, the value 0 is 
+   *   returned.
+   *
+   *   @param name the non-null full name of the 
+   *   attribute
+   *   @param [defaultValue] the default value of the 
+   *   attribute
+   */
+  getNumber(name: string, defaultValue?: number): number;
+
+  /**
+   *   Returns an attribute value of the element as an 
+   *   String. If the defaultValue parameter is specified 
+   *   and the attribute doesn't exist, then defaultValue 
+   *   is returned. If no defaultValue is specified and 
+   *   the attribute doesn't exist, null is returned.
+   *
+   *   @param name the non-null full name of the 
+   *   attribute
+   *   @param [defaultValue] the default value of the 
+   *   attribute
+   */
+  getString(name: string, defaultValue?: number): number;
+
+  /**
+   *   Sets the content of an element's attribute. The 
+   *   first parameter specifies the attribute name, 
+   *   while the second specifies the new content.
+   *
+   *   @param name the full name of the attribute
+   *   @param value the value of the attribute
+   */
+  setAttribute(name: string, value: number): void;
+
+  /**
+   *   Returns the content of an element. If there is no 
+   *   such content, defaultValue is returned if 
+   *   specified, otherwise null is returned.
+   *
+   *   @param [defaultValue] value returned if no content 
+   *   is found
+   */
+  getContent(defaultValue?: string): string;
+
+  /**
+   *   Sets the element's content.
+   *
+   *   @param text the new content
+   */
+  setContent(text: string): void;
 
   // src/math/calculation.js
 
@@ -2868,11 +3138,11 @@ declare class p5 {
    *   range
    *   @param start2 lower bound of the value's target 
    *   range
-   *   @param stop upper bound of the value's target 
+   *   @param stop2 upper bound of the value's target 
    *   range
    *   @return remapped number
    */
-  map(value: number, start1: number, stop1: number, start2: number, stop: number): number;
+  map(value: number, start1: number, stop1: number, start2: number, stop2: number): number;
 
   /**
    *   Determines the largest value in a sequence of 
@@ -2918,9 +3188,8 @@ declare class p5 {
    *   function is an efficient way of multiplying 
    *   numbers by themselves (or their reciprocals) in 
    *   large quantities. For example, pow(3, 5) is 
-   *   equivalent to the expression 3*3*3*3*3 and pow(3, 
-   *   -5) is equivalent to 1 / 3*3*3*3*3. Maps to 
-   *   Math.pow().
+   *   equivalent to the expression 33333 and pow(3, -5) 
+   *   is equivalent to 1 / 33333. Maps to Math.pow().
    *
    *   @param n base of the exponential expression
    *   @param e power by which to raise the base
@@ -3084,18 +3353,24 @@ declare class p5 {
   randomSeed(seed: number): void;
 
   /**
-   *   Return a random number. Takes either 0, 1 or 2 
-   *   arguments. If no argument is given, returns a 
-   *   random number between 0 and 1. If one argument is 
-   *   given, returns a random number between 0 and the 
-   *   number. If two arguments are given, returns a 
-   *   random number between them, inclusive.
+   *   Return a random floating-point number. Takes 
+   *   either 0, 1 or 2 arguments. 
+   * 
+   *   If no argument is given, returns a random number 
+   *   from 0 up to (but not including) 1. 
+   * 
+   *   If one argument is given, returns a random number 
+   *   from 0 up to (but not including) the number. 
+   * 
+   *   If two arguments are given, returns a random 
+   *   number from the first argument up to (but not 
+   *   including) the second argument.
    *
-   *   @param min the lower bound
-   *   @param max the upper bound
+   *   @param [min] the lower bound (inclusive)
+   *   @param [max] the upper bound (exclusive)
    *   @return the random number
    */
-  random(min: number, max: number): number;
+  random(min?: number, max?: number): number;
 
   /**
    *   Returns a random number fitting a Gaussian, or 
@@ -3268,7 +3543,7 @@ declare class p5 {
    */
   textSize(theSize: number): object|number;
 
-  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 93:
+  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 103:
   //
   //   param "theStyle" has invalid type: Number/Constant
   //
@@ -3325,7 +3600,7 @@ declare class p5 {
    *   text() function.
    *
    *   @param f a font loaded via loadFont(), or a String 
-   *   representing a browser-based dfault font.
+   *   representing a browser-based default font.
    *   @return this
    */
   textFont(f: object|string): object;
@@ -3741,11 +4016,11 @@ declare class p5 {
    *   return, and tab, this function also removes the 
    *   Unicode "nbsp" character.
    *
-   *   @param [str] a String or Array of Strings to be 
+   *   @param str a String or Array of Strings to be 
    *   trimmed
    *   @return a trimmed String or Array of Strings
    */
-  trim(str?: string|any[]): string|any[];
+  trim(str: string|any[]): string|any[];
 
   // src/utilities/time_date.js
 
@@ -3912,49 +4187,49 @@ declare class p5 {
   //
   // createCheckbox(label?: string, value?: boolean): any;
 
-  // TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 500:
+  // TODO: Fix createSelect() errors in lib/addons/p5.dom.js, line 505:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSelect(multiple?: boolean): any;
 
-  // TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 565:
+  // TODO: Fix createRadio() errors in lib/addons/p5.dom.js, line 570:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createRadio(divId?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 650:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 697:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 679:
+  // TODO: Fix createFileInput() errors in lib/addons/p5.dom.js, line 726:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createFileInput(callback?: Function, multiple?: string): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 776:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 826:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 804:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 854:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 840:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 890:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: string|TYPE|object, callback: Function): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 938:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 990:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -4065,11 +4340,13 @@ declare namespace p5 {
      *   representing the ideal RGBA values in floating 
      *   point form, normalized from 0 to 1. From this we 
      *   calculate the closest screen color (RGBA levels 
-     *   from 0 to 255) and expose this to the renderer. We 
-     *   also cache normalized, floating point components 
-     *   of the color in various representations as they 
-     *   are calculated. This is done to prevent repeating 
-     *   a conversion that has already been performed.
+     *   from 0 to 255) and expose this to the renderer. 
+     * 
+     *   We also cache normalized, floating point 
+     *   components of the color in various representations 
+     *   as they are calculated. This is done to prevent 
+     *   repeating a conversion that has already been 
+     *   performed.
      *
      */
     constructor();
@@ -4281,7 +4558,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/core/p5.Element.js, line 694:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 692:
     //
     //   param "callback" is defined multiple times
     //
@@ -4289,13 +4566,13 @@ declare namespace p5 {
 
     // lib/addons/p5.dom.js
 
-    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 964:
+    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 1016:
     //
     //   return has invalid type: Object/p5.Element
     //
     // addClass(theClass: string): any;
 
-    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 991:
+    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 1043:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4323,13 +4600,13 @@ declare namespace p5 {
      */
     html(html?: string): any|string;
 
-    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 1129:
+    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 1181:
     //
     //   return has invalid type: Object/p5.Element
     //
     // position(x?: number, y?: number): any;
 
-    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 1210:
+    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 1262:
     //
     //   param "value" is defined multiple times
     //   param "value" is defined multiple times
@@ -4359,19 +4636,19 @@ declare namespace p5 {
      */
     value(value?: string|number): string|any;
 
-    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1365:
+    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1417:
     //
     //   return has invalid type: Object/p5.Element
     //
     // show(): any;
 
-    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1383:
+    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1435:
     //
     //   return has invalid type: Object/p5.Element
     //
     // hide(): any;
 
-    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1399:
+    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1451:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4476,6 +4753,7 @@ declare namespace p5 {
      *   and y are the only params passed a single pixel is 
      *   extracted if all params are passed a rectangle 
      *   region is extracted and a p5.Image is returned. 
+     * 
      *   Returns undefined if the region is outside the 
      *   bounds of the image
      *
@@ -4575,11 +4853,14 @@ declare namespace p5 {
      *   left corner
      *   @param dw destination image width
      *   @param dh destination image height
-     *   @param blendMode the blend mode Available blend 
-     *   modes are: normal | multiply | screen | overlay | 
-     *   darken | lighten | color-dodge | color-burn | 
-     *   hard-light | soft-light | difference | exclusion | 
-     *   hue | saturation | color | luminosity 
+     *   @param blendMode the blend mode 
+     * 
+     *   Available blend modes are: normal | multiply | 
+     *   screen | overlay | darken | lighten | color-dodge 
+     *   | color-burn | hard-light | soft-light | 
+     *   difference | exclusion | hue | saturation | color 
+     *   | luminosity 
+     * 
      *   http://blogs.adobe.com/webplatform/2013/01/28/blending-features-in-canvas/
      */
     blend(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: number): void;
@@ -5084,7 +5365,7 @@ declare namespace p5 {
     /**
      *   Calculates the magnitude (length) of the vector 
      *   and returns the result as a float (this is simply 
-     *   the equation sqrt(x*x + y*y + z*z).)
+     *   the equation sqrt(xx + yy + z*z).)
      *
      *   @return magnitude of the vector
      */
@@ -5093,7 +5374,7 @@ declare namespace p5 {
     /**
      *   Calculates the squared magnitude of the vector and 
      *   returns the result as a float (this is simply the 
-     *   equation (x*x + y*y + z*z).) Faster if the real 
+     *   equation (xx + yy + z*z).) Faster if the real 
      *   length is not required in the case of comparing 
      *   vectors, etc.
      *
@@ -5295,37 +5576,37 @@ declare namespace p5 {
      */
     src: any;
 
-    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1549:
+    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1601:
     //
     //   return has invalid type: Object/p5.Element
     //
     // play(): any;
 
-    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1570:
+    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1622:
     //
     //   return has invalid type: Object/p5.Element
     //
     // stop(): any;
 
-    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1582:
+    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1634:
     //
     //   return has invalid type: Object/p5.Element
     //
     // pause(): any;
 
-    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1593:
+    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1645:
     //
     //   return has invalid type: Object/p5.Element
     //
     // loop(): any;
 
-    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1604:
+    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1656:
     //
     //   return has invalid type: Object/p5.Element
     //
     // noLoop(): any;
 
-    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1617:
+    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1669:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -5374,7 +5655,7 @@ declare namespace p5 {
      */
     duration(): number;
 
-    // TODO: Fix onended() errors in lib/addons/p5.dom.js, line 1724:
+    // TODO: Fix onended() errors in lib/addons/p5.dom.js, line 1776:
     //
     //   return has invalid type: Object/p5.MediaElement
     //
@@ -5422,9 +5703,11 @@ declare namespace p5 {
      *   MediaElement (audio/video) reaches a playback cue 
      *   point. Accepts a callback function, a time (in 
      *   seconds) at which to trigger the callback, and an 
-     *   optional parameter for the callback. Time will be 
-     *   passed as the first parameter to the callback 
-     *   function, and param will be the second parameter.
+     *   optional parameter for the callback. 
+     * 
+     *   Time will be passed as the first parameter to the 
+     *   callback function, and param will be the second 
+     *   parameter.
      *
      *   @param time Time in seconds, relative to this 
      *   media element's playback. For example, to trigger 
@@ -5762,13 +6045,14 @@ declare namespace p5 {
      *   it thinks there is a beat. This is an asynchronous 
      *   function that processes the soundfile in an 
      *   offline audio context, and sends the results to 
-     *   your callback function. The process involves 
-     *   running the soundfile through a lowpass filter, 
-     *   and finding all of the peaks above the initial 
-     *   threshold. If the total number of peaks are below 
-     *   the minimum number of peaks, it decreases the 
-     *   threshold and re-runs the analysis until either 
-     *   minPeaks or minThreshold are reached.
+     *   your callback function. 
+     * 
+     *   The process involves running the soundfile through 
+     *   a lowpass filter, and finding all of the peaks 
+     *   above the initial threshold. If the total number 
+     *   of peaks are below the minimum number of peaks, it 
+     *   decreases the threshold and re-runs the analysis 
+     *   until either minPeaks or minThreshold are reached.
      *
      *   @param callback a function to call once this data 
      *   is returned
@@ -5787,9 +6071,11 @@ declare namespace p5 {
      *   MediaElement (audio/video) reaches a playback cue 
      *   point. Accepts a callback function, a time (in 
      *   seconds) at which to trigger the callback, and an 
-     *   optional parameter for the callback. Time will be 
-     *   passed as the first parameter to the callback 
-     *   function, and param will be the second parameter.
+     *   optional parameter for the callback. 
+     * 
+     *   Time will be passed as the first parameter to the 
+     *   callback function, and param will be the second 
+     *   parameter.
      *
      *   @param time Time in seconds, relative to this 
      *   media element's playback. For example, to trigger 
@@ -5881,7 +6167,7 @@ declare namespace p5 {
      *   Smooth Amplitude analysis by averaging with the 
      *   last analysis frame. Off by default.
      *
-     *   @param set smoothing from 0.0
+     *   @param set smoothing from 0.0 <= 1
      */
     smooth(set: number): void;
   }
@@ -6036,11 +6322,13 @@ declare namespace p5 {
      *   If we want to add a value to each of those 
      *   samples, we can't do it in the draw loop, but we 
      *   can do it by adding a constant-rate audio 
-     *   signal.This class mostly functions behind the 
-     *   scenes in p5.sound, and returns a Tone.Signal from 
-     *   the Tone.js library by Yotam Mann. If you want to 
-     *   work directly with audio signals for modular 
-     *   synthesis, check out tone.js.
+     *   signal.</p. 
+     * 
+     *   This class mostly functions behind the scenes in 
+     *   p5.sound, and returns a Tone.Signal from the 
+     *   Tone.js library by Yotam Mann. If you want to work 
+     *   directly with audio signals for modular synthesis, 
+     *   check out tone.js.
      *
      *   @return A Signal object from the Tone.js library
      */
