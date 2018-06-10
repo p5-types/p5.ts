@@ -10,7 +10,7 @@ updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 170, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type
@@ -88,7 +88,7 @@ updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 170, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type

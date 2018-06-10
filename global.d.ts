@@ -1178,6 +1178,12 @@ declare var keyCode: any;
  *   calls to keyTyped() (and keyReleased() as well). 
  *   The rate of repeat is set by the operating system 
  *   and how each computer is configured.
+ * 
+ *  
+ *   Browsers may have different default behaviors 
+ *   attached to various key events. To prevent any 
+ *   default behavior for this event, add "return 
+ *   false" to the end of the method.
  *
  */
 declare function keyPressed(): void;
@@ -1185,7 +1191,10 @@ declare function keyPressed(): void;
 /**
  *   The keyReleased() function is called once every 
  *   time a key is released. See key and keyCode for 
- *   more information.
+ *   more information. Browsers may have different 
+ *   default behaviors attached to various key events. 
+ *   To prevent any default behavior for this event, 
+ *   add "return false" to the end of the method.
  *
  */
 declare function keyReleased(): void;
@@ -1200,6 +1209,12 @@ declare function keyReleased(): void;
  *   calls to keyTyped(), the rate is set by the 
  *   operating system and how each computer is 
  *   configured.
+ * 
+ *  
+ *   Browsers may have different default behaviors 
+ *   attached to various key events. To prevent any 
+ *   default behavior for this event, add "return 
+ *   false" to the end of the method.
  *
  */
 declare function keyTyped(): void;
@@ -2074,7 +2089,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number): object;
 
-// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 170:
+// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 169:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -2522,7 +2537,7 @@ declare function vertex(x: number, y: number): object;
  *   within draw(). If loop() is called, the code in 
  *   draw() begins to run continuously again. If using 
  *   noLoop() in setup(), it should be the last line 
- *   inside the block. When noLoop() is used, it's not 
+ *   inside the block.  When noLoop() is used, it's not 
  *   possible to manipulate or access the screen inside 
  *   event handling functions such as mousePressed() or 
  *   keyPressed(). Instead, use those functions to call 
@@ -2530,11 +2545,12 @@ declare function vertex(x: number, y: number): object;
  *   can update the screen properly. This means that 
  *   when noLoop() has been called, no drawing can 
  *   happen, and functions like saveFrame() or 
- *   loadPixels() may not be used. Note that if the 
- *   sketch is resized, redraw() will be called to 
- *   update the sketch, even after noLoop() has been 
- *   specified. Otherwise, the sketch would enter an 
- *   odd state until loop() was called.
+ *   loadPixels() may not be used. 
+ * 
+ *   Note that if the sketch is resized, redraw() will 
+ *   be called to update the sketch, even after 
+ *   noLoop() has been specified. Otherwise, the sketch 
+ *   would enter an odd state until loop() was called.
  *
  */
 declare function noLoop(): void;

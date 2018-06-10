@@ -1178,6 +1178,12 @@ declare class p5 {
    *   calls to keyTyped() (and keyReleased() as well). 
    *   The rate of repeat is set by the operating system 
    *   and how each computer is configured.
+   * 
+   *  
+   *   Browsers may have different default behaviors 
+   *   attached to various key events. To prevent any 
+   *   default behavior for this event, add "return 
+   *   false" to the end of the method.
    *
    */
   keyPressed(): void;
@@ -1185,7 +1191,10 @@ declare class p5 {
   /**
    *   The keyReleased() function is called once every 
    *   time a key is released. See key and keyCode for 
-   *   more information.
+   *   more information. Browsers may have different 
+   *   default behaviors attached to various key events. 
+   *   To prevent any default behavior for this event, 
+   *   add "return false" to the end of the method.
    *
    */
   keyReleased(): void;
@@ -1200,6 +1209,12 @@ declare class p5 {
    *   calls to keyTyped(), the rate is set by the 
    *   operating system and how each computer is 
    *   configured.
+   * 
+   *  
+   *   Browsers may have different default behaviors 
+   *   attached to various key events. To prevent any 
+   *   default behavior for this event, add "return 
+   *   false" to the end of the method.
    *
    */
   keyTyped(): void;
@@ -2074,7 +2089,7 @@ declare class p5 {
    */
   createGraphics(w: number, h: number): object;
 
-  // TODO: Fix blendMode() errors in src/rendering/rendering.js, line 170:
+  // TODO: Fix blendMode() errors in src/rendering/rendering.js, line 169:
   //
   //   param "mode" has invalid type: String/Constant
   //
@@ -2522,7 +2537,7 @@ declare class p5 {
    *   within draw(). If loop() is called, the code in 
    *   draw() begins to run continuously again. If using 
    *   noLoop() in setup(), it should be the last line 
-   *   inside the block. When noLoop() is used, it's not 
+   *   inside the block.  When noLoop() is used, it's not 
    *   possible to manipulate or access the screen inside 
    *   event handling functions such as mousePressed() or 
    *   keyPressed(). Instead, use those functions to call 
@@ -2530,11 +2545,12 @@ declare class p5 {
    *   can update the screen properly. This means that 
    *   when noLoop() has been called, no drawing can 
    *   happen, and functions like saveFrame() or 
-   *   loadPixels() may not be used. Note that if the 
-   *   sketch is resized, redraw() will be called to 
-   *   update the sketch, even after noLoop() has been 
-   *   specified. Otherwise, the sketch would enter an 
-   *   odd state until loop() was called.
+   *   loadPixels() may not be used. 
+   * 
+   *   Note that if the sketch is resized, redraw() will 
+   *   be called to update the sketch, even after 
+   *   noLoop() has been specified. Otherwise, the sketch 
+   *   would enter an odd state until loop() was called.
    *
    */
   noLoop(): void;
@@ -3062,21 +3078,21 @@ declare namespace p5 {
      *   @param parent the ID, DOM node, or p5.Element of 
      *   desired parent element
      */
-    parent(parent: string|object): void;
+    parent(parent: string|object): p5.Element;
 
     /**
      *   Sets the ID of the element
      *
      *   @param id ID of the element
      */
-    id(id: string): void;
+    id(id: string): p5.Element;
 
     /**
      *   Adds given class to the element
      *
      *   @param class class to add
      */
-    class(theClass: string): void;
+    class(theClass: string): p5.Element;
 
     /**
      *   The .mousePressed() function is called once after 
@@ -3087,7 +3103,7 @@ declare namespace p5 {
      *   @param fxn function to be fired when mouse is 
      *   pressed over the element.
      */
-    mousePressed(fxn: Function): void;
+    mousePressed(fxn: Function): p5.Element;
 
     /**
      *   The .mouseWheel() function is called once after 
@@ -3103,7 +3119,7 @@ declare namespace p5 {
      *   @param fxn function to be fired when mouse wheel 
      *   is scrolled over the element.
      */
-    mouseWheel(fxn: Function): void;
+    mouseWheel(fxn: Function): p5.Element;
 
     /**
      *   The .mouseReleased() function is called once after 
@@ -3114,7 +3130,7 @@ declare namespace p5 {
      *   @param fxn function to be fired when mouse is 
      *   released over the element.
      */
-    mouseReleased(fxn: Function): void;
+    mouseReleased(fxn: Function): p5.Element;
 
     /**
      *   The .mouseClicked() function is called once after 
@@ -3125,7 +3141,7 @@ declare namespace p5 {
      *   @param fxn function to be fired when mouse is 
      *   clicked over the element.
      */
-    mouseClicked(fxn: Function): void;
+    mouseClicked(fxn: Function): p5.Element;
 
     /**
      *   The .mouseMoved() function is called once every 
@@ -3135,7 +3151,7 @@ declare namespace p5 {
      *   @param fxn function to be fired when mouse is 
      *   moved over the element.
      */
-    mouseMoved(fxn: Function): void;
+    mouseMoved(fxn: Function): p5.Element;
 
     /**
      *   The .mouseOver() function is called once after 
@@ -3146,7 +3162,7 @@ declare namespace p5 {
      *   @param fxn function to be fired when mouse is 
      *   moved over the element.
      */
-    mouseOver(fxn: Function): void;
+    mouseOver(fxn: Function): p5.Element;
 
     /**
      *   The .mouseOut() function is called once after 
@@ -3157,7 +3173,7 @@ declare namespace p5 {
      *   @param fxn function to be fired when mouse is 
      *   moved off the element.
      */
-    mouseOut(fxn: Function): void;
+    mouseOut(fxn: Function): p5.Element;
 
     // lib/addons/p5.dom.js
 
