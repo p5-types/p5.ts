@@ -1,48 +1,18 @@
 Generating definitions...
 Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
-saveCanvas() src/image/image.js, line 103, param "selectedCanvas" has invalid type: Canvas
-dist() src/math/calculation.js, line 120, required param "x2" follows an optional param
-dist() src/math/calculation.js, line 120, required param "y2" follows an optional param
-arrayCopy() src/utilities/array_functions.js, line 37, required param "dst" follows an optional param
-directionalLight() src/webgl/light.js, line 72, required param "x" follows an optional param
-pointLight() src/webgl/light.js, line 166, required param "x" follows an optional param
-loadModel() src/webgl/loading.js, line 14, return has invalid type: p5.Geometry
-model() src/webgl/loading.js, line 191, param "model" has invalid type: p5.Geometry
-p5.Graphics() src/core/p5.Graphics.js, line 10, required param "whether" follows an optional param
-p5.Renderer() src/core/p5.Renderer.js, line 10, required param "whether" follows an optional param
-lerp() src/math/p5.Vector.js, line 654, required param "amt" follows an optional param
-pan() lib/addons/p5.sound.js, line 1368, required param "timeFromNow" follows an optional param
-add() lib/addons/p5.sound.js, line 4326, return has invalid type: p5.SignalAdd
-mult() lib/addons/p5.sound.js, line 4345, return has invalid type: Tone.Multiply
-scale() lib/addons/p5.sound.js, line 4364, return has invalid type: p5.SignalScale
-p5.SinOsc() lib/addons/p5.sound.js, line 4844, "p5.SinOsc" is not a valid JS symbol name
-p5.TriOsc() lib/addons/p5.sound.js, line 4859, "p5.TriOsc" is not a valid JS symbol name
-p5.SawOsc() lib/addons/p5.sound.js, line 4874, "p5.SawOsc" is not a valid JS symbol name
-p5.SqrOsc() lib/addons/p5.sound.js, line 4889, "p5.SqrOsc" is not a valid JS symbol name
-p5.LowPass() lib/addons/p5.sound.js, line 6983, "p5.LowPass" is not a valid JS symbol name
-p5.HighPass() lib/addons/p5.sound.js, line 6995, "p5.HighPass" is not a valid JS symbol name
-p5.BandPass() lib/addons/p5.sound.js, line 7007, "p5.BandPass" is not a valid JS symbol name
-p5.Score() lib/addons/p5.sound.js, line 8424, param "part(s)" is not a valid JS symbol name
+directionalLight() src/webgl/light.js, line 96, required param "x" follows an optional param
+pointLight() src/webgl/light.js, line 190, required param "x" follows an optional param
+add() lib/addons/p5.sound.js, line 4343, return has invalid type: p5.SignalAdd
+mult() lib/addons/p5.sound.js, line 4362, return has invalid type: Tone.Multiply
+scale() lib/addons/p5.sound.js, line 4381, return has invalid type: p5.SignalScale
+p5.Effect() lib/addons/p5.sound.js, line 7694, param "input" has invalid type: WebAudioNode
+p5.Effect() lib/addons/p5.sound.js, line 7694, param "output" has invalid type: WebAudioNode
+p5.Effect() lib/addons/p5.sound.js, line 7694, param "wet" has invalid type: WebAudioNode
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
-saveCanvas() src/image/image.js, line 103, param "selectedCanvas" has invalid type: Canvas
-dist() src/math/calculation.js, line 120, required param "x2" follows an optional param
-dist() src/math/calculation.js, line 120, required param "y2" follows an optional param
-arrayCopy() src/utilities/array_functions.js, line 37, required param "dst" follows an optional param
-directionalLight() src/webgl/light.js, line 72, required param "x" follows an optional param
-pointLight() src/webgl/light.js, line 166, required param "x" follows an optional param
-loadModel() src/webgl/loading.js, line 14, return has invalid type: p5.Geometry
-model() src/webgl/loading.js, line 191, param "model" has invalid type: p5.Geometry
-MISSING: Canvas
-MISSING: p5.Geometry3D
-MISSING: p5.Geometry
-MISSING: {Object}
-MISSING: {Array}
-MISSING: {Number}
-MISSING: p5.sound object
+directionalLight() src/webgl/light.js, line 96, required param "x" follows an optional param
+pointLight() src/webgl/light.js, line 190, required param "x" follows an optional param
+UNKNOWN CLASS: BandPass
 MISSING: p5.SignalAdd
 MISSING: Tone.Multiply
 MISSING: p5.SignalScale
-MISSING: {Object}  Web Audio Delay Node
-MISSING: {Object}  Web Audio Convolver Node
-MISSING: {Array} Array of Web Audio Buffers
-MISSING: {Object}  AudioNode
+MISSING: WebAudioNode

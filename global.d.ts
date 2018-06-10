@@ -17,24 +17,27 @@
  *   array.
  *
  *   @param obj p5.Color object or pixel array
+ *   @return the alpha value
  */
-declare function alpha(obj: object): void;
+declare function alpha(obj: p5.Color|number[]): number;
 
 /**
  *   Extracts the blue value from a color or pixel 
  *   array.
  *
  *   @param obj p5.Color object or pixel array
+ *   @return the blue value
  */
-declare function blue(obj: object): void;
+declare function blue(obj: p5.Color|number[]): number;
 
 /**
  *   Extracts the HSB brightness value from a color or 
  *   pixel array.
  *
  *   @param color p5.Color object or pixel array
+ *   @return the brightness value
  */
-declare function brightness(color: object): void;
+declare function brightness(color: p5.Color|number[]): number;
 
 /**
  *   Creates colors for storing in variables of the 
@@ -49,18 +52,22 @@ declare function brightness(color: object): void;
  *   alpha transparency. When three values are 
  *   specified, they are interpreted as either RGB or 
  *   HSB values. Adding a fourth value applies alpha 
- *   transparency. If a single string parameter is 
- *   provided it will be interpreted as a 
- *   CSS-compatible color string. 
+ *   transparency. 
  * 
- *   Colors are stored as Numbers or Arrays.
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used.
  *
  *   @param gray number specifying value between white 
  *   and black.
  *   @param [alpha] alpha value relative to current 
  *   color range (default is 0-255)
+ *   @return resulting color
  */
-declare function color(gray: number, alpha?: number): void;
+declare function color(gray: number, alpha?: number): p5.Color;
 
 /**
  *   Creates colors for storing in variables of the 
@@ -75,14 +82,17 @@ declare function color(gray: number, alpha?: number): void;
  *   alpha transparency. When three values are 
  *   specified, they are interpreted as either RGB or 
  *   HSB values. Adding a fourth value applies alpha 
- *   transparency. If a single string parameter is 
- *   provided it will be interpreted as a 
- *   CSS-compatible color string. 
+ *   transparency. 
  * 
- *   Colors are stored as Numbers or Arrays.
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used.
  *
  *   @param v1 red or hue value relative to the current 
- *   color range, or a color string
+ *   color range
  *   @param v2 green or saturation value relative to 
  *   the current color range
  *   @param v3 blue or brightness value relative to the 
@@ -90,15 +100,71 @@ declare function color(gray: number, alpha?: number): void;
  *   @param [alpha] alpha value relative to current 
  *   color range (default is 0-255)
  */
-declare function color(v1: number|string, v2: number, v3: number, alpha?: number): void;
+declare function color(v1: number, v2: number, v3: number, alpha?: number): p5.Color;
+
+/**
+ *   Creates colors for storing in variables of the 
+ *   color datatype. The parameters are interpreted as 
+ *   RGB or HSB values depending on the current 
+ *   colorMode(). The default mode is RGB values from 0 
+ *   to 255 and, therefore, the function call 
+ *   color(255, 204, 0) will return a bright yellow 
+ *   color.  Note that if only one value is provided to 
+ *   color(), it will be interpreted as a grayscale 
+ *   value. Add a second value, and it will be used for 
+ *   alpha transparency. When three values are 
+ *   specified, they are interpreted as either RGB or 
+ *   HSB values. Adding a fourth value applies alpha 
+ *   transparency. 
+ * 
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used.
+ *
+ *   @param value a color string
+ *   @param [alpha] alpha value relative to current 
+ *   color range (default is 0-255)
+ */
+declare function color(value: string, alpha?: number): p5.Color;
+
+/**
+ *   Creates colors for storing in variables of the 
+ *   color datatype. The parameters are interpreted as 
+ *   RGB or HSB values depending on the current 
+ *   colorMode(). The default mode is RGB values from 0 
+ *   to 255 and, therefore, the function call 
+ *   color(255, 204, 0) will return a bright yellow 
+ *   color.  Note that if only one value is provided to 
+ *   color(), it will be interpreted as a grayscale 
+ *   value. Add a second value, and it will be used for 
+ *   alpha transparency. When three values are 
+ *   specified, they are interpreted as either RGB or 
+ *   HSB values. Adding a fourth value applies alpha 
+ *   transparency. 
+ * 
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used.
+ *
+ *   @param values an array containing the 
+ *   red,green,blue & and alpha components of the color
+ */
+declare function color(values: number[]): p5.Color;
 
 /**
  *   Extracts the green value from a color or pixel 
  *   array.
  *
  *   @param color p5.Color object or pixel array
+ *   @return the green value
  */
-declare function green(color: object): void;
+declare function green(color: p5.Color|number[]): number;
 
 /**
  *   Extracts the hue value from a color or pixel 
@@ -112,8 +178,9 @@ declare function green(color: object): void;
  *   different.)
  *
  *   @param color p5.Color object or pixel array
+ *   @return the hue
  */
-declare function hue(color: object): void;
+declare function hue(color: p5.Color|number[]): number;
 
 /**
  *   Blends two colors to find a third color somewhere 
@@ -134,23 +201,25 @@ declare function hue(color: object): void;
  *   @param amt number between 0 and 1
  *   @return interpolated color
  */
-declare function lerpColor(c1: any[]|number, c2: any[]|number, amt: number): any[]|number;
+declare function lerpColor(c1: p5.Color, c2: p5.Color, amt: number): p5.Color;
 
 /**
  *   Extracts the HSL lightness value from a color or 
  *   pixel array.
  *
  *   @param color p5.Color object or pixel array
+ *   @return the lightness
  */
-declare function lightness(color: object): void;
+declare function lightness(color: p5.Color|number[]): number;
 
 /**
  *   Extracts the red value from a color or pixel 
  *   array.
  *
  *   @param obj p5.Color object or pixel array
+ *   @return the red value
  */
-declare function red(obj: object): void;
+declare function red(obj: p5.Color|number[]): number;
 
 /**
  *   Extracts the saturation value from a color or 
@@ -162,8 +231,9 @@ declare function red(obj: object): void;
  *   saturation otherwise.
  *
  *   @param color p5.Color object or pixel array
+ *   @return the saturation
  */
-declare function saturation(color: object): void;
+declare function saturation(color: p5.Color|number[]): number;
 
 // src/color/setting.js
 
@@ -175,14 +245,34 @@ declare function saturation(color: object): void;
  *   window at the beginning of each frame, but it can 
  *   be used inside setup() to set the background on 
  *   the first frame of animation or if the background 
- *   need only be set once.
+ *   need only be set once.  The color is either 
+ *   specified in terms of the RGB, HSB, or HSL color 
+ *   depending on the current colorMode. (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255). 
+ * 
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5.Color object can also be provided to set the 
+ *   background color. 
+ * 
+ *  
+ *   A p5.Image can also be provided to set the 
+ *   background iamge.
  *
  *   @param color any value created by the color() 
  *   function
  *   @param [a] opacity of the background relative to 
  *   current color range (default is 0-100)
+ *   @chainable
  */
-declare function background(color: p5.Color, a?: number): void;
+declare function background(color: p5.Color, a?: number): p5;
 
 /**
  *   The background() function sets the color used for 
@@ -192,15 +282,35 @@ declare function background(color: p5.Color, a?: number): void;
  *   window at the beginning of each frame, but it can 
  *   be used inside setup() to set the background on 
  *   the first frame of animation or if the background 
- *   need only be set once.
+ *   need only be set once.  The color is either 
+ *   specified in terms of the RGB, HSB, or HSL color 
+ *   depending on the current colorMode. (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255). 
+ * 
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5.Color object can also be provided to set the 
+ *   background color. 
+ * 
+ *  
+ *   A p5.Image can also be provided to set the 
+ *   background iamge.
  *
  *   @param colorstring color string, possible formats 
  *   include: integer rgb() or rgba(), percentage rgb() 
  *   or rgba(), 3-digit hex, 6-digit hex
  *   @param [a] opacity of the background relative to 
  *   current color range (default is 0-100)
+ *   @chainable
  */
-declare function background(colorstring: string, a?: number): void;
+declare function background(colorstring: string, a?: number): p5;
 
 /**
  *   The background() function sets the color used for 
@@ -210,14 +320,34 @@ declare function background(colorstring: string, a?: number): void;
  *   window at the beginning of each frame, but it can 
  *   be used inside setup() to set the background on 
  *   the first frame of animation or if the background 
- *   need only be set once.
+ *   need only be set once.  The color is either 
+ *   specified in terms of the RGB, HSB, or HSL color 
+ *   depending on the current colorMode. (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255). 
+ * 
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5.Color object can also be provided to set the 
+ *   background color. 
+ * 
+ *  
+ *   A p5.Image can also be provided to set the 
+ *   background iamge.
  *
  *   @param gray specifies a value between white and 
  *   black
  *   @param [a] opacity of the background relative to 
  *   current color range (default is 0-100)
+ *   @chainable
  */
-declare function background(gray: number, a?: number): void;
+declare function background(gray: number, a?: number): p5;
 
 /**
  *   The background() function sets the color used for 
@@ -227,7 +357,26 @@ declare function background(gray: number, a?: number): void;
  *   window at the beginning of each frame, but it can 
  *   be used inside setup() to set the background on 
  *   the first frame of animation or if the background 
- *   need only be set once.
+ *   need only be set once.  The color is either 
+ *   specified in terms of the RGB, HSB, or HSL color 
+ *   depending on the current colorMode. (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255). 
+ * 
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5.Color object can also be provided to set the 
+ *   background color. 
+ * 
+ *  
+ *   A p5.Image can also be provided to set the 
+ *   background iamge.
  *
  *   @param v1 red or hue value (depending on the 
  *   current color mode)
@@ -237,8 +386,9 @@ declare function background(gray: number, a?: number): void;
  *   the current color mode)
  *   @param [a] opacity of the background relative to 
  *   current color range (default is 0-100)
+ *   @chainable
  */
-declare function background(v1: number, v2: number, v3: number, a?: number): void;
+declare function background(v1: number, v2: number, v3: number, a?: number): p5;
 
 /**
  *   The background() function sets the color used for 
@@ -248,15 +398,35 @@ declare function background(v1: number, v2: number, v3: number, a?: number): voi
  *   window at the beginning of each frame, but it can 
  *   be used inside setup() to set the background on 
  *   the first frame of animation or if the background 
- *   need only be set once.
+ *   need only be set once.  The color is either 
+ *   specified in terms of the RGB, HSB, or HSL color 
+ *   depending on the current colorMode. (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255). 
+ * 
+ *  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5.Color object can also be provided to set the 
+ *   background color. 
+ * 
+ *  
+ *   A p5.Image can also be provided to set the 
+ *   background iamge.
  *
  *   @param image image created with loadImage() or 
  *   createImage(), to set as background (must be same 
  *   size as the sketch window)
  *   @param [a] opacity of the background relative to 
  *   current color range (default is 0-100)
+ *   @chainable
  */
-declare function background(image: p5.Image, a?: number): void;
+declare function background(image: p5.Image, a?: number): p5;
 
 /**
  *   Clears the pixels within a buffer. This function 
@@ -269,8 +439,9 @@ declare function background(image: p5.Image, a?: number): void;
  *   everything to make all of the pixels 100% 
  *   transparent.
  *
+ *   @chainable
  */
-declare function clear(): void;
+declare function clear(): p5;
 
 /**
  *   colorMode() changes the way p5.js interprets color 
@@ -286,19 +457,42 @@ declare function clear(): void;
  *   change modes as you like without affecting their 
  *   appearance.
  *
- *   @param mode either RGB or HSB, corresponding to 
- *   Red/Green/Blue and Hue/Saturation/Brightness (or 
- *   Lightness)
- *   @param [max1] range for the red or hue depending 
- *   on the current color mode, or range for all values
- *   @param [max2] range for the green or saturation 
+ *   @param mode either RGB, HSB or HSL, corresponding 
+ *   to Red/Green/Blue and Hue/Saturation/Brightness 
+ *   (or Lightness)
+ *   @param [max] range for all values
+ *   @chainable
+ */
+declare function colorMode(mode: COLOR_MODE, max?: number): p5;
+
+/**
+ *   colorMode() changes the way p5.js interprets color 
+ *   data. By default, the parameters for fill(), 
+ *   stroke(), background(), and color() are defined by 
+ *   values between 0 and 255 using the RGB color 
+ *   model. This is equivalent to setting 
+ *   colorMode(RGB, 255). Setting colorMode(HSB) lets 
+ *   you use the HSB system instead. By default, this 
+ *   is colorMode(HSB, 360, 100, 100, 1). You can also 
+ *   use HSL.  Note: existing color objects remember 
+ *   the mode that they were created in, so you can 
+ *   change modes as you like without affecting their 
+ *   appearance.
+ *
+ *   @param mode either RGB, HSB or HSL, corresponding 
+ *   to Red/Green/Blue and Hue/Saturation/Brightness 
+ *   (or Lightness)
+ *   @param max1 range for the red or hue depending on 
+ *   the current color mode
+ *   @param max2 range for the green or saturation 
  *   depending on the current color mode
- *   @param [max3] range for the blue or 
+ *   @param max3 range for the blue or 
  *   brightness/lighntess depending on the current 
  *   color mode
  *   @param [maxA] range for the alpha
+ *   @chainable
  */
-declare function colorMode(mode: COLOR_MODE, max1?: number, max2?: number, max3?: number, maxA?: number): void;
+declare function colorMode(mode: UNKNOWN_P5_CONSTANT, max1: number, max2: number, max3: number, maxA?: number): p5;
 
 /**
  *   Sets the color used to fill shapes. For example, 
@@ -309,35 +503,108 @@ declare function colorMode(mode: COLOR_MODE, max1?: number, max2?: number, max3?
  *   color space is RGB, with each value in the range 
  *   from 0 to 255).  If a single string argument is 
  *   provided, RGB, RGBA and Hex CSS color strings and 
- *   all named color strings are supported. A p5 Color 
- *   object can also be provided to set the fill color.
+ *   all named color strings are supported. In this 
+ *   case, an alpha number value as a second argument 
+ *   is not supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   fill color.
  *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array, or CSS 
- *   color string
- *   @param [v2] green or saturation value (depending 
- *   on the current color mode)
- *   @param [v3] blue or brightness value (depending on 
- *   the current color mode)
- *   @param [a] opacity of the background
+ *   @param v1 red or hue value relative to the current 
+ *   color range
+ *   @param v2 green or saturation value relative to 
+ *   the current color range
+ *   @param v3 blue or brightness value relative to the 
+ *   current color range
+ *   @chainable
  */
-declare function fill(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
+declare function fill(v1: number, v2: number, v3: number, alpha?: number): p5;
+
+/**
+ *   Sets the color used to fill shapes. For example, 
+ *   if you run fill(204, 102, 0), all subsequent 
+ *   shapes will be filled with orange. This color is 
+ *   either specified in terms of the RGB or HSB color 
+ *   depending on the current colorMode(). (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255).  If a single string argument is 
+ *   provided, RGB, RGBA and Hex CSS color strings and 
+ *   all named color strings are supported. In this 
+ *   case, an alpha number value as a second argument 
+ *   is not supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   fill color.
+ *
+ *   @param value a color string
+ *   @chainable
+ */
+declare function fill(value: string, alpha?: number): p5;
+
+/**
+ *   Sets the color used to fill shapes. For example, 
+ *   if you run fill(204, 102, 0), all subsequent 
+ *   shapes will be filled with orange. This color is 
+ *   either specified in terms of the RGB or HSB color 
+ *   depending on the current colorMode(). (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255).  If a single string argument is 
+ *   provided, RGB, RGBA and Hex CSS color strings and 
+ *   all named color strings are supported. In this 
+ *   case, an alpha number value as a second argument 
+ *   is not supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   fill color.
+ *
+ *   @param values an array containing the 
+ *   red,green,blue & and alpha components of the color
+ *   @chainable
+ */
+declare function fill(values: number[]): p5;
+
+/**
+ *   Sets the color used to fill shapes. For example, 
+ *   if you run fill(204, 102, 0), all subsequent 
+ *   shapes will be filled with orange. This color is 
+ *   either specified in terms of the RGB or HSB color 
+ *   depending on the current colorMode(). (The default 
+ *   color space is RGB, with each value in the range 
+ *   from 0 to 255).  If a single string argument is 
+ *   provided, RGB, RGBA and Hex CSS color strings and 
+ *   all named color strings are supported. In this 
+ *   case, an alpha number value as a second argument 
+ *   is not supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   fill color.
+ *
+ *   @param color the fill color
+ *   @chainable
+ */
+declare function fill(color: p5.Color, alpha?: number): p5;
 
 /**
  *   Disables filling geometry. If both noStroke() and 
  *   noFill() are called, nothing will be drawn to the 
  *   screen.
  *
+ *   @chainable
  */
-declare function noFill(): void;
+declare function noFill(): p5;
 
 /**
  *   Disables drawing the stroke (outline). If both 
  *   noStroke() and noFill() are called, nothing will 
  *   be drawn to the screen.
  *
+ *   @chainable
  */
-declare function noStroke(): void;
+declare function noStroke(): p5;
 
 /**
  *   Sets the color used to draw lines and borders 
@@ -347,19 +614,87 @@ declare function noStroke(): void;
  *   RGB, with each value in the range from 0 to 255).  
  *   If a single string argument is provided, RGB, RGBA 
  *   and Hex CSS color strings and all named color 
- *   strings are supported. A p5 Color object can also 
- *   be provided to set the stroke color.
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   stroke color.
  *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array, or CSS 
- *   color string
- *   @param [v2] green or saturation value (depending 
- *   on the current color mode)
- *   @param [v3] blue or brightness value (depending on 
- *   the current color mode)
- *   @param [a] opacity of the background
+ *   @param v1 red or hue value relative to the current 
+ *   color range
+ *   @param v2 green or saturation value relative to 
+ *   the current color range
+ *   @param v3 blue or brightness value relative to the 
+ *   current color range
+ *   @chainable
  */
-declare function stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
+declare function stroke(v1: number, v2: number, v3: number, alpha?: number): p5;
+
+/**
+ *   Sets the color used to draw lines and borders 
+ *   around shapes. This color is either specified in 
+ *   terms of the RGB or HSB color depending on the 
+ *   current colorMode() (the default color space is 
+ *   RGB, with each value in the range from 0 to 255).  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   stroke color.
+ *
+ *   @param value a color string
+ *   @chainable
+ */
+declare function stroke(value: string, alpha?: number): p5;
+
+/**
+ *   Sets the color used to draw lines and borders 
+ *   around shapes. This color is either specified in 
+ *   terms of the RGB or HSB color depending on the 
+ *   current colorMode() (the default color space is 
+ *   RGB, with each value in the range from 0 to 255).  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   stroke color.
+ *
+ *   @param values an array containing the 
+ *   red,green,blue & and alpha components of the color
+ *   @chainable
+ */
+declare function stroke(values: number[]): p5;
+
+/**
+ *   Sets the color used to draw lines and borders 
+ *   around shapes. This color is either specified in 
+ *   terms of the RGB or HSB color depending on the 
+ *   current colorMode() (the default color space is 
+ *   RGB, with each value in the range from 0 to 255).  
+ *   If a single string argument is provided, RGB, RGBA 
+ *   and Hex CSS color strings and all named color 
+ *   strings are supported. In this case, an alpha 
+ *   number value as a second argument is not 
+ *   supported, the RGBA form should be used. 
+ * 
+ *  
+ *   A p5 Color object can also be provided to set the 
+ *   stroke color.
+ *
+ *   @param color the stroke color
+ *   @chainable
+ */
+declare function stroke(color: p5.Color, alpha?: number): p5;
 
 // src/core/2d_primitives.js
 
@@ -386,10 +721,10 @@ declare function stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: numb
  *   @param stop angle to stop the arc, specified in 
  *   radians
  *   @param [mode] optional parameter to determine the 
- *   way of drawing the arc
- *   @return the p5 object
+ *   way of drawing the arc. either CHORD or PIE
+ *   @chainable
  */
-declare function arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: UNKNOWN_P5_CONSTANT): object;
+declare function arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: ARC_MODE): p5;
 
 /**
  *   Draws an ellipse (oval) to the screen. An ellipse 
@@ -406,26 +741,9 @@ declare function arc(a: number, b: number, c: number, d: number, start: number, 
  *   @param y y-coordinate of the ellipse.
  *   @param w width of the ellipse.
  *   @param [h] height of the ellipse.
+ *   @chainable
  */
-declare function ellipse(x: number, y: number, w: number, h?: number): void;
-
-/**
- *   Draws an ellipse (oval) to the screen. An ellipse 
- *   with equal width and height is a circle. By 
- *   default, the first two parameters set the 
- *   location, and the third and fourth parameters set 
- *   the shape's width and height. If no height is 
- *   specified, the value of width is used for both the 
- *   width and height. If a negative height or width is 
- *   specified, the absolute value is taken. The origin 
- *   may be changed with the ellipseMode() function.
- *
- *   @param x x-coordinate of the ellipse.
- *   @param y y-coordinate of the ellipse.
- *   @param w width of the ellipse.
- *   @param [h] height of the ellipse.
- */
-declare function ellipse(x: number, y: number, w: number, h?: number): void;
+declare function ellipse(x: number, y: number, w: number, h?: number): p5;
 
 /**
  *   Draws a line (a direct path between two points) to 
@@ -441,7 +759,7 @@ declare function ellipse(x: number, y: number, w: number, h?: number): void;
  *   @param y1 the y-coordinate of the first point
  *   @param x2 the x-coordinate of the second point
  *   @param y2 the y-coordinate of the second point
- *   @return the p5 object
+ *   @chainable
  */
 declare function line(x1: number, y1: number, x2: number, y2: number): p5;
 
@@ -454,7 +772,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  *
  *   @param x the x-coordinate
  *   @param y the y-coordinate
- *   @return the p5 object
+ *   @chainable
  */
 declare function point(x: number, y: number): p5;
 
@@ -475,8 +793,9 @@ declare function point(x: number, y: number): p5;
  *   @param y3 the y-coordinate of the third point
  *   @param x4 the x-coordinate of the fourth point
  *   @param y4 the y-coordinate of the fourth point
+ *   @chainable
  */
-declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
 /**
  *   Draw a quad. A quad is a quadrilateral, a four 
@@ -495,8 +814,9 @@ declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number
  *   @param y3 the y-coordinate of the third point
  *   @param x4 the x-coordinate of the fourth point
  *   @param y4 the y-coordinate of the fourth point
+ *   @chainable
  */
-declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
 /**
  *   Draws a rectangle to the screen. A rectangle is a 
@@ -522,8 +842,9 @@ declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number
  *   @param [br] optional radius of bottom-right 
  *   corner.
  *   @param [bl] optional radius of bottom-left corner.
+ *   @return the p5 object.
  */
-declare function rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): void;
+declare function rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): p5;
 
 /**
  *   Draws a rectangle to the screen. A rectangle is a 
@@ -544,8 +865,9 @@ declare function rect(x: number, y: number, w: number, h: number, tl?: number, t
  *   @param y y-coordinate of the rectangle.
  *   @param w width of the rectangle.
  *   @param h height of the rectangle.
+ *   @chainable
  */
-declare function rect(x: number, y: number, w: number, h: number, detailX?: number, detailY?: number): void;
+declare function rect(x: number, y: number, w: number, h: number, detailX?: number, detailY?: number): p5;
 
 /**
  *   A triangle is a plane created by connecting three 
@@ -560,7 +882,7 @@ declare function rect(x: number, y: number, w: number, h: number, detailX?: numb
  *   @param y2 y-coordinate of the second point
  *   @param x3 x-coordinate of the third point
  *   @param y3 y-coordinate of the third point
- *   @return the p5 object
+ *   @chainable
  */
 declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): p5;
 
@@ -600,7 +922,7 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
  *
  *   @param mode either CENTER, RADIUS, CORNER, or 
  *   CORNERS
- *   @return the p5 object
+ *   @chainable
  */
 declare function ellipseMode(mode: ELLIPSE_MODE): p5;
 
@@ -610,7 +932,7 @@ declare function ellipseMode(mode: ELLIPSE_MODE): p5;
  *   necessary to call noSmooth() to disable smoothing 
  *   of geometry, images, and fonts.
  *
- *   @return the p5 object
+ *   @chainable
  */
 declare function noSmooth(): p5;
 
@@ -647,7 +969,7 @@ declare function noSmooth(): p5;
  *
  *   @param mode either CORNER, CORNERS, CENTER, or 
  *   RADIUS
- *   @return the p5 object
+ *   @chainable
  */
 declare function rectMode(mode: RECT_MODE): p5;
 
@@ -658,7 +980,7 @@ declare function rectMode(mode: RECT_MODE): p5;
  *   default; noSmooth() can be used to disable 
  *   smoothing of geometry, images, and fonts.
  *
- *   @return the p5 object
+ *   @chainable
  */
 declare function smooth(): p5;
 
@@ -670,9 +992,9 @@ declare function smooth(): p5;
  *   default cap is ROUND.
  *
  *   @param cap either SQUARE, PROJECT, or ROUND
- *   @return the p5 object
+ *   @chainable
  */
-declare function strokeCap(cap: number|STROKE_CAP): p5;
+declare function strokeCap(cap: STROKE_CAP): p5;
 
 /**
  *   Sets the style of the joints which connect line 
@@ -682,9 +1004,9 @@ declare function strokeCap(cap: number|STROKE_CAP): p5;
  *   The default joint is MITER.
  *
  *   @param join either MITER, BEVEL, ROUND
- *   @return the p5 object
+ *   @chainable
  */
-declare function strokeJoin(join: number|STROKE_JOIN): p5;
+declare function strokeJoin(join: STROKE_JOIN): p5;
 
 /**
  *   Sets the width of the stroke used for lines, 
@@ -698,6 +1020,9 @@ declare function strokeWeight(weight: number): p5;
 
 // src/core/constants.js
 
+declare const P2D: P2D;
+declare const WEBGL: WEBGL;
+
 /**
  *   HALF_PI is a mathematical constant with the value 
  *   1.57079632679489661923. It is half the ratio of 
@@ -706,7 +1031,7 @@ declare function strokeWeight(weight: number): p5;
  *   functions sin() and cos().
  *
  */
-declare var HALF_PI: any;
+declare const HALF_PI: number;
 
 /**
  *   PI is a mathematical constant with the value 
@@ -716,7 +1041,7 @@ declare var HALF_PI: any;
  *   functions sin() and cos().
  *
  */
-declare var PI: any;
+declare const PI: number;
 
 /**
  *   QUARTER_PI is a mathematical constant with the 
@@ -726,7 +1051,7 @@ declare var PI: any;
  *   functions sin() and cos().
  *
  */
-declare var QUARTER_PI: any;
+declare const QUARTER_PI: number;
 
 /**
  *   TAU is an alias for TWO_PI, a mathematical 
@@ -737,7 +1062,7 @@ declare var QUARTER_PI: any;
  *   and cos().
  *
  */
-declare var TAU: any;
+declare const TAU: number;
 
 /**
  *   TWO_PI is a mathematical constant with the value 
@@ -747,7 +1072,66 @@ declare var TAU: any;
  *   functions sin() and cos().
  *
  */
-declare var TWO_PI: any;
+declare const TWO_PI: number;
+declare const DEGREES: DEGREES;
+declare const RADIANS: RADIANS;
+declare const CORNER: CORNER;
+declare const CORNERS: CORNERS;
+declare const RADIUS: RADIUS;
+declare const RIGHT: RIGHT;
+declare const LEFT: LEFT;
+declare const CENTER: CENTER;
+declare const TOP: TOP;
+declare const BOTTOM: BOTTOM;
+declare const BASELINE: BASELINE;
+declare const POINTS: POINTS;
+declare const LINES: LINES;
+declare const LINE_STRIP: LINE_STRIP;
+declare const LINE_LOOP: LINE_LOOP;
+declare const TRIANGLES: TRIANGLES;
+declare const TRIANGLE_FAN: TRIANGLE_FAN;
+declare const TRIANGLE_STRIP: TRIANGLE_STRIP;
+declare const QUADS: QUADS;
+declare const QUAD_STRIP: QUAD_STRIP;
+declare const CLOSE: CLOSE;
+declare const OPEN: OPEN;
+declare const CHORD: CHORD;
+declare const PIE: PIE;
+declare const PROJECT: PROJECT;
+declare const SQUARE: SQUARE;
+declare const ROUND: ROUND;
+declare const BEVEL: BEVEL;
+declare const MITER: MITER;
+declare const RGB: RGB;
+declare const HSB: HSB;
+declare const HSL: HSL;
+declare const BLEND: BLEND;
+declare const ADD: ADD;
+declare const DARKEST: DARKEST;
+declare const LIGHTEST: LIGHTEST;
+declare const DIFFERENCE: DIFFERENCE;
+declare const EXCLUSION: EXCLUSION;
+declare const MULTIPLY: MULTIPLY;
+declare const SCREEN: SCREEN;
+declare const REPLACE: REPLACE;
+declare const OVERLAY: OVERLAY;
+declare const HARD_LIGHT: HARD_LIGHT;
+declare const SOFT_LIGHT: SOFT_LIGHT;
+declare const DODGE: DODGE;
+declare const BURN: BURN;
+declare const THRESHOLD: THRESHOLD;
+declare const GRAY: GRAY;
+declare const OPAQUE: OPAQUE;
+declare const INVERT: INVERT;
+declare const POSTERIZE: POSTERIZE;
+declare const DILATE: DILATE;
+declare const ERODE: ERODE;
+declare const BLUR: BLUR;
+declare const NORMAL: NORMAL;
+declare const ITALIC: ITALIC;
+declare const BOLD: BOLD;
+declare const LANDSCAPE: LANDSCAPE;
+declare const PORTRAIT: PORTRAIT;
 
 // src/core/core.js
 
@@ -861,8 +1245,9 @@ declare function remove(): void;
  *   point
  *   @param x4 x-coordinate for the second anchor point
  *   @param y4 y-coordinate for the second anchor point
+ *   @return the p5 object
  */
-declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
 /**
  *   Draws a cubic Bezier curve on the screen. These 
@@ -883,8 +1268,9 @@ declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: numb
  *   @param z2 z-coordinate for the first control point
  *   @param z3 z-coordinate for the first anchor point
  *   @param z4 z-coordinate for the first control point
+ *   @chainable
  */
-declare function bezier(z1: number, z2: number, z3: number, z4: number): void;
+declare function bezier(z1: number, z2: number, z3: number, z4: number): p5;
 
 /**
  *   Evaluates the Bezier at position t for points a, 
@@ -947,8 +1333,9 @@ declare function bezierTangent(a: number, b: number, c: number, d: number, t: nu
  *   point
  *   @param y4 y-coordinate for the ending control 
  *   point
+ *   @return the p5 object
  */
-declare function curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+declare function curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
 /**
  *   Draws a curved line on the screen between two 
@@ -970,8 +1357,9 @@ declare function curve(x1: number, y1: number, x2: number, y2: number, x3: numbe
  *   @param z3 z-coordinate for the second point
  *   @param z4 z-coordinate for the ending control 
  *   point
+ *   @chainable
  */
-declare function curve(z1: number, z2: number, z3: number, z4: number): void;
+declare function curve(z1: number, z2: number, z3: number, z4: number): p5;
 
 /**
  *   Modifies the quality of forms created with curve() 
@@ -988,9 +1376,9 @@ declare function curve(z1: number, z2: number, z3: number, z4: number): void;
  *
  *   @param amount of deformation from the original 
  *   vertices
- *   @return the p5 object
+ *   @chainable
  */
-declare function curveTightness(amount: number): object;
+declare function curveTightness(amount: number): p5;
 
 /**
  *   Evaluates the curve at position t for points a, b, 
@@ -1051,7 +1439,7 @@ declare function print(contents: any): void;
  *   after the first iteration of draw it is 1, etc.
  *
  */
-declare var frameCount: any;
+declare var frameCount: number;
 
 /**
  *   Confirms if the window a p5.js program is in is 
@@ -1060,7 +1448,7 @@ declare var frameCount: any;
  *   if the window is focused and "false" if not.
  *
  */
-declare var focused: any;
+declare var focused: boolean;
 
 /**
  *   Sets the cursor to a predefined symbol or an 
@@ -1079,7 +1467,7 @@ declare var focused: any;
  *   cursor
  *   @param [y] the vertical active spot of the cursor
  */
-declare function cursor(type: number|CURSOR_TYPE, x?: number, y?: number): void;
+declare function cursor(type: string|CURSOR_TYPE, x?: number, y?: number): void;
 
 /**
  *   Specifies the number of frames to be displayed 
@@ -1101,11 +1489,35 @@ declare function cursor(type: number|CURSOR_TYPE, x?: number, y?: number): void;
  *   the type numbers or are non positive also returns 
  *   current framerate.
  *
- *   @param [fps] number of frames to be displayed 
- *   every second
+ *   @param fps number of frames to be displayed every 
+ *   second
+ *   @chainable
+ */
+declare function frameRate(fps: number): p5;
+
+/**
+ *   Specifies the number of frames to be displayed 
+ *   every second. For example, the function call 
+ *   frameRate(30) will attempt to refresh 30 times a 
+ *   second. If the processor is not fast enough to 
+ *   maintain the specified rate, the frame rate will 
+ *   not be achieved. Setting the frame rate within 
+ *   setup() is recommended. The default rate is 60 
+ *   frames per second. This is the same as 
+ *   setFrameRate(val).  Calling frameRate() with no 
+ *   arguments returns the current framerate. The draw 
+ *   function must run at least once before it will 
+ *   return a value. This is the same as 
+ *   getFrameRate(). 
+ * 
+ *  
+ *   Calling frameRate() with arguments that are not of 
+ *   the type numbers or are non positive also returns 
+ *   current framerate.
+ *
  *   @return current frameRate
  */
-declare function frameRate(fps?: number): number;
+declare function frameRate(): number;
 
 /**
  *   Hides the cursor from view.
@@ -1119,7 +1531,7 @@ declare function noCursor(): void;
  *   full-screen program on any display size.
  *
  */
-declare var displayWidth: any;
+declare var displayWidth: number;
 
 /**
  *   System variable that stores the height of the 
@@ -1127,21 +1539,21 @@ declare var displayWidth: any;
  *   full-screen program on any display size.
  *
  */
-declare var displayHeight: any;
+declare var displayHeight: number;
 
 /**
  *   System variable that stores the width of the inner 
  *   window, it maps to window.innerWidth.
  *
  */
-declare var windowWidth: any;
+declare var windowWidth: number;
 
 /**
  *   System variable that stores the height of the 
  *   inner window, it maps to window.innerHeight.
  *
  */
-declare var windowHeight: any;
+declare var windowHeight: number;
 
 /**
  *   The windowResized() function is called once every 
@@ -1162,7 +1574,7 @@ declare function windowResized(): void;
  *   is not used in a program.
  *
  */
-declare var width: any;
+declare var width: number;
 
 /**
  *   System variable that stores the height of the 
@@ -1174,7 +1586,7 @@ declare var width: any;
  *   is not used in a program.
  *
  */
-declare var height: any;
+declare var height: number;
 
 /**
  *   If argument is given, sets the sketch to 
@@ -1224,7 +1636,7 @@ declare function getURL(): string;
  *
  *   @return path components
  */
-declare function getURLPath(): any[];
+declare function getURLPath(): string[];
 
 /**
  *   Gets the current URL params as an Object.
@@ -1254,10 +1666,10 @@ declare function getURLParams(): object;
  *
  *   @param w width of the canvas
  *   @param h height of the canvas
- *   @param [renderer] P2D or WEBGL
+ *   @param [renderer] either P2D or WEBGL
  *   @return canvas generated
  */
-declare function createCanvas(w: number, h: number, renderer?: UNKNOWN_P5_CONSTANT): object;
+declare function createCanvas(w: number, h: number, renderer?: RENDERER): HTMLCanvasElement;
 
 /**
  *   Resizes the canvas to given width and height. The 
@@ -1265,8 +1677,12 @@ declare function createCanvas(w: number, h: number, renderer?: UNKNOWN_P5_CONSTA
  *   immediately, allowing the sketch to re-render 
  *   itself in the resized canvas.
  *
+ *   @param w width of the canvas
+ *   @param h height of the canvas
+ *   @param noRedraw don't redraw the canvas 
+ *   immediately
  */
-declare function resizeCanvas(): void;
+declare function resizeCanvas(w: number, h: number, noRedraw: boolean): void;
 
 /**
  *   Removes the default canvas for a p5 sketch that 
@@ -1283,11 +1699,11 @@ declare function noCanvas(): void;
  *
  *   @param w width of the offscreen graphics buffer
  *   @param h height of the offscreen graphics buffer
- *   @param [renderer] P2D or WEBGL undefined defaults 
- *   to p2d
+ *   @param [renderer] either P2D or WEBGL undefined 
+ *   defaults to p2d
  *   @return offscreen graphics buffer
  */
-declare function createGraphics(w: number, h: number, renderer?: UNKNOWN_P5_CONSTANT): object;
+declare function createGraphics(w: number, h: number, renderer?: RENDERER): p5.Graphics;
 
 /**
  *   Blends the pixels in the display window according 
@@ -1323,9 +1739,12 @@ declare function createGraphics(w: number, h: number, renderer?: UNKNOWN_P5_CONS
  *   - BURN - darker areas are applied, increasing 
  *   contrast, ignores lights.
  *
- *   @param mode blend mode to set for canvas
+ *   @param mode blend mode to set for canvas. either 
+ *   BLEND, DARKEST, LIGHTEST, DIFFERENCE, MULTIPLY, 
+ *   EXCLUSION, SCREEN, REPLACE, OVERLAY, HARD_LIGHT, 
+ *   SOFT_LIGHT, DODGE, BURN, ADD or NORMAL
  */
-declare function blendMode(mode: UNKNOWN_P5_CONSTANT): void;
+declare function blendMode(mode: BLEND_MODE): void;
 
 // src/core/structure.js
 
@@ -1455,7 +1874,7 @@ declare function redraw(n?: number): void;
  *   be multiplied
  *   @param n12 numbers which define the 3x2 matrix to 
  *   be multiplied
- *   @return the p5 object
+ *   @chainable
  */
 declare function applyMatrix(n00: number, n01: number, n02: number, n10: number, n11: number, n12: number): p5;
 
@@ -1463,7 +1882,7 @@ declare function applyMatrix(n00: number, n01: number, n02: number, n10: number,
  *   Replaces the current matrix with the identity 
  *   matrix.
  *
- *   @return the p5 object
+ *   @chainable
  */
 declare function resetMatrix(): p5;
 
@@ -1489,39 +1908,16 @@ declare function resetMatrix(): p5;
  *
  *   @param angle the angle of rotation, specified in 
  *   radians or degrees, depending on current angleMode
+ *   @param [axis] (in 3d) the axis to rotate around
+ *   @chainable
  */
-declare function rotate(angle: number): void;
-
-/**
- *   Rotates a shape the amount specified by the angle 
- *   parameter. This function accounts for angleMode, 
- *   so angles can be entered in either RADIANS or 
- *   DEGREES.  Objects are always rotated around their 
- *   relative position to the origin and positive 
- *   numbers rotate objects in a clockwise direction. 
- *   Transformations apply to everything that happens 
- *   after and subsequent calls to the function 
- *   accumulates the effect. For example, calling 
- *   rotate(HALF_PI) and then rotate(HALF_PI) is the 
- *   same as rotate(PI). All tranformations are reset 
- *   when draw() begins again. 
- * 
- *  
- *   Technically, rotate() multiplies the current 
- *   transformation matrix by a rotation matrix. This 
- *   function can be further controlled by the push() 
- *   and pop().
- *
- *   @param rad angle in radians
- *   @param axis axis to rotate around
- */
-declare function rotate(rad: number, axis: p5.Vector|any[]): void;
+declare function rotate(angle: number, axis?: p5.Vector|any[]): p5;
 
 /**
  *   Rotates around X axis.
  *
  *   @param rad angles in radians
- *   @return the p5 object
+ *   @chainable
  */
 declare function rotateX(rad: number): p5;
 
@@ -1529,7 +1925,7 @@ declare function rotateX(rad: number): p5;
  *   Rotates around Y axis.
  *
  *   @param rad angles in radians
- *   @return the p5 object
+ *   @chainable
  */
 declare function rotateY(rad: number): p5;
 
@@ -1537,7 +1933,7 @@ declare function rotateY(rad: number): p5;
  *   Rotates around Z axis. Webgl mode only.
  *
  *   @param rad angles in radians
- *   @return the p5 object
+ *   @chainable
  */
 declare function rotateZ(rad: number): p5;
 
@@ -1568,7 +1964,7 @@ declare function rotateZ(rad: number): p5;
  *   y-axis
  *   @param [z] percent to scale the object in the 
  *   z-axis (webgl only)
- *   @return the p5 object
+ *   @chainable
  */
 declare function scale(s: number|p5.Vector|any[], y?: number, z?: number): p5;
 
@@ -1595,7 +1991,7 @@ declare function scale(s: number|p5.Vector|any[], y?: number, z?: number): p5;
  *
  *   @param angle angle of shear specified in radians 
  *   or degrees, depending on current angleMode
- *   @return the p5 object
+ *   @chainable
  */
 declare function shearX(angle: number): p5;
 
@@ -1622,7 +2018,7 @@ declare function shearX(angle: number): p5;
  *
  *   @param angle angle of shear specified in radians 
  *   or degrees, depending on current angleMode
- *   @return the p5 object
+ *   @chainable
  */
 declare function shearY(angle: number): p5;
 
@@ -1644,7 +2040,7 @@ declare function shearY(angle: number): p5;
  *   @param y up/down translation
  *   @param [z] forward/backward translation (webgl 
  *   only)
- *   @return the p5 object
+ *   @chainable
  */
 declare function translate(x: number, y: number, z?: number): p5;
 
@@ -1668,9 +2064,9 @@ declare function translate(x: number, y: number, z?: number): p5;
  *   possible to use other shapes, such as ellipse() or 
  *   rect() within.
  *
- *   @return the p5 object
+ *   @chainable
  */
-declare function beginContour(): object;
+declare function beginContour(): p5;
 
 /**
  *   Using the beginShape() and endShape() functions 
@@ -1695,11 +2091,11 @@ declare function beginContour(): object;
  *   also not possible to use other shapes, such as 
  *   ellipse() or rect() within beginShape().
  *
- *   @param kind either POINTS, LINES, TRIANGLES, 
+ *   @param [kind] either POINTS, LINES, TRIANGLES, 
  *   TRIANGLE_FAN TRIANGLE_STRIP, QUADS, or QUAD_STRIP
- *   @return the p5 object
+ *   @chainable
  */
-declare function beginShape(kind: BEGIN_KIND): object;
+declare function beginShape(kind?: BEGIN_KIND): p5;
 
 /**
  *   Specifies vertex coordinates for Bezier curves. 
@@ -1721,9 +2117,9 @@ declare function beginShape(kind: BEGIN_KIND): object;
  *   point
  *   @param x4 x-coordinate for the anchor point
  *   @param y4 y-coordinate for the anchor point
- *   @return the p5 object
+ *   @chainable
  */
-declare function bezierVertex(x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
+declare function bezierVertex(x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
 /**
  *   Specifies vertex coordinates for curves. This 
@@ -1741,9 +2137,9 @@ declare function bezierVertex(x2: number, y2: number, x3: number, y3: number, x4
  *
  *   @param x x-coordinate of the vertex
  *   @param y y-coordinate of the vertex
- *   @return the p5 object
+ *   @chainable
  */
-declare function curveVertex(x: number, y: number): object;
+declare function curveVertex(x: number, y: number): p5;
 
 /**
  *   Use the beginContour() and endContour() functions 
@@ -1763,9 +2159,9 @@ declare function curveVertex(x: number, y: number): object;
  *   possible to use other shapes, such as ellipse() or 
  *   rect() within.
  *
- *   @return the p5 object
+ *   @chainable
  */
-declare function endContour(): object;
+declare function endContour(): p5;
 
 /**
  *   The endShape() function is the companion to 
@@ -1777,10 +2173,10 @@ declare function endContour(): object;
  *   to close the shape (to connect the beginning and 
  *   the end).
  *
- *   @param mode use CLOSE to close the shape
- *   @return the p5 object
+ *   @param [mode] use CLOSE to close the shape
+ *   @chainable
  */
-declare function endShape(mode: END_MODE): object;
+declare function endShape(mode?: END_MODE): p5;
 
 /**
  *   Specifies vertex coordinates for quadratic Bezier 
@@ -1798,9 +2194,9 @@ declare function endShape(mode: END_MODE): object;
  *   @param cy y-coordinate for the control point
  *   @param x3 x-coordinate for the anchor point
  *   @param y3 y-coordinate for the anchor point
- *   @return the p5 object
+ *   @chainable
  */
-declare function quadraticVertex(cx: number, cy: number, x3: number, y3: number): object;
+declare function quadraticVertex(cx: number, cy: number, x3: number, y3: number): p5;
 
 /**
  *   All shapes are constructed by connecting a series 
@@ -1811,9 +2207,10 @@ declare function quadraticVertex(cx: number, cy: number, x3: number, y3: number)
  *
  *   @param x x-coordinate of the vertex
  *   @param y y-coordinate of the vertex
- *   @return the p5 object
+ *   @param [z] z-coordinate of the vertex
+ *   @chainable
  */
-declare function vertex(x: number, y: number): object;
+declare function vertex(x: number, y: number, z?: number|boolean): p5;
 
 // src/events/acceleration.js
 
@@ -1822,10 +2219,10 @@ declare function vertex(x: number, y: number): object;
  *   contains the orientation of the device. The value 
  *   of this variable will either be set 'landscape' or 
  *   'portrait'. If no data is available it will be set 
- *   to 'undefined'.
+ *   to 'undefined'. either LANDSCAPE or PORTRAIT.
  *
  */
-declare var deviceOrientation: any;
+declare var deviceOrientation: UNKNOWN_P5_CONSTANT;
 
 /**
  *   The system variable accelerationX always contains 
@@ -1833,7 +2230,7 @@ declare var deviceOrientation: any;
  *   Value is represented as meters per second squared.
  *
  */
-declare var accelerationX: any;
+declare var accelerationX: number;
 
 /**
  *   The system variable accelerationY always contains 
@@ -1841,7 +2238,7 @@ declare var accelerationX: any;
  *   Value is represented as meters per second squared.
  *
  */
-declare var accelerationY: any;
+declare var accelerationY: number;
 
 /**
  *   The system variable accelerationZ always contains 
@@ -1849,7 +2246,7 @@ declare var accelerationY: any;
  *   Value is represented as meters per second squared.
  *
  */
-declare var accelerationZ: any;
+declare var accelerationZ: number;
 
 /**
  *   The system variable pAccelerationX always contains 
@@ -1858,7 +2255,7 @@ declare var accelerationZ: any;
  *   represented as meters per second squared.
  *
  */
-declare var pAccelerationX: any;
+declare var pAccelerationX: number;
 
 /**
  *   The system variable pAccelerationY always contains 
@@ -1867,7 +2264,7 @@ declare var pAccelerationX: any;
  *   represented as meters per second squared.
  *
  */
-declare var pAccelerationY: any;
+declare var pAccelerationY: number;
 
 /**
  *   The system variable pAccelerationZ always contains 
@@ -1876,7 +2273,7 @@ declare var pAccelerationY: any;
  *   represented as meters per second squared.
  *
  */
-declare var pAccelerationZ: any;
+declare var pAccelerationZ: number;
 
 /**
  *   The system variable rotationX always contains the 
@@ -1887,7 +2284,7 @@ declare var pAccelerationZ: any;
  *   Z-X-Y or there might be unexpected behaviour.
  *
  */
-declare var rotationX: any;
+declare var rotationX: number;
 
 /**
  *   The system variable rotationY always contains the 
@@ -1898,7 +2295,7 @@ declare var rotationX: any;
  *   Z-X-Y or there might be unexpected behaviour.
  *
  */
-declare var rotationY: any;
+declare var rotationY: number;
 
 /**
  *   The system variable rotationZ always contains the 
@@ -1914,7 +2311,7 @@ declare var rotationY: any;
  *   behaviour.
  *
  */
-declare var rotationZ: any;
+declare var rotationZ: number;
 
 /**
  *   The system variable pRotationX always contains the 
@@ -1925,7 +2322,7 @@ declare var rotationZ: any;
  *   rotate direction of the device along the X-axis.
  *
  */
-declare var pRotationX: any;
+declare var pRotationX: number;
 
 /**
  *   The system variable pRotationY always contains the 
@@ -1936,7 +2333,7 @@ declare var pRotationX: any;
  *   rotate direction of the device along the Y-axis.
  *
  */
-declare var pRotationY: any;
+declare var pRotationY: number;
 
 /**
  *   The system variable pRotationZ always contains the 
@@ -1947,7 +2344,7 @@ declare var pRotationY: any;
  *   rotate direction of the device along the Z-axis.
  *
  */
-declare var pRotationZ: any;
+declare var pRotationZ: number;
 
 /**
  *   The setMoveThreshold() function is used to set the 
@@ -2006,7 +2403,7 @@ declare function deviceShaken(): void;
  *   pressed.
  *
  */
-declare var keyIsPressed: any;
+declare var keyIsPressed: boolean;
 
 /**
  *   The system variable key always contains the value 
@@ -2016,7 +2413,7 @@ declare var keyIsPressed: any;
  *   keys, use the keyCode variable.
  *
  */
-declare var key: any;
+declare var key: string;
 
 /**
  *   The variable keyCode is used to detect special 
@@ -2028,7 +2425,7 @@ declare var key: any;
  *   keycode.info.
  *
  */
-declare var keyCode: any;
+declare var keyCode: number;
 
 /**
  *   The keyPressed() function is called once every 
@@ -2120,7 +2517,7 @@ declare function keyIsDown(code: number): boolean;
  *   the most recent touch point.
  *
  */
-declare var mouseX: any;
+declare var mouseX: number;
 
 /**
  *   The system variable mouseY always contains the 
@@ -2130,7 +2527,7 @@ declare var mouseX: any;
  *   the most recent touch point.
  *
  */
-declare var mouseY: any;
+declare var mouseY: number;
 
 /**
  *   The system variable pmouseX always contains the 
@@ -2139,7 +2536,7 @@ declare var mouseY: any;
  *   (0, 0) of the canvas.
  *
  */
-declare var pmouseX: any;
+declare var pmouseX: number;
 
 /**
  *   The system variable pmouseY always contains the 
@@ -2148,7 +2545,7 @@ declare var pmouseX: any;
  *   (0, 0) of the canvas.
  *
  */
-declare var pmouseY: any;
+declare var pmouseY: number;
 
 /**
  *   The system variable winMouseX always contains the 
@@ -2156,7 +2553,7 @@ declare var pmouseY: any;
  *   to (0, 0) of the window.
  *
  */
-declare var winMouseX: any;
+declare var winMouseX: number;
 
 /**
  *   The system variable winMouseY always contains the 
@@ -2164,7 +2561,7 @@ declare var winMouseX: any;
  *   to (0, 0) of the window.
  *
  */
-declare var winMouseY: any;
+declare var winMouseY: number;
 
 /**
  *   The system variable pwinMouseX always contains the 
@@ -2173,7 +2570,7 @@ declare var winMouseY: any;
  *   of the window.
  *
  */
-declare var pwinMouseX: any;
+declare var pwinMouseX: number;
 
 /**
  *   The system variable pwinMouseY always contains the 
@@ -2182,7 +2579,7 @@ declare var pwinMouseX: any;
  *   of the window.
  *
  */
-declare var pwinMouseY: any;
+declare var pwinMouseY: number;
 
 /**
  *   Processing automatically tracks if the mouse 
@@ -2193,14 +2590,14 @@ declare var pwinMouseY: any;
  *   track mouseButton differently.
  *
  */
-declare var mouseButton: any;
+declare var mouseButton: UNKNOWN_P5_CONSTANT;
 
 /**
  *   The boolean system variable mouseIsPressed is true 
  *   if the mouse is pressed and false if not.
  *
  */
-declare var mouseIsPressed: any;
+declare var mouseIsPressed: boolean;
 
 /**
  *   The mouseMoved() function is called every time the 
@@ -2273,6 +2670,20 @@ declare function mouseReleased(): void;
  *
  */
 declare function mouseClicked(): void;
+
+/**
+ *   The doubleClicked() function is executed every 
+ *   time a event listener has detected a dblclick 
+ *   event which is a part of the DOM L3 specification. 
+ *   The doubleClicked event is fired when a pointing 
+ *   device button (usually a mouse's primary button) 
+ *   is clicked twice on a single element. For more 
+ *   info on the dblclick event refer to mozilla's 
+ *   documentation here: 
+ *   https://developer.mozilla.org/en-US/docs/Web/Events/dblclick
+ *
+ */
+declare function doubleClicked(): void;
 
 /**
  *   The function mouseWheel() is executed every time a 
@@ -2382,11 +2793,31 @@ declare function touchEnded(): void;
  */
 declare function createImage(width: number, height: number): p5.Image;
 
-// TODO: Fix saveCanvas() errors in src/image/image.js, line 103:
-//
-//   param "selectedCanvas" has invalid type: Canvas
-//
-// declare function saveCanvas(selectedCanvas?: any, filename?: string, extension?: string): void;
+/**
+ *   Save the current canvas as an image. In Safari, 
+ *   this will open the image in the window and the 
+ *   user must provide their own filename on save-as. 
+ *   Other browsers will either save the file 
+ *   immediately, or prompt the user with a dialogue 
+ *   window.
+ *
+ *   @param selectedCanvas a variable representing a 
+ *   specific html5 canvas (optional)
+ *   @param [extension] 'jpg' or 'png'
+ */
+declare function saveCanvas(selectedCanvas: p5.Element|HTMLCanvasElement, filename?: string, extension?: string): void;
+
+/**
+ *   Save the current canvas as an image. In Safari, 
+ *   this will open the image in the window and the 
+ *   user must provide their own filename on save-as. 
+ *   Other browsers will either save the file 
+ *   immediately, or prompt the user with a dialogue 
+ *   window.
+ *
+ *   @param [extension] 'jpg' or 'png'
+ */
+declare function saveCanvas(filename?: string, extension?: string): void;
 
 /**
  *   Capture a sequence of frames that can be used to 
@@ -2412,7 +2843,7 @@ declare function createImage(width: number, height: number): p5.Image;
  *   Each object has three properties: imageData - an 
  *   image/octet-stream, filename and extension.
  */
-declare function saveFrames(filename: string, extension: string, duration: number, framerate: number, callback?: Function): void;
+declare function saveFrames(filename: string, extension: string, duration: number, framerate: number, callback?: (p1: any[]) => any): void;
 
 // src/image/loading_displaying.js
 
@@ -2428,8 +2859,8 @@ declare function saveFrames(filename: string, extension: string, duration: numbe
  *  
  *   The path to the image should be relative to the 
  *   HTML file that links in your sketch. Loading an 
- *   from a URL or other remote location may be blocked 
- *   due to your browser's built-in security.
+ *   image from a URL or other remote location may be 
+ *   blocked due to your browser's built-in security.
  *
  *   @param path Path of the image to be loaded
  *   @param [successCallback] Function to be called 
@@ -2450,26 +2881,22 @@ declare function loadImage(path: string, successCallback?: (p1: p5.Image) => any
  *   top-left corner of the source image
  *   @param y the y-coordinate at which to place the 
  *   top-left corner of the source image
- *   @param width the width to draw the image
- *   @param height the height to draw the image
+ *   @param [width] the width to draw the image
+ *   @param [height] the height to draw the image
  */
-declare function image(img: p5.Image, x: number, y: number, width: number, height: number): void;
+declare function image(img: p5.Image, x: number, y: number, width?: number, height?: number): void;
 
 /**
  *   Draw an image to the main canvas of the p5js 
  *   sketch
  *
  *   @param img the image to display
- *   @param dx the x-coordinate in the destination 
- *   canvas at which to place the top-left corner of 
- *   the source image
- *   @param dy the y-coordinate in the destination 
- *   canvas at which to place the top-left corner of 
- *   the source image
- *   @param dWidth the width to draw the image in the 
- *   destination canvas
- *   @param dHeight the height to draw the image in the 
- *   destination canvas
+ *   @param x the x-coordinate at which to place the 
+ *   top-left corner of the source image
+ *   @param y the y-coordinate at which to place the 
+ *   top-left corner of the source image
+ *   @param width the width to draw the image
+ *   @param height the height to draw the image
  *   @param sx the x-coordinate of the top left corner 
  *   of the sub-rectangle of the source image to draw 
  *   into the destination canvas
@@ -2483,7 +2910,7 @@ declare function image(img: p5.Image, x: number, y: number, width: number, heigh
  *   of the source image to draw into the destination 
  *   context
  */
-declare function image(img: p5.Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
+declare function image(img: p5.Image, x: number, y: number, width: number, height: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
 
 /**
  *   Sets the fill value for displaying images. Images 
@@ -2501,15 +2928,75 @@ declare function image(img: p5.Image, dx: number, dy: number, dWidth: number, dH
  *   or equal to the current maximum value as specified 
  *   by colorMode(). The default maximum value is 255.
  *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array
- *   @param [v2] green or saturation value (depending 
- *   on the current color mode)
- *   @param [v3] blue or brightness value (depending on 
- *   the current color mode)
- *   @param [a] opacity of the background
+ *   @param v1 red or hue value relative to the current 
+ *   color range
+ *   @param v2 green or saturation value relative to 
+ *   the current color range
+ *   @param v3 blue or brightness value relative to the 
+ *   current color range
  */
-declare function tint(v1: number|any[], v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+declare function tint(v1: number, v2: number, v3: number, alpha?: number): void;
+
+/**
+ *   Sets the fill value for displaying images. Images 
+ *   can be tinted to specified colors or made 
+ *   transparent by including an alpha value.  To apply 
+ *   transparency to an image without affecting its 
+ *   color, use white as the tint color and specify an 
+ *   alpha value. For instance, tint(255, 128) will 
+ *   make an image 50% transparent (assuming the 
+ *   default alpha range of 0-255, which can be changed 
+ *   with colorMode()). 
+ * 
+ *  
+ *   The value for the gray parameter must be less than 
+ *   or equal to the current maximum value as specified 
+ *   by colorMode(). The default maximum value is 255.
+ *
+ *   @param value a color string
+ */
+declare function tint(value: string, alpha?: number): void;
+
+/**
+ *   Sets the fill value for displaying images. Images 
+ *   can be tinted to specified colors or made 
+ *   transparent by including an alpha value.  To apply 
+ *   transparency to an image without affecting its 
+ *   color, use white as the tint color and specify an 
+ *   alpha value. For instance, tint(255, 128) will 
+ *   make an image 50% transparent (assuming the 
+ *   default alpha range of 0-255, which can be changed 
+ *   with colorMode()). 
+ * 
+ *  
+ *   The value for the gray parameter must be less than 
+ *   or equal to the current maximum value as specified 
+ *   by colorMode(). The default maximum value is 255.
+ *
+ *   @param values an array containing the 
+ *   red,green,blue & and alpha components of the color
+ */
+declare function tint(values: number[]): void;
+
+/**
+ *   Sets the fill value for displaying images. Images 
+ *   can be tinted to specified colors or made 
+ *   transparent by including an alpha value.  To apply 
+ *   transparency to an image without affecting its 
+ *   color, use white as the tint color and specify an 
+ *   alpha value. For instance, tint(255, 128) will 
+ *   make an image 50% transparent (assuming the 
+ *   default alpha range of 0-255, which can be changed 
+ *   with colorMode()). 
+ * 
+ *  
+ *   The value for the gray parameter must be less than 
+ *   or equal to the current maximum value as specified 
+ *   by colorMode(). The default maximum value is 255.
+ *
+ *   @param color the tint color
+ */
+declare function tint(color: p5.Color, alpha?: number): void;
 
 /**
  *   Removes the current fill value for displaying 
@@ -2697,10 +3184,12 @@ declare function copy(srcImage: p5.Image|undefined, sx: number, sy: number, sw: 
  *   DILATE Increases the light areas. No parameter is 
  *   used.
  *
+ *   @param filterType either THRESHOLD, GRAY, OPAQUE, 
+ *   INVERT, POSTERIZE, BLUR, ERODE or DILATE
  *   @param filterParam an optional parameter unique to 
  *   each filter, see above
  */
-declare function filter(filterType: UNKNOWN_P5_CONSTANT, filterParam: number): void;
+declare function filter(filterType: FILTER_TYPE, filterParam: number): void;
 
 /**
  *   Returns an array of [R,G,B,A] values for any pixel 
@@ -2737,7 +3226,7 @@ declare function filter(filterType: UNKNOWN_P5_CONSTANT, filterParam: number): v
  *   @return values of pixel at x,y in array format [R, 
  *   G, B, A] or p5.Image
  */
-declare function get(x?: number, y?: number, w?: number, h?: number): any[]|p5.Image;
+declare function get(x?: number, y?: number, w?: number, h?: number): number[]|p5.Image;
 
 /**
  *   Loads the pixel data for the display window into 
@@ -2807,23 +3296,6 @@ declare function updatePixels(x?: number, y?: number, w?: number, h?: number): v
 // src/io/files.js
 
 /**
- *   Loads an opentype font file (.otf, .ttf) from a 
- *   file or a URL, and returns a PFont Object. This 
- *   method is asynchronous, meaning it may not finish 
- *   before the next line in your sketch is executed.  
- *   The path to the font should be relative to the 
- *   HTML file that links in your sketch. Loading an 
- *   from a URL or other remote location may be blocked 
- *   due to your browser's built-in security.
- *
- *   @param path name of the file or url to load
- *   @param [callback] function to be executed after 
- *   loadFont() completes
- *   @return p5.Font object
- */
-declare function loadFont(path: string, callback?: Function): object;
-
-/**
  *   Loads a JSON file from a file or a URL, and 
  *   returns an Object or Array. This method is 
  *   asynchronous, meaning it may not finish before the 
@@ -2873,7 +3345,7 @@ declare function loadJSON(path: string, jsonpOptions?: object, datatype?: string
  *   argument
  *   @return Array of Strings
  */
-declare function loadStrings(filename: string, callback?: Function, errorCallback?: Function): any[];
+declare function loadStrings(filename: string, callback?: Function, errorCallback?: Function): string[];
 
 /**
  *   Reads the contents of a file or URL and creates a 
@@ -2939,7 +3411,7 @@ declare function loadTable(filename: string, options?: string, callback?: Functi
  *   setup() and draw() are called. 
  * 
  *   Outside of preload(), you may supply a callback 
- *   function to handle the object:
+ *   function to handle the object.
  *
  *   @param filename name of the file or URL to load
  *   @param [callback] function to be executed after 
@@ -3164,12 +3636,29 @@ declare function ceil(n: number): number;
  */
 declare function constrain(n: number, low: number, high: number): number;
 
-// TODO: Fix dist() errors in src/math/calculation.js, line 120:
-//
-//   required param "x2" follows an optional param
-//   required param "y2" follows an optional param
-//
-// declare function dist(x1: number, y1: number, z1?: number, x2: number, y2: number, z2?: number): number;
+/**
+ *   Calculates the distance between two points.
+ *
+ *   @param x1 x-coordinate of the first point
+ *   @param y1 y-coordinate of the first point
+ *   @param x2 x-coordinate of the second point
+ *   @param y2 y-coordinate of the second point
+ *   @return distance between the two points
+ */
+declare function dist(x1: number, y1: number, x2: number, y2: number): number;
+
+/**
+ *   Calculates the distance between two points.
+ *
+ *   @param x1 x-coordinate of the first point
+ *   @param y1 y-coordinate of the first point
+ *   @param z1 z-coordinate of the first point
+ *   @param x2 x-coordinate of the second point
+ *   @param y2 y-coordinate of the second point
+ *   @param z2 z-coordinate of the second point
+ *   @return distance between the two points
+ */
+declare function dist(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number): number;
 
 /**
  *   Returns Euler's number e (2.71828...) raised to 
@@ -3352,7 +3841,7 @@ declare function sqrt(n: number): number;
  *   @param [y] y component of the vector
  *   @param [z] z component of the vector
  */
-declare function createVector(x?: number, y?: number, z?: number): void;
+declare function createVector(x?: number, y?: number, z?: number): p5.Vector;
 
 // src/math/noise.js
 
@@ -3399,12 +3888,12 @@ declare function createVector(x?: number, y?: number, z?: number): void;
  *   use.
  *
  *   @param x x-coordinate in noise space
- *   @param y y-coordinate in noise space
- *   @param z z-coordinate in noise space
+ *   @param [y] y-coordinate in noise space
+ *   @param [z] z-coordinate in noise space
  *   @return Perlin noise value (between 0 and 1) at 
  *   specified coordinates
  */
-declare function noise(x: number, y: number, z: number): number;
+declare function noise(x: number, y?: number, z?: number): number;
 
 /**
  *   Adjusts the character and level of detail produced 
@@ -3481,8 +3970,9 @@ declare function randomSeed(seed: number): void;
  *
  *   @param [min] the lower bound (inclusive)
  *   @param [max] the upper bound (exclusive)
+ *   @return the random number
  */
-declare function random(min?: number, max?: number): void;
+declare function random(min?: number, max?: number): number;
 
 /**
  *   Return a random floating-point number. Takes 
@@ -3503,8 +3993,9 @@ declare function random(min?: number, max?: number): void;
  *   including) the second argument.
  *
  *   @param choices the array to choose from
+ *   @return the random element from the array
  */
-declare function random(choices: any[]): void;
+declare function random(choices: any[]): any;
 
 /**
  *   Returns a random number fitting a Gaussian, or 
@@ -3670,10 +4161,10 @@ declare function angleMode(mode: ANGLE_MODE): void;
  *
  *   @param horizAlign horizontal alignment, either 
  *   LEFT, CENTER, or RIGHT
- *   @param vertAlign vertical alignment, either TOP, 
+ *   @param [vertAlign] vertical alignment, either TOP, 
  *   BOTTOM, CENTER, or BASELINE
  */
-declare function textAlign(horizAlign: HORIZ_ALIGN, vertAlign: VERT_ALIGN): number;
+declare function textAlign(horizAlign: HORIZ_ALIGN, vertAlign?: VERT_ALIGN): number;
 
 /**
  *   Sets/gets the spacing, in pixels, between lines of 
@@ -3682,8 +4173,17 @@ declare function textAlign(horizAlign: HORIZ_ALIGN, vertAlign: VERT_ALIGN): numb
  *
  *   @param leading the size in pixels for spacing 
  *   between lines
+ *   @chainable
  */
-declare function textLeading(leading: number): object|number;
+declare function textLeading(leading: number): p5;
+
+/**
+ *   Sets/gets the spacing, in pixels, between lines of 
+ *   text. This setting will be used in all subsequent 
+ *   calls to the text() function.
+ *
+ */
+declare function textLeading(): number;
 
 /**
  *   Sets/gets the current font size. This size will be 
@@ -3692,8 +4192,17 @@ declare function textLeading(leading: number): object|number;
  *
  *   @param theSize the size of the letters in units of 
  *   pixels
+ *   @chainable
  */
-declare function textSize(theSize: number): object|number;
+declare function textSize(theSize: number): p5;
+
+/**
+ *   Sets/gets the current font size. This size will be 
+ *   used in all subsequent calls to the text() 
+ *   function. Font size is measured in pixels.
+ *
+ */
+declare function textSize(): number;
 
 /**
  *   Sets/gets the style of the text for system fonts 
@@ -3704,8 +4213,19 @@ declare function textSize(theSize: number): object|number;
  *
  *   @param theStyle styling for text, either NORMAL, 
  *   ITALIC, or BOLD
+ *   @chainable
  */
-declare function textStyle(theStyle: number|THE_STYLE): object|string;
+declare function textStyle(theStyle: THE_STYLE): p5;
+
+/**
+ *   Sets/gets the style of the text for system fonts 
+ *   to NORMAL, ITALIC, or BOLD. Note: this may be is 
+ *   overridden by CSS styling. For non-system fonts 
+ *   (opentype, truetype, etc.) please load styled 
+ *   fonts instead.
+ *
+ */
+declare function textStyle(): string;
 
 /**
  *   Calculates and returns the width of any character 
@@ -3715,7 +4235,42 @@ declare function textStyle(theStyle: number|THE_STYLE): object|string;
  */
 declare function textWidth(theText: string): number;
 
+/**
+ *   Returns the ascent of the current font at its 
+ *   current size. The ascent represents the distance, 
+ *   in pixels, of the tallest character above the 
+ *   baseline.
+ *
+ */
+declare function textAscent(): number;
+
+/**
+ *   Returns the descent of the current font at its 
+ *   current size. The descent represents the distance, 
+ *   in pixels, of the character with the longest 
+ *   descender below the baseline.
+ *
+ */
+declare function textDescent(): number;
+
 // src/typography/loading_displaying.js
+
+/**
+ *   Loads an opentype font file (.otf, .ttf) from a 
+ *   file or a URL, and returns a PFont Object. This 
+ *   method is asynchronous, meaning it may not finish 
+ *   before the next line in your sketch is executed.  
+ *   The path to the font should be relative to the 
+ *   HTML file that links in your sketch. Loading an 
+ *   from a URL or other remote location may be blocked 
+ *   due to your browser's built-in security.
+ *
+ *   @param path name of the file or url to load
+ *   @param [callback] function to be executed after 
+ *   loadFont() completes
+ *   @return p5.Font object
+ */
+declare function loadFont(path: string, callback?: Function): p5.Font;
 
 /**
  *   Draws text to the screen. Displays the information 
@@ -3745,24 +4300,33 @@ declare function textWidth(theText: string): number;
  *   displayed
  *   @param x x-coordinate of text
  *   @param y y-coordinate of text
- *   @param x2 by default, the width of the text box, 
+ *   @param [x2] by default, the width of the text box, 
  *   see rectMode() for more info
- *   @param y2 by default, the height of the text box, 
- *   see rectMode() for more info
+ *   @param [y2] by default, the height of the text 
+ *   box, see rectMode() for more info
  *   @return this
  */
-declare function text(str: string, x: number, y: number, x2: number, y2: number): object;
+declare function text(str: string, x: number, y: number, x2?: number, y2?: number): p5;
 
 /**
  *   Sets the current font that will be drawn with the 
  *   text() function.
  *
- *   @param f a font loaded via loadFont(), or a String 
- *   representing a web safe font (a font that is 
- *   generally available across all systems)
  *   @return the current font
  */
-declare function textFont(f: object|string): object|string;
+declare function textFont(): object;
+
+/**
+ *   Sets the current font that will be drawn with the 
+ *   text() function.
+ *
+ *   @param font a font loaded via loadFont(), or a 
+ *   String representing a web safe font (a font that 
+ *   is generally available across all systems)
+ *   @param [size] the font size to use
+ *   @chainable
+ */
+declare function textFont(font: object|string, size?: number): p5;
 
 // src/utilities/array_functions.js
 
@@ -3775,11 +4339,63 @@ declare function textFont(f: object|string): object|string;
  */
 declare function append(array: any[], value: any): void;
 
-// TODO: Fix arrayCopy() errors in src/utilities/array_functions.js, line 37:
-//
-//   required param "dst" follows an optional param
-//
-// declare function arrayCopy(src: any[], srcPosition?: number, dst: any[], dstPosition?: number, length?: number): void;
+/**
+ *   Copies an array (or part of an array) to another 
+ *   array. The src array is copied to the dst array, 
+ *   beginning at the position specified by srcPosition 
+ *   and into the position specified by dstPosition. 
+ *   The number of elements to copy is determined by 
+ *   length. Note that copying values overwrites 
+ *   existing values in the destination array. To 
+ *   append values instead of overwriting them, use 
+ *   concat().  The simplified version with only two 
+ *   arguments, arrayCopy(src, dst), copies an entire 
+ *   array to another of the same size. It is 
+ *   equivalent to arrayCopy(src, 0, dst, 0, 
+ *   src.length). 
+ * 
+ *  
+ *   Using this function is far more efficient for 
+ *   copying array data than iterating through a for() 
+ *   loop and copying each element individually.
+ *
+ *   @param src the source Array
+ *   @param srcPosition starting position in the source 
+ *   Array
+ *   @param dst the destination Array
+ *   @param dstPosition starting position in the 
+ *   destination Array
+ *   @param length number of Array elements to be 
+ *   copied
+ */
+declare function arrayCopy(src: any[], srcPosition: number, dst: any[], dstPosition: number, length: number): void;
+
+/**
+ *   Copies an array (or part of an array) to another 
+ *   array. The src array is copied to the dst array, 
+ *   beginning at the position specified by srcPosition 
+ *   and into the position specified by dstPosition. 
+ *   The number of elements to copy is determined by 
+ *   length. Note that copying values overwrites 
+ *   existing values in the destination array. To 
+ *   append values instead of overwriting them, use 
+ *   concat().  The simplified version with only two 
+ *   arguments, arrayCopy(src, dst), copies an entire 
+ *   array to another of the same size. It is 
+ *   equivalent to arrayCopy(src, 0, dst, 0, 
+ *   src.length). 
+ * 
+ *  
+ *   Using this function is far more efficient for 
+ *   copying array data than iterating through a for() 
+ *   loop and copying each element individually.
+ *
+ *   @param src the source Array
+ *   @param dst the destination Array
+ *   @param [length] number of Array elements to be 
+ *   copied
+ */
+declare function arrayCopy(src: any[], dst: any[], length?: number): void;
 
 /**
  *   Concatenates two arrays, maps to Array.concat(). 
@@ -3895,7 +4511,18 @@ declare function float(str: string): number;
  *   @param n value to parse
  *   @return integer representation of value
  */
-declare function int(n: string|boolean|number|any[]): number;
+declare function int(n: string|boolean|number): number;
+
+/**
+ *   Converts a boolean, string, or float to its 
+ *   integer representation. When an array of values is 
+ *   passed in, then an int array of the same length is 
+ *   returned.
+ *
+ *   @param ns values to parse
+ *   @return integer representation of values
+ */
+declare function int(ns: any[]): number[];
 
 /**
  *   Converts a boolean, string or number to its string 
@@ -3936,7 +4563,22 @@ declare function boolean(n: string|boolean|number|any[]): boolean;
  *   @param n value to parse
  *   @return byte representation of value
  */
-declare function byte(n: string|boolean|number|any[]): number;
+declare function byte(n: string|boolean|number): number;
+
+/**
+ *   Converts a number, string or boolean to its byte 
+ *   representation. A byte can be only a whole number 
+ *   between -128 and 127, so when a value outside of 
+ *   this range is converted, it wraps around to the 
+ *   corresponding byte representation. When an array 
+ *   of number, string or boolean values is passed in, 
+ *   then an array of bytes the same length is 
+ *   returned.
+ *
+ *   @param ns values to parse
+ *   @return array of byte representation of values
+ */
+declare function byte(ns: any[]): number[];
 
 /**
  *   Converts a number or string to its corresponding 
@@ -3951,7 +4593,22 @@ declare function byte(n: string|boolean|number|any[]): number;
  *   @param n value to parse
  *   @return string representation of value
  */
-declare function char(n: string|number|any[]): string;
+declare function char(n: string|number): string;
+
+/**
+ *   Converts a number or string to its corresponding 
+ *   single-character string representation. If a 
+ *   string parameter is provided, it is first parsed 
+ *   as an integer and then translated into a 
+ *   single-character string. When an array of number 
+ *   or string values is passed in, then an array of 
+ *   single-character strings of the same length is 
+ *   returned.
+ *
+ *   @param ns values to parse
+ *   @return array of string representation of values
+ */
+declare function char(ns: any[]): string[];
 
 /**
  *   Converts a single-character string to its 
@@ -3963,7 +4620,19 @@ declare function char(n: string|number|any[]): string;
  *   @param n value to parse
  *   @return integer representation of value
  */
-declare function unchar(n: string|any[]): number;
+declare function unchar(n: string): number;
+
+/**
+ *   Converts a single-character string to its 
+ *   corresponding integer representation. When an 
+ *   array of single-character string values is passed 
+ *   in, then an array of integers of the same length 
+ *   is returned.
+ *
+ *   @param ns values to parse
+ *   @return integer representation of values
+ */
+declare function unchar(ns: any[]): number[];
 
 /**
  *   Converts a number to a string in its equivalent 
@@ -3977,7 +4646,22 @@ declare function unchar(n: string|any[]): number;
  *   @param n value to parse
  *   @return hexadecimal string representation of value
  */
-declare function hex(n: number|any[]): string;
+declare function hex(n: number, digits?: number): string;
+
+/**
+ *   Converts a number to a string in its equivalent 
+ *   hexadecimal notation. If a second parameter is 
+ *   passed, it is used to set the number of characters 
+ *   to generate in the hexadecimal notation. When an 
+ *   array is passed in, an array of strings in 
+ *   hexadecimal notation of the same length is 
+ *   returned.
+ *
+ *   @param ns array of values to parse
+ *   @return hexadecimal string representation of 
+ *   values
+ */
+declare function hex(ns: number[], digits?: number): string[];
 
 /**
  *   Converts a string representation of a hexadecimal 
@@ -3990,7 +4674,20 @@ declare function hex(n: number|any[]): string;
  *   @return integer representation of hexadecimal 
  *   value
  */
-declare function unhex(n: string|any[]): number;
+declare function unhex(n: string): number;
+
+/**
+ *   Converts a string representation of a hexadecimal 
+ *   number to its equivalent integer value. When an 
+ *   array of strings in hexadecimal notation is passed 
+ *   in, an array of integers of the same length is 
+ *   returned.
+ *
+ *   @param ns values to parse
+ *   @return integer representations of hexadecimal 
+ *   value
+ */
+declare function unhex(ns: any[]): number[];
 
 // src/utilities/string_functions.js
 
@@ -4035,7 +4732,7 @@ declare function join(list: any[], separator: string): string;
  *   @param regexp the regexp to be used for matching
  *   @return Array of Strings found
  */
-declare function match(str: string, regexp: string): any[];
+declare function match(str: string, regexp: string): string[];
 
 /**
  *   This function is used to apply a regular 
@@ -4066,7 +4763,7 @@ declare function match(str: string, regexp: string): any[];
  *   @param regexp the regexp to be used for matching
  *   @return 2d Array of Strings found
  */
-declare function matchAll(str: string, regexp: string): any[];
+declare function matchAll(str: string, regexp: string): string[];
 
 /**
  *   Utility function for formatting numbers into 
@@ -4082,7 +4779,23 @@ declare function matchAll(str: string, regexp: string): any[];
  *   the decimal point
  *   @return formatted String
  */
-declare function nf(num: number|any[], left?: number, right?: number): string|any[];
+declare function nf(num: number, left?: number, right?: number): string;
+
+/**
+ *   Utility function for formatting numbers into 
+ *   strings. There are two versions: one for 
+ *   formatting floats, and one for formatting ints. 
+ *   The values for the digits, left, and right 
+ *   parameters should always be positive integers.
+ *
+ *   @param nums the Numbers to format
+ *   @param [left] number of digits to the left of the 
+ *   decimal point
+ *   @param [right] number of digits to the right of 
+ *   the decimal point
+ *   @return formatted Strings
+ */
+declare function nf(nums: number[], left?: number, right?: number): string[];
 
 /**
  *   Utility function for formatting numbers into 
@@ -4097,7 +4810,22 @@ declare function nf(num: number|any[], left?: number, right?: number): string|an
  *   the decimal point
  *   @return formatted String
  */
-declare function nfc(num: number|any[], right?: number): string|any[];
+declare function nfc(num: number, right?: number): string;
+
+/**
+ *   Utility function for formatting numbers into 
+ *   strings and placing appropriate commas to mark 
+ *   units of 1000. There are two versions: one for 
+ *   formatting ints, and one for formatting an array 
+ *   of ints. The value for the right parameter should 
+ *   always be a positive integer.
+ *
+ *   @param nums the Numbers to format
+ *   @param [right] number of digits to the right of 
+ *   the decimal point
+ *   @return formatted Strings
+ */
+declare function nfc(nums: number[], right?: number): string[];
 
 /**
  *   Utility function for formatting numbers into 
@@ -4115,7 +4843,25 @@ declare function nfc(num: number|any[], right?: number): string|any[];
  *   the decimal point
  *   @return formatted String
  */
-declare function nfp(num: number|any[], left?: number, right?: number): string|any[];
+declare function nfp(num: number, left?: number, right?: number): string;
+
+/**
+ *   Utility function for formatting numbers into 
+ *   strings. Similar to nf() but puts a "+" in front 
+ *   of positive numbers and a "-" in front of negative 
+ *   numbers. There are two versions: one for 
+ *   formatting floats, and one for formatting ints. 
+ *   The values for left, and right parameters should 
+ *   always be positive integers.
+ *
+ *   @param nums the Numbers to format
+ *   @param [left] number of digits to the left of the 
+ *   decimal point
+ *   @param [right] number of digits to the right of 
+ *   the decimal point
+ *   @return formatted Strings
+ */
+declare function nfp(nums: number[], left?: number, right?: number): string[];
 
 /**
  *   Utility function for formatting numbers into 
@@ -4133,7 +4879,25 @@ declare function nfp(num: number|any[], left?: number, right?: number): string|a
  *   the decimal point
  *   @return formatted String
  */
-declare function nfs(num: number|any[], left?: number, right?: number): string|any[];
+declare function nfs(num: number, left?: number, right?: number): string;
+
+/**
+ *   Utility function for formatting numbers into 
+ *   strings. Similar to nf() but puts a " " (space) in 
+ *   front of positive numbers and a "-" in front of 
+ *   negative numbers. There are two versions: one for 
+ *   formatting floats, and one for formatting ints. 
+ *   The values for the digits, left, and right 
+ *   parameters should always be positive integers.
+ *
+ *   @param nums the Numbers to format
+ *   @param [left] number of digits to the left of the 
+ *   decimal point
+ *   @param [right] number of digits to the right of 
+ *   the decimal point
+ *   @return formatted Strings
+ */
+declare function nfs(nums: number[], left?: number, right?: number): string[];
 
 /**
  *   The split() function maps to String.split(), it 
@@ -4151,7 +4915,7 @@ declare function nfs(num: number|any[], left?: number, right?: number): string|a
  *   @param delim the String used to separate the data
  *   @return Array of Strings
  */
-declare function split(value: string, delim: string): any[];
+declare function split(value: string, delim: string): string[];
 
 /**
  *   The splitTokens() function splits a String at one 
@@ -4168,7 +4932,7 @@ declare function split(value: string, delim: string): any[];
  *   will be used as separators
  *   @return Array of Strings
  */
-declare function splitTokens(value: string, delim?: string): any[];
+declare function splitTokens(value: string, delim?: string): string[];
 
 /**
  *   Removes whitespace characters from the beginning 
@@ -4177,11 +4941,22 @@ declare function splitTokens(value: string, delim?: string): any[];
  *   return, and tab, this function also removes the 
  *   Unicode "nbsp" character.
  *
- *   @param str a String or Array of Strings to be 
- *   trimmed
- *   @return a trimmed String or Array of Strings
+ *   @param str a String to be trimmed
+ *   @return a trimmed String
  */
-declare function trim(str: string|any[]): string|any[];
+declare function trim(str: string): string;
+
+/**
+ *   Removes whitespace characters from the beginning 
+ *   and end of a String. In addition to standard 
+ *   whitespace characters such as space, carriage 
+ *   return, and tab, this function also removes the 
+ *   Unicode "nbsp" character.
+ *
+ *   @param strs an Array of Strings to be trimmed
+ *   @return an Array of trimmed Strings
+ */
+declare function trim(strs: string[]): string[];
 
 // src/utilities/time_date.js
 
@@ -4292,23 +5067,48 @@ declare function ortho(left: number, right: number, bottom: number, top: number,
 /**
  *   Creates an ambient light with a color
  *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array, or CSS 
- *   color string
- *   @param [v2] optional: green or saturation value
- *   @param [v3] optional: blue or brightness value
- *   @param [a] optional: opacity
- *   @return the p5 object
+ *   @param v1 red or hue value relative to the current 
+ *   color range
+ *   @param v2 green or saturation value relative to 
+ *   the current color range
+ *   @param v3 blue or brightness value relative to the 
+ *   current color range
+ *   @chainable
  */
-declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+declare function ambientLight(v1: number, v2: number, v3: number, alpha?: number): p5;
 
-// TODO: Fix directionalLight() errors in src/webgl/light.js, line 72:
+/**
+ *   Creates an ambient light with a color
+ *
+ *   @param value a color string
+ *   @chainable
+ */
+declare function ambientLight(value: string, alpha?: number): p5;
+
+/**
+ *   Creates an ambient light with a color
+ *
+ *   @param values an array containing the 
+ *   red,green,blue & and alpha components of the color
+ *   @chainable
+ */
+declare function ambientLight(values: number[]): p5;
+
+/**
+ *   Creates an ambient light with a color
+ *
+ *   @param color the ambient light color
+ *   @chainable
+ */
+declare function ambientLight(color: p5.Color, alpha?: number): p5;
+
+// TODO: Fix directionalLight() errors in src/webgl/light.js, line 96:
 //
 //   required param "x" follows an optional param
 //
 // declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
-// TODO: Fix pointLight() errors in src/webgl/light.js, line 166:
+// TODO: Fix pointLight() errors in src/webgl/light.js, line 190:
 //
 //   required param "x" follows an optional param
 //
@@ -4316,17 +5116,58 @@ declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?
 
 // src/webgl/loading.js
 
-// TODO: Fix loadModel() errors in src/webgl/loading.js, line 14:
-//
-//   return has invalid type: p5.Geometry
-//
-// declare function loadModel(path: string, normalize?: boolean, successCallback?: (p1: any) => any, failureCallback?: (p1: Event) => any): any;
+/**
+ *   Load a 3d model from an OBJ file.  One of the 
+ *   limitations of the OBJ format is that it doesn't 
+ *   have a built-in sense of scale. This means that 
+ *   models exported from different programs might be 
+ *   very different sizes. If your model isn't 
+ *   displaying, try calling loadModel() with the 
+ *   normalized parameter set to true. This will resize 
+ *   the model to a scale appropriate for p5. You can 
+ *   also make additional changes to the final size of 
+ *   your model with the scale() function.
+ *
+ *   @param path Path of the model to be loaded
+ *   @param normalize If true, scale the model to a 
+ *   standardized size when loading
+ *   @param [successCallback] Function to be called 
+ *   once the model is loaded. Will be passed the 3D 
+ *   model object.
+ *   @param [failureCallback] called with event error 
+ *   if the image fails to load.
+ *   @return the p5.Geometry object
+ */
+declare function loadModel(path: string, normalize: boolean, successCallback?: (p1: p5.Geometry) => any, failureCallback?: (p1: Event) => any): p5.Geometry;
 
-// TODO: Fix model() errors in src/webgl/loading.js, line 191:
-//
-//   param "model" has invalid type: p5.Geometry
-//
-// declare function model(model: any): void;
+/**
+ *   Load a 3d model from an OBJ file.  One of the 
+ *   limitations of the OBJ format is that it doesn't 
+ *   have a built-in sense of scale. This means that 
+ *   models exported from different programs might be 
+ *   very different sizes. If your model isn't 
+ *   displaying, try calling loadModel() with the 
+ *   normalized parameter set to true. This will resize 
+ *   the model to a scale appropriate for p5. You can 
+ *   also make additional changes to the final size of 
+ *   your model with the scale() function.
+ *
+ *   @param path Path of the model to be loaded
+ *   @param [successCallback] Function to be called 
+ *   once the model is loaded. Will be passed the 3D 
+ *   model object.
+ *   @param [failureCallback] called with event error 
+ *   if the image fails to load.
+ *   @return the p5.Geometry object
+ */
+declare function loadModel(path: string, successCallback?: (p1: p5.Geometry) => any, failureCallback?: (p1: Event) => any): p5.Geometry;
+
+/**
+ *   Render a 3d model to the screen.
+ *
+ *   @param model Loaded 3d model to be rendered
+ */
+declare function model(model: p5.Geometry): void;
 
 // src/webgl/material.js
 
@@ -4334,7 +5175,7 @@ declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?
  *   Normal material for geometry. You can view all 
  *   possible materials in this example.
  *
- *   @return the p5 object
+ *   @chainable
  */
 declare function normalMaterial(): p5;
 
@@ -4344,7 +5185,7 @@ declare function normalMaterial(): p5;
  *
  *   @param tex 2-dimensional graphics to render as 
  *   texture
- *   @return the p5 object
+ *   @chainable
  */
 declare function texture(tex: p5.Image|p5.MediaElement|p5.Graphics): p5;
 
@@ -4359,7 +5200,7 @@ declare function texture(tex: p5.Image|p5.MediaElement|p5.Graphics): p5;
  *   @param [v2] optional: green or saturation value
  *   @param [v3] optional: blue or brightness value
  *   @param [a] optional: opacity
- *   @return the p5 object
+ *   @chainable
  */
 declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
 
@@ -4374,7 +5215,7 @@ declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, 
  *   @param [v2] optional: green or saturation value
  *   @param [v3] optional: blue or brightness value
  *   @param [a] optional: opacity
- *   @return the p5 object
+ *   @chainable
  */
 declare function specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
 
@@ -4397,15 +5238,15 @@ declare function plane(width: number, height: number, detailX?: number, detailY?
  *   Draw a box with given width, height and depth
  *
  *   @param width width of the box
- *   @param Height height of the box
- *   @param depth depth of the box
+ *   @param [Height] height of the box
+ *   @param [depth] depth of the box
  *   @param [detailX] Optional number of triangle 
  *   subdivisions in x-dimension
  *   @param [detailY] Optional number of triangle 
  *   subdivisions in y-dimension
- *   @return the p5 object
+ *   @chainable
  */
-declare function box(width: number, Height: number, depth: number, detailX?: number, detailY?: number): p5;
+declare function box(width: number, Height?: number, depth?: number, detailX?: number, detailY?: number): p5;
 
 /**
  *   Draw a sphere with given radius
@@ -4415,7 +5256,7 @@ declare function box(width: number, Height: number, depth: number, detailX?: num
  *   more segments the smoother geometry default is 24
  *   @param [detailY] optional: number of segments, the 
  *   more segments the smoother geometry default is 16
- *   @return the p5 object
+ *   @chainable
  */
 declare function sphere(radius: number, detailX?: number, detailY?: number): p5;
 
@@ -4429,7 +5270,7 @@ declare function sphere(radius: number, detailX?: number, detailY?: number): p5;
  *   @param [detailY] optional: number of segments in 
  *   y-dimension, the more segments the smoother 
  *   geometry default is 16
- *   @return the p5 object
+ *   @chainable
  */
 declare function cylinder(radius: number, height: number, detailX?: number, detailY?: number): p5;
 
@@ -4442,7 +5283,7 @@ declare function cylinder(radius: number, height: number, detailX?: number, deta
  *   more segments the smoother geometry default is 24
  *   @param [detailY] optional: number of segments, the 
  *   more segments the smoother geometry default is 16
- *   @return the p5 object
+ *   @chainable
  */
 declare function cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
 
@@ -4460,7 +5301,7 @@ declare function cone(radius: number, height: number, detailX?: number, detailY?
  *   more segments the smoother geometry default is 16. 
  *   Avoid detail number above 150, it may crash the 
  *   browser.
- *   @return the p5 object
+ *   @chainable
  */
 declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, detailX?: number, detailY?: number): p5;
 
@@ -4475,9 +5316,45 @@ declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, de
  *   @param [detailY] optional: number of segments in 
  *   y-dimension, the more segments the smoother 
  *   geometry default is 16
- *   @return the p5 object
+ *   @chainable
  */
 declare function torus(radius: number, tubeRadius: number, detailX?: number, detailY?: number): p5;
+
+// lib/addons/p5.sound.js
+
+/**
+ *   Returns a number representing the sample rate, in 
+ *   samples per second, of all sound objects in this 
+ *   audio context. It is determined by the sampling 
+ *   rate of your operating system's sound card, and it 
+ *   is not currently possile to change. It is often 
+ *   44100, or twice the range of human hearing.
+ *
+ *   @return samplerate samples per second
+ */
+declare function sampleRate(): number;
+
+/**
+ *   Returns the frequency value of a MIDI note value. 
+ *   General MIDI treats notes as integers where middle 
+ *   C is 60, C# is 61, D is 62 etc. Useful for 
+ *   generating musical frequencies with oscillators.
+ *
+ *   @param midiNote The number of a MIDI note
+ *   @return Frequency value of the given MIDI note
+ */
+declare function midiToFreq(midiNote: number): number;
+
+/**
+ *   List the SoundFile formats that you will include. 
+ *   LoadSound will search your directory for these 
+ *   extensions, and will pick a format that is 
+ *   compatable with the client's web browser. Here is 
+ *   a free online file converter.
+ *
+ *   @param [formats] i.e. 'mp3', 'wav', 'ogg'
+ */
+declare function soundFormats(formats?: string): void;
 
 // Properties from p5.dom
 
@@ -4534,10 +5411,10 @@ declare function removeElements(): void;
  *   given inner HTML. Appends to the container node if 
  *   one is specified, otherwise appends to body.
  *
- *   @param html inner HTML for element created
+ *   @param [html] inner HTML for element created
  *   @return pointer to p5.Element holding created node
  */
-declare function createDiv(html: string): object|p5.Element;
+declare function createDiv(html?: string): object|p5.Element;
 
 /**
  *   Creates a <p></p> element in the DOM with given 
@@ -4545,20 +5422,20 @@ declare function createDiv(html: string): object|p5.Element;
  *   Appends to the container node if one is specified, 
  *   otherwise appends to body.
  *
- *   @param html inner HTML for element created
+ *   @param [html] inner HTML for element created
  *   @return pointer to p5.Element holding created node
  */
-declare function createP(html: string): object|p5.Element;
+declare function createP(html?: string): object|p5.Element;
 
 /**
  *   Creates a <span></span> element in the DOM with 
  *   given inner HTML. Appends to the container node if 
  *   one is specified, otherwise appends to body.
  *
- *   @param html inner HTML for element created
+ *   @param [html] inner HTML for element created
  *   @return pointer to p5.Element holding created node
  */
-declare function createSpan(html: string): object|p5.Element;
+declare function createSpan(html?: string): object|p5.Element;
 
 /**
  *   Creates an <img> element in the DOM with given src 
@@ -4640,7 +5517,7 @@ declare function createCheckbox(label?: string, value?: boolean): object|p5.Elem
  *   @param [multiple] true if dropdown should support 
  *   multiple selections
  */
-declare function createSelect(multiple?: boolean): void;
+declare function createSelect(multiple?: boolean): p5.Element;
 
 /**
  *   Creates a dropdown menu <select></select> element 
@@ -4650,7 +5527,7 @@ declare function createSelect(multiple?: boolean): void;
  *
  *   @param existing DOM select element
  */
-declare function createSelect(existing: object): void;
+declare function createSelect(existing: object): p5.Element;
 
 /**
  *   Creates a radio button <input></input> element in 
@@ -4716,7 +5593,7 @@ declare function createFileInput(callback?: Function, multiple?: string): object
  *   buffering of content
  *   @return pointer to video p5.Element
  */
-declare function createVideo(src: string|any[], callback?: object): object|p5.Element;
+declare function createVideo(src: string|any[], callback?: object): p5.MediaElement|p5.Element;
 
 /**
  *   Creates a hidden HTML5 <audio> element in the DOM 
@@ -4740,7 +5617,7 @@ declare function createVideo(src: string|any[], callback?: object): object|p5.El
  *   buffering of content
  *   @return pointer to audio p5.Element
  */
-declare function createAudio(src: string|any[], callback?: object): object|p5.Element;
+declare function createAudio(src: string|any[], callback?: object): p5.MediaElement|p5.Element;
 
 /**
  *   Creates a new <video> element that contains the 
@@ -4837,41 +5714,4 @@ declare function masterVolume(volume: number|object, rampTime?: number, timeFrom
  *   Gain Nodes for .input and .output.
  *
  */
-declare var soundOut: any;
-
-/**
- *   Returns a number representing the sample rate, in 
- *   samples per second, of all sound objects in this 
- *   audio context. It is determined by the sampling 
- *   rate of your operating system's sound card, and it 
- *   is not currently possile to change. It is often 
- *   44100, or twice the range of human hearing.
- *
- *   @return samplerate samples per second
- */
-declare function sampleRate(): number;
-
-/**
- *   Returns the frequency value of a MIDI note value. 
- *   General MIDI treats notes as integers where middle 
- *   C is 60, C# is 61, D is 62 etc. Useful for 
- *   generating musical frequencies with oscillators.
- *
- *   @param midiNote The number of a MIDI note
- *   @return Frequency value of the given MIDI note
- */
-declare function midiToFreq(midiNote: number): number;
-
-/**
- *   List the SoundFile formats that you will include. 
- *   LoadSound will search your directory for these 
- *   extensions, and will pick a format that is 
- *   compatable with the client's web browser. Here is 
- *   a free online file converter.
- *
- *   @param formats i.e. 'mp3', 'wav', 'ogg'
- */
-declare function soundFormats(formats: string): void;
-
-// TODO: Property "{String} failedPath path to the file that failed to load", defined in lib/addons/p5.sound.js, line 599, is not a valid JS symbol name
-
+declare var soundOut: object;

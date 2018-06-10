@@ -7,6 +7,7 @@
 
 export = p5;
 type UNKNOWN_P5_CONSTANT = any;
+type BandPass = any;
 declare class p5 {
   // Properties from p5
 
@@ -17,24 +18,27 @@ declare class p5 {
    *   array.
    *
    *   @param obj p5.Color object or pixel array
+   *   @return the alpha value
    */
-  alpha(obj: object): void;
+  alpha(obj: p5.Color|number[]): number;
 
   /**
    *   Extracts the blue value from a color or pixel 
    *   array.
    *
    *   @param obj p5.Color object or pixel array
+   *   @return the blue value
    */
-  blue(obj: object): void;
+  blue(obj: p5.Color|number[]): number;
 
   /**
    *   Extracts the HSB brightness value from a color or 
    *   pixel array.
    *
    *   @param color p5.Color object or pixel array
+   *   @return the brightness value
    */
-  brightness(color: object): void;
+  brightness(color: p5.Color|number[]): number;
 
   /**
    *   Creates colors for storing in variables of the 
@@ -49,18 +53,22 @@ declare class p5 {
    *   alpha transparency. When three values are 
    *   specified, they are interpreted as either RGB or 
    *   HSB values. Adding a fourth value applies alpha 
-   *   transparency. If a single string parameter is 
-   *   provided it will be interpreted as a 
-   *   CSS-compatible color string. 
+   *   transparency. 
    * 
-   *   Colors are stored as Numbers or Arrays.
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used.
    *
    *   @param gray number specifying value between white 
    *   and black.
    *   @param [alpha] alpha value relative to current 
    *   color range (default is 0-255)
+   *   @return resulting color
    */
-  color(gray: number, alpha?: number): void;
+  color(gray: number, alpha?: number): p5.Color;
 
   /**
    *   Creates colors for storing in variables of the 
@@ -75,14 +83,17 @@ declare class p5 {
    *   alpha transparency. When three values are 
    *   specified, they are interpreted as either RGB or 
    *   HSB values. Adding a fourth value applies alpha 
-   *   transparency. If a single string parameter is 
-   *   provided it will be interpreted as a 
-   *   CSS-compatible color string. 
+   *   transparency. 
    * 
-   *   Colors are stored as Numbers or Arrays.
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used.
    *
    *   @param v1 red or hue value relative to the current 
-   *   color range, or a color string
+   *   color range
    *   @param v2 green or saturation value relative to 
    *   the current color range
    *   @param v3 blue or brightness value relative to the 
@@ -90,15 +101,71 @@ declare class p5 {
    *   @param [alpha] alpha value relative to current 
    *   color range (default is 0-255)
    */
-  color(v1: number|string, v2: number, v3: number, alpha?: number): void;
+  color(v1: number, v2: number, v3: number, alpha?: number): p5.Color;
+
+  /**
+   *   Creates colors for storing in variables of the 
+   *   color datatype. The parameters are interpreted as 
+   *   RGB or HSB values depending on the current 
+   *   colorMode(). The default mode is RGB values from 0 
+   *   to 255 and, therefore, the function call 
+   *   color(255, 204, 0) will return a bright yellow 
+   *   color.  Note that if only one value is provided to 
+   *   color(), it will be interpreted as a grayscale 
+   *   value. Add a second value, and it will be used for 
+   *   alpha transparency. When three values are 
+   *   specified, they are interpreted as either RGB or 
+   *   HSB values. Adding a fourth value applies alpha 
+   *   transparency. 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used.
+   *
+   *   @param value a color string
+   *   @param [alpha] alpha value relative to current 
+   *   color range (default is 0-255)
+   */
+  color(value: string, alpha?: number): p5.Color;
+
+  /**
+   *   Creates colors for storing in variables of the 
+   *   color datatype. The parameters are interpreted as 
+   *   RGB or HSB values depending on the current 
+   *   colorMode(). The default mode is RGB values from 0 
+   *   to 255 and, therefore, the function call 
+   *   color(255, 204, 0) will return a bright yellow 
+   *   color.  Note that if only one value is provided to 
+   *   color(), it will be interpreted as a grayscale 
+   *   value. Add a second value, and it will be used for 
+   *   alpha transparency. When three values are 
+   *   specified, they are interpreted as either RGB or 
+   *   HSB values. Adding a fourth value applies alpha 
+   *   transparency. 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used.
+   *
+   *   @param values an array containing the 
+   *   red,green,blue & and alpha components of the color
+   */
+  color(values: number[]): p5.Color;
 
   /**
    *   Extracts the green value from a color or pixel 
    *   array.
    *
    *   @param color p5.Color object or pixel array
+   *   @return the green value
    */
-  green(color: object): void;
+  green(color: p5.Color|number[]): number;
 
   /**
    *   Extracts the hue value from a color or pixel 
@@ -112,8 +179,9 @@ declare class p5 {
    *   different.)
    *
    *   @param color p5.Color object or pixel array
+   *   @return the hue
    */
-  hue(color: object): void;
+  hue(color: p5.Color|number[]): number;
 
   /**
    *   Blends two colors to find a third color somewhere 
@@ -134,23 +202,25 @@ declare class p5 {
    *   @param amt number between 0 and 1
    *   @return interpolated color
    */
-  lerpColor(c1: any[]|number, c2: any[]|number, amt: number): any[]|number;
+  lerpColor(c1: p5.Color, c2: p5.Color, amt: number): p5.Color;
 
   /**
    *   Extracts the HSL lightness value from a color or 
    *   pixel array.
    *
    *   @param color p5.Color object or pixel array
+   *   @return the lightness
    */
-  lightness(color: object): void;
+  lightness(color: p5.Color|number[]): number;
 
   /**
    *   Extracts the red value from a color or pixel 
    *   array.
    *
    *   @param obj p5.Color object or pixel array
+   *   @return the red value
    */
-  red(obj: object): void;
+  red(obj: p5.Color|number[]): number;
 
   /**
    *   Extracts the saturation value from a color or 
@@ -162,8 +232,9 @@ declare class p5 {
    *   saturation otherwise.
    *
    *   @param color p5.Color object or pixel array
+   *   @return the saturation
    */
-  saturation(color: object): void;
+  saturation(color: p5.Color|number[]): number;
 
   // src/color/setting.js
 
@@ -175,14 +246,34 @@ declare class p5 {
    *   window at the beginning of each frame, but it can 
    *   be used inside setup() to set the background on 
    *   the first frame of animation or if the background 
-   *   need only be set once.
+   *   need only be set once.  The color is either 
+   *   specified in terms of the RGB, HSB, or HSL color 
+   *   depending on the current colorMode. (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255). 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5.Color object can also be provided to set the 
+   *   background color. 
+   * 
+   *  
+   *   A p5.Image can also be provided to set the 
+   *   background iamge.
    *
    *   @param color any value created by the color() 
    *   function
    *   @param [a] opacity of the background relative to 
    *   current color range (default is 0-100)
+   *   @chainable
    */
-  background(color: p5.Color, a?: number): void;
+  background(color: p5.Color, a?: number): p5;
 
   /**
    *   The background() function sets the color used for 
@@ -192,15 +283,35 @@ declare class p5 {
    *   window at the beginning of each frame, but it can 
    *   be used inside setup() to set the background on 
    *   the first frame of animation or if the background 
-   *   need only be set once.
+   *   need only be set once.  The color is either 
+   *   specified in terms of the RGB, HSB, or HSL color 
+   *   depending on the current colorMode. (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255). 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5.Color object can also be provided to set the 
+   *   background color. 
+   * 
+   *  
+   *   A p5.Image can also be provided to set the 
+   *   background iamge.
    *
    *   @param colorstring color string, possible formats 
    *   include: integer rgb() or rgba(), percentage rgb() 
    *   or rgba(), 3-digit hex, 6-digit hex
    *   @param [a] opacity of the background relative to 
    *   current color range (default is 0-100)
+   *   @chainable
    */
-  background(colorstring: string, a?: number): void;
+  background(colorstring: string, a?: number): p5;
 
   /**
    *   The background() function sets the color used for 
@@ -210,14 +321,34 @@ declare class p5 {
    *   window at the beginning of each frame, but it can 
    *   be used inside setup() to set the background on 
    *   the first frame of animation or if the background 
-   *   need only be set once.
+   *   need only be set once.  The color is either 
+   *   specified in terms of the RGB, HSB, or HSL color 
+   *   depending on the current colorMode. (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255). 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5.Color object can also be provided to set the 
+   *   background color. 
+   * 
+   *  
+   *   A p5.Image can also be provided to set the 
+   *   background iamge.
    *
    *   @param gray specifies a value between white and 
    *   black
    *   @param [a] opacity of the background relative to 
    *   current color range (default is 0-100)
+   *   @chainable
    */
-  background(gray: number, a?: number): void;
+  background(gray: number, a?: number): p5;
 
   /**
    *   The background() function sets the color used for 
@@ -227,7 +358,26 @@ declare class p5 {
    *   window at the beginning of each frame, but it can 
    *   be used inside setup() to set the background on 
    *   the first frame of animation or if the background 
-   *   need only be set once.
+   *   need only be set once.  The color is either 
+   *   specified in terms of the RGB, HSB, or HSL color 
+   *   depending on the current colorMode. (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255). 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5.Color object can also be provided to set the 
+   *   background color. 
+   * 
+   *  
+   *   A p5.Image can also be provided to set the 
+   *   background iamge.
    *
    *   @param v1 red or hue value (depending on the 
    *   current color mode)
@@ -237,8 +387,9 @@ declare class p5 {
    *   the current color mode)
    *   @param [a] opacity of the background relative to 
    *   current color range (default is 0-100)
+   *   @chainable
    */
-  background(v1: number, v2: number, v3: number, a?: number): void;
+  background(v1: number, v2: number, v3: number, a?: number): p5;
 
   /**
    *   The background() function sets the color used for 
@@ -248,15 +399,35 @@ declare class p5 {
    *   window at the beginning of each frame, but it can 
    *   be used inside setup() to set the background on 
    *   the first frame of animation or if the background 
-   *   need only be set once.
+   *   need only be set once.  The color is either 
+   *   specified in terms of the RGB, HSB, or HSL color 
+   *   depending on the current colorMode. (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255). 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5.Color object can also be provided to set the 
+   *   background color. 
+   * 
+   *  
+   *   A p5.Image can also be provided to set the 
+   *   background iamge.
    *
    *   @param image image created with loadImage() or 
    *   createImage(), to set as background (must be same 
    *   size as the sketch window)
    *   @param [a] opacity of the background relative to 
    *   current color range (default is 0-100)
+   *   @chainable
    */
-  background(image: p5.Image, a?: number): void;
+  background(image: p5.Image, a?: number): p5;
 
   /**
    *   Clears the pixels within a buffer. This function 
@@ -269,8 +440,9 @@ declare class p5 {
    *   everything to make all of the pixels 100% 
    *   transparent.
    *
+   *   @chainable
    */
-  clear(): void;
+  clear(): p5;
 
   /**
    *   colorMode() changes the way p5.js interprets color 
@@ -286,19 +458,42 @@ declare class p5 {
    *   change modes as you like without affecting their 
    *   appearance.
    *
-   *   @param mode either RGB or HSB, corresponding to 
-   *   Red/Green/Blue and Hue/Saturation/Brightness (or 
-   *   Lightness)
-   *   @param [max1] range for the red or hue depending 
-   *   on the current color mode, or range for all values
-   *   @param [max2] range for the green or saturation 
+   *   @param mode either RGB, HSB or HSL, corresponding 
+   *   to Red/Green/Blue and Hue/Saturation/Brightness 
+   *   (or Lightness)
+   *   @param [max] range for all values
+   *   @chainable
+   */
+  colorMode(mode: COLOR_MODE, max?: number): p5;
+
+  /**
+   *   colorMode() changes the way p5.js interprets color 
+   *   data. By default, the parameters for fill(), 
+   *   stroke(), background(), and color() are defined by 
+   *   values between 0 and 255 using the RGB color 
+   *   model. This is equivalent to setting 
+   *   colorMode(RGB, 255). Setting colorMode(HSB) lets 
+   *   you use the HSB system instead. By default, this 
+   *   is colorMode(HSB, 360, 100, 100, 1). You can also 
+   *   use HSL.  Note: existing color objects remember 
+   *   the mode that they were created in, so you can 
+   *   change modes as you like without affecting their 
+   *   appearance.
+   *
+   *   @param mode either RGB, HSB or HSL, corresponding 
+   *   to Red/Green/Blue and Hue/Saturation/Brightness 
+   *   (or Lightness)
+   *   @param max1 range for the red or hue depending on 
+   *   the current color mode
+   *   @param max2 range for the green or saturation 
    *   depending on the current color mode
-   *   @param [max3] range for the blue or 
+   *   @param max3 range for the blue or 
    *   brightness/lighntess depending on the current 
    *   color mode
    *   @param [maxA] range for the alpha
+   *   @chainable
    */
-  colorMode(mode: COLOR_MODE, max1?: number, max2?: number, max3?: number, maxA?: number): void;
+  colorMode(mode: UNKNOWN_P5_CONSTANT, max1: number, max2: number, max3: number, maxA?: number): p5;
 
   /**
    *   Sets the color used to fill shapes. For example, 
@@ -309,35 +504,108 @@ declare class p5 {
    *   color space is RGB, with each value in the range 
    *   from 0 to 255).  If a single string argument is 
    *   provided, RGB, RGBA and Hex CSS color strings and 
-   *   all named color strings are supported. A p5 Color 
-   *   object can also be provided to set the fill color.
+   *   all named color strings are supported. In this 
+   *   case, an alpha number value as a second argument 
+   *   is not supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   fill color.
    *
-   *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color Array, or CSS 
-   *   color string
-   *   @param [v2] green or saturation value (depending 
-   *   on the current color mode)
-   *   @param [v3] blue or brightness value (depending on 
-   *   the current color mode)
-   *   @param [a] opacity of the background
+   *   @param v1 red or hue value relative to the current 
+   *   color range
+   *   @param v2 green or saturation value relative to 
+   *   the current color range
+   *   @param v3 blue or brightness value relative to the 
+   *   current color range
+   *   @chainable
    */
-  fill(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
+  fill(v1: number, v2: number, v3: number, alpha?: number): p5;
+
+  /**
+   *   Sets the color used to fill shapes. For example, 
+   *   if you run fill(204, 102, 0), all subsequent 
+   *   shapes will be filled with orange. This color is 
+   *   either specified in terms of the RGB or HSB color 
+   *   depending on the current colorMode(). (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255).  If a single string argument is 
+   *   provided, RGB, RGBA and Hex CSS color strings and 
+   *   all named color strings are supported. In this 
+   *   case, an alpha number value as a second argument 
+   *   is not supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   fill color.
+   *
+   *   @param value a color string
+   *   @chainable
+   */
+  fill(value: string, alpha?: number): p5;
+
+  /**
+   *   Sets the color used to fill shapes. For example, 
+   *   if you run fill(204, 102, 0), all subsequent 
+   *   shapes will be filled with orange. This color is 
+   *   either specified in terms of the RGB or HSB color 
+   *   depending on the current colorMode(). (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255).  If a single string argument is 
+   *   provided, RGB, RGBA and Hex CSS color strings and 
+   *   all named color strings are supported. In this 
+   *   case, an alpha number value as a second argument 
+   *   is not supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   fill color.
+   *
+   *   @param values an array containing the 
+   *   red,green,blue & and alpha components of the color
+   *   @chainable
+   */
+  fill(values: number[]): p5;
+
+  /**
+   *   Sets the color used to fill shapes. For example, 
+   *   if you run fill(204, 102, 0), all subsequent 
+   *   shapes will be filled with orange. This color is 
+   *   either specified in terms of the RGB or HSB color 
+   *   depending on the current colorMode(). (The default 
+   *   color space is RGB, with each value in the range 
+   *   from 0 to 255).  If a single string argument is 
+   *   provided, RGB, RGBA and Hex CSS color strings and 
+   *   all named color strings are supported. In this 
+   *   case, an alpha number value as a second argument 
+   *   is not supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   fill color.
+   *
+   *   @param color the fill color
+   *   @chainable
+   */
+  fill(color: p5.Color, alpha?: number): p5;
 
   /**
    *   Disables filling geometry. If both noStroke() and 
    *   noFill() are called, nothing will be drawn to the 
    *   screen.
    *
+   *   @chainable
    */
-  noFill(): void;
+  noFill(): p5;
 
   /**
    *   Disables drawing the stroke (outline). If both 
    *   noStroke() and noFill() are called, nothing will 
    *   be drawn to the screen.
    *
+   *   @chainable
    */
-  noStroke(): void;
+  noStroke(): p5;
 
   /**
    *   Sets the color used to draw lines and borders 
@@ -347,19 +615,87 @@ declare class p5 {
    *   RGB, with each value in the range from 0 to 255).  
    *   If a single string argument is provided, RGB, RGBA 
    *   and Hex CSS color strings and all named color 
-   *   strings are supported. A p5 Color object can also 
-   *   be provided to set the stroke color.
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   stroke color.
    *
-   *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color Array, or CSS 
-   *   color string
-   *   @param [v2] green or saturation value (depending 
-   *   on the current color mode)
-   *   @param [v3] blue or brightness value (depending on 
-   *   the current color mode)
-   *   @param [a] opacity of the background
+   *   @param v1 red or hue value relative to the current 
+   *   color range
+   *   @param v2 green or saturation value relative to 
+   *   the current color range
+   *   @param v3 blue or brightness value relative to the 
+   *   current color range
+   *   @chainable
    */
-  stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
+  stroke(v1: number, v2: number, v3: number, alpha?: number): p5;
+
+  /**
+   *   Sets the color used to draw lines and borders 
+   *   around shapes. This color is either specified in 
+   *   terms of the RGB or HSB color depending on the 
+   *   current colorMode() (the default color space is 
+   *   RGB, with each value in the range from 0 to 255).  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   stroke color.
+   *
+   *   @param value a color string
+   *   @chainable
+   */
+  stroke(value: string, alpha?: number): p5;
+
+  /**
+   *   Sets the color used to draw lines and borders 
+   *   around shapes. This color is either specified in 
+   *   terms of the RGB or HSB color depending on the 
+   *   current colorMode() (the default color space is 
+   *   RGB, with each value in the range from 0 to 255).  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   stroke color.
+   *
+   *   @param values an array containing the 
+   *   red,green,blue & and alpha components of the color
+   *   @chainable
+   */
+  stroke(values: number[]): p5;
+
+  /**
+   *   Sets the color used to draw lines and borders 
+   *   around shapes. This color is either specified in 
+   *   terms of the RGB or HSB color depending on the 
+   *   current colorMode() (the default color space is 
+   *   RGB, with each value in the range from 0 to 255).  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used. 
+   * 
+   *  
+   *   A p5 Color object can also be provided to set the 
+   *   stroke color.
+   *
+   *   @param color the stroke color
+   *   @chainable
+   */
+  stroke(color: p5.Color, alpha?: number): p5;
 
   // src/core/2d_primitives.js
 
@@ -386,10 +722,10 @@ declare class p5 {
    *   @param stop angle to stop the arc, specified in 
    *   radians
    *   @param [mode] optional parameter to determine the 
-   *   way of drawing the arc
-   *   @return the p5 object
+   *   way of drawing the arc. either CHORD or PIE
+   *   @chainable
    */
-  arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: UNKNOWN_P5_CONSTANT): object;
+  arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: ARC_MODE): p5;
 
   /**
    *   Draws an ellipse (oval) to the screen. An ellipse 
@@ -406,26 +742,9 @@ declare class p5 {
    *   @param y y-coordinate of the ellipse.
    *   @param w width of the ellipse.
    *   @param [h] height of the ellipse.
+   *   @chainable
    */
-  ellipse(x: number, y: number, w: number, h?: number): void;
-
-  /**
-   *   Draws an ellipse (oval) to the screen. An ellipse 
-   *   with equal width and height is a circle. By 
-   *   default, the first two parameters set the 
-   *   location, and the third and fourth parameters set 
-   *   the shape's width and height. If no height is 
-   *   specified, the value of width is used for both the 
-   *   width and height. If a negative height or width is 
-   *   specified, the absolute value is taken. The origin 
-   *   may be changed with the ellipseMode() function.
-   *
-   *   @param x x-coordinate of the ellipse.
-   *   @param y y-coordinate of the ellipse.
-   *   @param w width of the ellipse.
-   *   @param [h] height of the ellipse.
-   */
-  ellipse(x: number, y: number, w: number, h?: number): void;
+  ellipse(x: number, y: number, w: number, h?: number): p5;
 
   /**
    *   Draws a line (a direct path between two points) to 
@@ -441,7 +760,7 @@ declare class p5 {
    *   @param y1 the y-coordinate of the first point
    *   @param x2 the x-coordinate of the second point
    *   @param y2 the y-coordinate of the second point
-   *   @return the p5 object
+   *   @chainable
    */
   line(x1: number, y1: number, x2: number, y2: number): p5;
 
@@ -454,7 +773,7 @@ declare class p5 {
    *
    *   @param x the x-coordinate
    *   @param y the y-coordinate
-   *   @return the p5 object
+   *   @chainable
    */
   point(x: number, y: number): p5;
 
@@ -475,8 +794,9 @@ declare class p5 {
    *   @param y3 the y-coordinate of the third point
    *   @param x4 the x-coordinate of the fourth point
    *   @param y4 the y-coordinate of the fourth point
+   *   @chainable
    */
-  quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+  quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
   /**
    *   Draw a quad. A quad is a quadrilateral, a four 
@@ -495,8 +815,9 @@ declare class p5 {
    *   @param y3 the y-coordinate of the third point
    *   @param x4 the x-coordinate of the fourth point
    *   @param y4 the y-coordinate of the fourth point
+   *   @chainable
    */
-  quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+  quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
   /**
    *   Draws a rectangle to the screen. A rectangle is a 
@@ -522,8 +843,9 @@ declare class p5 {
    *   @param [br] optional radius of bottom-right 
    *   corner.
    *   @param [bl] optional radius of bottom-left corner.
+   *   @return the p5 object.
    */
-  rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): void;
+  rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): p5;
 
   /**
    *   Draws a rectangle to the screen. A rectangle is a 
@@ -544,8 +866,9 @@ declare class p5 {
    *   @param y y-coordinate of the rectangle.
    *   @param w width of the rectangle.
    *   @param h height of the rectangle.
+   *   @chainable
    */
-  rect(x: number, y: number, w: number, h: number, detailX?: number, detailY?: number): void;
+  rect(x: number, y: number, w: number, h: number, detailX?: number, detailY?: number): p5;
 
   /**
    *   A triangle is a plane created by connecting three 
@@ -560,7 +883,7 @@ declare class p5 {
    *   @param y2 y-coordinate of the second point
    *   @param x3 x-coordinate of the third point
    *   @param y3 y-coordinate of the third point
-   *   @return the p5 object
+   *   @chainable
    */
   triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): p5;
 
@@ -600,7 +923,7 @@ declare class p5 {
    *
    *   @param mode either CENTER, RADIUS, CORNER, or 
    *   CORNERS
-   *   @return the p5 object
+   *   @chainable
    */
   ellipseMode(mode: ELLIPSE_MODE): p5;
 
@@ -610,7 +933,7 @@ declare class p5 {
    *   necessary to call noSmooth() to disable smoothing 
    *   of geometry, images, and fonts.
    *
-   *   @return the p5 object
+   *   @chainable
    */
   noSmooth(): p5;
 
@@ -647,7 +970,7 @@ declare class p5 {
    *
    *   @param mode either CORNER, CORNERS, CENTER, or 
    *   RADIUS
-   *   @return the p5 object
+   *   @chainable
    */
   rectMode(mode: RECT_MODE): p5;
 
@@ -658,7 +981,7 @@ declare class p5 {
    *   default; noSmooth() can be used to disable 
    *   smoothing of geometry, images, and fonts.
    *
-   *   @return the p5 object
+   *   @chainable
    */
   smooth(): p5;
 
@@ -670,9 +993,9 @@ declare class p5 {
    *   default cap is ROUND.
    *
    *   @param cap either SQUARE, PROJECT, or ROUND
-   *   @return the p5 object
+   *   @chainable
    */
-  strokeCap(cap: number|STROKE_CAP): p5;
+  strokeCap(cap: STROKE_CAP): p5;
 
   /**
    *   Sets the style of the joints which connect line 
@@ -682,9 +1005,9 @@ declare class p5 {
    *   The default joint is MITER.
    *
    *   @param join either MITER, BEVEL, ROUND
-   *   @return the p5 object
+   *   @chainable
    */
-  strokeJoin(join: number|STROKE_JOIN): p5;
+  strokeJoin(join: STROKE_JOIN): p5;
 
   /**
    *   Sets the width of the stroke used for lines, 
@@ -698,6 +1021,9 @@ declare class p5 {
 
   // src/core/constants.js
 
+  readonly P2D: P2D;
+  readonly WEBGL: WEBGL;
+
   /**
    *   HALF_PI is a mathematical constant with the value 
    *   1.57079632679489661923. It is half the ratio of 
@@ -706,7 +1032,7 @@ declare class p5 {
    *   functions sin() and cos().
    *
    */
-  HALF_PI: any;
+  readonly HALF_PI: number;
 
   /**
    *   PI is a mathematical constant with the value 
@@ -716,7 +1042,7 @@ declare class p5 {
    *   functions sin() and cos().
    *
    */
-  PI: any;
+  readonly PI: number;
 
   /**
    *   QUARTER_PI is a mathematical constant with the 
@@ -726,7 +1052,7 @@ declare class p5 {
    *   functions sin() and cos().
    *
    */
-  QUARTER_PI: any;
+  readonly QUARTER_PI: number;
 
   /**
    *   TAU is an alias for TWO_PI, a mathematical 
@@ -737,7 +1063,7 @@ declare class p5 {
    *   and cos().
    *
    */
-  TAU: any;
+  readonly TAU: number;
 
   /**
    *   TWO_PI is a mathematical constant with the value 
@@ -747,7 +1073,66 @@ declare class p5 {
    *   functions sin() and cos().
    *
    */
-  TWO_PI: any;
+  readonly TWO_PI: number;
+  readonly DEGREES: DEGREES;
+  readonly RADIANS: RADIANS;
+  readonly CORNER: CORNER;
+  readonly CORNERS: CORNERS;
+  readonly RADIUS: RADIUS;
+  readonly RIGHT: RIGHT;
+  readonly LEFT: LEFT;
+  readonly CENTER: CENTER;
+  readonly TOP: TOP;
+  readonly BOTTOM: BOTTOM;
+  readonly BASELINE: BASELINE;
+  readonly POINTS: POINTS;
+  readonly LINES: LINES;
+  readonly LINE_STRIP: LINE_STRIP;
+  readonly LINE_LOOP: LINE_LOOP;
+  readonly TRIANGLES: TRIANGLES;
+  readonly TRIANGLE_FAN: TRIANGLE_FAN;
+  readonly TRIANGLE_STRIP: TRIANGLE_STRIP;
+  readonly QUADS: QUADS;
+  readonly QUAD_STRIP: QUAD_STRIP;
+  readonly CLOSE: CLOSE;
+  readonly OPEN: OPEN;
+  readonly CHORD: CHORD;
+  readonly PIE: PIE;
+  readonly PROJECT: PROJECT;
+  readonly SQUARE: SQUARE;
+  readonly ROUND: ROUND;
+  readonly BEVEL: BEVEL;
+  readonly MITER: MITER;
+  readonly RGB: RGB;
+  readonly HSB: HSB;
+  readonly HSL: HSL;
+  readonly BLEND: BLEND;
+  readonly ADD: ADD;
+  readonly DARKEST: DARKEST;
+  readonly LIGHTEST: LIGHTEST;
+  readonly DIFFERENCE: DIFFERENCE;
+  readonly EXCLUSION: EXCLUSION;
+  readonly MULTIPLY: MULTIPLY;
+  readonly SCREEN: SCREEN;
+  readonly REPLACE: REPLACE;
+  readonly OVERLAY: OVERLAY;
+  readonly HARD_LIGHT: HARD_LIGHT;
+  readonly SOFT_LIGHT: SOFT_LIGHT;
+  readonly DODGE: DODGE;
+  readonly BURN: BURN;
+  readonly THRESHOLD: THRESHOLD;
+  readonly GRAY: GRAY;
+  readonly OPAQUE: OPAQUE;
+  readonly INVERT: INVERT;
+  readonly POSTERIZE: POSTERIZE;
+  readonly DILATE: DILATE;
+  readonly ERODE: ERODE;
+  readonly BLUR: BLUR;
+  readonly NORMAL: NORMAL;
+  readonly ITALIC: ITALIC;
+  readonly BOLD: BOLD;
+  readonly LANDSCAPE: LANDSCAPE;
+  readonly PORTRAIT: PORTRAIT;
 
   // src/core/core.js
 
@@ -861,8 +1246,9 @@ declare class p5 {
    *   point
    *   @param x4 x-coordinate for the second anchor point
    *   @param y4 y-coordinate for the second anchor point
+   *   @return the p5 object
    */
-  bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+  bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
   /**
    *   Draws a cubic Bezier curve on the screen. These 
@@ -883,8 +1269,9 @@ declare class p5 {
    *   @param z2 z-coordinate for the first control point
    *   @param z3 z-coordinate for the first anchor point
    *   @param z4 z-coordinate for the first control point
+   *   @chainable
    */
-  bezier(z1: number, z2: number, z3: number, z4: number): void;
+  bezier(z1: number, z2: number, z3: number, z4: number): p5;
 
   /**
    *   Evaluates the Bezier at position t for points a, 
@@ -947,8 +1334,9 @@ declare class p5 {
    *   point
    *   @param y4 y-coordinate for the ending control 
    *   point
+   *   @return the p5 object
    */
-  curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+  curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
   /**
    *   Draws a curved line on the screen between two 
@@ -970,8 +1358,9 @@ declare class p5 {
    *   @param z3 z-coordinate for the second point
    *   @param z4 z-coordinate for the ending control 
    *   point
+   *   @chainable
    */
-  curve(z1: number, z2: number, z3: number, z4: number): void;
+  curve(z1: number, z2: number, z3: number, z4: number): p5;
 
   /**
    *   Modifies the quality of forms created with curve() 
@@ -988,9 +1377,9 @@ declare class p5 {
    *
    *   @param amount of deformation from the original 
    *   vertices
-   *   @return the p5 object
+   *   @chainable
    */
-  curveTightness(amount: number): object;
+  curveTightness(amount: number): p5;
 
   /**
    *   Evaluates the curve at position t for points a, b, 
@@ -1051,7 +1440,7 @@ declare class p5 {
    *   after the first iteration of draw it is 1, etc.
    *
    */
-  frameCount: any;
+  frameCount: number;
 
   /**
    *   Confirms if the window a p5.js program is in is 
@@ -1060,7 +1449,7 @@ declare class p5 {
    *   if the window is focused and "false" if not.
    *
    */
-  focused: any;
+  focused: boolean;
 
   /**
    *   Sets the cursor to a predefined symbol or an 
@@ -1079,7 +1468,7 @@ declare class p5 {
    *   cursor
    *   @param [y] the vertical active spot of the cursor
    */
-  cursor(type: number|CURSOR_TYPE, x?: number, y?: number): void;
+  cursor(type: string|CURSOR_TYPE, x?: number, y?: number): void;
 
   /**
    *   Specifies the number of frames to be displayed 
@@ -1101,11 +1490,35 @@ declare class p5 {
    *   the type numbers or are non positive also returns 
    *   current framerate.
    *
-   *   @param [fps] number of frames to be displayed 
-   *   every second
+   *   @param fps number of frames to be displayed every 
+   *   second
+   *   @chainable
+   */
+  frameRate(fps: number): p5;
+
+  /**
+   *   Specifies the number of frames to be displayed 
+   *   every second. For example, the function call 
+   *   frameRate(30) will attempt to refresh 30 times a 
+   *   second. If the processor is not fast enough to 
+   *   maintain the specified rate, the frame rate will 
+   *   not be achieved. Setting the frame rate within 
+   *   setup() is recommended. The default rate is 60 
+   *   frames per second. This is the same as 
+   *   setFrameRate(val).  Calling frameRate() with no 
+   *   arguments returns the current framerate. The draw 
+   *   function must run at least once before it will 
+   *   return a value. This is the same as 
+   *   getFrameRate(). 
+   * 
+   *  
+   *   Calling frameRate() with arguments that are not of 
+   *   the type numbers or are non positive also returns 
+   *   current framerate.
+   *
    *   @return current frameRate
    */
-  frameRate(fps?: number): number;
+  frameRate(): number;
 
   /**
    *   Hides the cursor from view.
@@ -1119,7 +1532,7 @@ declare class p5 {
    *   full-screen program on any display size.
    *
    */
-  displayWidth: any;
+  displayWidth: number;
 
   /**
    *   System variable that stores the height of the 
@@ -1127,21 +1540,21 @@ declare class p5 {
    *   full-screen program on any display size.
    *
    */
-  displayHeight: any;
+  displayHeight: number;
 
   /**
    *   System variable that stores the width of the inner 
    *   window, it maps to window.innerWidth.
    *
    */
-  windowWidth: any;
+  windowWidth: number;
 
   /**
    *   System variable that stores the height of the 
    *   inner window, it maps to window.innerHeight.
    *
    */
-  windowHeight: any;
+  windowHeight: number;
 
   /**
    *   The windowResized() function is called once every 
@@ -1162,7 +1575,7 @@ declare class p5 {
    *   is not used in a program.
    *
    */
-  width: any;
+  width: number;
 
   /**
    *   System variable that stores the height of the 
@@ -1174,7 +1587,7 @@ declare class p5 {
    *   is not used in a program.
    *
    */
-  height: any;
+  height: number;
 
   /**
    *   If argument is given, sets the sketch to 
@@ -1224,7 +1637,7 @@ declare class p5 {
    *
    *   @return path components
    */
-  getURLPath(): any[];
+  getURLPath(): string[];
 
   /**
    *   Gets the current URL params as an Object.
@@ -1254,10 +1667,10 @@ declare class p5 {
    *
    *   @param w width of the canvas
    *   @param h height of the canvas
-   *   @param [renderer] P2D or WEBGL
+   *   @param [renderer] either P2D or WEBGL
    *   @return canvas generated
    */
-  createCanvas(w: number, h: number, renderer?: UNKNOWN_P5_CONSTANT): object;
+  createCanvas(w: number, h: number, renderer?: RENDERER): HTMLCanvasElement;
 
   /**
    *   Resizes the canvas to given width and height. The 
@@ -1265,8 +1678,12 @@ declare class p5 {
    *   immediately, allowing the sketch to re-render 
    *   itself in the resized canvas.
    *
+   *   @param w width of the canvas
+   *   @param h height of the canvas
+   *   @param noRedraw don't redraw the canvas 
+   *   immediately
    */
-  resizeCanvas(): void;
+  resizeCanvas(w: number, h: number, noRedraw: boolean): void;
 
   /**
    *   Removes the default canvas for a p5 sketch that 
@@ -1283,11 +1700,11 @@ declare class p5 {
    *
    *   @param w width of the offscreen graphics buffer
    *   @param h height of the offscreen graphics buffer
-   *   @param [renderer] P2D or WEBGL undefined defaults 
-   *   to p2d
+   *   @param [renderer] either P2D or WEBGL undefined 
+   *   defaults to p2d
    *   @return offscreen graphics buffer
    */
-  createGraphics(w: number, h: number, renderer?: UNKNOWN_P5_CONSTANT): object;
+  createGraphics(w: number, h: number, renderer?: RENDERER): p5.Graphics;
 
   /**
    *   Blends the pixels in the display window according 
@@ -1323,9 +1740,12 @@ declare class p5 {
    *   - BURN - darker areas are applied, increasing 
    *   contrast, ignores lights.
    *
-   *   @param mode blend mode to set for canvas
+   *   @param mode blend mode to set for canvas. either 
+   *   BLEND, DARKEST, LIGHTEST, DIFFERENCE, MULTIPLY, 
+   *   EXCLUSION, SCREEN, REPLACE, OVERLAY, HARD_LIGHT, 
+   *   SOFT_LIGHT, DODGE, BURN, ADD or NORMAL
    */
-  blendMode(mode: UNKNOWN_P5_CONSTANT): void;
+  blendMode(mode: BLEND_MODE): void;
 
   // src/core/structure.js
 
@@ -1455,7 +1875,7 @@ declare class p5 {
    *   be multiplied
    *   @param n12 numbers which define the 3x2 matrix to 
    *   be multiplied
-   *   @return the p5 object
+   *   @chainable
    */
   applyMatrix(n00: number, n01: number, n02: number, n10: number, n11: number, n12: number): p5;
 
@@ -1463,7 +1883,7 @@ declare class p5 {
    *   Replaces the current matrix with the identity 
    *   matrix.
    *
-   *   @return the p5 object
+   *   @chainable
    */
   resetMatrix(): p5;
 
@@ -1489,39 +1909,16 @@ declare class p5 {
    *
    *   @param angle the angle of rotation, specified in 
    *   radians or degrees, depending on current angleMode
+   *   @param [axis] (in 3d) the axis to rotate around
+   *   @chainable
    */
-  rotate(angle: number): void;
-
-  /**
-   *   Rotates a shape the amount specified by the angle 
-   *   parameter. This function accounts for angleMode, 
-   *   so angles can be entered in either RADIANS or 
-   *   DEGREES.  Objects are always rotated around their 
-   *   relative position to the origin and positive 
-   *   numbers rotate objects in a clockwise direction. 
-   *   Transformations apply to everything that happens 
-   *   after and subsequent calls to the function 
-   *   accumulates the effect. For example, calling 
-   *   rotate(HALF_PI) and then rotate(HALF_PI) is the 
-   *   same as rotate(PI). All tranformations are reset 
-   *   when draw() begins again. 
-   * 
-   *  
-   *   Technically, rotate() multiplies the current 
-   *   transformation matrix by a rotation matrix. This 
-   *   function can be further controlled by the push() 
-   *   and pop().
-   *
-   *   @param rad angle in radians
-   *   @param axis axis to rotate around
-   */
-  rotate(rad: number, axis: p5.Vector|any[]): void;
+  rotate(angle: number, axis?: p5.Vector|any[]): p5;
 
   /**
    *   Rotates around X axis.
    *
    *   @param rad angles in radians
-   *   @return the p5 object
+   *   @chainable
    */
   rotateX(rad: number): p5;
 
@@ -1529,7 +1926,7 @@ declare class p5 {
    *   Rotates around Y axis.
    *
    *   @param rad angles in radians
-   *   @return the p5 object
+   *   @chainable
    */
   rotateY(rad: number): p5;
 
@@ -1537,7 +1934,7 @@ declare class p5 {
    *   Rotates around Z axis. Webgl mode only.
    *
    *   @param rad angles in radians
-   *   @return the p5 object
+   *   @chainable
    */
   rotateZ(rad: number): p5;
 
@@ -1568,7 +1965,7 @@ declare class p5 {
    *   y-axis
    *   @param [z] percent to scale the object in the 
    *   z-axis (webgl only)
-   *   @return the p5 object
+   *   @chainable
    */
   scale(s: number|p5.Vector|any[], y?: number, z?: number): p5;
 
@@ -1595,7 +1992,7 @@ declare class p5 {
    *
    *   @param angle angle of shear specified in radians 
    *   or degrees, depending on current angleMode
-   *   @return the p5 object
+   *   @chainable
    */
   shearX(angle: number): p5;
 
@@ -1622,7 +2019,7 @@ declare class p5 {
    *
    *   @param angle angle of shear specified in radians 
    *   or degrees, depending on current angleMode
-   *   @return the p5 object
+   *   @chainable
    */
   shearY(angle: number): p5;
 
@@ -1644,7 +2041,7 @@ declare class p5 {
    *   @param y up/down translation
    *   @param [z] forward/backward translation (webgl 
    *   only)
-   *   @return the p5 object
+   *   @chainable
    */
   translate(x: number, y: number, z?: number): p5;
 
@@ -1668,9 +2065,9 @@ declare class p5 {
    *   possible to use other shapes, such as ellipse() or 
    *   rect() within.
    *
-   *   @return the p5 object
+   *   @chainable
    */
-  beginContour(): object;
+  beginContour(): p5;
 
   /**
    *   Using the beginShape() and endShape() functions 
@@ -1695,11 +2092,11 @@ declare class p5 {
    *   also not possible to use other shapes, such as 
    *   ellipse() or rect() within beginShape().
    *
-   *   @param kind either POINTS, LINES, TRIANGLES, 
+   *   @param [kind] either POINTS, LINES, TRIANGLES, 
    *   TRIANGLE_FAN TRIANGLE_STRIP, QUADS, or QUAD_STRIP
-   *   @return the p5 object
+   *   @chainable
    */
-  beginShape(kind: BEGIN_KIND): object;
+  beginShape(kind?: BEGIN_KIND): p5;
 
   /**
    *   Specifies vertex coordinates for Bezier curves. 
@@ -1721,9 +2118,9 @@ declare class p5 {
    *   point
    *   @param x4 x-coordinate for the anchor point
    *   @param y4 y-coordinate for the anchor point
-   *   @return the p5 object
+   *   @chainable
    */
-  bezierVertex(x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
+  bezierVertex(x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
   /**
    *   Specifies vertex coordinates for curves. This 
@@ -1741,9 +2138,9 @@ declare class p5 {
    *
    *   @param x x-coordinate of the vertex
    *   @param y y-coordinate of the vertex
-   *   @return the p5 object
+   *   @chainable
    */
-  curveVertex(x: number, y: number): object;
+  curveVertex(x: number, y: number): p5;
 
   /**
    *   Use the beginContour() and endContour() functions 
@@ -1763,9 +2160,9 @@ declare class p5 {
    *   possible to use other shapes, such as ellipse() or 
    *   rect() within.
    *
-   *   @return the p5 object
+   *   @chainable
    */
-  endContour(): object;
+  endContour(): p5;
 
   /**
    *   The endShape() function is the companion to 
@@ -1777,10 +2174,10 @@ declare class p5 {
    *   to close the shape (to connect the beginning and 
    *   the end).
    *
-   *   @param mode use CLOSE to close the shape
-   *   @return the p5 object
+   *   @param [mode] use CLOSE to close the shape
+   *   @chainable
    */
-  endShape(mode: END_MODE): object;
+  endShape(mode?: END_MODE): p5;
 
   /**
    *   Specifies vertex coordinates for quadratic Bezier 
@@ -1798,9 +2195,9 @@ declare class p5 {
    *   @param cy y-coordinate for the control point
    *   @param x3 x-coordinate for the anchor point
    *   @param y3 y-coordinate for the anchor point
-   *   @return the p5 object
+   *   @chainable
    */
-  quadraticVertex(cx: number, cy: number, x3: number, y3: number): object;
+  quadraticVertex(cx: number, cy: number, x3: number, y3: number): p5;
 
   /**
    *   All shapes are constructed by connecting a series 
@@ -1811,9 +2208,10 @@ declare class p5 {
    *
    *   @param x x-coordinate of the vertex
    *   @param y y-coordinate of the vertex
-   *   @return the p5 object
+   *   @param [z] z-coordinate of the vertex
+   *   @chainable
    */
-  vertex(x: number, y: number): object;
+  vertex(x: number, y: number, z?: number|boolean): p5;
 
   // src/events/acceleration.js
 
@@ -1822,10 +2220,10 @@ declare class p5 {
    *   contains the orientation of the device. The value 
    *   of this variable will either be set 'landscape' or 
    *   'portrait'. If no data is available it will be set 
-   *   to 'undefined'.
+   *   to 'undefined'. either LANDSCAPE or PORTRAIT.
    *
    */
-  deviceOrientation: any;
+  deviceOrientation: UNKNOWN_P5_CONSTANT;
 
   /**
    *   The system variable accelerationX always contains 
@@ -1833,7 +2231,7 @@ declare class p5 {
    *   Value is represented as meters per second squared.
    *
    */
-  accelerationX: any;
+  accelerationX: number;
 
   /**
    *   The system variable accelerationY always contains 
@@ -1841,7 +2239,7 @@ declare class p5 {
    *   Value is represented as meters per second squared.
    *
    */
-  accelerationY: any;
+  accelerationY: number;
 
   /**
    *   The system variable accelerationZ always contains 
@@ -1849,7 +2247,7 @@ declare class p5 {
    *   Value is represented as meters per second squared.
    *
    */
-  accelerationZ: any;
+  accelerationZ: number;
 
   /**
    *   The system variable pAccelerationX always contains 
@@ -1858,7 +2256,7 @@ declare class p5 {
    *   represented as meters per second squared.
    *
    */
-  pAccelerationX: any;
+  pAccelerationX: number;
 
   /**
    *   The system variable pAccelerationY always contains 
@@ -1867,7 +2265,7 @@ declare class p5 {
    *   represented as meters per second squared.
    *
    */
-  pAccelerationY: any;
+  pAccelerationY: number;
 
   /**
    *   The system variable pAccelerationZ always contains 
@@ -1876,7 +2274,7 @@ declare class p5 {
    *   represented as meters per second squared.
    *
    */
-  pAccelerationZ: any;
+  pAccelerationZ: number;
 
   /**
    *   The system variable rotationX always contains the 
@@ -1887,7 +2285,7 @@ declare class p5 {
    *   Z-X-Y or there might be unexpected behaviour.
    *
    */
-  rotationX: any;
+  rotationX: number;
 
   /**
    *   The system variable rotationY always contains the 
@@ -1898,7 +2296,7 @@ declare class p5 {
    *   Z-X-Y or there might be unexpected behaviour.
    *
    */
-  rotationY: any;
+  rotationY: number;
 
   /**
    *   The system variable rotationZ always contains the 
@@ -1914,7 +2312,7 @@ declare class p5 {
    *   behaviour.
    *
    */
-  rotationZ: any;
+  rotationZ: number;
 
   /**
    *   The system variable pRotationX always contains the 
@@ -1925,7 +2323,7 @@ declare class p5 {
    *   rotate direction of the device along the X-axis.
    *
    */
-  pRotationX: any;
+  pRotationX: number;
 
   /**
    *   The system variable pRotationY always contains the 
@@ -1936,7 +2334,7 @@ declare class p5 {
    *   rotate direction of the device along the Y-axis.
    *
    */
-  pRotationY: any;
+  pRotationY: number;
 
   /**
    *   The system variable pRotationZ always contains the 
@@ -1947,7 +2345,7 @@ declare class p5 {
    *   rotate direction of the device along the Z-axis.
    *
    */
-  pRotationZ: any;
+  pRotationZ: number;
 
   /**
    *   The setMoveThreshold() function is used to set the 
@@ -2006,7 +2404,7 @@ declare class p5 {
    *   pressed.
    *
    */
-  keyIsPressed: any;
+  keyIsPressed: boolean;
 
   /**
    *   The system variable key always contains the value 
@@ -2016,7 +2414,7 @@ declare class p5 {
    *   keys, use the keyCode variable.
    *
    */
-  key: any;
+  key: string;
 
   /**
    *   The variable keyCode is used to detect special 
@@ -2028,7 +2426,7 @@ declare class p5 {
    *   keycode.info.
    *
    */
-  keyCode: any;
+  keyCode: number;
 
   /**
    *   The keyPressed() function is called once every 
@@ -2120,7 +2518,7 @@ declare class p5 {
    *   the most recent touch point.
    *
    */
-  mouseX: any;
+  mouseX: number;
 
   /**
    *   The system variable mouseY always contains the 
@@ -2130,7 +2528,7 @@ declare class p5 {
    *   the most recent touch point.
    *
    */
-  mouseY: any;
+  mouseY: number;
 
   /**
    *   The system variable pmouseX always contains the 
@@ -2139,7 +2537,7 @@ declare class p5 {
    *   (0, 0) of the canvas.
    *
    */
-  pmouseX: any;
+  pmouseX: number;
 
   /**
    *   The system variable pmouseY always contains the 
@@ -2148,7 +2546,7 @@ declare class p5 {
    *   (0, 0) of the canvas.
    *
    */
-  pmouseY: any;
+  pmouseY: number;
 
   /**
    *   The system variable winMouseX always contains the 
@@ -2156,7 +2554,7 @@ declare class p5 {
    *   to (0, 0) of the window.
    *
    */
-  winMouseX: any;
+  winMouseX: number;
 
   /**
    *   The system variable winMouseY always contains the 
@@ -2164,7 +2562,7 @@ declare class p5 {
    *   to (0, 0) of the window.
    *
    */
-  winMouseY: any;
+  winMouseY: number;
 
   /**
    *   The system variable pwinMouseX always contains the 
@@ -2173,7 +2571,7 @@ declare class p5 {
    *   of the window.
    *
    */
-  pwinMouseX: any;
+  pwinMouseX: number;
 
   /**
    *   The system variable pwinMouseY always contains the 
@@ -2182,7 +2580,7 @@ declare class p5 {
    *   of the window.
    *
    */
-  pwinMouseY: any;
+  pwinMouseY: number;
 
   /**
    *   Processing automatically tracks if the mouse 
@@ -2193,14 +2591,14 @@ declare class p5 {
    *   track mouseButton differently.
    *
    */
-  mouseButton: any;
+  mouseButton: UNKNOWN_P5_CONSTANT;
 
   /**
    *   The boolean system variable mouseIsPressed is true 
    *   if the mouse is pressed and false if not.
    *
    */
-  mouseIsPressed: any;
+  mouseIsPressed: boolean;
 
   /**
    *   The mouseMoved() function is called every time the 
@@ -2273,6 +2671,20 @@ declare class p5 {
    *
    */
   mouseClicked(): void;
+
+  /**
+   *   The doubleClicked() function is executed every 
+   *   time a event listener has detected a dblclick 
+   *   event which is a part of the DOM L3 specification. 
+   *   The doubleClicked event is fired when a pointing 
+   *   device button (usually a mouse's primary button) 
+   *   is clicked twice on a single element. For more 
+   *   info on the dblclick event refer to mozilla's 
+   *   documentation here: 
+   *   https://developer.mozilla.org/en-US/docs/Web/Events/dblclick
+   *
+   */
+  doubleClicked(): void;
 
   /**
    *   The function mouseWheel() is executed every time a 
@@ -2382,11 +2794,31 @@ declare class p5 {
    */
   createImage(width: number, height: number): p5.Image;
 
-  // TODO: Fix saveCanvas() errors in src/image/image.js, line 103:
-  //
-  //   param "selectedCanvas" has invalid type: Canvas
-  //
-  // saveCanvas(selectedCanvas?: any, filename?: string, extension?: string): void;
+  /**
+   *   Save the current canvas as an image. In Safari, 
+   *   this will open the image in the window and the 
+   *   user must provide their own filename on save-as. 
+   *   Other browsers will either save the file 
+   *   immediately, or prompt the user with a dialogue 
+   *   window.
+   *
+   *   @param selectedCanvas a variable representing a 
+   *   specific html5 canvas (optional)
+   *   @param [extension] 'jpg' or 'png'
+   */
+  saveCanvas(selectedCanvas: p5.Element|HTMLCanvasElement, filename?: string, extension?: string): void;
+
+  /**
+   *   Save the current canvas as an image. In Safari, 
+   *   this will open the image in the window and the 
+   *   user must provide their own filename on save-as. 
+   *   Other browsers will either save the file 
+   *   immediately, or prompt the user with a dialogue 
+   *   window.
+   *
+   *   @param [extension] 'jpg' or 'png'
+   */
+  saveCanvas(filename?: string, extension?: string): void;
 
   /**
    *   Capture a sequence of frames that can be used to 
@@ -2412,7 +2844,7 @@ declare class p5 {
    *   Each object has three properties: imageData - an 
    *   image/octet-stream, filename and extension.
    */
-  saveFrames(filename: string, extension: string, duration: number, framerate: number, callback?: Function): void;
+  saveFrames(filename: string, extension: string, duration: number, framerate: number, callback?: (p1: any[]) => any): void;
 
   // src/image/loading_displaying.js
 
@@ -2428,8 +2860,8 @@ declare class p5 {
    *  
    *   The path to the image should be relative to the 
    *   HTML file that links in your sketch. Loading an 
-   *   from a URL or other remote location may be blocked 
-   *   due to your browser's built-in security.
+   *   image from a URL or other remote location may be 
+   *   blocked due to your browser's built-in security.
    *
    *   @param path Path of the image to be loaded
    *   @param [successCallback] Function to be called 
@@ -2450,26 +2882,22 @@ declare class p5 {
    *   top-left corner of the source image
    *   @param y the y-coordinate at which to place the 
    *   top-left corner of the source image
-   *   @param width the width to draw the image
-   *   @param height the height to draw the image
+   *   @param [width] the width to draw the image
+   *   @param [height] the height to draw the image
    */
-  image(img: p5.Image, x: number, y: number, width: number, height: number): void;
+  image(img: p5.Image, x: number, y: number, width?: number, height?: number): void;
 
   /**
    *   Draw an image to the main canvas of the p5js 
    *   sketch
    *
    *   @param img the image to display
-   *   @param dx the x-coordinate in the destination 
-   *   canvas at which to place the top-left corner of 
-   *   the source image
-   *   @param dy the y-coordinate in the destination 
-   *   canvas at which to place the top-left corner of 
-   *   the source image
-   *   @param dWidth the width to draw the image in the 
-   *   destination canvas
-   *   @param dHeight the height to draw the image in the 
-   *   destination canvas
+   *   @param x the x-coordinate at which to place the 
+   *   top-left corner of the source image
+   *   @param y the y-coordinate at which to place the 
+   *   top-left corner of the source image
+   *   @param width the width to draw the image
+   *   @param height the height to draw the image
    *   @param sx the x-coordinate of the top left corner 
    *   of the sub-rectangle of the source image to draw 
    *   into the destination canvas
@@ -2483,7 +2911,7 @@ declare class p5 {
    *   of the source image to draw into the destination 
    *   context
    */
-  image(img: p5.Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
+  image(img: p5.Image, x: number, y: number, width: number, height: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
 
   /**
    *   Sets the fill value for displaying images. Images 
@@ -2501,15 +2929,75 @@ declare class p5 {
    *   or equal to the current maximum value as specified 
    *   by colorMode(). The default maximum value is 255.
    *
-   *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color Array
-   *   @param [v2] green or saturation value (depending 
-   *   on the current color mode)
-   *   @param [v3] blue or brightness value (depending on 
-   *   the current color mode)
-   *   @param [a] opacity of the background
+   *   @param v1 red or hue value relative to the current 
+   *   color range
+   *   @param v2 green or saturation value relative to 
+   *   the current color range
+   *   @param v3 blue or brightness value relative to the 
+   *   current color range
    */
-  tint(v1: number|any[], v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  tint(v1: number, v2: number, v3: number, alpha?: number): void;
+
+  /**
+   *   Sets the fill value for displaying images. Images 
+   *   can be tinted to specified colors or made 
+   *   transparent by including an alpha value.  To apply 
+   *   transparency to an image without affecting its 
+   *   color, use white as the tint color and specify an 
+   *   alpha value. For instance, tint(255, 128) will 
+   *   make an image 50% transparent (assuming the 
+   *   default alpha range of 0-255, which can be changed 
+   *   with colorMode()). 
+   * 
+   *  
+   *   The value for the gray parameter must be less than 
+   *   or equal to the current maximum value as specified 
+   *   by colorMode(). The default maximum value is 255.
+   *
+   *   @param value a color string
+   */
+  tint(value: string, alpha?: number): void;
+
+  /**
+   *   Sets the fill value for displaying images. Images 
+   *   can be tinted to specified colors or made 
+   *   transparent by including an alpha value.  To apply 
+   *   transparency to an image without affecting its 
+   *   color, use white as the tint color and specify an 
+   *   alpha value. For instance, tint(255, 128) will 
+   *   make an image 50% transparent (assuming the 
+   *   default alpha range of 0-255, which can be changed 
+   *   with colorMode()). 
+   * 
+   *  
+   *   The value for the gray parameter must be less than 
+   *   or equal to the current maximum value as specified 
+   *   by colorMode(). The default maximum value is 255.
+   *
+   *   @param values an array containing the 
+   *   red,green,blue & and alpha components of the color
+   */
+  tint(values: number[]): void;
+
+  /**
+   *   Sets the fill value for displaying images. Images 
+   *   can be tinted to specified colors or made 
+   *   transparent by including an alpha value.  To apply 
+   *   transparency to an image without affecting its 
+   *   color, use white as the tint color and specify an 
+   *   alpha value. For instance, tint(255, 128) will 
+   *   make an image 50% transparent (assuming the 
+   *   default alpha range of 0-255, which can be changed 
+   *   with colorMode()). 
+   * 
+   *  
+   *   The value for the gray parameter must be less than 
+   *   or equal to the current maximum value as specified 
+   *   by colorMode(). The default maximum value is 255.
+   *
+   *   @param color the tint color
+   */
+  tint(color: p5.Color, alpha?: number): void;
 
   /**
    *   Removes the current fill value for displaying 
@@ -2697,10 +3185,12 @@ declare class p5 {
    *   DILATE Increases the light areas. No parameter is 
    *   used.
    *
+   *   @param filterType either THRESHOLD, GRAY, OPAQUE, 
+   *   INVERT, POSTERIZE, BLUR, ERODE or DILATE
    *   @param filterParam an optional parameter unique to 
    *   each filter, see above
    */
-  filter(filterType: UNKNOWN_P5_CONSTANT, filterParam: number): void;
+  filter(filterType: FILTER_TYPE, filterParam: number): void;
 
   /**
    *   Returns an array of [R,G,B,A] values for any pixel 
@@ -2737,7 +3227,7 @@ declare class p5 {
    *   @return values of pixel at x,y in array format [R, 
    *   G, B, A] or p5.Image
    */
-  get(x?: number, y?: number, w?: number, h?: number): any[]|p5.Image;
+  get(x?: number, y?: number, w?: number, h?: number): number[]|p5.Image;
 
   /**
    *   Loads the pixel data for the display window into 
@@ -2807,23 +3297,6 @@ declare class p5 {
   // src/io/files.js
 
   /**
-   *   Loads an opentype font file (.otf, .ttf) from a 
-   *   file or a URL, and returns a PFont Object. This 
-   *   method is asynchronous, meaning it may not finish 
-   *   before the next line in your sketch is executed.  
-   *   The path to the font should be relative to the 
-   *   HTML file that links in your sketch. Loading an 
-   *   from a URL or other remote location may be blocked 
-   *   due to your browser's built-in security.
-   *
-   *   @param path name of the file or url to load
-   *   @param [callback] function to be executed after 
-   *   loadFont() completes
-   *   @return p5.Font object
-   */
-  loadFont(path: string, callback?: Function): object;
-
-  /**
    *   Loads a JSON file from a file or a URL, and 
    *   returns an Object or Array. This method is 
    *   asynchronous, meaning it may not finish before the 
@@ -2873,7 +3346,7 @@ declare class p5 {
    *   argument
    *   @return Array of Strings
    */
-  loadStrings(filename: string, callback?: Function, errorCallback?: Function): any[];
+  loadStrings(filename: string, callback?: Function, errorCallback?: Function): string[];
 
   /**
    *   Reads the contents of a file or URL and creates a 
@@ -2939,7 +3412,7 @@ declare class p5 {
    *   setup() and draw() are called. 
    * 
    *   Outside of preload(), you may supply a callback 
-   *   function to handle the object:
+   *   function to handle the object.
    *
    *   @param filename name of the file or URL to load
    *   @param [callback] function to be executed after 
@@ -3164,12 +3637,29 @@ declare class p5 {
    */
   constrain(n: number, low: number, high: number): number;
 
-  // TODO: Fix dist() errors in src/math/calculation.js, line 120:
-  //
-  //   required param "x2" follows an optional param
-  //   required param "y2" follows an optional param
-  //
-  // dist(x1: number, y1: number, z1?: number, x2: number, y2: number, z2?: number): number;
+  /**
+   *   Calculates the distance between two points.
+   *
+   *   @param x1 x-coordinate of the first point
+   *   @param y1 y-coordinate of the first point
+   *   @param x2 x-coordinate of the second point
+   *   @param y2 y-coordinate of the second point
+   *   @return distance between the two points
+   */
+  dist(x1: number, y1: number, x2: number, y2: number): number;
+
+  /**
+   *   Calculates the distance between two points.
+   *
+   *   @param x1 x-coordinate of the first point
+   *   @param y1 y-coordinate of the first point
+   *   @param z1 z-coordinate of the first point
+   *   @param x2 x-coordinate of the second point
+   *   @param y2 y-coordinate of the second point
+   *   @param z2 z-coordinate of the second point
+   *   @return distance between the two points
+   */
+  dist(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number): number;
 
   /**
    *   Returns Euler's number e (2.71828...) raised to 
@@ -3352,7 +3842,7 @@ declare class p5 {
    *   @param [y] y component of the vector
    *   @param [z] z component of the vector
    */
-  createVector(x?: number, y?: number, z?: number): void;
+  createVector(x?: number, y?: number, z?: number): p5.Vector;
 
   // src/math/noise.js
 
@@ -3399,12 +3889,12 @@ declare class p5 {
    *   use.
    *
    *   @param x x-coordinate in noise space
-   *   @param y y-coordinate in noise space
-   *   @param z z-coordinate in noise space
+   *   @param [y] y-coordinate in noise space
+   *   @param [z] z-coordinate in noise space
    *   @return Perlin noise value (between 0 and 1) at 
    *   specified coordinates
    */
-  noise(x: number, y: number, z: number): number;
+  noise(x: number, y?: number, z?: number): number;
 
   /**
    *   Adjusts the character and level of detail produced 
@@ -3481,8 +3971,9 @@ declare class p5 {
    *
    *   @param [min] the lower bound (inclusive)
    *   @param [max] the upper bound (exclusive)
+   *   @return the random number
    */
-  random(min?: number, max?: number): void;
+  random(min?: number, max?: number): number;
 
   /**
    *   Return a random floating-point number. Takes 
@@ -3503,8 +3994,9 @@ declare class p5 {
    *   including) the second argument.
    *
    *   @param choices the array to choose from
+   *   @return the random element from the array
    */
-  random(choices: any[]): void;
+  random(choices: any[]): any;
 
   /**
    *   Returns a random number fitting a Gaussian, or 
@@ -3670,10 +4162,10 @@ declare class p5 {
    *
    *   @param horizAlign horizontal alignment, either 
    *   LEFT, CENTER, or RIGHT
-   *   @param vertAlign vertical alignment, either TOP, 
+   *   @param [vertAlign] vertical alignment, either TOP, 
    *   BOTTOM, CENTER, or BASELINE
    */
-  textAlign(horizAlign: HORIZ_ALIGN, vertAlign: VERT_ALIGN): number;
+  textAlign(horizAlign: HORIZ_ALIGN, vertAlign?: VERT_ALIGN): number;
 
   /**
    *   Sets/gets the spacing, in pixels, between lines of 
@@ -3682,8 +4174,17 @@ declare class p5 {
    *
    *   @param leading the size in pixels for spacing 
    *   between lines
+   *   @chainable
    */
-  textLeading(leading: number): object|number;
+  textLeading(leading: number): p5;
+
+  /**
+   *   Sets/gets the spacing, in pixels, between lines of 
+   *   text. This setting will be used in all subsequent 
+   *   calls to the text() function.
+   *
+   */
+  textLeading(): number;
 
   /**
    *   Sets/gets the current font size. This size will be 
@@ -3692,8 +4193,17 @@ declare class p5 {
    *
    *   @param theSize the size of the letters in units of 
    *   pixels
+   *   @chainable
    */
-  textSize(theSize: number): object|number;
+  textSize(theSize: number): p5;
+
+  /**
+   *   Sets/gets the current font size. This size will be 
+   *   used in all subsequent calls to the text() 
+   *   function. Font size is measured in pixels.
+   *
+   */
+  textSize(): number;
 
   /**
    *   Sets/gets the style of the text for system fonts 
@@ -3704,8 +4214,19 @@ declare class p5 {
    *
    *   @param theStyle styling for text, either NORMAL, 
    *   ITALIC, or BOLD
+   *   @chainable
    */
-  textStyle(theStyle: number|THE_STYLE): object|string;
+  textStyle(theStyle: THE_STYLE): p5;
+
+  /**
+   *   Sets/gets the style of the text for system fonts 
+   *   to NORMAL, ITALIC, or BOLD. Note: this may be is 
+   *   overridden by CSS styling. For non-system fonts 
+   *   (opentype, truetype, etc.) please load styled 
+   *   fonts instead.
+   *
+   */
+  textStyle(): string;
 
   /**
    *   Calculates and returns the width of any character 
@@ -3715,7 +4236,42 @@ declare class p5 {
    */
   textWidth(theText: string): number;
 
+  /**
+   *   Returns the ascent of the current font at its 
+   *   current size. The ascent represents the distance, 
+   *   in pixels, of the tallest character above the 
+   *   baseline.
+   *
+   */
+  textAscent(): number;
+
+  /**
+   *   Returns the descent of the current font at its 
+   *   current size. The descent represents the distance, 
+   *   in pixels, of the character with the longest 
+   *   descender below the baseline.
+   *
+   */
+  textDescent(): number;
+
   // src/typography/loading_displaying.js
+
+  /**
+   *   Loads an opentype font file (.otf, .ttf) from a 
+   *   file or a URL, and returns a PFont Object. This 
+   *   method is asynchronous, meaning it may not finish 
+   *   before the next line in your sketch is executed.  
+   *   The path to the font should be relative to the 
+   *   HTML file that links in your sketch. Loading an 
+   *   from a URL or other remote location may be blocked 
+   *   due to your browser's built-in security.
+   *
+   *   @param path name of the file or url to load
+   *   @param [callback] function to be executed after 
+   *   loadFont() completes
+   *   @return p5.Font object
+   */
+  loadFont(path: string, callback?: Function): p5.Font;
 
   /**
    *   Draws text to the screen. Displays the information 
@@ -3745,24 +4301,33 @@ declare class p5 {
    *   displayed
    *   @param x x-coordinate of text
    *   @param y y-coordinate of text
-   *   @param x2 by default, the width of the text box, 
+   *   @param [x2] by default, the width of the text box, 
    *   see rectMode() for more info
-   *   @param y2 by default, the height of the text box, 
-   *   see rectMode() for more info
+   *   @param [y2] by default, the height of the text 
+   *   box, see rectMode() for more info
    *   @return this
    */
-  text(str: string, x: number, y: number, x2: number, y2: number): object;
+  text(str: string, x: number, y: number, x2?: number, y2?: number): p5;
 
   /**
    *   Sets the current font that will be drawn with the 
    *   text() function.
    *
-   *   @param f a font loaded via loadFont(), or a String 
-   *   representing a web safe font (a font that is 
-   *   generally available across all systems)
    *   @return the current font
    */
-  textFont(f: object|string): object|string;
+  textFont(): object;
+
+  /**
+   *   Sets the current font that will be drawn with the 
+   *   text() function.
+   *
+   *   @param font a font loaded via loadFont(), or a 
+   *   String representing a web safe font (a font that 
+   *   is generally available across all systems)
+   *   @param [size] the font size to use
+   *   @chainable
+   */
+  textFont(font: object|string, size?: number): p5;
 
   // src/utilities/array_functions.js
 
@@ -3775,11 +4340,63 @@ declare class p5 {
    */
   append(array: any[], value: any): void;
 
-  // TODO: Fix arrayCopy() errors in src/utilities/array_functions.js, line 37:
-  //
-  //   required param "dst" follows an optional param
-  //
-  // arrayCopy(src: any[], srcPosition?: number, dst: any[], dstPosition?: number, length?: number): void;
+  /**
+   *   Copies an array (or part of an array) to another 
+   *   array. The src array is copied to the dst array, 
+   *   beginning at the position specified by srcPosition 
+   *   and into the position specified by dstPosition. 
+   *   The number of elements to copy is determined by 
+   *   length. Note that copying values overwrites 
+   *   existing values in the destination array. To 
+   *   append values instead of overwriting them, use 
+   *   concat().  The simplified version with only two 
+   *   arguments, arrayCopy(src, dst), copies an entire 
+   *   array to another of the same size. It is 
+   *   equivalent to arrayCopy(src, 0, dst, 0, 
+   *   src.length). 
+   * 
+   *  
+   *   Using this function is far more efficient for 
+   *   copying array data than iterating through a for() 
+   *   loop and copying each element individually.
+   *
+   *   @param src the source Array
+   *   @param srcPosition starting position in the source 
+   *   Array
+   *   @param dst the destination Array
+   *   @param dstPosition starting position in the 
+   *   destination Array
+   *   @param length number of Array elements to be 
+   *   copied
+   */
+  arrayCopy(src: any[], srcPosition: number, dst: any[], dstPosition: number, length: number): void;
+
+  /**
+   *   Copies an array (or part of an array) to another 
+   *   array. The src array is copied to the dst array, 
+   *   beginning at the position specified by srcPosition 
+   *   and into the position specified by dstPosition. 
+   *   The number of elements to copy is determined by 
+   *   length. Note that copying values overwrites 
+   *   existing values in the destination array. To 
+   *   append values instead of overwriting them, use 
+   *   concat().  The simplified version with only two 
+   *   arguments, arrayCopy(src, dst), copies an entire 
+   *   array to another of the same size. It is 
+   *   equivalent to arrayCopy(src, 0, dst, 0, 
+   *   src.length). 
+   * 
+   *  
+   *   Using this function is far more efficient for 
+   *   copying array data than iterating through a for() 
+   *   loop and copying each element individually.
+   *
+   *   @param src the source Array
+   *   @param dst the destination Array
+   *   @param [length] number of Array elements to be 
+   *   copied
+   */
+  arrayCopy(src: any[], dst: any[], length?: number): void;
 
   /**
    *   Concatenates two arrays, maps to Array.concat(). 
@@ -3895,7 +4512,18 @@ declare class p5 {
    *   @param n value to parse
    *   @return integer representation of value
    */
-  int(n: string|boolean|number|any[]): number;
+  int(n: string|boolean|number): number;
+
+  /**
+   *   Converts a boolean, string, or float to its 
+   *   integer representation. When an array of values is 
+   *   passed in, then an int array of the same length is 
+   *   returned.
+   *
+   *   @param ns values to parse
+   *   @return integer representation of values
+   */
+  int(ns: any[]): number[];
 
   /**
    *   Converts a boolean, string or number to its string 
@@ -3936,7 +4564,22 @@ declare class p5 {
    *   @param n value to parse
    *   @return byte representation of value
    */
-  byte(n: string|boolean|number|any[]): number;
+  byte(n: string|boolean|number): number;
+
+  /**
+   *   Converts a number, string or boolean to its byte 
+   *   representation. A byte can be only a whole number 
+   *   between -128 and 127, so when a value outside of 
+   *   this range is converted, it wraps around to the 
+   *   corresponding byte representation. When an array 
+   *   of number, string or boolean values is passed in, 
+   *   then an array of bytes the same length is 
+   *   returned.
+   *
+   *   @param ns values to parse
+   *   @return array of byte representation of values
+   */
+  byte(ns: any[]): number[];
 
   /**
    *   Converts a number or string to its corresponding 
@@ -3951,7 +4594,22 @@ declare class p5 {
    *   @param n value to parse
    *   @return string representation of value
    */
-  char(n: string|number|any[]): string;
+  char(n: string|number): string;
+
+  /**
+   *   Converts a number or string to its corresponding 
+   *   single-character string representation. If a 
+   *   string parameter is provided, it is first parsed 
+   *   as an integer and then translated into a 
+   *   single-character string. When an array of number 
+   *   or string values is passed in, then an array of 
+   *   single-character strings of the same length is 
+   *   returned.
+   *
+   *   @param ns values to parse
+   *   @return array of string representation of values
+   */
+  char(ns: any[]): string[];
 
   /**
    *   Converts a single-character string to its 
@@ -3963,7 +4621,19 @@ declare class p5 {
    *   @param n value to parse
    *   @return integer representation of value
    */
-  unchar(n: string|any[]): number;
+  unchar(n: string): number;
+
+  /**
+   *   Converts a single-character string to its 
+   *   corresponding integer representation. When an 
+   *   array of single-character string values is passed 
+   *   in, then an array of integers of the same length 
+   *   is returned.
+   *
+   *   @param ns values to parse
+   *   @return integer representation of values
+   */
+  unchar(ns: any[]): number[];
 
   /**
    *   Converts a number to a string in its equivalent 
@@ -3977,7 +4647,22 @@ declare class p5 {
    *   @param n value to parse
    *   @return hexadecimal string representation of value
    */
-  hex(n: number|any[]): string;
+  hex(n: number, digits?: number): string;
+
+  /**
+   *   Converts a number to a string in its equivalent 
+   *   hexadecimal notation. If a second parameter is 
+   *   passed, it is used to set the number of characters 
+   *   to generate in the hexadecimal notation. When an 
+   *   array is passed in, an array of strings in 
+   *   hexadecimal notation of the same length is 
+   *   returned.
+   *
+   *   @param ns array of values to parse
+   *   @return hexadecimal string representation of 
+   *   values
+   */
+  hex(ns: number[], digits?: number): string[];
 
   /**
    *   Converts a string representation of a hexadecimal 
@@ -3990,7 +4675,20 @@ declare class p5 {
    *   @return integer representation of hexadecimal 
    *   value
    */
-  unhex(n: string|any[]): number;
+  unhex(n: string): number;
+
+  /**
+   *   Converts a string representation of a hexadecimal 
+   *   number to its equivalent integer value. When an 
+   *   array of strings in hexadecimal notation is passed 
+   *   in, an array of integers of the same length is 
+   *   returned.
+   *
+   *   @param ns values to parse
+   *   @return integer representations of hexadecimal 
+   *   value
+   */
+  unhex(ns: any[]): number[];
 
   // src/utilities/string_functions.js
 
@@ -4035,7 +4733,7 @@ declare class p5 {
    *   @param regexp the regexp to be used for matching
    *   @return Array of Strings found
    */
-  match(str: string, regexp: string): any[];
+  match(str: string, regexp: string): string[];
 
   /**
    *   This function is used to apply a regular 
@@ -4066,7 +4764,7 @@ declare class p5 {
    *   @param regexp the regexp to be used for matching
    *   @return 2d Array of Strings found
    */
-  matchAll(str: string, regexp: string): any[];
+  matchAll(str: string, regexp: string): string[];
 
   /**
    *   Utility function for formatting numbers into 
@@ -4082,7 +4780,23 @@ declare class p5 {
    *   the decimal point
    *   @return formatted String
    */
-  nf(num: number|any[], left?: number, right?: number): string|any[];
+  nf(num: number, left?: number, right?: number): string;
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings. There are two versions: one for 
+   *   formatting floats, and one for formatting ints. 
+   *   The values for the digits, left, and right 
+   *   parameters should always be positive integers.
+   *
+   *   @param nums the Numbers to format
+   *   @param [left] number of digits to the left of the 
+   *   decimal point
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted Strings
+   */
+  nf(nums: number[], left?: number, right?: number): string[];
 
   /**
    *   Utility function for formatting numbers into 
@@ -4097,7 +4811,22 @@ declare class p5 {
    *   the decimal point
    *   @return formatted String
    */
-  nfc(num: number|any[], right?: number): string|any[];
+  nfc(num: number, right?: number): string;
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings and placing appropriate commas to mark 
+   *   units of 1000. There are two versions: one for 
+   *   formatting ints, and one for formatting an array 
+   *   of ints. The value for the right parameter should 
+   *   always be a positive integer.
+   *
+   *   @param nums the Numbers to format
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted Strings
+   */
+  nfc(nums: number[], right?: number): string[];
 
   /**
    *   Utility function for formatting numbers into 
@@ -4115,7 +4844,25 @@ declare class p5 {
    *   the decimal point
    *   @return formatted String
    */
-  nfp(num: number|any[], left?: number, right?: number): string|any[];
+  nfp(num: number, left?: number, right?: number): string;
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings. Similar to nf() but puts a "+" in front 
+   *   of positive numbers and a "-" in front of negative 
+   *   numbers. There are two versions: one for 
+   *   formatting floats, and one for formatting ints. 
+   *   The values for left, and right parameters should 
+   *   always be positive integers.
+   *
+   *   @param nums the Numbers to format
+   *   @param [left] number of digits to the left of the 
+   *   decimal point
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted Strings
+   */
+  nfp(nums: number[], left?: number, right?: number): string[];
 
   /**
    *   Utility function for formatting numbers into 
@@ -4133,7 +4880,25 @@ declare class p5 {
    *   the decimal point
    *   @return formatted String
    */
-  nfs(num: number|any[], left?: number, right?: number): string|any[];
+  nfs(num: number, left?: number, right?: number): string;
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings. Similar to nf() but puts a " " (space) in 
+   *   front of positive numbers and a "-" in front of 
+   *   negative numbers. There are two versions: one for 
+   *   formatting floats, and one for formatting ints. 
+   *   The values for the digits, left, and right 
+   *   parameters should always be positive integers.
+   *
+   *   @param nums the Numbers to format
+   *   @param [left] number of digits to the left of the 
+   *   decimal point
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted Strings
+   */
+  nfs(nums: number[], left?: number, right?: number): string[];
 
   /**
    *   The split() function maps to String.split(), it 
@@ -4151,7 +4916,7 @@ declare class p5 {
    *   @param delim the String used to separate the data
    *   @return Array of Strings
    */
-  split(value: string, delim: string): any[];
+  split(value: string, delim: string): string[];
 
   /**
    *   The splitTokens() function splits a String at one 
@@ -4168,7 +4933,7 @@ declare class p5 {
    *   will be used as separators
    *   @return Array of Strings
    */
-  splitTokens(value: string, delim?: string): any[];
+  splitTokens(value: string, delim?: string): string[];
 
   /**
    *   Removes whitespace characters from the beginning 
@@ -4177,11 +4942,22 @@ declare class p5 {
    *   return, and tab, this function also removes the 
    *   Unicode "nbsp" character.
    *
-   *   @param str a String or Array of Strings to be 
-   *   trimmed
-   *   @return a trimmed String or Array of Strings
+   *   @param str a String to be trimmed
+   *   @return a trimmed String
    */
-  trim(str: string|any[]): string|any[];
+  trim(str: string): string;
+
+  /**
+   *   Removes whitespace characters from the beginning 
+   *   and end of a String. In addition to standard 
+   *   whitespace characters such as space, carriage 
+   *   return, and tab, this function also removes the 
+   *   Unicode "nbsp" character.
+   *
+   *   @param strs an Array of Strings to be trimmed
+   *   @return an Array of trimmed Strings
+   */
+  trim(strs: string[]): string[];
 
   // src/utilities/time_date.js
 
@@ -4292,23 +5068,48 @@ declare class p5 {
   /**
    *   Creates an ambient light with a color
    *
-   *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color Array, or CSS 
-   *   color string
-   *   @param [v2] optional: green or saturation value
-   *   @param [v3] optional: blue or brightness value
-   *   @param [a] optional: opacity
-   *   @return the p5 object
+   *   @param v1 red or hue value relative to the current 
+   *   color range
+   *   @param v2 green or saturation value relative to 
+   *   the current color range
+   *   @param v3 blue or brightness value relative to the 
+   *   current color range
+   *   @chainable
    */
-  ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+  ambientLight(v1: number, v2: number, v3: number, alpha?: number): p5;
 
-  // TODO: Fix directionalLight() errors in src/webgl/light.js, line 72:
+  /**
+   *   Creates an ambient light with a color
+   *
+   *   @param value a color string
+   *   @chainable
+   */
+  ambientLight(value: string, alpha?: number): p5;
+
+  /**
+   *   Creates an ambient light with a color
+   *
+   *   @param values an array containing the 
+   *   red,green,blue & and alpha components of the color
+   *   @chainable
+   */
+  ambientLight(values: number[]): p5;
+
+  /**
+   *   Creates an ambient light with a color
+   *
+   *   @param color the ambient light color
+   *   @chainable
+   */
+  ambientLight(color: p5.Color, alpha?: number): p5;
+
+  // TODO: Fix directionalLight() errors in src/webgl/light.js, line 96:
   //
   //   required param "x" follows an optional param
   //
   // directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
-  // TODO: Fix pointLight() errors in src/webgl/light.js, line 166:
+  // TODO: Fix pointLight() errors in src/webgl/light.js, line 190:
   //
   //   required param "x" follows an optional param
   //
@@ -4316,17 +5117,58 @@ declare class p5 {
 
   // src/webgl/loading.js
 
-  // TODO: Fix loadModel() errors in src/webgl/loading.js, line 14:
-  //
-  //   return has invalid type: p5.Geometry
-  //
-  // loadModel(path: string, normalize?: boolean, successCallback?: (p1: any) => any, failureCallback?: (p1: Event) => any): any;
+  /**
+   *   Load a 3d model from an OBJ file.  One of the 
+   *   limitations of the OBJ format is that it doesn't 
+   *   have a built-in sense of scale. This means that 
+   *   models exported from different programs might be 
+   *   very different sizes. If your model isn't 
+   *   displaying, try calling loadModel() with the 
+   *   normalized parameter set to true. This will resize 
+   *   the model to a scale appropriate for p5. You can 
+   *   also make additional changes to the final size of 
+   *   your model with the scale() function.
+   *
+   *   @param path Path of the model to be loaded
+   *   @param normalize If true, scale the model to a 
+   *   standardized size when loading
+   *   @param [successCallback] Function to be called 
+   *   once the model is loaded. Will be passed the 3D 
+   *   model object.
+   *   @param [failureCallback] called with event error 
+   *   if the image fails to load.
+   *   @return the p5.Geometry object
+   */
+  loadModel(path: string, normalize: boolean, successCallback?: (p1: p5.Geometry) => any, failureCallback?: (p1: Event) => any): p5.Geometry;
 
-  // TODO: Fix model() errors in src/webgl/loading.js, line 191:
-  //
-  //   param "model" has invalid type: p5.Geometry
-  //
-  // model(model: any): void;
+  /**
+   *   Load a 3d model from an OBJ file.  One of the 
+   *   limitations of the OBJ format is that it doesn't 
+   *   have a built-in sense of scale. This means that 
+   *   models exported from different programs might be 
+   *   very different sizes. If your model isn't 
+   *   displaying, try calling loadModel() with the 
+   *   normalized parameter set to true. This will resize 
+   *   the model to a scale appropriate for p5. You can 
+   *   also make additional changes to the final size of 
+   *   your model with the scale() function.
+   *
+   *   @param path Path of the model to be loaded
+   *   @param [successCallback] Function to be called 
+   *   once the model is loaded. Will be passed the 3D 
+   *   model object.
+   *   @param [failureCallback] called with event error 
+   *   if the image fails to load.
+   *   @return the p5.Geometry object
+   */
+  loadModel(path: string, successCallback?: (p1: p5.Geometry) => any, failureCallback?: (p1: Event) => any): p5.Geometry;
+
+  /**
+   *   Render a 3d model to the screen.
+   *
+   *   @param model Loaded 3d model to be rendered
+   */
+  model(model: p5.Geometry): void;
 
   // src/webgl/material.js
 
@@ -4334,7 +5176,7 @@ declare class p5 {
    *   Normal material for geometry. You can view all 
    *   possible materials in this example.
    *
-   *   @return the p5 object
+   *   @chainable
    */
   normalMaterial(): p5;
 
@@ -4344,7 +5186,7 @@ declare class p5 {
    *
    *   @param tex 2-dimensional graphics to render as 
    *   texture
-   *   @return the p5 object
+   *   @chainable
    */
   texture(tex: p5.Image|p5.MediaElement|p5.Graphics): p5;
 
@@ -4359,7 +5201,7 @@ declare class p5 {
    *   @param [v2] optional: green or saturation value
    *   @param [v3] optional: blue or brightness value
    *   @param [a] optional: opacity
-   *   @return the p5 object
+   *   @chainable
    */
   ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
 
@@ -4374,7 +5216,7 @@ declare class p5 {
    *   @param [v2] optional: green or saturation value
    *   @param [v3] optional: blue or brightness value
    *   @param [a] optional: opacity
-   *   @return the p5 object
+   *   @chainable
    */
   specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
 
@@ -4397,15 +5239,15 @@ declare class p5 {
    *   Draw a box with given width, height and depth
    *
    *   @param width width of the box
-   *   @param Height height of the box
-   *   @param depth depth of the box
+   *   @param [Height] height of the box
+   *   @param [depth] depth of the box
    *   @param [detailX] Optional number of triangle 
    *   subdivisions in x-dimension
    *   @param [detailY] Optional number of triangle 
    *   subdivisions in y-dimension
-   *   @return the p5 object
+   *   @chainable
    */
-  box(width: number, Height: number, depth: number, detailX?: number, detailY?: number): p5;
+  box(width: number, Height?: number, depth?: number, detailX?: number, detailY?: number): p5;
 
   /**
    *   Draw a sphere with given radius
@@ -4415,7 +5257,7 @@ declare class p5 {
    *   more segments the smoother geometry default is 24
    *   @param [detailY] optional: number of segments, the 
    *   more segments the smoother geometry default is 16
-   *   @return the p5 object
+   *   @chainable
    */
   sphere(radius: number, detailX?: number, detailY?: number): p5;
 
@@ -4429,7 +5271,7 @@ declare class p5 {
    *   @param [detailY] optional: number of segments in 
    *   y-dimension, the more segments the smoother 
    *   geometry default is 16
-   *   @return the p5 object
+   *   @chainable
    */
   cylinder(radius: number, height: number, detailX?: number, detailY?: number): p5;
 
@@ -4442,7 +5284,7 @@ declare class p5 {
    *   more segments the smoother geometry default is 24
    *   @param [detailY] optional: number of segments, the 
    *   more segments the smoother geometry default is 16
-   *   @return the p5 object
+   *   @chainable
    */
   cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
 
@@ -4460,7 +5302,7 @@ declare class p5 {
    *   more segments the smoother geometry default is 16. 
    *   Avoid detail number above 150, it may crash the 
    *   browser.
-   *   @return the p5 object
+   *   @chainable
    */
   ellipsoid(radiusx: number, radiusy: number, radiusz: number, detailX?: number, detailY?: number): p5;
 
@@ -4475,9 +5317,45 @@ declare class p5 {
    *   @param [detailY] optional: number of segments in 
    *   y-dimension, the more segments the smoother 
    *   geometry default is 16
-   *   @return the p5 object
+   *   @chainable
    */
   torus(radius: number, tubeRadius: number, detailX?: number, detailY?: number): p5;
+
+  // lib/addons/p5.sound.js
+
+  /**
+   *   Returns a number representing the sample rate, in 
+   *   samples per second, of all sound objects in this 
+   *   audio context. It is determined by the sampling 
+   *   rate of your operating system's sound card, and it 
+   *   is not currently possile to change. It is often 
+   *   44100, or twice the range of human hearing.
+   *
+   *   @return samplerate samples per second
+   */
+  sampleRate(): number;
+
+  /**
+   *   Returns the frequency value of a MIDI note value. 
+   *   General MIDI treats notes as integers where middle 
+   *   C is 60, C# is 61, D is 62 etc. Useful for 
+   *   generating musical frequencies with oscillators.
+   *
+   *   @param midiNote The number of a MIDI note
+   *   @return Frequency value of the given MIDI note
+   */
+  midiToFreq(midiNote: number): number;
+
+  /**
+   *   List the SoundFile formats that you will include. 
+   *   LoadSound will search your directory for these 
+   *   extensions, and will pick a format that is 
+   *   compatable with the client's web browser. Here is 
+   *   a free online file converter.
+   *
+   *   @param [formats] i.e. 'mp3', 'wav', 'ogg'
+   */
+  soundFormats(formats?: string): void;
 
   // Properties from p5.dom
 
@@ -4534,10 +5412,10 @@ declare class p5 {
    *   given inner HTML. Appends to the container node if 
    *   one is specified, otherwise appends to body.
    *
-   *   @param html inner HTML for element created
+   *   @param [html] inner HTML for element created
    *   @return pointer to p5.Element holding created node
    */
-  createDiv(html: string): object|p5.Element;
+  createDiv(html?: string): object|p5.Element;
 
   /**
    *   Creates a <p></p> element in the DOM with given 
@@ -4545,20 +5423,20 @@ declare class p5 {
    *   Appends to the container node if one is specified, 
    *   otherwise appends to body.
    *
-   *   @param html inner HTML for element created
+   *   @param [html] inner HTML for element created
    *   @return pointer to p5.Element holding created node
    */
-  createP(html: string): object|p5.Element;
+  createP(html?: string): object|p5.Element;
 
   /**
    *   Creates a <span></span> element in the DOM with 
    *   given inner HTML. Appends to the container node if 
    *   one is specified, otherwise appends to body.
    *
-   *   @param html inner HTML for element created
+   *   @param [html] inner HTML for element created
    *   @return pointer to p5.Element holding created node
    */
-  createSpan(html: string): object|p5.Element;
+  createSpan(html?: string): object|p5.Element;
 
   /**
    *   Creates an <img> element in the DOM with given src 
@@ -4640,7 +5518,7 @@ declare class p5 {
    *   @param [multiple] true if dropdown should support 
    *   multiple selections
    */
-  createSelect(multiple?: boolean): void;
+  createSelect(multiple?: boolean): p5.Element;
 
   /**
    *   Creates a dropdown menu <select></select> element 
@@ -4650,7 +5528,7 @@ declare class p5 {
    *
    *   @param existing DOM select element
    */
-  createSelect(existing: object): void;
+  createSelect(existing: object): p5.Element;
 
   /**
    *   Creates a radio button <input></input> element in 
@@ -4716,7 +5594,7 @@ declare class p5 {
    *   buffering of content
    *   @return pointer to video p5.Element
    */
-  createVideo(src: string|any[], callback?: object): object|p5.Element;
+  createVideo(src: string|any[], callback?: object): p5.MediaElement|p5.Element;
 
   /**
    *   Creates a hidden HTML5 <audio> element in the DOM 
@@ -4740,7 +5618,7 @@ declare class p5 {
    *   buffering of content
    *   @return pointer to audio p5.Element
    */
-  createAudio(src: string|any[], callback?: object): object|p5.Element;
+  createAudio(src: string|any[], callback?: object): p5.MediaElement|p5.Element;
 
   /**
    *   Creates a new <video> element that contains the 
@@ -4837,44 +5715,7 @@ declare class p5 {
    *   Gain Nodes for .input and .output.
    *
    */
-  soundOut: any;
-
-  /**
-   *   Returns a number representing the sample rate, in 
-   *   samples per second, of all sound objects in this 
-   *   audio context. It is determined by the sampling 
-   *   rate of your operating system's sound card, and it 
-   *   is not currently possile to change. It is often 
-   *   44100, or twice the range of human hearing.
-   *
-   *   @return samplerate samples per second
-   */
-  sampleRate(): number;
-
-  /**
-   *   Returns the frequency value of a MIDI note value. 
-   *   General MIDI treats notes as integers where middle 
-   *   C is 60, C# is 61, D is 62 etc. Useful for 
-   *   generating musical frequencies with oscillators.
-   *
-   *   @param midiNote The number of a MIDI note
-   *   @return Frequency value of the given MIDI note
-   */
-  midiToFreq(midiNote: number): number;
-
-  /**
-   *   List the SoundFile formats that you will include. 
-   *   LoadSound will search your directory for these 
-   *   extensions, and will pick a format that is 
-   *   compatable with the client's web browser. Here is 
-   *   a free online file converter.
-   *
-   *   @param formats i.e. 'mp3', 'wav', 'ogg'
-   */
-  soundFormats(formats: string): void;
-
-  // TODO: Property "{String} failedPath path to the file that failed to load", defined in lib/addons/p5.sound.js, line 599, is not a valid JS symbol name
-
+  soundOut: object;
 }
 
 declare namespace p5 {
@@ -4919,7 +5760,7 @@ declare namespace p5 {
      *   @param elt DOM node that is wrapped
      *   @param [pInst] pointer to p5 instance
      */
-    constructor(elt: string, pInst?: object);
+    constructor(elt: string, pInst?: p5);
 
     /**
      *   Underlying HTML element. All normal HTML methods 
@@ -4938,26 +5779,58 @@ declare namespace p5 {
      *
      *   @param parent the ID, DOM node, or p5.Element of 
      *   desired parent element
+     *   @chainable
      */
-    parent(parent: string|object): p5.Element;
+    parent(parent: string|p5.Element|object): p5.Element;
+
+    /**
+     *   Attaches the element to the parent specified. A 
+     *   way of setting the container for the element. 
+     *   Accepts either a string ID, DOM node, or 
+     *   p5.Element. If no arguments given, parent node is 
+     *   returned. For more ways to position the canvas, 
+     *   see the  positioning the canvas wiki page.
+     *
+     */
+    parent(): p5.Element;
 
     /**
      *   Sets the ID of the element. If no ID argument is 
      *   passed in, it instead returns the current ID of 
      *   the element.
      *
-     *   @param [id] ID of the element
+     *   @param id ID of the element
+     *   @chainable
      */
-    id(id?: string): p5.Element|string;
+    id(id: string): p5.Element;
+
+    /**
+     *   Sets the ID of the element. If no ID argument is 
+     *   passed in, it instead returns the current ID of 
+     *   the element.
+     *
+     *   @return the id of the element
+     */
+    id(): string;
 
     /**
      *   Adds given class to the element. If no class 
      *   argument is passed in, it instead returns a string 
      *   containing the current class(es) of the element.
      *
-     *   @param [class] class to add
+     *   @param class class to add
+     *   @chainable
      */
-    class(theClass?: string): p5.Element|string;
+    class(theClass: string): p5.Element;
+
+    /**
+     *   Adds given class to the element. If no class 
+     *   argument is passed in, it instead returns a string 
+     *   containing the current class(es) of the element.
+     *
+     *   @return the class of the element
+     */
+    class(): string;
 
     /**
      *   The .mousePressed() function is called once after 
@@ -4967,8 +5840,20 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   pressed over the element.
+     *   @chainable
      */
     mousePressed(fxn: Function): p5.Element;
+
+    /**
+     *   The .doubleClicked() function is called once after 
+     *   every time a mouse button is pressed twice over 
+     *   the element. This can be used to attach element 
+     *   and action specific event listeners.
+     *
+     *   @param fxn function to be fired when mouse is 
+     *   pressed over the element.
+     */
+    doubleClicked(fxn: Function): p5.Element;
 
     /**
      *   The .mouseWheel() function is called once after 
@@ -4977,7 +5862,7 @@ declare namespace p5 {
      *   specific event listeners.  The function accepts a 
      *   callback function as argument which will be 
      *   executed when the wheel event is triggered on the 
-     *   element, the callabck function is passed one 
+     *   element, the callback function is passed one 
      *   argument event. The event.deltaY property returns 
      *   negative values if the mouse wheel is rotated up 
      *   or away from the user and positive in the other 
@@ -4991,6 +5876,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse wheel 
      *   is scrolled over the element.
+     *   @chainable
      */
     mouseWheel(fxn: Function): p5.Element;
 
@@ -5002,6 +5888,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   released over the element.
+     *   @chainable
      */
     mouseReleased(fxn: Function): p5.Element;
 
@@ -5013,6 +5900,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   clicked over the element.
+     *   @chainable
      */
     mouseClicked(fxn: Function): p5.Element;
 
@@ -5023,6 +5911,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   moved over the element.
+     *   @chainable
      */
     mouseMoved(fxn: Function): p5.Element;
 
@@ -5034,6 +5923,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   moved over the element.
+     *   @chainable
      */
     mouseOver(fxn: Function): p5.Element;
 
@@ -5044,6 +5934,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when the value of 
      *   an element changes.
+     *   @chainable
      */
     changed(fxn: Function): p5.Element;
 
@@ -5056,6 +5947,7 @@ declare namespace p5 {
      *   listener.
      *
      *   @param fxn function to be fired on user input.
+     *   @chainable
      */
     input(fxn: Function): p5.Element;
 
@@ -5067,6 +5959,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   moved off the element.
+     *   @chainable
      */
     mouseOut(fxn: Function): p5.Element;
 
@@ -5077,6 +5970,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when touch is 
      *   started over the element.
+     *   @chainable
      */
     touchStarted(fxn: Function): p5.Element;
 
@@ -5087,6 +5981,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when touch is 
      *   moved over the element.
+     *   @chainable
      */
     touchMoved(fxn: Function): p5.Element;
 
@@ -5097,6 +5992,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when touch is 
      *   ended over the element.
+     *   @chainable
      */
     touchEnded(fxn: Function): p5.Element;
 
@@ -5108,6 +6004,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   dragged over the element.
+     *   @chainable
      */
     dragOver(fxn: Function): p5.Element;
 
@@ -5119,6 +6016,7 @@ declare namespace p5 {
      *
      *   @param fxn function to be fired when mouse is 
      *   dragged over the element.
+     *   @chainable
      */
     dragLeave(fxn: Function): p5.Element;
 
@@ -5135,6 +6033,7 @@ declare namespace p5 {
      *   @param callback callback triggered when files are 
      *   dropped.
      *   @param fxn callback to receive loaded file.
+     *   @chainable
      */
     drop(callback: Function, fxn: Function): p5.Element;
 
@@ -5278,23 +6177,225 @@ declare namespace p5 {
   // src/core/p5.Graphics.js
 
   class Graphics extends p5.Element {
-    // TODO: Fix p5.Graphics() errors in src/core/p5.Graphics.js, line 10:
-    //
-    //   required param "whether" follows an optional param
-    //
-    // constructor(elt: string, pInst?: object, whether: boolean);
-
+    /**
+     *   Thin wrapper around a renderer, to be used for 
+     *   creating a graphics buffer object. Use this class 
+     *   if you need to draw into an off-screen graphics 
+     *   buffer. The two parameters define the width and 
+     *   height in pixels. The fields and methods for this 
+     *   class are extensive, but mirror the normal drawing 
+     *   API for p5.
+     *
+     *   @param w width
+     *   @param h height
+     *   @param renderer the renderer to use, either P2D or 
+     *   WEBGL
+     *   @param [pInst] pointer to p5 instance
+     */
+    constructor(w: number, h: number, renderer: GRAPHICS_RENDERER, pInst?: p5);
   }
 
   // src/core/p5.Renderer.js
 
   class Renderer extends p5.Element {
-    // TODO: Fix p5.Renderer() errors in src/core/p5.Renderer.js, line 10:
-    //
-    //   required param "whether" follows an optional param
-    //
-    // constructor(elt: string, pInst?: object, whether: boolean);
+    /**
+     *   Main graphics and rendering context, as well as 
+     *   the base API implementation for p5.js "core". To 
+     *   be used as the superclass for Renderer2D and 
+     *   Renderer3D classes, respecitvely.
+     *
+     *   @param elt DOM node that is wrapped
+     *   @param [pInst] pointer to p5 instance
+     *   @param [isMainCanvas] whether we're using it as 
+     *   main canvas
+     */
+    constructor(elt: string, pInst?: p5, isMainCanvas?: boolean);
+  }
 
+  // src/data/p5.TypedDict.js
+
+  class TypedDict {
+    /**
+     *   Base class for all p5.Dictionary types. More 
+     *   specifically typed Dictionary objects inherit from 
+     *   this
+     *
+     */
+    constructor();
+
+    /**
+     *   Creates a new instance of p5.StringDict using the 
+     *   key, value pair or object you provide.
+     *
+     *   @param key or object
+     */
+    createStringDict(key: string|object, value: string): p5.StringDict;
+
+    /**
+     *   Creates a new instance of p5.NumberDict using the 
+     *   key, value pair or object you provide.
+     *
+     *   @param key or object
+     */
+    createNumberDict(key: number|object, value: number): p5.NumberDict;
+
+    /**
+     *   Returns the number of key-value pairs currently in 
+     *   Dictionary object
+     *
+     *   @return the number of key-value pairs in 
+     *   Dictionary object
+     */
+    size(): number;
+
+    /**
+     *   Returns true if key exists in Dictionary otherwise 
+     *   returns false
+     *
+     *   @param key that you want to access
+     *   @return whether that key exists in Dictionary
+     */
+    hasKey(key: number|string): boolean;
+
+    /**
+     *   Returns value stored at supplied key.
+     *
+     *   @param key that you want to access
+     *   @return the value stored at that key
+     */
+    get(key: number|string): number|string;
+
+    /**
+     *   Changes the value of key if in it already exists 
+     *   in in the Dictionary otherwise makes a new 
+     *   key-value pair
+     *
+     */
+    set(key: number|string, value: number|string): void;
+
+    /**
+     *   Removes a key-value pair in the Dictionary
+     *
+     */
+    create(key: number|string, value: number|string): void;
+
+    /**
+     *   Removes a key-value pair in the Dictionary
+     *
+     *   @param obj key/value pair
+     */
+    create(obj: object): void;
+
+    /**
+     *   Empties Dictionary of all key-value pairs
+     *
+     */
+    clear(): void;
+
+    /**
+     *   Removes a key-value pair in the Dictionary
+     *
+     *   @param key for the pair to remove
+     */
+    remove(key: number|string): void;
+
+    /**
+     *   Logs the list of items currently in the Dictionary 
+     *   to the console
+     *
+     */
+    print(): void;
+
+    /**
+     *   Converts the Dictionary into a CSV file for local 
+     *   storage.
+     *
+     */
+    saveTable(): void;
+
+    /**
+     *   Converts the Dictionary into a JSON file for local 
+     *   storage.
+     *
+     */
+    saveJSON(): void;
+  }
+  class StringDict extends p5.TypedDict {
+    /**
+     *   A Dictionary class for Strings.
+     *
+     */
+    constructor();
+  }
+  class NumberDict extends p5.TypedDict {
+    /**
+     *   A simple Dictionary class for Numbers.
+     *
+     */
+    constructor();
+
+    /**
+     *   Add to a value stored at a certain key The sum is 
+     *   stored in that location in the Dictionary.
+     *
+     *   @param Key for value you wish to add to
+     *   @param Amount to add to the value
+     */
+    add(Key: number, Amount: number): void;
+
+    /**
+     *   Subtract from a value stored at a certain key The 
+     *   difference is stored in that location in the 
+     *   Dictionary.
+     *
+     *   @param Key for value you wish to subtract from
+     *   @param Amount to subtract from the value
+     */
+    sub(Key: number, Amount: number): void;
+
+    /**
+     *   Multiply a value stored at a certain key The 
+     *   product is stored in that location in the 
+     *   Dictionary.
+     *
+     *   @param Key for value you wish to multiply
+     *   @param Amount to multiply the value by
+     */
+    mult(Key: number, Amount: number): void;
+
+    /**
+     *   Divide a value stored at a certain key The 
+     *   quotient is stored in that location in the 
+     *   Dictionary.
+     *
+     *   @param Key for value you wish to divide
+     *   @param Amount to divide the value by
+     */
+    div(Key: number, Amount: number): void;
+
+    /**
+     *   Return the lowest value.
+     *
+     */
+    minValue(): number;
+
+    /**
+     *   Return the highest value.
+     *
+     */
+    maxValue(): number;
+
+    /**
+     *   Return the lowest key.
+     *
+     */
+    minKey(): number;
+
+    /**
+     *   Return the highest key.
+     *
+     */
+    maxKey(): number;
   }
 
   // src/image/p5.Image.js
@@ -5321,21 +6422,20 @@ declare namespace p5 {
      *   the loadPixels() method on the image to make sure 
      *   that the pixel data is properly loaded.
      *
-     *   @param pInst An instance of a p5 sketch.
      */
-    constructor(width: number, height: number, pInst: object);
+    constructor(width: number, height: number);
 
     /**
      *   Image width.
      *
      */
-    width: any;
+    width: number;
 
     /**
      *   Image height.
      *
      */
-    height: any;
+    height: number;
 
     /**
      *   Array containing the values for all the pixels in 
@@ -5391,7 +6491,14 @@ declare namespace p5 {
      *   @param h height of the target update area for the 
      *   underlying canvas
      */
-    updatePixels(x: number|undefined, y: number|undefined, w: number|undefined, h: number|undefined): void;
+    updatePixels(x: number, y: number, w: number, h: number): void;
+
+    /**
+     *   Updates the backing canvas for this image with the 
+     *   contents of the [pixels] array.
+     *
+     */
+    updatePixels(): void;
 
     /**
      *   Get a region of pixels from an image. If no params 
@@ -5410,7 +6517,7 @@ declare namespace p5 {
      *   @return color of pixel at x,y in array format [R, 
      *   G, B, A] or p5.Image
      */
-    get(x?: number, y?: number, w?: number, h?: number): any[]|Color|p5.Image;
+    get(x?: number, y?: number, w?: number, h?: number): number[]|Color|p5.Image;
 
     /**
      *   Set the color of a single pixel or write an image 
@@ -5532,11 +6639,10 @@ declare namespace p5 {
      *   or using data from an existing file.
      *
      *   @param [rows] An array of p5.TableRow objects
-     *   @return p5.Table generated
      */
-    constructor(rows?: any[]);
-    columns: any;
-    rows: any;
+    constructor(rows?: p5.TableRow[]);
+    columns: string[];
+    rows: p5.TableRow[];
 
     /**
      *   Use addRow() to add a new row of data to a 
@@ -5567,7 +6673,7 @@ declare namespace p5 {
      *   @param rowID ID number of the row to get
      *   @return p5.TableRow object
      */
-    getRow(rowID: number): TableRow;
+    getRow(rowID: number): p5.TableRow;
 
     /**
      *   Gets all rows from the table. Returns an array of 
@@ -5575,7 +6681,7 @@ declare namespace p5 {
      *
      *   @return Array of p5.TableRows
      */
-    getRows(): any[];
+    getRows(): p5.TableRow[];
 
     /**
      *   Finds the first row in the Table that contains the 
@@ -5589,7 +6695,7 @@ declare namespace p5 {
      *   @param column ID number or title of the column to 
      *   search
      */
-    findRow(value: string, column: number|string): TableRow;
+    findRow(value: string, column: number|string): p5.TableRow;
 
     /**
      *   Finds the rows in the Table that contain the value 
@@ -5604,7 +6710,7 @@ declare namespace p5 {
      *   search
      *   @return An Array of TableRow objects
      */
-    findRows(value: string, column: number|string): any[];
+    findRows(value: string, column: number|string): p5.TableRow[];
 
     /**
      *   Finds the first row in the Table that matches the 
@@ -5619,7 +6725,7 @@ declare namespace p5 {
      *   (string)
      *   @return TableRow object
      */
-    matchRow(regexp: string, column: string|number): TableRow;
+    matchRow(regexp: string, column: string|number): p5.TableRow;
 
     /**
      *   Finds the rows in the Table that match the regular 
@@ -5634,7 +6740,7 @@ declare namespace p5 {
      *   (string)
      *   @return An Array of TableRow objects
      */
-    matchRows(regexp: string, column?: string|number): any[];
+    matchRows(regexp: string, column?: string|number): p5.TableRow[];
 
     /**
      *   Retrieves all values in the specified column, and 
@@ -5878,7 +6984,6 @@ declare namespace p5 {
      *   parse XML code. Use loadXML() to load external XML 
      *   files and create XML objects.
      *
-     *   @return p5.XML object generated
      */
     constructor();
 
@@ -5888,7 +6993,7 @@ declare namespace p5 {
      *
      *   @return element parent
      */
-    getParent(): object;
+    getParent(): p5.XML;
 
     /**
      *   Gets the element's full name, which is returned as 
@@ -5921,7 +7026,7 @@ declare namespace p5 {
      *
      *   @return names of the children of the element
      */
-    listChildren(): any[];
+    listChildren(): string[];
 
     /**
      *   Returns all of the element's children as an array 
@@ -5932,7 +7037,7 @@ declare namespace p5 {
      *   @param [name] element name
      *   @return children of the element
      */
-    getChildren(name?: string): any[];
+    getChildren(name?: string): p5.XML[];
 
     /**
      *   Returns the first of the element's children that 
@@ -5955,7 +7060,7 @@ declare namespace p5 {
      *   @param a p5.XML Object which will be the child to 
      *   be added
      */
-    addChild(a: object): void;
+    addChild(a: p5.XML): void;
 
     /**
      *   Removes the element specified by name or index.
@@ -5978,7 +7083,7 @@ declare namespace p5 {
      *   @return an array of strings containing the names 
      *   of attributes
      */
-    listAttributes(): any[];
+    listAttributes(): string[];
 
     /**
      *   Checks whether or not an element has the specified 
@@ -6086,19 +7191,19 @@ declare namespace p5 {
      *   The x component of the vector
      *
      */
-    x: any;
+    x: number;
 
     /**
      *   The y component of the vector
      *
      */
-    y: any;
+    y: number;
 
     /**
      *   The z component of the vector
      *
      */
-    z: any;
+    z: number;
 
     /**
      *   Returns a string representation of a vector v by 
@@ -6117,8 +7222,9 @@ declare namespace p5 {
      *   p5.Vector or an Array
      *   @param [y] the y component of the vector
      *   @param [z] the z component of the vector
+     *   @chainable
      */
-    set(x?: number|p5.Vector|any[], y?: number, z?: number): void;
+    set(x?: number|p5.Vector|any[], y?: number, z?: number): p5.Vector;
 
     /**
      *   Gets a copy of the vector, returns a p5.Vector 
@@ -6147,6 +7253,34 @@ declare namespace p5 {
     add(x: number|p5.Vector|any[], y?: number, z?: number): p5.Vector;
 
     /**
+     *   Adds x, y, and z components to a vector, adds one 
+     *   vector to another, or adds two independent vectors 
+     *   together. The version of the method that adds two 
+     *   vectors together is a static method and returns a 
+     *   p5.Vector, the others acts directly on the vector. 
+     *   See the examples for more context.
+     *
+     *   @param v1 a p5.Vector to add
+     *   @param v2 a p5.Vector to add
+     *   @param target the vector to receive the result
+     */
+    static add(v1: p5.Vector, v2: p5.Vector, target: p5.Vector): void;
+
+    /**
+     *   Adds x, y, and z components to a vector, adds one 
+     *   vector to another, or adds two independent vectors 
+     *   together. The version of the method that adds two 
+     *   vectors together is a static method and returns a 
+     *   p5.Vector, the others acts directly on the vector. 
+     *   See the examples for more context.
+     *
+     *   @param v1 a p5.Vector to add
+     *   @param v2 a p5.Vector to add
+     *   @return the resulting p5.Vector
+     */
+    static add(v1: p5.Vector, v2: p5.Vector): p5.Vector;
+
+    /**
      *   Subtracts x, y, and z components from a vector, 
      *   subtracts one vector from another, or subtracts 
      *   two independent vectors. The version of the method 
@@ -6163,6 +7297,35 @@ declare namespace p5 {
     sub(x: number|p5.Vector|any[], y?: number, z?: number): p5.Vector;
 
     /**
+     *   Subtracts x, y, and z components from a vector, 
+     *   subtracts one vector from another, or subtracts 
+     *   two independent vectors. The version of the method 
+     *   that subtracts two vectors is a static method and 
+     *   returns a p5.Vector, the other acts directly on 
+     *   the vector. See the examples for more context.
+     *
+     *   @param v1 a p5.Vector to subtract from
+     *   @param v2 a p5.Vector to subtract
+     *   @param target if undefined a new vector will be 
+     *   created
+     */
+    static sub(v1: p5.Vector, v2: p5.Vector, target: p5.Vector): void;
+
+    /**
+     *   Subtracts x, y, and z components from a vector, 
+     *   subtracts one vector from another, or subtracts 
+     *   two independent vectors. The version of the method 
+     *   that subtracts two vectors is a static method and 
+     *   returns a p5.Vector, the other acts directly on 
+     *   the vector. See the examples for more context.
+     *
+     *   @param v1 a p5.Vector to subtract from
+     *   @param v2 a p5.Vector to subtract
+     *   @return the resulting p5.Vector
+     */
+    static sub(v1: p5.Vector, v2: p5.Vector): p5.Vector;
+
+    /**
      *   Multiply the vector by a scalar. The static 
      *   version of this method creates a new p5.Vector 
      *   while the non static version acts on the vector 
@@ -6172,6 +7335,31 @@ declare namespace p5 {
      *   @chainable
      */
     mult(n: number): p5.Vector;
+
+    /**
+     *   Multiply the vector by a scalar. The static 
+     *   version of this method creates a new p5.Vector 
+     *   while the non static version acts on the vector 
+     *   directly. See the examples for more context.
+     *
+     *   @param v the vector to multiply
+     *   @param n the number to multiply with the vector
+     *   @param target if undefined a new vector will be 
+     *   created
+     */
+    static mult(v: p5.Vector, n: number, target: p5.Vector): void;
+
+    /**
+     *   Multiply the vector by a scalar. The static 
+     *   version of this method creates a new p5.Vector 
+     *   while the non static version acts on the vector 
+     *   directly. See the examples for more context.
+     *
+     *   @param v the vector to multiply
+     *   @param n the number to multiply with the vector
+     *   @return the resulting new p5.Vector
+     */
+    static mult(v: p5.Vector, n: number): p5.Vector;
 
     /**
      *   Divide the vector by a scalar. The static version 
@@ -6185,6 +7373,31 @@ declare namespace p5 {
     div(n: number): p5.Vector;
 
     /**
+     *   Divide the vector by a scalar. The static version 
+     *   of this method creates a new p5.Vector while the 
+     *   non static version acts on the vector directly. 
+     *   See the examples for more context.
+     *
+     *   @param v the vector to divide
+     *   @param n the number to divide the vector by
+     *   @param target if undefined a new vector will be 
+     *   created
+     */
+    static div(v: p5.Vector, n: number, target: p5.Vector): void;
+
+    /**
+     *   Divide the vector by a scalar. The static version 
+     *   of this method creates a new p5.Vector while the 
+     *   non static version acts on the vector directly. 
+     *   See the examples for more context.
+     *
+     *   @param v the vector to divide
+     *   @param n the number to divide the vector by
+     *   @return the resulting new p5.Vector
+     */
+    static div(v: p5.Vector, n: number): p5.Vector;
+
+    /**
      *   Calculates the magnitude (length) of the vector 
      *   and returns the result as a float (this is simply 
      *   the equation sqrt(xx + yy + z*z).)
@@ -6192,6 +7405,16 @@ declare namespace p5 {
      *   @return magnitude of the vector
      */
     mag(): number;
+
+    /**
+     *   Calculates the magnitude (length) of the vector 
+     *   and returns the result as a float (this is simply 
+     *   the equation sqrt(xx + yy + z*z).)
+     *
+     *   @param vecT the vector to return the magnitude of
+     *   @return the magnitude of vecT
+     */
+    static mag(vecT: p5.Vector): number;
 
     /**
      *   Calculates the squared magnitude of the vector and 
@@ -6218,6 +7441,18 @@ declare namespace p5 {
     dot(x: number|p5.Vector, y?: number, z?: number): number;
 
     /**
+     *   Calculates the dot product of two vectors. The 
+     *   version of the method that computes the dot 
+     *   product of two independent vectors is a static 
+     *   method. See the examples for more context.
+     *
+     *   @param v1 the first p5.Vector
+     *   @param v2 the second p5.Vector
+     *   @return the dot product
+     */
+    static dot(v1: p5.Vector, v2: p5.Vector): number;
+
+    /**
      *   Calculates and returns a vector composed of the 
      *   cross product between two vectors. Both the static 
      *   and non static methods return a new p5.Vector. See 
@@ -6229,6 +7464,18 @@ declare namespace p5 {
     cross(v: p5.Vector): p5.Vector;
 
     /**
+     *   Calculates and returns a vector composed of the 
+     *   cross product between two vectors. Both the static 
+     *   and non static methods return a new p5.Vector. See 
+     *   the examples for more context.
+     *
+     *   @param v1 the first p5.Vector
+     *   @param v2 the second p5.Vector
+     *   @return the cross product
+     */
+    static cross(v1: p5.Vector, v2: p5.Vector): number;
+
+    /**
      *   Calculates the Euclidean distance between two 
      *   points (considering a point as a vector object).
      *
@@ -6237,6 +7484,16 @@ declare namespace p5 {
      *   @return the distance
      */
     dist(v: p5.Vector): number;
+
+    /**
+     *   Calculates the Euclidean distance between two 
+     *   points (considering a point as a vector object).
+     *
+     *   @param v1 the first p5.Vector
+     *   @param v2 the second p5.Vector
+     *   @return the distance
+     */
+    static dist(v1: p5.Vector, v2: p5.Vector): number;
 
     /**
      *   Normalize the vector to length 1 (make it a unit 
@@ -6251,7 +7508,7 @@ declare namespace p5 {
      *   used for the max parameter.
      *
      *   @param max the maximum magnitude for the vector
-     *   @return the modified p5.Vector
+     *   @chainable
      */
     limit(max: number): p5.Vector;
 
@@ -6260,7 +7517,7 @@ declare namespace p5 {
      *   for the len parameter.
      *
      *   @param len the new length for this vector
-     *   @return the modified p5.Vector
+     *   @chainable
      */
     setMag(len: number): p5.Vector;
 
@@ -6277,7 +7534,7 @@ declare namespace p5 {
      *   magnitude remains the same
      *
      *   @param angle the angle of rotation
-     *   @return the modified p5.Vector
+     *   @chainable
      */
     rotate(angle: number): p5.Vector;
 
@@ -6290,11 +7547,54 @@ declare namespace p5 {
      */
     angleBetween(the: p5.Vector): number;
 
-    // TODO: Fix lerp() errors in src/math/p5.Vector.js, line 654:
-    //
-    //   required param "amt" follows an optional param
-    //
-    // lerp(x: p5.Vector, y?: p5.Vector, z?: p5.Vector, amt: number): p5.Vector;
+    /**
+     *   Linear interpolate the vector to another vector
+     *
+     *   @param x the x component
+     *   @param y the y component
+     *   @param z the z component
+     *   @param amt the amount of interpolation; some value 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   is very near the new vector. 0.5 is halfway in 
+     *   between.
+     *   @chainable
+     */
+    lerp(x: p5.Vector, y: p5.Vector, z: p5.Vector, amt: number): p5.Vector;
+
+    /**
+     *   Linear interpolate the vector to another vector
+     *
+     *   @param v the p5.Vector to lerp to
+     *   @param amt the amount of interpolation; some value 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   is very near the new vector. 0.5 is halfway in 
+     *   between.
+     *   @chainable
+     */
+    lerp(v: p5.Vector, amt: number): p5.Vector;
+
+    /**
+     *   Linear interpolate the vector to another vector
+     *
+     *   @param amt the amount of interpolation; some value 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   is very near the new vector. 0.5 is halfway in 
+     *   between.
+     *   @param target if undefined a new vector will be 
+     *   created
+     */
+    static lerp(v1: p5.Vector, v2: p5.Vector, amt: number, target: p5.Vector): void;
+
+    /**
+     *   Linear interpolate the vector to another vector
+     *
+     *   @param amt the amount of interpolation; some value 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   is very near the new vector. 0.5 is halfway in 
+     *   between.
+     *   @return the lerped value
+     */
+    static lerp(v1: p5.Vector, v2: p5.Vector, amt: number): number;
 
     /**
      *   Return a representation of this vector as a float 
@@ -6305,7 +7605,7 @@ declare namespace p5 {
      *
      *   @return an Array with the 3 values
      */
-    array(): any[];
+    array(): number[];
 
     /**
      *   Equality check against a p5.Vector
@@ -6349,7 +7649,7 @@ declare namespace p5 {
      *
      *   @param [pInst] pointer to p5 instance
      */
-    constructor(pInst?: object);
+    constructor(pInst?: p5);
 
     /**
      *   Underlying opentype font implementation
@@ -6373,6 +7673,24 @@ declare namespace p5 {
     textBounds(line: string, x: number, y: number, fontSize: number, options: object): object;
   }
 
+  // src/webgl/p5.Geometry.js
+
+  class Geometry {
+    /**
+     *   p5 Geometry class
+     *
+     *   @param vertData callback function or Object 
+     *   containing routine(s) for vertex data generation
+     *   @param [detailX] number of vertices on horizontal 
+     *   surface
+     *   @param [detailY] number of vertices on horizontal 
+     *   surface
+     *   @param [callback] function to call upon object 
+     *   instantiation.
+     */
+    constructor(vertData: Function|object, detailX?: number, detailY?: number, callback?: Function);
+  }
+
   // src/webgl/p5.RendererGL.js
 
   class RendererGL extends p5.Renderer {
@@ -6392,9 +7710,9 @@ declare namespace p5 {
      *   @param [v2] optional: green or saturation value
      *   @param [v3] optional: blue or brightness value
      *   @param [a] optional: opacity
-     *   @return the p5 object
+     *   @chainable
      */
-    fill(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+    fill(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5.RendererGL;
   }
 
   // lib/addons/p5.dom.js
@@ -6409,9 +7727,8 @@ declare namespace p5 {
      *   createCapture.
      *
      *   @param elt DOM node that is wrapped
-     *   @param [pInst] pointer to p5 instance
      */
-    constructor(elt: string, pInst?: object);
+    constructor(elt: string);
 
     /**
      *   Path to the media element source.
@@ -6528,7 +7845,7 @@ declare namespace p5 {
      *   @param audioNode AudioNode from the Web Audio API, 
      *   or an object from the p5.sound library
      */
-    connect(audioNode: AudioNode|any): void;
+    connect(audioNode: AudioNode|object): void;
 
     /**
      *   Disconnect all Web Audio routing, including to 
@@ -6600,9 +7917,8 @@ declare namespace p5 {
      *   createFileInput
      *
      *   @param file File that is wrapped
-     *   @param [pInst] pointer to p5 instance
      */
-    constructor(file: File, pInst?: object);
+    constructor(file: File);
 
     /**
      *   Underlying File object. All normal File methods 
@@ -6679,7 +7995,6 @@ declare namespace p5 {
      *   file (between 0 and 1) as its first parameter. 
      *   This progress does not account for the additional 
      *   time needed to decode the audio data.
-     *   @return p5.SoundFile Object
      */
     constructor(path: string|any[], successCallback?: Function, errorCallback?: Function, whileLoadingCallback?: Function);
 
@@ -6814,11 +8129,16 @@ declare namespace p5 {
      */
     setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1368:
-    //
-    //   required param "timeFromNow" follows an optional param
-    //
-    // pan(panValue?: number, timeFromNow: number): void;
+    /**
+     *   Set the stereo panning of a p5.sound object to a 
+     *   floating point number between -1.0 (left) and 1.0 
+     *   (right). Default is 0.0 (center).
+     *
+     *   @param [panValue] Set the stereo panner
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    pan(panValue?: number, timeFromNow?: number): void;
 
     /**
      *   Set the playback rate of a sound file. Will change 
@@ -6850,9 +8170,9 @@ declare namespace p5 {
 
     /**
      *   Move the playhead of the song to a position, in 
-     *   seconds. Start and Stop time. If none are given, 
-     *   will reset the file to play entire duration from 
-     *   start to finish.
+     *   seconds. Start timing and playback duration. If 
+     *   none are given, will reset the file to play entire 
+     *   duration from start to finish.
      *
      *   @param cueTime cueTime of the soundFile in 
      *   seconds.
@@ -7024,7 +8344,6 @@ declare namespace p5 {
      *
      *   @param [smoothing] between 0.0 and .999 to smooth 
      *   amplitude readings (defaults to 0)
-     *   @return Amplitude Object
      */
     constructor(smoothing?: number);
 
@@ -7116,7 +8435,6 @@ declare namespace p5 {
      *   @param [bins] Length of resulting array. Must be a 
      *   power of two between 16 and 1024. Defaults to 
      *   1024.
-     *   @return FFT Object
      */
     constructor(smoothing?: number, bins?: number);
 
@@ -7296,19 +8614,19 @@ declare namespace p5 {
      */
     fade(value: number, secondsFromNow?: number): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 4326:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 4343:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 4345:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 4362:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 4364:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 4381:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -7324,14 +8642,12 @@ declare namespace p5 {
      *   frequency defaults to 440 oscillations per second 
      *   (440Hz, equal to the pitch of an 'A' note). Set 
      *   the type of oscillation with setType(), or by 
-     *   creating a specific oscillator. For example: new 
-     *   p5.SinOsc(freq) new p5.TriOsc(freq) new 
-     *   p5.SqrOsc(freq) new p5.SawOsc(freq).
+     *   instantiating a specific oscillator: p5.SinOsc, 
+     *   p5.TriOsc, p5.SqrOsc, or p5.SawOsc.
      *
      *   @param [freq] frequency defaults to 440Hz
      *   @param [type] type of oscillator. Options: 'sine' 
      *   (default), 'triangle', 'sawtooth', 'square'
-     *   @return Oscillator object
      */
     constructor(freq?: number, type?: string);
 
@@ -7465,31 +8781,56 @@ declare namespace p5 {
      *   scaled output
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
-
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 4844:
-    //
-    //   "p5.SinOsc" is not a valid JS symbol name
-    //
-    // p5.SinOsc(freq?: number): void;
-
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 4859:
-    //
-    //   "p5.TriOsc" is not a valid JS symbol name
-    //
-    // p5.TriOsc(freq?: number): void;
-
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 4874:
-    //
-    //   "p5.SawOsc" is not a valid JS symbol name
-    //
-    // p5.SawOsc(freq?: number): void;
-
-    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 4889:
-    //
-    //   "p5.SqrOsc" is not a valid JS symbol name
-    //
-    // p5.SqrOsc(freq?: number): void;
-
+  }
+  class SinOsc extends {p5.Oscillator} {
+    /**
+     *   Constructor: new p5.SinOsc(). This creates a Sine 
+     *   Wave Oscillator and is equivalent to  new 
+     *   p5.Oscillator('sine')  or creating a p5.Oscillator 
+     *   and then calling its method setType('sine'). See 
+     *   p5.Oscillator for methods.
+     *
+     *   @param [freq] Set the frequency
+     */
+    constructor(freq?: number);
+  }
+  class TriOsc extends {p5.Oscillator} {
+    /**
+     *   Constructor: new p5.TriOsc(). This creates a 
+     *   Triangle Wave Oscillator and is equivalent to new 
+     *   p5.Oscillator('triangle')  or creating a 
+     *   p5.Oscillator and then calling its method 
+     *   setType('triangle'). See p5.Oscillator for 
+     *   methods.
+     *
+     *   @param [freq] Set the frequency
+     */
+    constructor(freq?: number);
+  }
+  class SawOsc extends {p5.Oscillator} {
+    /**
+     *   Constructor: new p5.SawOsc(). This creates a 
+     *   SawTooth Wave Oscillator and is equivalent to  new 
+     *   p5.Oscillator('sawtooth')  or creating a 
+     *   p5.Oscillator and then calling its method 
+     *   setType('sawtooth'). See p5.Oscillator for 
+     *   methods.
+     *
+     *   @param [freq] Set the frequency
+     */
+    constructor(freq?: number);
+  }
+  class SqrOsc extends {p5.Oscillator} {
+    /**
+     *   Constructor: new p5.SqrOsc(). This creates a 
+     *   Square Wave Oscillator and is equivalent to  new 
+     *   p5.Oscillator('square')  or creating a 
+     *   p5.Oscillator and then calling its method 
+     *   setType('square'). See p5.Oscillator for methods.
+     *
+     *   @param [freq] Set the frequency
+     */
+    constructor(freq?: number);
   }
   class Env {
     /**
@@ -7604,9 +8945,10 @@ declare namespace p5 {
      *   inputs are provided, the env will control all of 
      *   them.
      *
-     *   @param unit A p5.sound object or Web Audio Param.
+     *   @param [inputs] A p5.sound object or Web Audio 
+     *   Param.
      */
-    setInput(unit: object): void;
+    setInput(inputs?: object): void;
 
     /**
      *   Set whether the envelope ramp is linear (default) 
@@ -7708,7 +9050,7 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Env;
   }
-  class Pulse {
+  class Pulse extends p5.Oscillator {
     /**
      *   Creates a Pulse object, an oscillator that 
      *   implements Pulse Width Modulation. The pulse is 
@@ -7733,14 +9075,13 @@ declare namespace p5 {
      */
     width(width?: number): void;
   }
-  class Noise {
+  class Noise extends p5.Oscillator {
     /**
      *   Noise is a type of oscillator that generates a 
      *   buffer with random values.
      *
      *   @param type Type of noise can be 'white' 
      *   (default), 'brown' or 'pink'.
-     *   @return Noise Object
      */
     constructor(type: string);
 
@@ -7807,7 +9148,6 @@ declare namespace p5 {
      *   is an error accessing the AudioIn. For example, 
      *   Safari and iOS devices do not currently allow 
      *   microphone access.
-     *   @return AudioIn
      */
     constructor(errorCallback?: Function);
 
@@ -7833,13 +9173,13 @@ declare namespace p5 {
      *   function that is called in case the browser won't 
      *   provide mic access.
      *
-     *   @param successCallback Name of a function to call 
-     *   on success.
-     *   @param errorCallback Name of a function to call if 
-     *   there was an error. For example, some browsers do 
-     *   not support getUserMedia.
+     *   @param [successCallback] Name of a function to 
+     *   call on success.
+     *   @param [errorCallback] Name of a function to call 
+     *   if there was an error. For example, some browsers 
+     *   do not support getUserMedia.
      */
-    start(successCallback: Function, errorCallback: Function): void;
+    start(successCallback?: Function, errorCallback?: Function): void;
 
     /**
      *   Turn the AudioIn off. If the AudioIn is stopped, 
@@ -7924,27 +9264,80 @@ declare namespace p5 {
      */
     setSource(num: number): void;
   }
-  class Filter {
+  class Effect {
+    // TODO: Fix p5.Effect() errors in lib/addons/p5.sound.js, line 7694:
+    //
+    //   param "input" has invalid type: WebAudioNode
+    //   param "output" has invalid type: WebAudioNode
+    //   param "wet" has invalid type: WebAudioNode
+    //
+    // constructor(ac?: object, input?: any, output?: any, _drywet?: object, wet?: any);
+
+    /**
+     *   Set the output volume of the filter.
+     *
+     *   @param [vol] amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts until 
+     *   rampTime
+     *   @param [tFromNow] schedule this event to happen in 
+     *   tFromNow seconds
+     */
+    amp(vol?: number, rampTime?: number, tFromNow?: number): void;
+
+    /**
+     *   Link effects together in a chainExample usage: 
+     *   filter.chain(reverb, delay, panner); May be used 
+     *   with an open-ended number of arguments
+     *
+     *   @param [arguments] Chain together multiple sound 
+     *   objects
+     */
+    chain(arguments?: object): void;
+
+    /**
+     *   Adjust the dry/wet value.
+     *
+     *   @param [fade] The desired drywet value (0 - 1.0)
+     */
+    drywet(fade?: number): void;
+
+    /**
+     *   Send output to a p5.js-sound, Web Audio Node, or 
+     *   use signal to control an AudioParam
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+  }
+  class Filter extends p5.Effect {
     /**
      *   A p5.Filter uses a Web Audio Biquad Filter to 
      *   filter the frequency response of an input source. 
-     *   Inheriting classes include: 
+     *   Subclasses include: 
      * 
-     *   - p5.LowPass - allows frequencies below the cutoff 
+     *   - p5.LowPass: Allows frequencies below the cutoff 
      *   frequency to pass through, and attenuates 
      *   frequencies above the cutoff.
-     *   - p5.HighPass - the opposite of a lowpass filter. 
-     *   - p5.BandPass - allows a range of frequencies to 
+     *   - p5.HighPass: The opposite of a lowpass filter. 
+     *   - p5.BandPass: Allows a range of frequencies to 
      *   pass through and attenuates the frequencies below 
      *   and above this frequency range. 
      * 
      *   The .res() method controls either width of the 
      *   bandpass, or resonance of the low/highpass cutoff 
-     *   frequency.
+     *   frequency. 
+     * 
+     *   This class extends p5.Effect.
+     *   Methods amp(), chain(), drywet(), connect(), and 
+     *   disconnect() are available.
      *
      *   @param [type] 'lowpass' (default), 'highpass', 
      *   'bandpass'
-     *   @return p5.Filter
      */
     constructor(type?: string);
 
@@ -7953,7 +9346,7 @@ declare namespace p5 {
      *   BiquadFilter Node.
      *
      */
-    biquadFilter: any;
+    biquadFilter: DelayNode;
 
     /**
      *   Filter an audio signal according to a set of 
@@ -7969,12 +9362,12 @@ declare namespace p5 {
     /**
      *   Set the frequency and the resonance of the filter.
      *
-     *   @param freq Frequency in Hz, from 10 to 22050
-     *   @param res Resonance (Q) from 0.001 to 1000
+     *   @param [freq] Frequency in Hz, from 10 to 22050
+     *   @param [res] Resonance (Q) from 0.001 to 1000
      *   @param [timeFromNow] schedule this event to happen 
      *   seconds from now
      */
-    set(freq: number, res: number, timeFromNow?: number): void;
+    set(freq?: number, res?: number, timeFromNow?: number): void;
 
     /**
      *   Set the filter frequency, in Hz, from 10 to 22050 
@@ -8006,65 +9399,44 @@ declare namespace p5 {
      *   "bandpass", "lowshelf", "highshelf", "peaking", 
      *   "notch", "allpass".
      *
-     *   @param t type of filter
      */
     setType(t: string): void;
-
-    /**
-     *   Set the output level of the filter.
-     *
-     *   @param volume amplitude between 0 and 1.0
-     *   @param [rampTime] create a fade that lasts 
-     *   rampTime
-     *   @param [timeFromNow] schedule this event to happen 
-     *   seconds from now
-     */
-    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
-
-    /**
-     *   Send output to a p5.sound or web audio object
-     *
-     */
-    connect(unit: object): void;
-
-    /**
-     *   Disconnect all output.
-     *
-     */
-    disconnect(): void;
-
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 6983:
-    //
-    //   "p5.LowPass" is not a valid JS symbol name
-    //
-    // p5.LowPass(): void;
-
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 6995:
-    //
-    //   "p5.HighPass" is not a valid JS symbol name
-    //
-    // p5.HighPass(): void;
-
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 7007:
-    //
-    //   "p5.BandPass" is not a valid JS symbol name
-    //
-    // p5.BandPass(): void;
-
   }
-  class Delay {
+  class LowPass extends {p5.Filter} {
+    /**
+     *   Constructor: new p5.LowPass() Filter. This is the 
+     *   same as creating a p5.Filter and then calling its 
+     *   method setType('lowpass'). See p5.Filter for 
+     *   methods.
+     *
+     */
+    constructor();
+  }
+  class HighPass extends {p5.Filter} {
+    /**
+     *   Constructor: new p5.HighPass() Filter. This is the 
+     *   same as creating a p5.Filter and then calling its 
+     *   method setType('highpass'). See p5.Filter for 
+     *   methods.
+     *
+     */
+    constructor();
+  }
+  class Delay extends p5.Effect {
     /**
      *   Delay is an echo effect. It processes an existing 
      *   sound source, and outputs a delayed version of 
      *   that sound. The p5.Delay can produce different 
      *   effects depending on the delayTime, feedback, 
      *   filter, and type. In the example below, a feedback 
-     *   of 0.5 will produce a looping delay that decreases 
-     *   in volume by 50% each repeat. A filter will cut 
-     *   out the high frequencies so that the delay does 
-     *   not sound as piercing as the original source.
+     *   of 0.5 (the defaul value) will produce a looping 
+     *   delay that decreases in volume by 50% each repeat. 
+     *   A filter will cut out the high frequencies so that 
+     *   the delay does not sound as piercing as the 
+     *   original source. This class extends p5.Effect.
+     *   Methods amp(), chain(), drywet(), connect(), and 
+     *   disconnect() are available.
      *
-     *   @return Returns a p5.Delay object
      */
     constructor();
 
@@ -8073,14 +9445,14 @@ declare namespace p5 {
      *   Nodes, one for each stereo channel.
      *
      */
-    leftDelay: any;
+    leftDelay: DelayNode;
 
     /**
      *   The p5.Delay is built with two  Web Audio Delay 
      *   Nodes, one for each stereo channel.
      *
      */
-    rightDelay: any;
+    rightDelay: DelayNode;
 
     /**
      *   Add delay to an audio signal according to a set of 
@@ -8115,13 +9487,14 @@ declare namespace p5 {
      *   through the loop. A feedback greater than 1.0 is 
      *   not desirable because it will increase the overall 
      *   output each time through the loop, creating an 
-     *   infinite feedback loop.
+     *   infinite feedback loop. The default value is 0.5
      *
      *   @param feedback 0.0 to 1.0, or an object such as 
      *   an Oscillator that can be used to modulate this 
      *   param
+     *   @return Feedback value
      */
-    feedback(feedback: number|object): void;
+    feedback(feedback: number|object): number;
 
     /**
      *   Set a lowpass filter frequency for the delay. A 
@@ -8171,7 +9544,7 @@ declare namespace p5 {
      */
     disconnect(): void;
   }
-  class Reverb {
+  class Reverb extends p5.Effect {
     /**
      *   Reverb adds depth to a sound through a large 
      *   number of decaying echoes. It creates the 
@@ -8182,7 +9555,9 @@ declare namespace p5 {
      *   with the .set() or .process() methods. The 
      *   p5.Convolver extends p5.Reverb allowing you to 
      *   recreate the sound of actual physical spaces 
-     *   through convolution.
+     *   through convolution. This class extends p5.Effect.
+     *   Methods amp(), chain(), drywet(), connect(), and 
+     *   disconnect() are available.
      *
      */
     constructor();
@@ -8216,7 +9591,7 @@ declare namespace p5 {
     set(seconds?: number, decayRate?: number, reverse?: boolean): void;
 
     /**
-     *   Set the output level of the delay effect.
+     *   Set the output level of the reverb effect.
      *
      *   @param volume amplitude between 0 and 1.0
      *   @param [rampTime] create a fade that lasts 
@@ -8238,7 +9613,7 @@ declare namespace p5 {
      */
     disconnect(): void;
   }
-  class Convolver {
+  class Convolver extends p5.Effect {
     /**
      *   p5.Convolver extends p5.Reverb. It can emulate the 
      *   sound of real physical spaces through a process 
@@ -8270,7 +9645,7 @@ declare namespace p5 {
      *   Convolver Node.
      *
      */
-    convolverNode: any;
+    convolverNod: ConvolverNode;
 
     /**
      *   Create a p5.Convolver. Accepts a path to a 
@@ -8303,7 +9678,7 @@ declare namespace p5 {
      *   toggleImpulse(id) method.
      *
      */
-    impulses: any;
+    impulses: any[];
 
     /**
      *   Load and assign a new Impulse Response to the 
@@ -8390,7 +9765,7 @@ declare namespace p5 {
      *   parameters. Zero (0) indicates a rest.
      *
      */
-    sequence: any;
+    sequence: any[];
   }
   class Part {
     /**
@@ -8500,11 +9875,17 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 8424:
-    //
-    //   param "part(s)" is not a valid JS symbol name
-    //
-    // constructor(part(s): p5.Part);
+    /**
+     *   A Score consists of a series of Parts. The parts 
+     *   will be played back in order. For example, you 
+     *   could have an A part, a B part, and a C part, and 
+     *   play them back in this order new p5.Score(a, a, b, 
+     *   a, c)
+     *
+     *   @param [parts] One or multiple parts, to be played 
+     *   in sequence.
+     */
+    constructor(parts?: p5.Part);
 
     /**
      *   Start playback of the score.
@@ -8537,6 +9918,135 @@ declare namespace p5 {
      *
      */
     noLoop(): void;
+  }
+  class Compressor extends p5.Effect {
+    /**
+     *   Compressor is an audio effect class that performs 
+     *   dynamics compression on an audio input source. 
+     *   This is a very commonly used technique in music 
+     *   and sound production. Compression creates an 
+     *   overall louder, richer, and fuller sound by 
+     *   lowering the volume of louds and raising that of 
+     *   softs. Compression can be used to avoid clipping 
+     *   (sound distortion due to peaks in volume) and is 
+     *   especially useful when many sounds are played at 
+     *   once. Compression can be used on indivudal sound 
+     *   sources in addition to the master output.  This 
+     *   class extends p5.Effect.
+     *   Methods amp(), chain(), drywet(), connect(), and 
+     *   disconnect() are available.
+     *
+     */
+    constructor();
+
+    /**
+     *   The p5.Compressor is built with a Web Audio 
+     *   Dynamics Compressor Node
+     *
+     */
+    compressor: any;
+
+    /**
+     *   Performs the same function as .connect, but also 
+     *   accepts optional parameters to set compressor's 
+     *   audioParams
+     *
+     *   @param src Sound source to be connected
+     *   @param [attack] The amount of time (in seconds) to 
+     *   reduce the gain by 10dB, default = .003, range 0 - 
+     *   1
+     *   @param [knee] A decibel value representing the 
+     *   range above the threshold where the curve smoothly 
+     *   transitions to the "ratio" portion. default = 30, 
+     *   range 0 - 40
+     *   @param [ratio] The amount of dB change in input 
+     *   for a 1 dB change in output default = 12, range 1 
+     *   - 20
+     *   @param [threshold] The decibel value above which 
+     *   the compression will start taking effect default = 
+     *   -24, range -100 - 0
+     *   @param [release] The amount of time (in seconds) 
+     *   to increase the gain by 10dB default = .25, range 
+     *   0 - 1
+     */
+    process(src: object, attack?: number, knee?: number, ratio?: number, threshold?: number, release?: number): void;
+
+    /**
+     *   Set the paramters of a compressor.
+     *
+     *   @param attack The amount of time (in seconds) to 
+     *   reduce the gain by 10dB, default = .003, range 0 - 
+     *   1
+     *   @param knee A decibel value representing the range 
+     *   above the threshold where the curve smoothly 
+     *   transitions to the "ratio" portion. default = 30, 
+     *   range 0 - 40
+     *   @param ratio The amount of dB change in input for 
+     *   a 1 dB change in output default = 12, range 1 - 20
+     *   @param threshold The decibel value above which the 
+     *   compression will start taking effect default = 
+     *   -24, range -100 - 0
+     *   @param release The amount of time (in seconds) to 
+     *   increase the gain by 10dB default = .25, range 0 - 
+     *   1
+     */
+    set(attack: number, knee: number, ratio: number, threshold: number, release: number): void;
+
+    /**
+     *   Get current attack or set value w/ time ramp
+     *
+     *   @param [attack] Attack is the amount of time (in 
+     *   seconds) to reduce the gain by 10dB, default = 
+     *   .003, range 0 - 1
+     *   @param [time] Assign time value to schedule the 
+     *   change in value
+     */
+    attack(attack?: number, time?: number): void;
+
+    /**
+     *   Get current knee or set value w/ time ramp
+     *
+     *   @param [knee] A decibel value representing the 
+     *   range above the threshold where the curve smoothly 
+     *   transitions to the "ratio" portion. default = 30, 
+     *   range 0 - 40
+     *   @param [time] Assign time value to schedule the 
+     *   change in value
+     */
+    knee(knee?: number, time?: number): void;
+
+    /**
+     *   Get current ratio or set value w/ time ramp
+     *
+     *   @param [ratio] The amount of dB change in input 
+     *   for a 1 dB change in output default = 12, range 1 
+     *   - 20
+     *   @param [time] Assign time value to schedule the 
+     *   change in value
+     */
+    ratio(ratio?: number, time?: number): void;
+
+    /**
+     *   Get current threshold or set value w/ time ramp
+     *
+     *   @param threshold The decibel value above which the 
+     *   compression will start taking effect default = 
+     *   -24, range -100 - 0
+     *   @param [time] Assign time value to schedule the 
+     *   change in value
+     */
+    threshold(threshold: number, time?: number): void;
+
+    /**
+     *   Get current release or set value w/ time ramp
+     *
+     *   @param release The amount of time (in seconds) to 
+     *   increase the gain by 10dB default = .25, range 0 - 
+     *   1
+     *   @param [time] Assign time value to schedule the 
+     *   change in value
+     */
+    release(release: number, time?: number): void;
   }
   class SoundRecorder {
     /**
@@ -8637,7 +10147,7 @@ declare namespace p5 {
      *   @param [framesPerPeak] Defaults to 20.
      */
     constructor(freq1?: number, freq2?: number, threshold?: number, framesPerPeak?: number);
-    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 8944
+    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 10144
 
     /**
      *   The update method is run in the draw loop. Accepts 
@@ -8700,15 +10210,17 @@ declare namespace p5 {
      */
     amp(volume: number, rampTime?: number, timeFromNow?: number): void;
   }
-  class Distortion {
+  class Distortion extends p5.Effect {
     /**
      *   A Distortion effect created with a Waveshaper 
-     *   Node, with an approach adapted from Kevin Ennis
+     *   Node, with an approach adapted from Kevin Ennis 
+     *   This class extends p5.Effect.
+     *   Methods amp(), chain(), drywet(), connect(), and 
+     *   disconnect() are available.
      *
      *   @param [amount] Unbounded distortion amount. 
      *   Normal values range from 0-1.
      *   @param [oversample] 'none', '2x', or '4x'.
-     *   @return Distortion object
      */
     constructor(amount?: number, oversample?: string);
 
@@ -8717,7 +10229,17 @@ declare namespace p5 {
      *   WaveShaper Node.
      *
      */
-    WaveShaperNode: any;
+    WaveShaperNode: AudioNode;
+
+    /**
+     *   Process a sound source, optionally specify amount 
+     *   and oversample values.
+     *
+     *   @param [amount] Unbounded distortion amount. 
+     *   Normal values range from 0-1.
+     *   @param [oversample] 'none', '2x', or '4x'.
+     */
+    process(amount?: number, oversample?: string): void;
 
     /**
      *   Set the amount and oversample of the waveshaper 
@@ -8727,7 +10249,7 @@ declare namespace p5 {
      *   Normal values range from 0-1.
      *   @param [oversample] 'none', '2x', or '4x'.
      */
-    setType(amount?: number, oversample?: string): void;
+    set(amount?: number, oversample?: string): void;
 
     /**
      *   Return the distortion amount, typically between 
@@ -8739,25 +10261,87 @@ declare namespace p5 {
     getAmount(): number;
 
     /**
-     *   Send output to a p5.sound or web audio object
+     *   Return the oversampling.
      *
+     *   @return Oversample can either be 'none', '2x', or 
+     *   '4x'.
      */
-    connect(unit: object): void;
-
-    /**
-     *   Disconnect all output.
-     *
-     */
-    disconnect(): void;
+    getOversample(): string;
   }
 }
 
 // Literals 
+type P2D = 'p2d'
+type WEBGL = 'webgl'
+type DEGREES = 'degrees'
+type RADIANS = 'radians'
+type CORNER = 'corner'
+type CORNERS = 'corners'
+type RADIUS = 'radius'
+type RIGHT = 'right'
+type LEFT = 'left'
+type CENTER = 'center'
+type TOP = 'top'
+type BOTTOM = 'bottom'
+type BASELINE = 'alphabetic'
+type POINTS = 0x0000
+type LINES = 0x0001
+type LINE_STRIP = 0x0003
+type LINE_LOOP = 0x0002
+type TRIANGLES = 0x0004
+type TRIANGLE_FAN = 0x0006
+type TRIANGLE_STRIP = 0x0005
+type QUADS = 'quads'
+type QUAD_STRIP = 'quad_strip'
+type CLOSE = 'close'
+type OPEN = 'open'
+type CHORD = 'chord'
+type PIE = 'pie'
+type PROJECT = 'square'
+type SQUARE = 'butt'
+type ROUND = 'round'
+type BEVEL = 'bevel'
+type MITER = 'miter'
+type RGB = 'rgb'
+type HSB = 'hsb'
+type HSL = 'hsl'
+type BLEND = 'source-over'
+type ADD = 'lighter'
+type DARKEST = 'darkest'
+type LIGHTEST = 'lighten'
+type DIFFERENCE = 'difference'
+type EXCLUSION = 'exclusion'
+type MULTIPLY = 'multiply'
+type SCREEN = 'screen'
+type REPLACE = 'copy'
+type OVERLAY = 'overlay'
+type HARD_LIGHT = 'hard-light'
+type SOFT_LIGHT = 'soft-light'
+type DODGE = 'color-dodge'
+type BURN = 'color-burn'
+type THRESHOLD = 'threshold'
+type GRAY = 'gray'
+type OPAQUE = 'opaque'
+type INVERT = 'invert'
+type POSTERIZE = 'posterize'
+type DILATE = 'dilate'
+type ERODE = 'erode'
+type BLUR = 'blur'
+type NORMAL = 'normal'
+type ITALIC = 'italic'
+type BOLD = 'bold'
+type LANDSCAPE = 'landscape'
+type PORTRAIT = 'portrait'
 
 // Constants 
 type COLOR_MODE =
       RGB
-    | HSB;
+    | HSB
+    | HSL;
+
+type ARC_MODE =
+      CHORD
+    | PIE;
 
 type ELLIPSE_MODE =
       CENTER
@@ -8789,6 +10373,27 @@ type CURSOR_TYPE =
     | TEXT
     | WAIT;
 
+type RENDERER =
+      P2D
+    | WEBGL;
+
+type BLEND_MODE =
+      BLEND
+    | DARKEST
+    | LIGHTEST
+    | DIFFERENCE
+    | MULTIPLY
+    | EXCLUSION
+    | SCREEN
+    | REPLACE
+    | OVERLAY
+    | HARD_LIGHT
+    | SOFT_LIGHT
+    | DODGE
+    | BURN
+    | ADD
+    | NORMAL;
+
 type BEGIN_KIND =
       POINTS
     | LINES
@@ -8805,6 +10410,16 @@ type IMAGE_MODE =
       CORNER
     | CORNERS
     | CENTER;
+
+type FILTER_TYPE =
+      THRESHOLD
+    | GRAY
+    | OPAQUE
+    | INVERT
+    | POSTERIZE
+    | BLUR
+    | ERODE
+    | DILATE;
 
 type ANGLE_MODE =
       RADIANS
@@ -8829,4 +10444,8 @@ type THE_STYLE =
 type TYPE =
       VIDEO
     | AUDIO;
+
+type GRAPHICS_RENDERER =
+      P2D
+    | WEBGL;
 
