@@ -804,23 +804,24 @@ declare function createImage(width: number, height: number): p5.Image;
  *   callback, or place the loadImage() call in 
  *   preload().
  *
- *   @param callback Function to be called once the 
+ *   @param path Path of the image to be loaded
+ *   @param [callback] Function to be called once the 
  *   image is loaded. Will be passed the p5.Image.
  *   @return the p5.Image object
  */
-declare function loadImage(path: string, callback: Function): p5.Image;
+declare function loadImage(path: string, callback?: (p1: p5.Image) => any): p5.Image;
 
 /**
  *   Draw an image to the main canvas of the p5js 
  *   sketch
  *
  *   @param image the image to display
- *   @param x x-coordinate of the image
- *   @param y y-coordinate of the image
+ *   @param [x] x-coordinate of the image
+ *   @param [y] y-coordinate of the image
  *   @param [width] width to display the image
  *   @param [height] height to display the image
  */
-declare function image(image: p5.Image, x: number, y: number, width?: number, height?: number): void;
+declare function image(image: p5.Image, x?: number, y?: number, width?: number, height?: number): void;
 
 /**
  *   Sets the fill value for displaying images. Images 
@@ -1036,9 +1037,10 @@ declare function set(x: number, y: number, c: number|any[]|object): void;
  *   @param [callback] function to be executed after 
  *   loadJSON() completes, Array is passed in as first 
  *   argument
+ *   @param [datatype] "json" or "jsonp"
  *   @return JSON data
  */
-declare function loadJSON(path: string, callback?: Function): object|any[];
+declare function loadJSON(path: string, callback?: Function, datatype?: string): object|any[];
 
 /**
  *   Reads the contents of a file and creates a String 
@@ -1256,7 +1258,7 @@ declare var pmouseX: any;
 declare var pmouseY: any;
 
 /**
- *   The system variable pwinMouseY always contains the 
+ *   The system variable winMouseX always contains the 
  *   current horizontal position of the mouse, relative 
  *   to (0, 0) of the window.
  *
@@ -1727,7 +1729,7 @@ declare function pow(n: number, e: number): number;
  *   @param n number to round
  *   @return rounded number
  */
-declare function constrain(n: number): number;
+declare function round(n: number): number;
 
 /**
  *   Squares a number (multiplies a number by itself). 
@@ -2071,6 +2073,15 @@ declare function print(contents: any): void;
 declare function createCanvas(w: number, h: number): object;
 
 /**
+ *   Resizes the canvas to given width and height. Note 
+ *   that the canvas will be cleared so anything drawn 
+ *   previously in setup or draw will disappear on 
+ *   resize. Setup will not be called again.
+ *
+ */
+declare function resizeCanvas(): void;
+
+/**
  *   Removes the default canvas for a p5 sketch that 
  *   doesn't require a canvas
  *
@@ -2163,7 +2174,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 287:
+// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 292:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -2895,74 +2906,74 @@ declare function getElements(theClass: string): any[];
  */
 declare function removeElements(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 110:
+// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 121:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 121:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 132:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 133:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 144:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 153:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 164:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt: string): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 176:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 187:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 200:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 211:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 222:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 233:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 243:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 254:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 290:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 301:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 318:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 329:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 354:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 365:
 //
 //   param "type" has invalid type: String/Constant
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: any): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 386:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 399:
 //
 //   return has invalid type: Object/p5.Element
 //

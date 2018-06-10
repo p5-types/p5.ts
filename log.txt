@@ -11,14 +11,14 @@ angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: N
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
 blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
-quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "x3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "x4" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y4" has invalid type: Type
 ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: Number/Constant
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
@@ -27,20 +27,20 @@ beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
-createDiv() lib/addons/p5.dom.js, line 110, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 133, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 153, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 176, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 200, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 222, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 243, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 290, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 318, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 354, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 354, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 386, return has invalid type: Object/p5.Element
-lerp() src/objects/p5.Vector.js, line 383, required param "amt" follows an optional param
+createDiv() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 144, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 164, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 187, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 211, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 233, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 254, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 301, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 329, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 365, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 365, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 399, return has invalid type: Object/p5.Element
+lerp() src/objects/p5.Vector.js, line 519, required param "amt" follows an optional param
 p5.SoundFile() lib/addons/p5.sound.js, line 425, param "path" has invalid type: String/Array
 loadSound() lib/addons/p5.sound.js, line 504, param "path" has invalid type: String/Array
 fade() lib/addons/p5.sound.js, line 1970, param "secondsFromNow" has invalid type: [Number]
@@ -89,14 +89,14 @@ angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: N
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
 blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
-quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y2" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "x3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y3" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "x4" has invalid type: Type
-quad() src/shape/2d_primitives.js, line 287, param "y4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y1" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y2" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y3" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "x4" has invalid type: Type
+quad() src/shape/2d_primitives.js, line 292, param "y4" has invalid type: Type
 ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: Number/Constant
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
@@ -105,19 +105,19 @@ beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
-createDiv() lib/addons/p5.dom.js, line 110, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 133, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 153, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 176, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 200, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 222, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 243, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 290, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 318, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 354, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 354, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 386, return has invalid type: Object/p5.Element
+createDiv() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 144, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 164, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 187, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 211, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 233, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 254, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 301, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 329, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 365, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 365, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 399, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant

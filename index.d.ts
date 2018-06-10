@@ -804,23 +804,24 @@ declare class p5 {
    *   callback, or place the loadImage() call in 
    *   preload().
    *
-   *   @param callback Function to be called once the 
+   *   @param path Path of the image to be loaded
+   *   @param [callback] Function to be called once the 
    *   image is loaded. Will be passed the p5.Image.
    *   @return the p5.Image object
    */
-  loadImage(path: string, callback: Function): p5.Image;
+  loadImage(path: string, callback?: (p1: p5.Image) => any): p5.Image;
 
   /**
    *   Draw an image to the main canvas of the p5js 
    *   sketch
    *
    *   @param image the image to display
-   *   @param x x-coordinate of the image
-   *   @param y y-coordinate of the image
+   *   @param [x] x-coordinate of the image
+   *   @param [y] y-coordinate of the image
    *   @param [width] width to display the image
    *   @param [height] height to display the image
    */
-  image(image: p5.Image, x: number, y: number, width?: number, height?: number): void;
+  image(image: p5.Image, x?: number, y?: number, width?: number, height?: number): void;
 
   /**
    *   Sets the fill value for displaying images. Images 
@@ -1036,9 +1037,10 @@ declare class p5 {
    *   @param [callback] function to be executed after 
    *   loadJSON() completes, Array is passed in as first 
    *   argument
+   *   @param [datatype] "json" or "jsonp"
    *   @return JSON data
    */
-  loadJSON(path: string, callback?: Function): object|any[];
+  loadJSON(path: string, callback?: Function, datatype?: string): object|any[];
 
   /**
    *   Reads the contents of a file and creates a String 
@@ -1256,7 +1258,7 @@ declare class p5 {
   pmouseY: any;
 
   /**
-   *   The system variable pwinMouseY always contains the 
+   *   The system variable winMouseX always contains the 
    *   current horizontal position of the mouse, relative 
    *   to (0, 0) of the window.
    *
@@ -1727,7 +1729,7 @@ declare class p5 {
    *   @param n number to round
    *   @return rounded number
    */
-  constrain(n: number): number;
+  round(n: number): number;
 
   /**
    *   Squares a number (multiplies a number by itself). 
@@ -2071,6 +2073,15 @@ declare class p5 {
   createCanvas(w: number, h: number): object;
 
   /**
+   *   Resizes the canvas to given width and height. Note 
+   *   that the canvas will be cleared so anything drawn 
+   *   previously in setup or draw will disappear on 
+   *   resize. Setup will not be called again.
+   *
+   */
+  resizeCanvas(): void;
+
+  /**
    *   Removes the default canvas for a p5 sketch that 
    *   doesn't require a canvas
    *
@@ -2163,7 +2174,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 287:
+  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 292:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -2895,74 +2906,74 @@ declare class p5 {
    */
   removeElements(): void;
 
-  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 110:
+  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 121:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createDiv(html: string): any;
 
-  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 121:
+  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 132:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createP(html: string): any;
 
-  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 133:
+  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 144:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSpan(html: string): any;
 
-  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 153:
+  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 164:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createImg(src: string, alt: string): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 176:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 187:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 200:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 211:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 222:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 233:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 243:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 254:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 290:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 301:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 318:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 329:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 354:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 365:
   //
   //   param "type" has invalid type: String/Constant
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: any): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 386:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 399:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -3840,9 +3851,8 @@ declare namespace p5 {
      *   vector to another, or adds two independent vectors 
      *   together. The version of the method that adds two 
      *   vectors together is a static method and returns a 
-     *   p5.Vector, the others have no return value -- they 
-     *   act directly on the vector. See the examples for 
-     *   more context.
+     *   p5.Vector, the others acts directly on the vector. 
+     *   See the examples for more context.
      *
      *   @param x the x component of the vector to be added 
      *   or a p5.Vector or an Array
@@ -3858,10 +3868,9 @@ declare namespace p5 {
      *   Subtracts x, y, and z components from a vector, 
      *   subtracts one vector from another, or subtracts 
      *   two independent vectors. The version of the method 
-     *   that substracts two vectors is a static method and 
-     *   returns a p5.Vector, the others have no return 
-     *   value -- they act directly on the vector. See the 
-     *   examples for more context.
+     *   that subtracts two vectors is a static method and 
+     *   returns a p5.Vector, the other acts directly on 
+     *   the vector. See the examples for more context.
      *
      *   @param x the x component of the vector or a 
      *   p5.Vector or an Array
@@ -3872,7 +3881,10 @@ declare namespace p5 {
     sub(x: number|p5.Vector|any[], y?: number, z?: number): p5.Vector;
 
     /**
-     *   Multiply the vector by a scalar.
+     *   Multiply the vector by a scalar. The static 
+     *   version of this method creates a new p5.Vector 
+     *   while the non static version acts on the vector 
+     *   directly. See the examples for more context.
      *
      *   @param n the number to multiply with the vector
      *   @chainable
@@ -3880,7 +3892,10 @@ declare namespace p5 {
     mult(n: number): p5.Vector;
 
     /**
-     *   Divide the vector by a scalar.
+     *   Divide the vector by a scalar. The static version 
+     *   of this method creates a new p5.Vector while the 
+     *   non static version acts on the vector directly. 
+     *   See the examples for more context.
      *
      *   @param n the number to divide the vector by
      *   @chainable
@@ -3908,7 +3923,10 @@ declare namespace p5 {
     magSq(): number;
 
     /**
-     *   Calculates the dot product of two vectors.
+     *   Calculates the dot product of two vectors. The 
+     *   version of the method that computes the dot 
+     *   product of two independent vectors is a static 
+     *   method. See the examples for more context.
      *
      *   @param x x component of the vector or a p5.Vector
      *   @param [y] y component of the vector
@@ -3919,7 +3937,9 @@ declare namespace p5 {
 
     /**
      *   Calculates and returns a vector composed of the 
-     *   cross product between two vectors.
+     *   cross product between two vectors. Both the static 
+     *   and non static methods return a new p5.Vector. See 
+     *   the examples for more context.
      *
      *   @param v p5.Vector to be crossed
      *   @return p5.Vector composed of cross product
@@ -3979,7 +3999,7 @@ declare namespace p5 {
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 383:
+    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 519:
     //
     //   required param "amt" follows an optional param
     //
@@ -4017,6 +4037,18 @@ declare namespace p5 {
      *   @return the new p5.Vector object
      */
     static random3D(): p5.Vector;
+
+    /**
+     *   Calculates and returns the angle (in radians) 
+     *   between two vectors.
+     *
+     *   @param v1 the x, y, and z components of a 
+     *   p5.Vector
+     *   @param v2 the x, y, and z components of a 
+     *   p5.Vector
+     *   @return the angle between (in radians)
+     */
+    static angleBetween(v1: p5.Vector, v2: p5.Vector): number;
   }
 
   // lib/addons/p5.dom.js
