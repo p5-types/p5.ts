@@ -587,7 +587,7 @@ declare class p5 {
    *   will be used as separators
    *   @return Array of Strings
    */
-  split(value: string, delim?: string): any[];
+  splitTokens(value: string, delim?: string): any[];
 
   /**
    *   Removes whitespace characters from the beginning 
@@ -1064,12 +1064,12 @@ declare class p5 {
   // src/input/keyboard.js
 
   /**
-   *   The boolean system variable isKeyPressed is true 
+   *   The boolean system variable keyIsPressed is true 
    *   if any key is pressed and false if no keys are 
    *   pressed.
    *
    */
-  isKeyPressed: any;
+  keyIsPressed: any;
 
   /**
    *   The system variable key always contains the value 
@@ -1888,34 +1888,12 @@ declare class p5 {
 
   // src/output/files.js
 
-  /**
-   *   Writes the contents of an Array or a JSON object 
-   *   to a .json file. The file saving process and 
-   *   location of the saved file will vary between web 
-   *   browsers.
-   *
-   *   @param [optimize] If true, removes line breaks and 
-   *   spaces from the output file to optimize filesize 
-   *   (but not readability).
-   */
-  saveJSON(json: any[]|object, filename: string, optimize?: boolean): void;
-
-  /**
-   *   Writes an array of Strings to a text file, one 
-   *   line per String. The file saving process and 
-   *   location of the saved file will vary between web 
-   *   browsers.
-   *
-   *   @param list string array to be written
-   *   @param filename filename for output
-   */
-  saveStrings(list: any[], filename: string): void;
-
-  // TODO: Fix saveTable() errors in src/output/files.js, line 213:
+  // TODO: Fix save() errors in src/output/files.js, line 109:
   //
-  //   param "options" has invalid type: [String]
+  //   param "filename" has invalid type: [String]
+  //   param "options" has invalid type: [Boolean/String]
   //
-  // saveTable(Table: p5.Table, filename: string, options: any): void;
+  // save(objectOrFilename: any|any, filename: any, options: any): void;
 
   // src/output/text_area.js
 
@@ -2039,7 +2017,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 280:
+  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 283:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -2864,7 +2842,7 @@ declare class p5 {
    */
   getAudioContext(): object;
 
-  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 176, is not a valid JS symbol name
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 193, is not a valid JS symbol name
 
   /**
    *   Set the master amplitude (volume) for sound in 
@@ -3377,19 +3355,15 @@ declare namespace p5 {
      */
     blend(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: number): void;
 
-    // TODO: Fix save() errors in src/objects/p5.Image.js, line 291:
-    //
-    //   param "extension
-
-TODO:" is not a valid JS symbol name
-    //   param "extension
-
-TODO:" has invalid type: [type]
-    //
-    // save(extension
-
-TODO:: any): void;
-
+    /**
+     *   Saves the image to a file and force the browser to 
+     *   download it. Accepts two strings for filename and 
+     *   file extension Supports png (default) and jpg.
+     *
+     *   @param filename give your file a name
+     *   @param extension 'png' or 'jpg'
+     */
+    save(filename: string, extension: string): void;
   }
 
   // src/objects/p5.Table.js
@@ -3871,7 +3845,7 @@ TODO:: any): void;
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 371:
+    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 383:
     //
     //   required param "amt" follows an optional param
     //
@@ -3999,13 +3973,13 @@ TODO:: any): void;
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 397:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 425:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 473:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 504:
     //
     //   param "path" has invalid type: String/Array
     //
@@ -4229,6 +4203,15 @@ TODO:: any): void;
      *   @return Volume level (between 0.0 and 1.0)
      */
     getLevel(smoothing?: number): number;
+
+    /**
+     *   Reset the source for this SoundFile to a new path 
+     *   (URL).
+     *
+     *   @param path path to audio file
+     *   @param callback Callback
+     */
+    setPath(path: string, callback: Function): void;
   }
   class Amplitude {
     /**
@@ -4372,8 +4355,10 @@ TODO:: any): void;
      *
      *   @param [bins] Must be a power of two between 16 
      *   and 1024. Defaults to 1024.
-     *   @return spectrum Array of amplitude values across 
-     *   the frequency spectrum.
+     *   @return spectrum Array of energy 
+     *   (amplitude/volume) values across the frequency 
+     *   spectrum. Lowest energy (silence) = 0, highest 
+     *   possible is 255.
      */
     analyze(bins?: number): any[];
 
@@ -4384,11 +4369,13 @@ TODO:: any): void;
      *   corresponding to frequency (in Hz), or a String 
      *   corresponding to predefined frequency ranges 
      *   ("bass", "lowMid", "mid", "highMid", "treble"). 
-     *   NOTE: analyze() must be called prior to 
-     *   getEnergy(). Analyze() tells the FFT to analyze 
-     *   frequency data, and getEnergy() uses the results 
-     *   determine the value at a specific frequency or 
-     *   range of frequencies.
+     *   Returns a range between 0 (no energy/volume at 
+     *   that frequency) and 255 (maximum energy). NOTE: 
+     *   analyze() must be called prior to getEnergy(). 
+     *   Analyze() tells the FFT to analyze frequency data, 
+     *   and getEnergy() uses the results determine the 
+     *   value at a specific frequency or range of 
+     *   frequencies.
      *
      *   @param frequency1 Will return a value representing 
      *   energy at this frequency. Alternately, the strings 
@@ -4397,6 +4384,8 @@ TODO:: any): void;
      *   @param [frequency2] If a second frequency is 
      *   given, will return average amount of energy that 
      *   exists between the two frequencies.
+     *   @return Energy Energy (volume/amplitude) from 0 
+     *   and 255.
      */
     getEnergy(frequency1: number|string, frequency2?: number): number;
 
@@ -4408,6 +4397,88 @@ TODO:: any): void;
      *   to 0.8.
      */
     smooth(smoothing: number): void;
+  }
+  class Signal {
+    /**
+     *   p5.Signal is a constant audio-rate signal used by 
+     *   p5.Oscillator and p5.Envelope for modulation math. 
+     *   This is necessary because Web Audio is processed 
+     *   on a seprate clock. For example, the p5 draw loop 
+     *   runs about 60 times per second. But the audio 
+     *   clock must process samples 44100 times per second. 
+     *   If we want to add a value to each of those 
+     *   samples, we can't do it in the draw loop, but we 
+     *   can do it by adding a constant-rate audio 
+     *   signal.This class and its children (p5.SignalAdd, 
+     *   p5.SignalMultiply, p5.SignalScale) mostly function 
+     *   behind the scenes in p5.sound. If you want to work 
+     *   directly with audio signals for modular synthesis, 
+     *   check out the source of this idea, tone.js.
+     *
+     */
+    constructor();
+
+    /**
+     *   Set the value of a signal.
+     *
+     */
+    setValue(value: number): void;
+
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 1970:
+    //
+    //   param "secondsFromNow" has invalid type: [Number]
+    //
+    // fade(value: number, secondsFromNow: any): void;
+
+    /**
+     *   Connect a p5.sound object or Web Audio node to 
+     *   this p5.Signal so that its amplitude values can be 
+     *   scaled.
+     *
+     */
+    setInput(input: object): void;
+
+    /**
+     *   Connect a p5.Signal to an object, such a 
+     *   AudioParam
+     *
+     *   @param node An object that accepts a signal as 
+     *   input such as a Web Audio API AudioParam
+     */
+    connect(node: object): void;
+
+    /**
+     *   Disconnect the signal
+     *
+     */
+    disconnect(): void;
+
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2028:
+    //
+    //   return has invalid type: p5.SignalAdd
+    //
+    // add(number: number): any;
+
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2043:
+    //
+    //   return has invalid type: p5.SignalMult
+    //
+    // mult(number: number): any;
+
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2058:
+    //
+    //   return has invalid type: p5.SignalScale
+    //
+    // scale(number: number, inMin: number, inMax: number, outMin: number, outMax: number): any;
+
+    // TODO: Fix signalMult() errors in lib/addons/p5.sound.js, line 2084:
+    //
+    //   param "num" has invalid type: [type]
+    //   param "input" has invalid type: [type]
+    //   return has invalid type: p5.SignalMult
+    //
+    // signalMult(num: any, input: any): any;
+
   }
   class Oscillator {
     /**
@@ -4439,11 +4510,14 @@ TODO:: any): void;
      */
     start(time?: number, frequency?: number): void;
 
-    // TODO: Fix stop() errors in lib/addons/p5.sound.js, line 1860:
-    //
-    //   param "time," is not a valid JS symbol name
-    //
-    // stop(time,: number): void;
+    /**
+     *   Stop an oscillator. Accepts an optional parameter 
+     *   to determine how long (in seconds from now) until 
+     *   the oscillator stops.
+     *
+     *   @param secondsFromNow Time, in seconds from now.
+     */
+    stop(secondsFromNow: number): void;
 
     /**
      *   Set amplitude (volume) of an oscillator between 0 
@@ -4454,8 +4528,11 @@ TODO:: any): void;
      *   rampTime
      *   @param [timeFromNow] schedule this event to happen 
      *   seconds from now
+     *   @return gain If no value is provided, returns the 
+     *   Web Audio API AudioParam that controls this 
+     *   oscillator's gain/amplitude/volume)
      */
-    amp(vol: number, rampTime?: number, timeFromNow?: number): void;
+    amp(vol: number, rampTime?: number, timeFromNow?: number): AudioParam;
 
     /**
      *   Set frequency of an oscillator.
@@ -4464,8 +4541,11 @@ TODO:: any): void;
      *   @param [rampTime] Ramp time (in seconds)
      *   @param [timeFromNow] Schedule this event to happen 
      *   at x seconds from now
+     *   @return Frequency If no value is provided, returns 
+     *   the Web Audio API AudioParam that controls this 
+     *   oscillator's frequency
      */
-    freq(Frequency: number, rampTime?: number, timeFromNow?: number): void;
+    freq(Frequency: number, rampTime?: number, timeFromNow?: number): AudioParam;
 
     /**
      *   Set type to 'sine', 'triangle', 'sawtooth' or 
@@ -4497,41 +4577,61 @@ TODO:: any): void;
     pan(panning: number): void;
 
     /**
-     *   Modulate any audio param.
-     *
-     *   @param AudioParam The param to modulate
-     */
-    mod(AudioParam: AudioParam): void;
-
-    /**
      *   Set the phase of an oscillator between 0.0 and 1.0
      *
      *   @param phase float between 0.0 and 1.0
      */
     phase(phase: number): void;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 2061:
+    /**
+     *   Add a value to the p5.Oscillator's output 
+     *   amplitude, and return the result in the form of a 
+     *   p5.Signal. This method does not add to the 
+     *   p5.Oscillator itself, — the returned p5.Signal 
+     *   handles the math. This is useful for modulating 
+     *   parameters with an oscillating signal. 
+     *   p5.Oscillator's amplitude. on this oscillator's 
+     *   signal.
+     *
+     *   @param number Constant number to add
+     *   @return p5.Signal a p5.Signal does the math
+     */
+    add(number: number): p5.Signal;
+
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2459:
+    //
+    //   return has invalid type: p5.SignalMult
+    //
+    // add(number: number): any;
+
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2477:
+    //
+    //   return has invalid type: p5.SignalScale
+    //
+    // scale(inMin: number, inMax: number, outMin: number, outMax: number): any;
+
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 2499:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 2076:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 2514:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2091:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2529:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2106:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2544:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -4539,13 +4639,102 @@ TODO:: any): void;
     // p5.SawOsc(freq: any): void;
 
   }
+  class Env {
+    /**
+     *   Envelopes are pre-defined amplitude distribution 
+     *   over time. The p5.Env accepts up to four 
+     *   time/level pairs, where time determines how long 
+     *   of a ramp before value reaches level. Typically, 
+     *   envelopes are used to control the output volume of 
+     *   an object, a series of fades referred to as 
+     *   Attack, Decay, Sustain and Release (ADSR). But 
+     *   p5.Env can control any Web Audio Param, for 
+     *   example it can be passed to an Oscillator 
+     *   frequency like osc.freq(env)
+     *
+     *   @param aTime Time (in seconds) before level 
+     *   reaches attackLevel
+     *   @param aLevel Typically an amplitude between 0.0 
+     *   and 1.0
+     *   @param dTime Time
+     *   @param [dLevel] Amplitude (In a standard ADSR 
+     *   envelope, decayLevel = sustainLevel)
+     *   @param [sTime] Time (in seconds)
+     *   @param [sLevel] Amplitude 0.0 to 1.0
+     *   @param [rTime] Time (in seconds)
+     *   @param [rLevel] Amplitude 0.0 to 1.0
+     */
+    constructor(aTime: number, aLevel: number, dTime: number, dLevel?: number, sTime?: number, sLevel?: number, rTime?: number, rLevel?: number);
+    attackTime: any;
+    attackLevel: any;
+    decayTime: any;
+    decayLevel: any;
+    sustainTime: any;
+    sustainLevel: any;
+    releaseTime: any;
+    releaseLevel: any;
+
+    /**
+     *   Reset the envelope with a series of time/value 
+     *   pairs.
+     *
+     *   @param aTime Time (in seconds) before level 
+     *   reaches attackLevel
+     *   @param aLevel Typically an amplitude between 0.0 
+     *   and 1.0
+     *   @param dTime Time
+     *   @param [dLevel] Amplitude (In a standard ADSR 
+     *   envelope, decayLevel = sustainLevel)
+     *   @param [sTime] Time (in seconds)
+     *   @param [sLevel] Amplitude 0.0 to 1.0
+     *   @param [rTime] Time (in seconds)
+     *   @param [rLevel] Amplitude 0.0 to 1.0
+     */
+    set(aTime: number, aLevel: number, dTime: number, dLevel?: number, sTime?: number, sLevel?: number, rTime?: number, rLevel?: number): void;
+
+    /**
+     *   Play tells the envelope to start acting on a given 
+     *   input. If the input is a p5.sound object (i.e. 
+     *   AudioIn, Oscillator, SoundFile), then Env will 
+     *   control its output volume. Envelopes can also be 
+     *   used to control any  Web Audio Audio Param.
+     *
+     *   @param unit A p5.sound object or Web Audio Param.
+     *   @param secondsFromNow time from now (in seconds)
+     */
+    play(unit: object, secondsFromNow: number): void;
+
+    /**
+     *   Trigger the Attack, Decay, and Sustain of the 
+     *   Envelope. Similar to holding down a key on a 
+     *   piano, but it will hold the sustain level until 
+     *   you let go. Input can be any p5.sound object, or a  
+     *   Web Audio Param.
+     *
+     *   @param unit p5.sound Object or Web Audio Param
+     *   @param secondsFromNow time from now (in seconds)
+     */
+    triggerAttack(unit: object, secondsFromNow: number): void;
+
+    /**
+     *   Trigger the Release of the Envelope. This is 
+     *   similar to releasing the key on a piano and 
+     *   letting the sound fade according to the release 
+     *   level and release time.
+     *
+     *   @param unit p5.sound Object or Web Audio Param
+     *   @param secondsFromNow time to trigger the release
+     */
+    triggerRelease(unit: object, secondsFromNow: number): void;
+  }
   class Pulse {
     /**
      *   Creates a Pulse object, an oscillator that 
      *   implements Pulse Width Modulation. The pulse is 
      *   created with two oscillators. Accepts a parameter 
      *   for frequency, and to set the width between the 
-     *   pulses. See Oscillator for a full list of methods.
+     *   pulses. See  p5.Oscillator for a full list of 
+     *   methods.
      *
      *   @param [freq] Frequency in oscillations per second 
      *   (Hz)
@@ -4624,11 +4813,22 @@ TODO:: any): void;
      * 
      *   If you want to hear the AudioIn, use the 
      *   .connect() method. AudioIn does not connect to 
-     *   p5.sound output by default to prevent feedback.
+     *   p5.sound output by default to prevent feedback. 
+     * 
+     *   Note: This uses the getUserMedia/ Stream API, 
+     *   which is not supported by certain browsers.
      *
      *   @return AudioIn
      */
     constructor();
+
+    /**
+     *   Client must allow browser to access their 
+     *   microphone / audioin source. Default: false. Will 
+     *   become true when the client enables acces.
+     *
+     */
+    enabled: boolean;
 
     /**
      *   Start processing audio input. This enables the use 
@@ -4711,73 +4911,8 @@ TODO:: any): void;
      */
     setSource(num: number): void;
   }
-  class Env {
-    /**
-     *   Envelopes are pre-defined amplitude distribution 
-     *   over time. The p5.Env accepts up to four 
-     *   time/level pairs, where time determines how long 
-     *   of a ramp before value reaches level. Typically, 
-     *   envelopes are used to control the output volume of 
-     *   an object, a series of fades referred to as 
-     *   Attack, Decay, Sustain and Release (ADSR). But 
-     *   p5.Env can control any Web Audio Param.
-     *
-     *   @param attackTime Time (in seconds) before level 
-     *   reaches attackLevel
-     *   @param attackLevel Typically an amplitude between 
-     *   0.0 and 1.0
-     *   @param decayTime Time
-     *   @param [decayLevel] Amplitude (In a standard ADSR 
-     *   envelope, decayLevel = sustainLevel)
-     *   @param [sustainTime] Time (in seconds)
-     *   @param [sustainLevel] Amplitude 0.0 to 1.0
-     *   @param [releaseTime] Time (in seconds)
-     *   @param [releaseLevel] Amplitude 0.0 to 1.0
-     */
-    constructor(attackTime: number, attackLevel: number, decayTime: number, decayLevel?: number, sustainTime?: number, sustainLevel?: number, releaseTime?: number, releaseLevel?: number);
-    attackTime: any;
-    attackLevel: any;
-    decayTime: any;
-    decayLevel: any;
-    sustainTime: any;
-    sustainLevel: any;
-    releaseTime: any;
-    releaseLevel: any;
-
-    /**
-     *   Play tells the envelope to start acting on a given 
-     *   input. If the input is a p5.sound object (i.e. 
-     *   AudioIn, Oscillator, SoundFile), then Env will 
-     *   control its output volume. Envelopes can also be 
-     *   used to control any  Web Audio Audio Param.
-     *
-     *   @param input A p5.sound object or Web Audio Param
-     */
-    play(input: object): void;
-
-    /**
-     *   Trigger the Attack, Decay, and Sustain of the 
-     *   Envelope. Similar to holding down a key on a 
-     *   piano, but it will hold the sustain level until 
-     *   you let go. Input can be any p5.sound object, or a  
-     *   Web Audio Param.
-     *
-     *   @param input p5.sound Object or Web Audio Param
-     */
-    triggerAttack(input: object): void;
-
-    /**
-     *   Trigger the Release of the Envelope. This is 
-     *   similar to releasing the key on a piano and 
-     *   letting the sound fade according to the release 
-     *   level and release time.
-     *
-     *   @param input p5.sound Object or Web Audio Param
-     */
-    triggerRelease(input: object): void;
-  }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 2889:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 3533:
     //
     //   param "type" has invalid type: [String]
     //
@@ -4790,7 +4925,7 @@ TODO:: any): void;
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 2968:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 3612:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -4805,7 +4940,7 @@ TODO:: any): void;
      */
     set(freq: number, res: number): void;
 
-    // TODO: Fix freq() errors in lib/addons/p5.sound.js, line 2997:
+    // TODO: Fix freq() errors in lib/addons/p5.sound.js, line 3641:
     //
     //   param "freq" has invalid type: [Number]
     //
@@ -4853,19 +4988,19 @@ TODO:: any): void;
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 3085:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 3729:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 3097:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 3741:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 3109:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 3753:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -5016,7 +5151,7 @@ TODO:: any): void;
      */
     constructor();
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 3431:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4076:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5024,7 +5159,7 @@ TODO:: any): void;
     //
     // process(src: object, seconds: any, decayRate: any, reverse: any): void;
 
-    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 3460:
+    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4105:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5054,18 +5189,9 @@ TODO:: any): void;
      *
      */
     disconnect(): void;
-
-    /**
-     *   Inspired by Simple Reverb by Jordan Santell 
-     *   https://github.com/web-audio-components/simple-reverb/blob/master/index.js 
-     *   Utility function for building an impulse response 
-     *   based on the module parameters.
-     *
-     */
-    _buildImpulse(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 3551:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4207:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5078,7 +5204,7 @@ TODO:: any): void;
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 3630:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4287:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5102,13 +5228,13 @@ TODO:: any): void;
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 3748:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4405:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 3765:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 4422:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5133,6 +5259,67 @@ TODO:: any): void;
      *   .impulses Array (Number).
      */
     toggleImpulse(id: string|number): void;
+  }
+  class SoundRecorder {
+    /**
+     *   Record sounds for playback and/or to save as a 
+     *   .wav file. The p5.SoundRecorder records all sound 
+     *   output from your sketch, or can be assigned a 
+     *   specific source with setInput(). The record() 
+     *   method accepts a p5.SoundFile as a parameter. When 
+     *   playback is stopped (either after the given amount 
+     *   of time, or with the stop() method), the 
+     *   p5.SoundRecorder will send its recording to that 
+     *   p5.SoundFile for playback.
+     *
+     */
+    constructor();
+
+    /**
+     *   Connect a specific device to the p5.SoundRecorder. 
+     *   If no parameter is given, p5.SoundRecorer will 
+     *   record all audible p5.sound from your sketch.
+     *
+     *   @param [unit] p5.sound object or a web audio unit 
+     *   that outputs sound
+     */
+    setInput(unit?: object): void;
+
+    /**
+     *   Start recording. To access the recording, provide 
+     *   a p5.SoundFile as the first parameter. The 
+     *   p5.SoundRecorder will send its recording to that 
+     *   p5.SoundFile for playback once recording is 
+     *   complete. Optional parameters include duration (in 
+     *   seconds) of the recording, and a callback function 
+     *   that will be called once the complete recording 
+     *   has been transfered to the p5.SoundFile.
+     *
+     *   @param soundFile p5.SoundFile
+     *   @param [duration] Time (in seconds)
+     *   @param [callback] The name of a function that will 
+     *   be called once the recording completes
+     */
+    record(soundFile: p5.SoundFile, duration?: number, callback?: Function): void;
+
+    /**
+     *   Stop the recording. Once the recording is stopped, 
+     *   the results will be sent to the p5.SoundFile that 
+     *   was given on .record(), and if a callback function 
+     *   was provided on record, that function will be 
+     *   called.
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Save a p5.SoundFile as a .wav audio file.
+     *
+     *   @param soundFile p5.SoundFile that you wish to 
+     *   save
+     *   @param name name of the resulting .wav file.
+     */
+    saveSound(soundFile: p5.SoundFile, name: string): void;
   }
 }
 

@@ -587,7 +587,7 @@ declare function split(value: string, delim: string): any[];
  *   will be used as separators
  *   @return Array of Strings
  */
-declare function split(value: string, delim?: string): any[];
+declare function splitTokens(value: string, delim?: string): any[];
 
 /**
  *   Removes whitespace characters from the beginning 
@@ -1064,12 +1064,12 @@ declare function loadXML(filename: string, callback?: Function): object;
 // src/input/keyboard.js
 
 /**
- *   The boolean system variable isKeyPressed is true 
+ *   The boolean system variable keyIsPressed is true 
  *   if any key is pressed and false if no keys are 
  *   pressed.
  *
  */
-declare var isKeyPressed: any;
+declare var keyIsPressed: any;
 
 /**
  *   The system variable key always contains the value 
@@ -1888,34 +1888,12 @@ declare function radians(degrees: number): number;
 
 // src/output/files.js
 
-/**
- *   Writes the contents of an Array or a JSON object 
- *   to a .json file. The file saving process and 
- *   location of the saved file will vary between web 
- *   browsers.
- *
- *   @param [optimize] If true, removes line breaks and 
- *   spaces from the output file to optimize filesize 
- *   (but not readability).
- */
-declare function saveJSON(json: any[]|object, filename: string, optimize?: boolean): void;
-
-/**
- *   Writes an array of Strings to a text file, one 
- *   line per String. The file saving process and 
- *   location of the saved file will vary between web 
- *   browsers.
- *
- *   @param list string array to be written
- *   @param filename filename for output
- */
-declare function saveStrings(list: any[], filename: string): void;
-
-// TODO: Fix saveTable() errors in src/output/files.js, line 213:
+// TODO: Fix save() errors in src/output/files.js, line 109:
 //
-//   param "options" has invalid type: [String]
+//   param "filename" has invalid type: [String]
+//   param "options" has invalid type: [Boolean/String]
 //
-// declare function saveTable(Table: p5.Table, filename: string, options: any): void;
+// declare function save(objectOrFilename: any|any, filename: any, options: any): void;
 
 // src/output/text_area.js
 
@@ -2039,7 +2017,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 280:
+// TODO: Fix quad() errors in src/shape/2d_primitives.js, line 283:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -2864,7 +2842,7 @@ declare function removeElements(): void;
  */
 declare function getAudioContext(): object;
 
-// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 176, is not a valid JS symbol name
+// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 193, is not a valid JS symbol name
 
 /**
  *   Set the master amplitude (volume) for sound in 
