@@ -7,6 +7,7 @@
 
 export = p5;
 type UNKNOWN_P5_CONSTANT = any;
+type 4x4 Matrix = any;
 declare class p5 {
   // Properties from p5
 
@@ -81,13 +82,20 @@ declare class p5 {
    */
   hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 259:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 280:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
   //   return has invalid type: Array/Number
   //
   // lerpColor(c1: any, c2: any, amt: number): any;
+
+  /**
+   *   Extracts the lightness value from a color.
+   *
+   *   @param color p5.Color object
+   */
+  lightness(color: object): void;
 
   /**
    *   Extracts the red value from a color or pixel 
@@ -125,7 +133,7 @@ declare class p5 {
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  background(v1: number|string|p5.Color|p5.Image, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  background(v1: number|string|p5.Color|p5.Image, v2?: number, v3?: number, a?: number): void;
 
   /**
    *   Clears the pixels within a buffer. This function 
@@ -147,7 +155,10 @@ declare class p5 {
    *   background(), and color() are defined by values 
    *   between 0 and 255 using the RGB color model. The 
    *   colorMode() function is used to switch color 
-   *   systems.
+   *   systems. Regardless of color system, all value 
+   *   ranges are presumed to be 0–255 unless explicitly 
+   *   set otherwise. That is, for a standard HSB range, 
+   *   one would pass colorMode(HSB, 360, 100, 100, 1).
    *
    *   @param mode either RGB or HSB, corresponding to 
    *   Red/Green/Blue and Hue/Saturation/Brightness
@@ -182,7 +193,7 @@ declare class p5 {
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  fill(v1: number|any[]|string|p5.Color, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  fill(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
 
   /**
    *   Disables filling geometry. If both noStroke() and 
@@ -220,7 +231,191 @@ declare class p5 {
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  stroke(v1: number|any[]|string|p5.Color, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
+
+  // src/core/2d_primitives.js
+
+  /**
+   *   Draw an arc. If a,b,c,d,start and stop are the 
+   *   only params provided, draws an open pie. If mode 
+   *   is provided draws the arc either open, chord or 
+   *   pie, dependent on the variable provided.
+   *
+   *   @param a x-coordinate of the arc's ellipse
+   *   @param b y-coordinate of the arc's ellipse
+   *   @param c width of the arc's ellipse by default
+   *   @param d height of the arc's ellipse by default
+   *   @param start angle to start the arc, specified in 
+   *   radians
+   *   @param stop angle to stop the arc, specified in 
+   *   radians
+   *   @param [mode] optional parameter to determine the 
+   *   way of drawing the arc
+   *   @return the p5 object
+   */
+  arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: string): object;
+
+  /**
+   *   Draws an ellipse (oval) to the screen. An ellipse 
+   *   with equal width and height is a circle. By 
+   *   default, the first two parameters set the 
+   *   location, and the third and fourth parameters set 
+   *   the shape's width and height. The origin may be 
+   *   changed with the ellipseMode() function.
+   *
+   *   @param a x-coordinate of the ellipse.
+   *   @param b y-coordinate of the ellipse.
+   *   @param c width of the ellipse.
+   *   @param d height of the ellipse.
+   *   @return the p5 object
+   */
+  ellipse(a: number, b: number, c: number, d: number): p5;
+
+  /**
+   *   Draws a line (a direct path between two points) to 
+   *   the screen. The version of line() with four 
+   *   parameters draws the line in 2D. To color a line, 
+   *   use the stroke() function. A line cannot be 
+   *   filled, therefore the fill() function will not 
+   *   affect the color of a line. 2D lines are drawn 
+   *   with a width of one pixel by default, but this can 
+   *   be changed with the strokeWeight() function.
+   *
+   *   @param x1 the x-coordinate of the first point
+   *   @param y1 the y-coordinate of the first point
+   *   @param x2 the x-coordinate of the second point
+   *   @param y2 the y-coordinate of the second point
+   *   @return the p5 object
+   */
+  line(x1: number, y1: number, x2: number, y2: number): p5;
+
+  /**
+   *   Draws a point, a coordinate in space at the 
+   *   dimension of one pixel. The first parameter is the 
+   *   horizontal value for the point, the second value 
+   *   is the vertical value for the point.
+   *
+   *   @param x the x-coordinate
+   *   @param y the y-coordinate
+   *   @return the p5 object
+   */
+  point(x: number, y: number): p5;
+
+  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 302:
+  //
+  //   param "x1" has invalid type: Type
+  //   param "y1" has invalid type: Type
+  //   param "x2" has invalid type: Type
+  //   param "y2" has invalid type: Type
+  //   param "x3" has invalid type: Type
+  //   param "y3" has invalid type: Type
+  //   param "x4" has invalid type: Type
+  //   param "y4" has invalid type: Type
+  //
+  // quad(x1: any, y1: any, x2: any, y2: any, x3: any, y3: any, x4: any, y4: any): p5;
+
+  /**
+   *   Draws a rectangle to the screen. A rectangle is a 
+   *   four-sided shape with every angle at ninety 
+   *   degrees. By default, the first two parameters set 
+   *   the location of the upper-left corner, the third 
+   *   sets the width, and the fourth sets the height. 
+   *   The way these parameters are interpreted, however, 
+   *   may be changed with the rectMode() function. If 
+   *   provided, the fifth, sixth seventh and eighth 
+   *   parameters, if specified, determine corner radius 
+   *   for the top-right, top-left, lower-right and 
+   *   lower-left corners, respectively. An omitted 
+   *   corner radius parameter is set to the value of the 
+   *   previously specified radius value in the parameter 
+   *   list.
+   *
+   *   @param x x-coordinate of the rectangle.
+   *   @param y y-coordinate of the rectangle.
+   *   @param w width of the rectangle.
+   *   @param h height of the rectangle.
+   *   @param [tl] optional radius of top-left corner.
+   *   @param [tr] optional radius of top-right corner.
+   *   @param [br] optional radius of bottom-right 
+   *   corner.
+   *   @param [bl] optional radius of bottom-left corner.
+   *   @return the p5 object.
+   */
+  rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): p5;
+
+  /**
+   *   A triangle is a plane created by connecting three 
+   *   points. The first two arguments specify the first 
+   *   point, the middle two arguments specify the second 
+   *   point, and the last two arguments specify the 
+   *   third point.
+   *
+   *   @param x1 x-coordinate of the first point
+   *   @param y1 y-coordinate of the first point
+   *   @param x2 x-coordinate of the second point
+   *   @param y2 y-coordinate of the second point
+   *   @param x3 x-coordinate of the third point
+   *   @param y3 y-coordinate of the third point
+   *   @return the p5 object
+   */
+  triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): p5;
+
+  // src/core/attributes.js
+
+  // TODO: Fix ellipseMode() errors in src/core/attributes.js, line 18:
+  //
+  //   param "mode" has invalid type: Number/Constant
+  //
+  // ellipseMode(mode: any): p5;
+
+  /**
+   *   Draws all geometry with jagged (aliased) edges. 
+   *   Note that smooth() is active by default, so it is 
+   *   necessary to call noSmooth() to disable smoothing 
+   *   of geometry, images, and fonts.
+   *
+   *   @return the p5 object
+   */
+  noSmooth(): p5;
+
+  // TODO: Fix rectMode() errors in src/core/attributes.js, line 103:
+  //
+  //   param "mode" has invalid type: Number/Constant
+  //
+  // rectMode(mode: any): p5;
+
+  /**
+   *   Draws all geometry with smooth (anti-aliased) 
+   *   edges. smooth() will also improve image quality of 
+   *   resized images. Note that smooth() is active by 
+   *   default; noSmooth() can be used to disable 
+   *   smoothing of geometry, images, and fonts.
+   *
+   *   @return the p5 object
+   */
+  smooth(): p5;
+
+  // TODO: Fix strokeCap() errors in src/core/attributes.js, line 189:
+  //
+  //   param "cap" has invalid type: Number/Constant
+  //
+  // strokeCap(cap: any): p5;
+
+  // TODO: Fix strokeJoin() errors in src/core/attributes.js, line 219:
+  //
+  //   param "join" has invalid type: Number/Constant
+  //
+  // strokeJoin(join: any): p5;
+
+  /**
+   *   Sets the width of the stroke used for lines, 
+   *   points, and the border around shapes. All widths 
+   *   are set in units of pixels.
+   *
+   *   @param weight the weight (in pixels) of the stroke
+   *   @return the p5 object
+   */
+  strokeWeight(weight: number): p5;
 
   // src/core/constants.js
 
@@ -283,8 +478,8 @@ declare class p5 {
    *   external files. If a preload function is defined, 
    *   setup() will wait until any load calls within have 
    *   finished. Nothing besides load calls should be 
-   *   inside preload (loadImage, loadJSON, loadStrings, 
-   *   etc).
+   *   inside preload (loadImage, loadJSON, loadFont, 
+   *   loadStrings, etc).
    *
    */
   preload(): void;
@@ -339,425 +534,170 @@ declare class p5 {
    */
   remove(): void;
 
-  // src/data/array_functions.js
+  // src/core/curves.js
 
   /**
-   *   Adds a value to an Array, maps to Array.push.
+   *   Draws a Bezier curve on the screen. These curves 
+   *   are defined by a series of anchor and control 
+   *   points. The first two parameters specify the first 
+   *   anchor point and the last two parameters specify 
+   *   the other anchor point. The middle parameters 
+   *   specify the control points which define the shape 
+   *   of the curve. Bezier curves were developed by 
+   *   French engineer Pierre Bezier.
    *
-   *   @param array Array to append
-   *   @param value to be added to the Array
+   *   @param x1 x-coordinate for the first anchor point
+   *   @param y1 y-coordinate for the first anchor point
+   *   @param x2 x-coordinate for the first control point
+   *   @param y2 y-coordinate for the first control point
+   *   @param x3 x-coordinate for the second control 
+   *   point
+   *   @param y3 y-coordinate for the second control 
+   *   point
+   *   @param x4 x-coordinate for the second anchor point
+   *   @param y4 y-coordinate for the second anchor point
+   *   @return the p5 object
    */
-  append(array: any[], value: any): void;
-
-  // TODO: Fix arrayCopy() errors in src/data/array_functions.js, line 25:
-  //
-  //   required param "dst" follows an optional param
-  //   param "length" has invalid type: Nimber
-  //
-  // arrayCopy(src: any[], srcPosition?: number, dst: any[], dstPosition?: number, length?: any): void;
+  bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
 
   /**
-   *   Concatenates two arrays, maps to Array.concat(). 
-   *   For example, concatenating the array { 1, 2, 3 } 
-   *   and the array { 4, 5, 6 } yields { 1, 2, 3, 4, 5, 
-   *   6 }.
+   *   Calculate a point on the Bezier Curve Evaluates 
+   *   the Bezier at point t for points a, b, c, d. The 
+   *   parameter t varies between 0 and 1, a and d are 
+   *   points on the curve, and b and c are the control 
+   *   points. This can be done once with the x 
+   *   coordinates and a second time with the y 
+   *   coordinates to get the location of a bezier curve 
+   *   at t.
    *
-   *   @param a first Array to concatenate
-   *   @param b second Array to concatenate
+   *   @param a coordinate of first point on the curve
+   *   @param b coordinate of first control point
+   *   @param c coordinate of second control point
+   *   @param d coordinate of second point on the curve
+   *   @param t value between 0 and 1
+   *   @return the value of the Bezier at point t
    */
-  concat(a: any[], b: any[]): void;
+  bezierPoint(a: number, b: number, c: number, d: number, t: number): number;
 
   /**
-   *   Reverses the order of an array, maps to 
-   *   Array.reverse()
+   *   Calculates the tangent of a point on a Bezier 
+   *   curve Evaluates the tangent at point t for points 
+   *   a, b, c, d. The parameter t varies between 0 and 
+   *   1, a and d are points on the curve, and b and c 
+   *   are the control points
    *
-   *   @param list Array to reverse
+   *   @param a coordinate of first point on the curve
+   *   @param b coordinate of first control point
+   *   @param c coordinate of second control point
+   *   @param d coordinate of second point on the curve
+   *   @param t value between 0 and 1
+   *   @return the tangent at point t
    */
-  reverse(list: any[]): void;
+  bezierTangent(a: number, b: number, c: number, d: number, t: number): number;
 
   /**
-   *   Decreases an array by one element and returns the 
-   *   shortened array, maps to Array.pop().
+   *   Draws a curved line on the screen. The first and 
+   *   second parameters specify the beginning control 
+   *   point and the last two parameters specify the 
+   *   ending control point. The middle parameters 
+   *   specify the start and stop of the curve. Longer 
+   *   curves can be created by putting a series of 
+   *   curve() functions together or using curveVertex(). 
+   *   An additional function called curveTightness() 
+   *   provides control for the visual quality of the 
+   *   curve. The curve() function is an implementation 
+   *   of Catmull-Rom splines.
    *
-   *   @param list Array to shorten
-   *   @return shortened Array
+   *   @param x1 x-coordinate for the beginning control 
+   *   point
+   *   @param y1 y-coordinate for the beginning control 
+   *   point
+   *   @param x2 x-coordinate for the first point
+   *   @param y2 y-coordinate for the first point
+   *   @param x3 x-coordinate for the second point
+   *   @param y3 y-coordinate for the second point
+   *   @param x4 x-coordinate for the ending control 
+   *   point
+   *   @param y4 y-coordinate for the ending control 
+   *   point
+   *   @return the p5 object
    */
-  shorten(list: any[]): any[];
+  curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
 
   /**
-   *   Randomizes the order of the elements of an array. 
-   *   Implements Fisher-Yates Shuffle Algorithm 
-   *   http://Bost.Ocks.org/mike/shuffle/ 
-   *   http://en.Wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+   *   Modifies the quality of forms created with curve() 
+   *   and curveVertex(). The parameter tightness 
+   *   determines how the curve fits to the vertex 
+   *   points. The value 0.0 is the default value for 
+   *   tightness (this value defines the curves to be 
+   *   Catmull-Rom splines) and the value 1.0 connects 
+   *   all the points with straight lines. Values within 
+   *   the range -5.0 and 5.0 will deform the curves but 
+   *   will leave them recognizable and as values 
+   *   increase in magnitude, they will continue to 
+   *   deform.
    *
-   *   @param array Array to shuffle
-   *   @param [bool] modify passed array
-   *   @return shuffled Array
+   *   @param amount of deformation from the original 
+   *   vertices
+   *   @return the p5 object
    */
-  shuffle(array: any[], bool?: boolean): any[];
+  curveTightness(amount: number): object;
 
   /**
-   *   Sorts an array of numbers from smallest to 
-   *   largest, or puts an array of words in alphabetical 
-   *   order. The original array is not modified; a 
-   *   re-ordered array is returned. The count parameter 
-   *   states the number of elements to sort. For 
-   *   example, if there are 12 elements in an array and 
-   *   count is set to 5, only the first 5 elements in 
-   *   the array will be sorted.
+   *   Calculate a point on the Curve Evaluates the 
+   *   Bezier at point t for points a, b, c, d. The 
+   *   parameter t varies between 0 and 1, a and d are 
+   *   points on the curve, and b and c are the control 
+   *   points. This can be done once with the x 
+   *   coordinates and a second time with the y 
+   *   coordinates to get the location of a curve at t.
    *
-   *   @param list Array to sort
-   *   @param [count] number of elements to sort, 
-   *   starting from 0
+   *   @param a coordinate of first point on the curve
+   *   @param b coordinate of first control point
+   *   @param c coordinate of second control point
+   *   @param d coordinate of second point on the curve
+   *   @param t value between 0 and 1
+   *   @return bezier value at point t
    */
-  sort(list: any[], count?: number): void;
+  curvePoint(a: number, b: number, c: number, d: number, t: number): number;
 
   /**
-   *   Inserts a value or an array of values into an 
-   *   existing array. The first parameter specifies the 
-   *   initial array to be modified, and the second 
-   *   parameter defines the data to be inserted. The 
-   *   third parameter is an index value which specifies 
-   *   the array position from which to insert data. 
-   *   (Remember that array index numbering starts at 
-   *   zero, so the first position is 0, the second 
-   *   position is 1, and so on.)
+   *   Calculates the tangent of a point on a curve 
+   *   Evaluates the tangent at point t for points a, b, 
+   *   c, d. The parameter t varies between 0 and 1, a 
+   *   and d are points on the curve, and b and c are the 
+   *   control points
    *
-   *   @param list Array to splice into
-   *   @param value value to be spliced in
-   *   @param position in the array from which to insert 
-   *   data
+   *   @param a coordinate of first point on the curve
+   *   @param b coordinate of first control point
+   *   @param c coordinate of second control point
+   *   @param d coordinate of second point on the curve
+   *   @param t value between 0 and 1
+   *   @return the tangent at point t
    */
-  splice(list: any[], value: any, position: number): void;
+  curveTangent(a: number, b: number, c: number, d: number, t: number): number;
+
+  // src/core/environment.js
 
   /**
-   *   Extracts an array of elements from an existing 
-   *   array. The list parameter defines the array from 
-   *   which the elements will be copied, and the start 
-   *   and count parameters specify which elements to 
-   *   extract. If no count is given, elements will be 
-   *   extracted from the start to the end of the array. 
-   *   When specifying the start, remember that the first 
-   *   array element is 0. This function does not change 
-   *   the source array.
+   *   The print() function writes to the console area of 
+   *   your browser. This function is often helpful for 
+   *   looking at the data a program is producing. This 
+   *   function creates a new line of text for each call 
+   *   to the function. More than one parameter can be 
+   *   passed into the function by separating them with 
+   *   commas. Alternatively, individual elements can be 
+   *   separated with quotes ("") and joined with the 
+   *   addition operator (+). While print() is similar to 
+   *   console.log(), it does not directly map to it in 
+   *   order to simulate easier to understand behavior 
+   *   than console.log(). Due to this, it is slower. For 
+   *   fastest results, use console.log().
    *
-   *   @param list Array to extract from
-   *   @param start position to begin
-   *   @param [count] number of values to extract
-   *   @return Array of extracted elements
+   *   @param contents any combination of Number, String, 
+   *   Object, Boolean, Array to print
    */
-  subset(list: any[], start: number, count?: number): any[];
-
-  // src/data/conversion.js
-
-  /**
-   *   Converts a string to its floating point 
-   *   representation. The contents of a string must 
-   *   resemble a number, or NaN (not a number) will be 
-   *   returned. For example, float("1234.56") evaluates 
-   *   to 1234.56, but float("giraffe") will return NaN.
-   *
-   *   @param str float string to parse
-   *   @return floating point representation of string
-   */
-  float(str: string): number;
-
-  /**
-   *   Converts a boolean, string, or float to its 
-   *   integer representation. When an array of values is 
-   *   passed in, then an int array of the same length is 
-   *   returned.
-   *
-   *   @param n value to parse
-   *   @return integer representation of value
-   */
-  int(n: string|boolean|number|any[]): number;
-
-  /**
-   *   Converts a boolean, string or number to its string 
-   *   representation. When an array of values is passed 
-   *   in, then an array of strings of the same length is 
-   *   returned.
-   *
-   *   @param n value to parse
-   *   @return string representation of value
-   */
-  str(n: string|boolean|number|any[]): string;
-
-  /**
-   *   Converts a number or string to its boolean 
-   *   representation. For a number, any non-zero value 
-   *   (positive or negative) evaluates to true, while 
-   *   zero evaluates to false. For a string, the value 
-   *   "true" evaluates to true, while any other value 
-   *   evaluates to false. When an array of number or 
-   *   string values is passed in, then a array of 
-   *   booleans of the same length is returned.
-   *
-   *   @param n value to parse
-   *   @return boolean representation of value
-   */
-  boolean(n: string|boolean|number|any[]): boolean;
-
-  /**
-   *   Converts a number, string or boolean to its byte 
-   *   representation. A byte can be only a whole number 
-   *   between -128 and 127, so when a value outside of 
-   *   this range is converted, it wraps around to the 
-   *   corresponding byte representation. When an array 
-   *   of number, string or boolean values is passed in, 
-   *   then an array of bytes the same length is 
-   *   returned.
-   *
-   *   @param n value to parse
-   *   @return byte representation of value
-   */
-  byte(n: string|boolean|number|any[]): number;
-
-  /**
-   *   Converts a number or string to its corresponding 
-   *   single-character string representation. If a 
-   *   string parameter is provided, it is first parsed 
-   *   as an integer and then translated into a 
-   *   single-character string. When an array of number 
-   *   or string values is passed in, then an array of 
-   *   single-character strings of the same length is 
-   *   returned.
-   *
-   *   @param n value to parse
-   *   @return string representation of value
-   */
-  char(n: string|number|any[]): string;
-
-  /**
-   *   Converts a single-character string to its 
-   *   corresponding integer representation. When an 
-   *   array of single-character string values is passed 
-   *   in, then an array of integers of the same length 
-   *   is returned.
-   *
-   *   @param n value to parse
-   *   @return integer representation of value
-   */
-  unchar(n: string|any[]): number;
-
-  /**
-   *   Converts a number to a string in its equivalent 
-   *   hexadecimal notation. If a second parameter is 
-   *   passed, it is used to set the number of characters 
-   *   to generate in the hexadecimal notation. When an 
-   *   array is passed in, an array of strings in 
-   *   hexadecimal notation of the same length is 
-   *   returned.
-   *
-   *   @param n value to parse
-   *   @return hexadecimal string representation of value
-   */
-  hex(n: number|any[]): string;
-
-  /**
-   *   Converts a string representation of a hexadecimal 
-   *   number to its equivalent integer value. When an 
-   *   array of strings in hexadecimal notation is passed 
-   *   in, an array of integers of the same length is 
-   *   returned.
-   *
-   *   @param n value to parse
-   *   @return integer representation of hexadecimal 
-   *   value
-   */
-  unhex(n: string|any[]): number;
-
-  // src/data/string_functions.js
-
-  /**
-   *   Combines an array of Strings into one String, each 
-   *   separated by the character(s) used for the 
-   *   separator parameter. To join arrays of ints or 
-   *   floats, it's necessary to first convert them to 
-   *   Strings using nf() or nfs().
-   *
-   *   @param list array of Strings to be joined
-   *   @param separator String to be placed between each 
-   *   item
-   *   @return joined String
-   */
-  join(list: any[], separator: string): string;
-
-  /**
-   *   This function is used to apply a regular 
-   *   expression to a piece of text, and return matching 
-   *   groups (elements found inside parentheses) as a 
-   *   String array. If there are no matches, a null 
-   *   value will be returned. If no groups are specified 
-   *   in the regular expression, but the sequence 
-   *   matches, an array of length 1 (with the matched 
-   *   text as the first element of the array) will be 
-   *   returned. To use the function, first check to see 
-   *   if the result is null. If the result is null, then 
-   *   the sequence did not match at all. If the sequence 
-   *   did match, an array is returned. If there are 
-   *   groups (specified by sets of parentheses) in the 
-   *   regular expression, then the contents of each will 
-   *   be returned in the array. Element [0] of a regular 
-   *   expression match returns the entire matching 
-   *   string, and the match groups start at element [1] 
-   *   (the first group is [1], the second [2], and so 
-   *   on).
-   *
-   *   @param str the String to be searched
-   *   @param regexp the regexp to be used for matching
-   *   @return Array of Strings found
-   */
-  match(str: string, regexp: string): any[];
-
-  /**
-   *   This function is used to apply a regular 
-   *   expression to a piece of text, and return a list 
-   *   of matching groups (elements found inside 
-   *   parentheses) as a two-dimensional String array. If 
-   *   there are no matches, a null value will be 
-   *   returned. If no groups are specified in the 
-   *   regular expression, but the sequence matches, a 
-   *   two dimensional array is still returned, but the 
-   *   second dimension is only of length one. To use the 
-   *   function, first check to see if the result is 
-   *   null. If the result is null, then the sequence did 
-   *   not match at all. If the sequence did match, a 2D 
-   *   array is returned. If there are groups (specified 
-   *   by sets of parentheses) in the regular expression, 
-   *   then the contents of each will be returned in the 
-   *   array. Assuming a loop with counter variable i, 
-   *   element [i][0] of a regular expression match 
-   *   returns the entire matching string, and the match 
-   *   groups start at element [i][1] (the first group is 
-   *   [i][1], the second [i][2], and so on).
-   *
-   *   @param str the String to be searched
-   *   @param regexp the regexp to be used for matching
-   *   @return 2d Array of Strings found
-   */
-  matchAll(str: string, regexp: string): any[];
-
-  /**
-   *   Utility function for formatting numbers into 
-   *   strings. There are two versions: one for 
-   *   formatting floats, and one for formatting ints. 
-   *   The values for the digits, left, and right 
-   *   parameters should always be positive integers.
-   *
-   *   @param num the Number to format
-   *   @param [digits] number of digits to pad with zero
-   *   @param [left] number of digits to the left of the 
-   *   decimal point
-   *   @param [right] number of digits to the right of 
-   *   the decimal point
-   *   @return formatted String
-   */
-  nf(num: number|any[], digits?: number, left?: number, right?: number): string|any[];
-
-  /**
-   *   Utility function for formatting numbers into 
-   *   strings and placing appropriate commas to mark 
-   *   units of 1000. There are two versions: one for 
-   *   formatting ints, and one for formatting an array 
-   *   of ints. The value for the right parameter should 
-   *   always be a positive integer.
-   *
-   *   @param num the Number to format
-   *   @param [right] number of digits to the right of 
-   *   the decimal point
-   *   @return formatted String
-   */
-  nfc(num: number|any[], right?: number): string|any[];
-
-  /**
-   *   Utility function for formatting numbers into 
-   *   strings. Similar to nf() but puts a "+" in front 
-   *   of positive numbers and a "-" in front of negative 
-   *   numbers. There are two versions: one for 
-   *   formatting floats, and one for formatting ints. 
-   *   The values for the digits, left, and right 
-   *   parameters should always be positive integers.
-   *
-   *   @param num the Number to format
-   *   @param [digits] number of digits to pad with zero
-   *   @param [left] number of digits to the left of the 
-   *   decimal point
-   *   @param [right] number of digits to the right of 
-   *   the decimal point
-   *   @return formatted String
-   */
-  nfp(num: number|any[], digits?: number, left?: number, right?: number): string|any[];
-
-  /**
-   *   Utility function for formatting numbers into 
-   *   strings. Similar to nf() but puts a "+" in front 
-   *   of positive numbers and a "-" in front of negative 
-   *   numbers. There are two versions: one for 
-   *   formatting floats, and one for formatting ints. 
-   *   The values for the digits, left, and right 
-   *   parameters should always be positive integers.
-   *
-   *   @param num the Number to format
-   *   @param [digits] number of digits to pad with zero
-   *   @param [left] number of digits to the left of the 
-   *   decimal point
-   *   @param [right] number of digits to the right of 
-   *   the decimal point
-   *   @return formatted String
-   */
-  nfs(num: number|any[], digits?: number, left?: number, right?: number): string|any[];
-
-  /**
-   *   The split() function maps to String.split(), it 
-   *   breaks a String into pieces using a character or 
-   *   string as the delimiter. The delim parameter 
-   *   specifies the character or characters that mark 
-   *   the boundaries between each piece. A String[] 
-   *   array is returned that contains each of the 
-   *   pieces. The splitTokens() function works in a 
-   *   similar fashion, except that it splits using a 
-   *   range of characters instead of a specific 
-   *   character or sequence.
-   *
-   *   @param value the String to be split
-   *   @param delim the String used to separate the data
-   *   @return Array of Strings
-   */
-  split(value: string, delim: string): any[];
-
-  /**
-   *   The splitTokens() function splits a String at one 
-   *   or many character delimiters or "tokens." The 
-   *   delim parameter specifies the character or 
-   *   characters to be used as a boundary. If no delim 
-   *   characters are specified, any whitespace character 
-   *   is used to split. Whitespace characters include 
-   *   tab (\t), line feed (\n), carriage return (\r), 
-   *   form feed (\f), and space.
-   *
-   *   @param value the String to be split
-   *   @param [delim] list of individual Strings that 
-   *   will be used as separators
-   *   @return Array of Strings
-   */
-  splitTokens(value: string, delim?: string): any[];
-
-  /**
-   *   Removes whitespace characters from the beginning 
-   *   and end of a String. In addition to standard 
-   *   whitespace characters such as space, carriage 
-   *   return, and tab, this function also removes the 
-   *   Unicode "nbsp" character.
-   *
-   *   @param [str] a String or Array of Strings to be 
-   *   trimmed
-   *   @return a trimmed String or Array of Strings
-   */
-  trim(str?: string|any[]): string|any[];
-
-  // src/environment/environment.js
+  print(contents: any): void;
 
   /**
    *   The system variable frameCount contains the number 
@@ -769,15 +709,15 @@ declare class p5 {
   frameCount: any;
 
   /**
-   *   Confirms if a p5.js program is "focused," meaning 
-   *   that it is active and will accept mouse or 
-   *   keyboard input. This variable is "true" if it is 
-   *   focused and "false" if not.
+   *   Confirms if the window a p5.js program is in is 
+   *   "focused," meaning that the sketch will accept 
+   *   mouse or keyboard input. This variable is "true" 
+   *   if the window is focused and "false" if not.
    *
    */
   focused: any;
 
-  // TODO: Fix cursor() errors in src/environment/environment.js, line 59:
+  // TODO: Fix cursor() errors in src/core/environment.js, line 107:
   //
   //   param "type" has invalid type: Number/Constant
   //
@@ -919,6 +859,892 @@ declare class p5 {
    */
   getURLParams(): object;
 
+  // src/core/rendering.js
+
+  // TODO: Fix createCanvas() errors in src/core/rendering.js, line 14:
+  //
+  //   param "optional:" is not a valid JS symbol name
+  //
+  // createCanvas(w: number, h: number, optional:: string): object;
+
+  /**
+   *   Resizes the canvas to given width and height. Note 
+   *   that the canvas will be cleared so anything drawn 
+   *   previously in setup or draw will disappear on 
+   *   resize. Setup will not be called again.
+   *
+   */
+  resizeCanvas(): void;
+
+  /**
+   *   Removes the default canvas for a p5 sketch that 
+   *   doesn't require a canvas
+   *
+   */
+  noCanvas(): void;
+
+  /**
+   *   Creates and returns a new p5.Renderer object. Use 
+   *   this class if you need to draw into an off-screen 
+   *   graphics buffer. The two parameters define the 
+   *   width and height in pixels.
+   *
+   *   @param w width of the offscreen graphics buffer
+   *   @param h height of the offscreen graphics buffer
+   *   @param renderer either 'p2d' or 'webgl'. undefined 
+   *   defaults to p2d
+   *   @return offscreen graphics buffer
+   */
+  createGraphics(w: number, h: number, renderer: string): object;
+
+  // TODO: Fix blendMode() errors in src/core/rendering.js, line 187:
+  //
+  //   param "mode" has invalid type: String/Constant
+  //
+  // blendMode(mode: any): void;
+
+  // src/core/structure.js
+
+  /**
+   *   Stops p5.js from continuously executing the code 
+   *   within draw(). If loop() is called, the code in 
+   *   draw() begins to run continuously again. If using 
+   *   noLoop() in setup(), it should be the last line 
+   *   inside the block.  When noLoop() is used, it's not 
+   *   possible to manipulate or access the screen inside 
+   *   event handling functions such as mousePressed() or 
+   *   keyPressed(). Instead, use those functions to call 
+   *   redraw() or loop(), which will run draw(), which 
+   *   can update the screen properly. This means that 
+   *   when noLoop() has been called, no drawing can 
+   *   happen, and functions like saveFrame() or 
+   *   loadPixels() may not be used. 
+   * 
+   *   Note that if the sketch is resized, redraw() will 
+   *   be called to update the sketch, even after 
+   *   noLoop() has been specified. Otherwise, the sketch 
+   *   would enter an odd state until loop() was called.
+   *
+   */
+  noLoop(): void;
+
+  /**
+   *   By default, p5.js loops through draw() 
+   *   continuously, executing the code within it. 
+   *   However, the draw() loop may be stopped by calling 
+   *   noLoop(). In that case, the draw() loop can be 
+   *   resumed with loop().
+   *
+   */
+  loop(): void;
+
+  /**
+   *   The push() function saves the current drawing 
+   *   style settings and transformations, while pop() 
+   *   restores these settings. Note that these functions 
+   *   are always used together. They allow you to change 
+   *   the style and transformation settings and later 
+   *   return to what you had. When a new state is 
+   *   started with push(), it builds on the current 
+   *   style and transform information. The push() and 
+   *   pop() functions can be embedded to provide more 
+   *   control. (See the second example for a 
+   *   demonstration.)  push() stores information related 
+   *   to the current transformation state and style 
+   *   settings controlled by the following functions: 
+   *   fill(), stroke(), tint(), strokeWeight(), 
+   *   strokeCap(), strokeJoin(), imageMode(), 
+   *   rectMode(), ellipseMode(), colorMode(), 
+   *   textAlign(), textFont(), textMode(), textSize(), 
+   *   textLeading().
+   *
+   */
+  push(): void;
+
+  /**
+   *   The push() function saves the current drawing 
+   *   style settings and transformations, while pop() 
+   *   restores these settings. Note that these functions 
+   *   are always used together. They allow you to change 
+   *   the style and transformation settings and later 
+   *   return to what you had. When a new state is 
+   *   started with push(), it builds on the current 
+   *   style and transform information. The push() and 
+   *   pop() functions can be embedded to provide more 
+   *   control. (See the second example for a 
+   *   demonstration.)  push() stores information related 
+   *   to the current transformation state and style 
+   *   settings controlled by the following functions: 
+   *   fill(), stroke(), tint(), strokeWeight(), 
+   *   strokeCap(), strokeJoin(), imageMode(), 
+   *   rectMode(), ellipseMode(), colorMode(), 
+   *   textAlign(), textFont(), textMode(), textSize(), 
+   *   textLeading().
+   *
+   */
+  pop(): void;
+
+  /**
+   *   Executes the code within draw() one time. This 
+   *   functions allows the program to update the display 
+   *   window only when necessary, for example when an 
+   *   event registered by mousePressed() or keyPressed() 
+   *   occurs. In structuring a program, it only makes 
+   *   sense to call redraw() within events such as 
+   *   mousePressed(). This is because redraw() does not 
+   *   run draw() immediately (it only sets a flag that 
+   *   indicates an update is needed). The redraw() 
+   *   function does not work properly when called inside 
+   *   draw(). To enable/disable animations, use loop() 
+   *   and noLoop().
+   *
+   */
+  redraw(): void;
+
+  // src/core/transform.js
+
+  /**
+   *   Multiplies the current matrix by the one specified 
+   *   through the parameters. This is very slow because 
+   *   it will try to calculate the inverse of the 
+   *   transform, so avoid it whenever possible.
+   *
+   *   @param n00 numbers which define the 3x2 matrix to 
+   *   be multiplied
+   *   @param n01 numbers which define the 3x2 matrix to 
+   *   be multiplied
+   *   @param n02 numbers which define the 3x2 matrix to 
+   *   be multiplied
+   *   @param n10 numbers which define the 3x2 matrix to 
+   *   be multiplied
+   *   @param n11 numbers which define the 3x2 matrix to 
+   *   be multiplied
+   *   @param n12 numbers which define the 3x2 matrix to 
+   *   be multiplied
+   *   @return the p5 object
+   */
+  applyMatrix(n00: number, n01: number, n02: number, n10: number, n11: number, n12: number): p5;
+
+  /**
+   *   Replaces the current matrix with the identity 
+   *   matrix.
+   *
+   *   @return the p5 object
+   */
+  resetMatrix(): p5;
+
+  /**
+   *   Rotates a shape the amount specified by the angle 
+   *   parameter. This function accounts for angleMode, 
+   *   so angles can be entered in either RADIANS or 
+   *   DEGREES. Objects are always rotated around their 
+   *   relative position to the origin and positive 
+   *   numbers rotate objects in a clockwise direction. 
+   *   Transformations apply to everything that happens 
+   *   after and subsequent calls to the function 
+   *   accumulates the effect. For example, calling 
+   *   rotate(HALF_PI) and then rotate(HALF_PI) is the 
+   *   same as rotate(PI). All tranformations are reset 
+   *   when draw() begins again. Technically, rotate() 
+   *   multiplies the current transformation matrix by a 
+   *   rotation matrix. This function can be further 
+   *   controlled by the push() and pop().
+   *
+   *   @param angle the angle of rotation, specified in 
+   *   radians or degrees, depending on current angleMode
+   *   @return the p5 object
+   */
+  rotate(angle: number): p5;
+
+  /**
+   *   Increases or decreases the size of a shape by 
+   *   expanding and contracting vertices. Objects always 
+   *   scale from their relative origin to the coordinate 
+   *   system. Scale values are specified as decimal 
+   *   percentages. For example, the function call 
+   *   scale(2.0) increases the dimension of a shape by 
+   *   200%. Transformations apply to everything that 
+   *   happens after and subsequent calls to the function 
+   *   multiply the effect. For example, calling 
+   *   scale(2.0) and then scale(1.5) is the same as 
+   *   scale(3.0). If scale() is called within draw(), 
+   *   the transformation is reset when the loop begins 
+   *   again. Using this fuction with the z parameter 
+   *   requires using P3D as a parameter for size(), as 
+   *   shown in the third example above. This function 
+   *   can be further controlled with push() and pop().
+   *
+   *   @param s percentage to scale the object, or 
+   *   percentage to scale the object in the x-axis if 
+   *   multiple arguments are given
+   *   @param [y] percentage to scale the object in the 
+   *   y-axis
+   *   @return the p5 object
+   */
+  scale(s: number, y?: number): p5;
+
+  /**
+   *   Shears a shape around the x-axis the amount 
+   *   specified by the angle parameter. Angles should be 
+   *   specified in the current angleMode. Objects are 
+   *   always sheared around their relative position to 
+   *   the origin and positive numbers shear objects in a 
+   *   clockwise direction. Transformations apply to 
+   *   everything that happens after and subsequent calls 
+   *   to the function accumulates the effect. For 
+   *   example, calling shearX(PI/2) and then 
+   *   shearX(PI/2) is the same as shearX(PI). If 
+   *   shearX() is called within the draw(), the 
+   *   transformation is reset when the loop begins 
+   *   again. Technically, shearX() multiplies the 
+   *   current transformation matrix by a rotation 
+   *   matrix. This function can be further controlled by 
+   *   the push() and pop() functions.
+   *
+   *   @param angle angle of shear specified in radians 
+   *   or degrees, depending on current angleMode
+   *   @return the p5 object
+   */
+  shearX(angle: number): p5;
+
+  /**
+   *   Shears a shape around the y-axis the amount 
+   *   specified by the angle parameter. Angles should be 
+   *   specified in the current angleMode. Objects are 
+   *   always sheared around their relative position to 
+   *   the origin and positive numbers shear objects in a 
+   *   clockwise direction. Transformations apply to 
+   *   everything that happens after and subsequent calls 
+   *   to the function accumulates the effect. For 
+   *   example, calling shearY(PI/2) and then 
+   *   shearY(PI/2) is the same as shearY(PI). If 
+   *   shearY() is called within the draw(), the 
+   *   transformation is reset when the loop begins 
+   *   again. Technically, shearY() multiplies the 
+   *   current transformation matrix by a rotation 
+   *   matrix. This function can be further controlled by 
+   *   the push() and pop() functions.
+   *
+   *   @param angle angle of shear specified in radians 
+   *   or degrees, depending on current angleMode
+   *   @return the p5 object
+   */
+  shearY(angle: number): p5;
+
+  /**
+   *   Specifies an amount to displace objects within the 
+   *   display window. The x parameter specifies 
+   *   left/right translation, the y parameter specifies 
+   *   up/down translation. Transformations are 
+   *   cumulative and apply to everything that happens 
+   *   after and subsequent calls to the function 
+   *   accumulates the effect. For example, calling 
+   *   translate(50, 0) and then translate(20, 0) is the 
+   *   same as translate(70, 0). If translate() is called 
+   *   within draw(), the transformation is reset when 
+   *   the loop begins again. This function can be 
+   *   further controlled by using push() and pop().
+   *
+   *   @param x left/right translation
+   *   @param y up/down translation
+   *   @return the p5 object
+   */
+  translate(x: number, y: number): p5;
+
+  // src/core/vertex.js
+
+  /**
+   *   Use the beginContour() and endContour() functions 
+   *   to create negative shapes within shapes such as 
+   *   the center of the letter 'O'. beginContour() 
+   *   begins recording vertices for the shape and 
+   *   endContour() stops recording. The vertices that 
+   *   define a negative shape must "wind" in the 
+   *   opposite direction from the exterior shape. First 
+   *   draw vertices for the exterior clockwise order, 
+   *   then for internal shapes, draw vertices shape in 
+   *   counter-clockwise.  These functions can only be 
+   *   used within a beginShape()/endShape() pair and 
+   *   transformations such as translate(), rotate(), and 
+   *   scale() do not work within a 
+   *   beginContour()/endContour() pair. It is also not 
+   *   possible to use other shapes, such as ellipse() or 
+   *   rect() within.
+   *
+   *   @return the p5 object
+   */
+  beginContour(): object;
+
+  // TODO: Fix beginShape() errors in src/core/vertex.js, line 66:
+  //
+  //   param "kind" has invalid type: Number/Constant
+  //
+  // beginShape(kind: any): object;
+
+  /**
+   *   Specifies vertex coordinates for Bezier curves. 
+   *   Each call to bezierVertex() defines the position 
+   *   of two control points and one anchor point of a 
+   *   Bezier curve, adding a new segment to a line or 
+   *   shape. The first time bezierVertex() is used 
+   *   within a beginShape() call, it must be prefaced 
+   *   with a call to vertex() to set the first anchor 
+   *   point. This function must be used between 
+   *   beginShape() and endShape() and only when there is 
+   *   no MODE parameter specified to beginShape().
+   *
+   *   @param x2 x-coordinate for the first control point
+   *   @param y2 y-coordinate for the first control point
+   *   @param x3 x-coordinate for the second control 
+   *   point
+   *   @param y3 y-coordinate for the second control 
+   *   point
+   *   @param x4 x-coordinate for the anchor point
+   *   @param y4 y-coordinate for the anchor point
+   *   @return the p5 object
+   */
+  bezierVertex(x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
+
+  /**
+   *   Specifies vertex coordinates for curves. This 
+   *   function may only be used between beginShape() and 
+   *   endShape() and only when there is no MODE 
+   *   parameter specified to beginShape(). The first and 
+   *   last points in a series of curveVertex() lines 
+   *   will be used to guide the beginning and end of a 
+   *   the curve. A minimum of four points is required to 
+   *   draw a tiny curve between the second and third 
+   *   points. Adding a fifth point with curveVertex() 
+   *   will draw the curve between the second, third, and 
+   *   fourth points. The curveVertex() function is an 
+   *   implementation of Catmull-Rom splines.
+   *
+   *   @param x x-coordinate of the vertex
+   *   @param y y-coordinate of the vertex
+   *   @return the p5 object
+   */
+  curveVertex(x: number, y: number): object;
+
+  /**
+   *   Use the beginContour() and endContour() functions 
+   *   to create negative shapes within shapes such as 
+   *   the center of the letter 'O'. beginContour() 
+   *   begins recording vertices for the shape and 
+   *   endContour() stops recording. The vertices that 
+   *   define a negative shape must "wind" in the 
+   *   opposite direction from the exterior shape. First 
+   *   draw vertices for the exterior clockwise order, 
+   *   then for internal shapes, draw vertices shape in 
+   *   counter-clockwise.  These functions can only be 
+   *   used within a beginShape()/endShape() pair and 
+   *   transformations such as translate(), rotate(), and 
+   *   scale() do not work within a 
+   *   beginContour()/endContour() pair. It is also not 
+   *   possible to use other shapes, such as ellipse() or 
+   *   rect() within.
+   *
+   *   @return the p5 object
+   */
+  endContour(): object;
+
+  // TODO: Fix endShape() errors in src/core/vertex.js, line 392:
+  //
+  //   param "mode" has invalid type: Number/Constant
+  //
+  // endShape(mode: any): object;
+
+  /**
+   *   Specifies vertex coordinates for quadratic Bezier 
+   *   curves. Each call to quadraticVertex() defines the 
+   *   position of one control points and one anchor 
+   *   point of a Bezier curve, adding a new segment to a 
+   *   line or shape. The first time quadraticVertex() is 
+   *   used within a beginShape() call, it must be 
+   *   prefaced with a call to vertex() to set the first 
+   *   anchor point. This function must be used between 
+   *   beginShape() and endShape() and only when there is 
+   *   no MODE parameter specified to beginShape().
+   *
+   *   @param cx x-coordinate for the control point
+   *   @param cy y-coordinate for the control point
+   *   @param x3 x-coordinate for the anchor point
+   *   @param y3 y-coordinate for the anchor point
+   *   @return the p5 object
+   */
+  quadraticVertex(cx: number, cy: number, x3: number, y3: number): object;
+
+  /**
+   *   All shapes are constructed by connecting a series 
+   *   of vertices. vertex() is used to specify the 
+   *   vertex coordinates for points, lines, triangles, 
+   *   quads, and polygons. It is used exclusively within 
+   *   the beginShape() and endShape() functions.
+   *
+   *   @param x x-coordinate of the vertex
+   *   @param y y-coordinate of the vertex
+   *   @return the p5 object
+   */
+  vertex(x: number, y: number): object;
+
+  // src/events/acceleration.js
+
+  /**
+   *   The system variable deviceOrientation always 
+   *   contains the orientation of the device. The value 
+   *   of this variable will either be set 'landscape' or 
+   *   'portrait'. If no data is available it will be set 
+   *   to 'undefined'.
+   *
+   */
+  deviceOrientation: any;
+
+  /**
+   *   The system variable accelerationX always contains 
+   *   the acceleration of the device along the x axis. 
+   *   Value is represented as meters per second squared.
+   *
+   */
+  accelerationX: any;
+
+  /**
+   *   The system variable accelerationY always contains 
+   *   the acceleration of the device along the y axis. 
+   *   Value is represented as meters per second squared.
+   *
+   */
+  accelerationY: any;
+
+  /**
+   *   The system variable accelerationZ always contains 
+   *   the acceleration of the device along the z axis. 
+   *   Value is represented as meters per second squared.
+   *
+   */
+  accelerationZ: any;
+
+  /**
+   *   The system variable pAccelerationX always contains 
+   *   the acceleration of the device along the x axis in 
+   *   the frame previous to the current frame. Value is 
+   *   represented as meters per second squared.
+   *
+   */
+  pAccelerationX: any;
+
+  /**
+   *   The system variable pAccelerationY always contains 
+   *   the acceleration of the device along the y axis in 
+   *   the frame previous to the current frame. Value is 
+   *   represented as meters per second squared.
+   *
+   */
+  pAccelerationY: any;
+
+  /**
+   *   The system variable pAccelerationZ always contains 
+   *   the acceleration of the device along the z axis in 
+   *   the frame previous to the current frame. Value is 
+   *   represented as meters per second squared.
+   *
+   */
+  pAccelerationZ: any;
+
+  /**
+   *   The setMoveThreshold() function is used to set the 
+   *   movement threshold for the onDeviceMove() 
+   *   function.
+   *
+   *   @param value The threshold value
+   */
+  setMoveThreshold(value: number): void;
+
+  /**
+   *   The onDeviceMove() function is called when the 
+   *   devices orientation changes by more than the 
+   *   threshold value.
+   *
+   */
+  onDeviceMove(): void;
+
+  /**
+   *   The onDeviceTurn() function is called when the 
+   *   device rotates by more than 90 degrees.
+   *
+   */
+  onDeviceTurn(): void;
+
+  // src/events/keyboard.js
+
+  /**
+   *   The boolean system variable keyIsPressed is true 
+   *   if any key is pressed and false if no keys are 
+   *   pressed.
+   *
+   */
+  keyIsPressed: any;
+
+  /**
+   *   The system variable key always contains the value 
+   *   of the most recent key on the keyboard that was 
+   *   typed. To get the proper capitalization, it is 
+   *   best to use it within keyTyped(). For non-ASCII 
+   *   keys, use the keyCode variable.
+   *
+   */
+  key: any;
+
+  /**
+   *   The variable keyCode is used to detect special 
+   *   keys such as BACKSPACE, DELETE, ENTER, RETURN, 
+   *   TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, 
+   *   UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW.
+   *
+   */
+  keyCode: any;
+
+  /**
+   *   The keyPressed() function is called once every 
+   *   time a key is pressed. The keyCode for the key 
+   *   that was pressed is stored in the keyCode 
+   *   variable.  For non-ASCII keys, use the keyCode 
+   *   variable. You can check if the keyCode equals 
+   *   BACKSPACE, DELETE, ENTER, RETURN, TAB, ESCAPE, 
+   *   SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, 
+   *   LEFT_ARROW, RIGHT_ARROW. 
+   * 
+   *  
+   *   For ASCII keys that was pressed is stored in the 
+   *   key variable. However, it does not distinguish 
+   *   between uppercase and lowercase. For this reason, 
+   *   it is recommended to use keyTyped() to read the 
+   *   key variable, in which the case of the variable 
+   *   will be distinguished. 
+   * 
+   *  
+   *   Because of how operating systems handle key 
+   *   repeats, holding down a key may cause multiple 
+   *   calls to keyTyped() (and keyReleased() as well). 
+   *   The rate of repeat is set by the operating system 
+   *   and how each computer is configured.
+   * 
+   *  
+   *   Browsers may have different default behaviors 
+   *   attached to various key events. To prevent any 
+   *   default behavior for this event, add "return 
+   *   false" to the end of the method.
+   *
+   */
+  keyPressed(): void;
+
+  /**
+   *   The keyReleased() function is called once every 
+   *   time a key is released. See key and keyCode for 
+   *   more information. Browsers may have different 
+   *   default behaviors attached to various key events. 
+   *   To prevent any default behavior for this event, 
+   *   add "return false" to the end of the method.
+   *
+   */
+  keyReleased(): void;
+
+  /**
+   *   The keyTyped() function is called once every time 
+   *   a key is pressed, but action keys such as Ctrl, 
+   *   Shift, and Alt are ignored. The most recent key 
+   *   pressed will be stored in the key variable.  
+   *   Because of how operating systems handle key 
+   *   repeats, holding down a key will cause multiple 
+   *   calls to keyTyped(), the rate is set by the 
+   *   operating system and how each computer is 
+   *   configured.
+   * 
+   *  
+   *   Browsers may have different default behaviors 
+   *   attached to various key events. To prevent any 
+   *   default behavior for this event, add "return 
+   *   false" to the end of the method.
+   *
+   */
+  keyTyped(): void;
+
+  /**
+   *   The keyIsDown function checks if the key is 
+   *   currently down, i.e. pressed. It can be used if 
+   *   you have an object that moves, and you want 
+   *   several keys to be able to affect its behaviour 
+   *   simultaneously, such as moving a sprite 
+   *   diagonally. You can put in any number representing 
+   *   the keyCode of the key, or use any of the variable 
+   *   keyCode names listed here.
+   *
+   *   @param code The key to check for.
+   *   @return whether key is down or not
+   */
+  keyIsDown(code: number): boolean;
+
+  // src/events/mouse.js
+
+  /**
+   *   The system variable mouseX always contains the 
+   *   current horizontal position of the mouse, relative 
+   *   to (0, 0) of the canvas.
+   *
+   */
+  mouseX: any;
+
+  /**
+   *   The system variable mouseY always contains the 
+   *   current vertical position of the mouse, relative 
+   *   to (0, 0) of the canvas.
+   *
+   */
+  mouseY: any;
+
+  /**
+   *   The system variable pmouseX always contains the 
+   *   horizontal position of the mouse in the frame 
+   *   previous to the current frame, relative to (0, 0) 
+   *   of the canvas.
+   *
+   */
+  pmouseX: any;
+
+  /**
+   *   The system variable pmouseY always contains the 
+   *   vertical position of the mouse in the frame 
+   *   previous to the current frame, relative to (0, 0) 
+   *   of the canvas.
+   *
+   */
+  pmouseY: any;
+
+  /**
+   *   The system variable winMouseX always contains the 
+   *   current horizontal position of the mouse, relative 
+   *   to (0, 0) of the window.
+   *
+   */
+  winMouseX: any;
+
+  /**
+   *   The system variable winMouseY always contains the 
+   *   current vertical position of the mouse, relative 
+   *   to (0, 0) of the window.
+   *
+   */
+  winMouseY: any;
+
+  /**
+   *   The system variable pwinMouseX always contains the 
+   *   horizontal position of the mouse in the frame 
+   *   previous to the current frame, relative to (0, 0) 
+   *   of the window.
+   *
+   */
+  pwinMouseX: any;
+
+  /**
+   *   The system variable pwinMouseY always contains the 
+   *   vertical position of the mouse in the frame 
+   *   previous to the current frame, relative to (0, 0) 
+   *   of the window.
+   *
+   */
+  pwinMouseY: any;
+
+  /**
+   *   Processing automatically tracks if the mouse 
+   *   button is pressed and which button is pressed. The 
+   *   value of the system variable mouseButton is either 
+   *   LEFT, RIGHT, or CENTER depending on which button 
+   *   was pressed last. Warning: different browsers may 
+   *   track mouseButton differently.
+   *
+   */
+  mouseButton: any;
+
+  /**
+   *   The boolean system variable mouseIsPressed is true 
+   *   if the mouse is pressed and false if not.
+   *
+   */
+  mouseIsPressed: any;
+
+  /**
+   *   The mouseMoved() function is called every time the 
+   *   mouse moves and a mouse button is not pressed. 
+   *   Browsers may have different default behaviors 
+   *   attached to various mouse events. To prevent any 
+   *   default behavior for this event, add `return 
+   *   false` to the end of the method.
+   *
+   */
+  mouseMoved(): void;
+
+  /**
+   *   The mouseDragged() function is called once every 
+   *   time the mouse moves and a mouse button is 
+   *   pressed. If no mouseDragged() function is defined, 
+   *   the touchMoved() function will be called instead 
+   *   if it is defined. Browsers may have different 
+   *   default behaviors attached to various mouse 
+   *   events. To prevent any default behavior for this 
+   *   event, add `return false` to the end of the 
+   *   method.
+   *
+   */
+  mouseDragged(): void;
+
+  /**
+   *   The mousePressed() function is called once after 
+   *   every time a mouse button is pressed. The 
+   *   mouseButton variable (see the related reference 
+   *   entry) can be used to determine which button has 
+   *   been pressed. If no mousePressed() function is 
+   *   defined, the touchStarted() function will be 
+   *   called instead if it is defined. Browsers may have 
+   *   different default behaviors attached to various 
+   *   mouse events. To prevent any default behavior for 
+   *   this event, add `return false` to the end of the 
+   *   method.
+   *
+   */
+  mousePressed(): void;
+
+  /**
+   *   The mouseReleased() function is called every time 
+   *   a mouse button is released. If no mouseReleased() 
+   *   function is defined, the touchEnded() function 
+   *   will be called instead if it is defined. Browsers 
+   *   may have different default behaviors attached to 
+   *   various mouse events. To prevent any default 
+   *   behavior for this event, add `return false` to the 
+   *   end of the method.
+   *
+   */
+  mouseReleased(): void;
+
+  /**
+   *   The mouseClicked() function is called once after a 
+   *   mouse button has been pressed and then released. 
+   *   Browsers may have different default behaviors 
+   *   attached to various mouse events. To prevent any 
+   *   default behavior for this event, add `return 
+   *   false` to the end of the method.
+   *
+   */
+  mouseClicked(): void;
+
+  /**
+   *   The function mouseWheel is executed every time a 
+   *   scroll event is detected either triggered by an 
+   *   actual mouse wheel or by a touchpad. The 
+   *   event.delta property returns -1 or +1 depending on 
+   *   the scroll direction and the user's settings. (on 
+   *   OS X with "natural" scrolling enabled, the values 
+   *   are inverted).
+   * 
+   *  
+   *   Browsers may have different default behaviors 
+   *   attached to various mouse events. To prevent any 
+   *   default behavior for this event, add `return 
+   *   false` to the end of the method. The 
+   *   event.wheelDelta or event.detail properties can 
+   *   also be accessed but their behavior may differ 
+   *   depending on the browser. See  mouse wheel event 
+   *   in JS.
+   *
+   */
+  mouseWheel(): void;
+
+  // src/events/touch.js
+
+  /**
+   *   The system variable touchX always contains the 
+   *   horizontal position of one finger, relative to (0, 
+   *   0) of the canvas. This is best used for single 
+   *   touch interactions. For multi-touch interactions, 
+   *   use the touches[] array.
+   *
+   */
+  touchX: any;
+
+  /**
+   *   The system variable touchY always contains the 
+   *   vertical position of one finger, relative to (0, 
+   *   0) of the canvas. This is best used for single 
+   *   touch interactions. For multi-touch interactions, 
+   *   use the touches[] array.
+   *
+   */
+  touchY: any;
+
+  /**
+   *   The system variable ptouchX always contains the 
+   *   horizontal position of one finger, relative to (0, 
+   *   0) of the canvas, in the frame previous to the 
+   *   current frame.
+   *
+   */
+  ptouchX: any;
+
+  /**
+   *   The system variable ptouchY always contains the 
+   *   vertical position of one finger, relative to (0, 
+   *   0) of the canvas, in the frame previous to the 
+   *   current frame.
+   *
+   */
+  ptouchY: any;
+
+  // TODO: Property "touches[]", defined in src/events/touch.js, line 51, is not a valid JS symbol name
+
+  /**
+   *   The boolean system variable touchIsDown is true if 
+   *   the screen is touched and false if not.
+   *
+   */
+  touchIsDown: any;
+
+  /**
+   *   The touchStarted() function is called once after 
+   *   every time a touch is registered. If no 
+   *   touchStarted() function is defined, the 
+   *   mousePressed() function will be called instead if 
+   *   it is defined. Browsers may have different default 
+   *   behaviors attached to various touch events. To 
+   *   prevent any default behavior for this event, add 
+   *   `return false` to the end of the method.
+   *
+   */
+  touchStarted(): void;
+
+  /**
+   *   The touchMoved() function is called every time a 
+   *   touch move is registered. If no touchStarted() 
+   *   function is defined, the mouseDragged() function 
+   *   will be called instead if it is defined. Browsers 
+   *   may have different default behaviors attached to 
+   *   various touch events. To prevent any default 
+   *   behavior for this event, add `return false` to the 
+   *   end of the method.
+   *
+   */
+  touchMoved(): void;
+
+  /**
+   *   The touchEnded() function is called every time a 
+   *   touch ends. If no touchStarted() function is 
+   *   defined, the mouseReleased() function will be 
+   *   called instead if it is defined. Browsers may have 
+   *   different default behaviors attached to various 
+   *   touch events. To prevent any default behavior for 
+   *   this event, add `return false` to the end of the 
+   *   method.
+   *
+   */
+  touchEnded(): void;
+
   // src/image/image.js
 
   /**
@@ -928,13 +1754,14 @@ declare class p5 {
    *   width and height parameters. .pixels gives access 
    *   to an array containing the values for all the 
    *   pixels in the display window. These values are 
-   *   numbers. This array is the size of the display 
-   *   window x4, representing the R, G, B, A values in 
-   *   order for each pixel, moving from left to right 
-   *   across each row, then down each column. See 
-   *   .pixels for more info. It may also be simpler to 
-   *   use set() or get().  Before accessing the pixels 
-   *   of an image, the data must loaded with the 
+   *   numbers. This array is the size (including an 
+   *   appropriate factor for the pixelDensity) of the 
+   *   display window x4, representing the R, G, B, A 
+   *   values in order for each pixel, moving from left 
+   *   to right across each row, then down each column. 
+   *   See .pixels for more info. It may also be simpler 
+   *   to use set() or get().  Before accessing the 
+   *   pixels of an image, the data must loaded with the 
    *   loadPixels() function. After the array data has 
    *   been modified, the updatePixels() function must be 
    *   run to update the changes.
@@ -944,6 +1771,25 @@ declare class p5 {
    *   @return the p5.Image object
    */
   createImage(width: number, height: number): p5.Image;
+
+  // TODO: Fix saveCanvas() errors in src/image/image.js, line 106:
+  //
+  //   param "filename" has invalid type: [String]
+  //   param "extension" has invalid type: [String]
+  //   param "canvas" has invalid type: [selectedCanvas]
+  //
+  // saveCanvas(filename: any, extension: any, canvas: any): void;
+
+  // TODO: Fix saveFrames() errors in src/image/image.js, line 169:
+  //
+  //   param "filename" has invalid type: [type]
+  //   param "extension" has invalid type: [type]
+  //   param "_duration" has invalid type: [type]
+  //   param "_fps" has invalid type: [type]
+  //   param "callback" has invalid type: [Function]
+  //   return has invalid type: [type]
+  //
+  // saveFrames(filename: any, extension: any, _duration: any, _fps: any, callback: any): any;
 
   // src/image/loading_displaying.js
 
@@ -1089,13 +1935,52 @@ declare class p5 {
   copy(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
 
   /**
-   *   Applies a filter to the canvas
+   *   Applies a filter to the canvas.  The presets 
+   *   options are: 
+   * 
+   *  
+   *   THRESHOLD Converts the image to black and white 
+   *   pixels depending if they are above or below the 
+   *   threshold defined by the level parameter. The 
+   *   parameter must be between 0.0 (black) and 1.0 
+   *   (white). If no level is specified, 0.5 is used. 
+   * 
+   *  
+   *   GRAY Converts any colors in the image to grayscale 
+   *   equivalents. No parameter is used. 
+   * 
+   *  
+   *   OPAQUE Sets the alpha channel to entirely opaque. 
+   *   No parameter is used. 
+   * 
+   *  
+   *   INVERT Sets each pixel to its inverse value. No 
+   *   parameter is used. 
+   * 
+   *  
+   *   POSTERIZE Limits each channel of the image to the 
+   *   number of colors specified as the parameter. The 
+   *   parameter can be set to values between 2 and 255, 
+   *   but results are most noticeable in the lower 
+   *   ranges. 
+   * 
+   *  
+   *   BLUR Executes a Guassian blur with the level 
+   *   parameter specifying the extent of the blurring. 
+   *   If no parameter is used, the blur is equivalent to 
+   *   Guassian blur of radius 1. Larger values increase 
+   *   the blur. 
+   * 
+   *  
+   *   ERODE Reduces the light areas. No parameter is 
+   *   used. 
+   * 
+   *  
+   *   DILATE Increases the light areas. No parameter is 
+   *   used.
    *
-   *   @param operation one of threshold, gray, invert, 
-   *   posterize and opaque. see filters.js for docs on 
-   *   each available filter
    */
-  filter(operation: string, value: number|undefined): void;
+  filter(kind: string, param: number|undefined): void;
 
   /**
    *   Returns an array of [R,G,B,A] values for any pixel 
@@ -1115,9 +2000,11 @@ declare class p5 {
    *   single pixel with get(x, y) is easy, but not as 
    *   fast as grabbing the data directly from pixels[]. 
    *   The equivalent statement to get(x, y) using 
-   *   pixels[] is [ pixels[y*width+x], 
-   *   pixels[y*width+x+1], pixels[y*width+x+2], 
-   *   pixels[y*width+3] ]. See the reference for 
+   *   pixels[] with pixel density d is 
+   *   [pixels[(y*width*d+x)*d], 
+   *   pixels[(y*width*d+x)*d+1], 
+   *   pixels[(y*width*d+x)*d+2], 
+   *   pixels[(y*width*d+x)*d+3] ]. See the reference for 
    *   pixels[] for more information.
    *
    *   @param [x] x-coordinate of the pixel
@@ -1148,16 +2035,18 @@ declare class p5 {
    *   coordinates for the upper-left corner of the 
    *   image, regardless of the current imageMode().  
    * 
+   *  
+   *   After using set(), you must call updatePixels() 
+   *   for your changes to appear. This should be called 
+   *   once all pixels have been set.  
+   * 
    *   Setting the color of a single pixel with set(x, y) 
    *   is easy, but not as fast as putting the data 
-   *   directly into pixels[]. The equivalent statement 
-   *   to set(x, y, [100, 50, 10, 255]) using pixels[] 
-   *   is: 
-   * 
-   *   pixels[4*(y*width+x)] = 100; 
-   *   pixels[4*(y*width+x)+1] = 50; 
-   *   pixels[4*(y*width+x)+2] = 10; 
-   *   pixels[4*(y*width+x)+3] = 255; 
+   *   directly into pixels[]. Setting the pixels[] 
+   *   values directly may be complicated when working 
+   *   with a retina display, but will perform better 
+   *   when lots of pixels need to be set directly on 
+   *   every loop. 
    * 
    *   See the reference for pixels[] for more 
    *   information.
@@ -1169,100 +2058,26 @@ declare class p5 {
    */
   set(x: number, y: number, c: number|any[]|object): void;
 
-  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 447:
+  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 513:
   //
   //   param "w" is defined multiple times
   //
   // updatePixels(x?: number, y?: number, w?: number, w?: number): void;
 
-  // src/input/acceleration.js
+  // src/io/files.js
 
   /**
-   *   The system variable deviceOrientation always 
-   *   contains the orientation of the device. The value 
-   *   of this variable will either be set 'landscape' or 
-   *   'portrait'. If no data is avaliable it will be set 
-   *   to 'undefined'.
+   *   Loads an opentype font file (.otf, .ttf) from a 
+   *   file or a URL, and returns a PFont Object. This 
+   *   method is asynchronous, meaning it may not finish 
+   *   before the next line in your sketch is executed.
    *
+   *   @param path name of the file or url to load
+   *   @param [callback] function to be executed after 
+   *   loadFont() completes
+   *   @return p5.Font object
    */
-  deviceOrientation: any;
-
-  /**
-   *   The system variable accelerationX always contains 
-   *   the acceleration of the device along the x axis. 
-   *   Value is represented as meters per second squared.
-   *
-   */
-  accelerationX: any;
-
-  /**
-   *   The system variable accelerationY always contains 
-   *   the acceleration of the device along the y axis. 
-   *   Value is represented as meters per second squared.
-   *
-   */
-  accelerationY: any;
-
-  /**
-   *   The system variable accelerationZ always contains 
-   *   the acceleration of the device along the z axis. 
-   *   Value is represented as meters per second squared.
-   *
-   */
-  accelerationZ: any;
-
-  /**
-   *   The system variable pAccelerationX always contains 
-   *   the acceleration of the device along the x axis in 
-   *   the frame previous to the current frame. Value is 
-   *   represented as meters per second squared.
-   *
-   */
-  pAccelerationX: any;
-
-  /**
-   *   The system variable pAccelerationY always contains 
-   *   the acceleration of the device along the y axis in 
-   *   the frame previous to the current frame. Value is 
-   *   represented as meters per second squared.
-   *
-   */
-  pAccelerationY: any;
-
-  /**
-   *   The system variable pAccelerationZ always contains 
-   *   the acceleration of the device along the z axis in 
-   *   the frame previous to the current frame. Value is 
-   *   represented as meters per second squared.
-   *
-   */
-  pAccelerationZ: any;
-
-  /**
-   *   The setMoveThreshold() function is used to set the 
-   *   movement threshold for the onDeviceMove() 
-   *   function.
-   *
-   *   @param value The threshold value
-   */
-  setMoveThreshold(value: number): void;
-
-  /**
-   *   The onDeviceMove() function is called when the 
-   *   devices orientation changes by more than the 
-   *   threshold value.
-   *
-   */
-  onDeviceMove(): void;
-
-  /**
-   *   The onDeviceTurn() function is called when the 
-   *   device rotates by more than 90 degrees.
-   *
-   */
-  onDeviceTurn(): void;
-
-  // src/input/files.js
+  loadFont(path: string, callback?: Function): object;
 
   /**
    *   Loads a JSON file from a file or a URL, and 
@@ -1415,437 +2230,41 @@ declare class p5 {
    */
   httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
-  // src/input/keyboard.js
+  // TODO: Fix save() errors in src/io/files.js, line 807:
+  //
+  //   param "filename" has invalid type: [String]
+  //   param "options" has invalid type: [Boolean/String]
+  //
+  // save(objectOrFilename: any|any, filename: any, options: any): void;
 
   /**
-   *   The boolean system variable keyIsPressed is true 
-   *   if any key is pressed and false if no keys are 
-   *   pressed.
+   *   Writes the contents of an Array or a JSON object 
+   *   to a .json file. The file saving process and 
+   *   location of the saved file will vary between web 
+   *   browsers.
    *
+   *   @param [optimize] If true, removes line breaks and 
+   *   spaces from the output file to optimize filesize 
+   *   (but not readability).
    */
-  keyIsPressed: any;
+  saveJSON(json: any[]|object, filename: string, optimize?: boolean): void;
 
   /**
-   *   The system variable key always contains the value 
-   *   of the most recent key on the keyboard that was 
-   *   typed. To get the proper capitalization, it is 
-   *   best to use it within keyTyped(). For non-ASCII 
-   *   keys, use the keyCode variable.
+   *   Writes an array of Strings to a text file, one 
+   *   line per String. The file saving process and 
+   *   location of the saved file will vary between web 
+   *   browsers.
    *
+   *   @param list string array to be written
+   *   @param filename filename for output
    */
-  key: any;
+  saveStrings(list: any[], filename: string): void;
 
-  /**
-   *   The variable keyCode is used to detect special 
-   *   keys such as BACKSPACE, DELETE, ENTER, RETURN, 
-   *   TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, 
-   *   UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW.
-   *
-   */
-  keyCode: any;
-
-  /**
-   *   The keyPressed() function is called once every 
-   *   time a key is pressed. The keyCode for the key 
-   *   that was pressed is stored in the keyCode 
-   *   variable.  For non-ASCII keys, use the keyCode 
-   *   variable. You can check if the keyCode equals 
-   *   BACKSPACE, DELETE, ENTER, RETURN, TAB, ESCAPE, 
-   *   SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, 
-   *   LEFT_ARROW, RIGHT_ARROW. 
-   * 
-   *  
-   *   For ASCII keys that was pressed is stored in the 
-   *   key variable. However, it does not distinguish 
-   *   between uppercase and lowercase. For this reason, 
-   *   it is recommended to use keyTyped() to read the 
-   *   key variable, in which the case of the variable 
-   *   will be distinguished. 
-   * 
-   *  
-   *   Because of how operating systems handle key 
-   *   repeats, holding down a key may cause multiple 
-   *   calls to keyTyped() (and keyReleased() as well). 
-   *   The rate of repeat is set by the operating system 
-   *   and how each computer is configured.
-   * 
-   *  
-   *   Browsers may have different default behaviors 
-   *   attached to various key events. To prevent any 
-   *   default behavior for this event, add "return 
-   *   false" to the end of the method.
-   *
-   */
-  keyPressed(): void;
-
-  /**
-   *   The keyReleased() function is called once every 
-   *   time a key is released. See key and keyCode for 
-   *   more information. Browsers may have different 
-   *   default behaviors attached to various key events. 
-   *   To prevent any default behavior for this event, 
-   *   add "return false" to the end of the method.
-   *
-   */
-  keyReleased(): void;
-
-  /**
-   *   The keyTyped() function is called once every time 
-   *   a key is pressed, but action keys such as Ctrl, 
-   *   Shift, and Alt are ignored. The most recent key 
-   *   pressed will be stored in the key variable.  
-   *   Because of how operating systems handle key 
-   *   repeats, holding down a key will cause multiple 
-   *   calls to keyTyped(), the rate is set by the 
-   *   operating system and how each computer is 
-   *   configured.
-   * 
-   *  
-   *   Browsers may have different default behaviors 
-   *   attached to various key events. To prevent any 
-   *   default behavior for this event, add "return 
-   *   false" to the end of the method.
-   *
-   */
-  keyTyped(): void;
-
-  /**
-   *   The keyIsDown function checks if the key is 
-   *   currently down, i.e. pressed. It can be used if 
-   *   you have an object that moves, and you want 
-   *   several keys to be able to affect its behaviour 
-   *   simultaneously, such as moving a sprite 
-   *   diagonally. You can put in any number representing 
-   *   the keyCode of the key, or use any of the variable 
-   *   keyCode names listed here.
-   *
-   *   @param code The key to check for.
-   *   @return whether key is down or not
-   */
-  keyIsDown(code: number): boolean;
-
-  // src/input/mouse.js
-
-  /**
-   *   The system variable mouseX always contains the 
-   *   current horizontal position of the mouse, relative 
-   *   to (0, 0) of the canvas.
-   *
-   */
-  mouseX: any;
-
-  /**
-   *   The system variable mouseY always contains the 
-   *   current vertical position of the mouse, relative 
-   *   to (0, 0) of the canvas.
-   *
-   */
-  mouseY: any;
-
-  /**
-   *   The system variable pmouseX always contains the 
-   *   horizontal position of the mouse in the frame 
-   *   previous to the current frame, relative to (0, 0) 
-   *   of the canvas.
-   *
-   */
-  pmouseX: any;
-
-  /**
-   *   The system variable pmouseY always contains the 
-   *   vertical position of the mouse in the frame 
-   *   previous to the current frame, relative to (0, 0) 
-   *   of the canvas.
-   *
-   */
-  pmouseY: any;
-
-  /**
-   *   The system variable winMouseX always contains the 
-   *   current horizontal position of the mouse, relative 
-   *   to (0, 0) of the window.
-   *
-   */
-  winMouseX: any;
-
-  /**
-   *   The system variable winMouseY always contains the 
-   *   current vertical position of the mouse, relative 
-   *   to (0, 0) of the window.
-   *
-   */
-  winMouseY: any;
-
-  /**
-   *   The system variable pwinMouseX always contains the 
-   *   horizontal position of the mouse in the frame 
-   *   previous to the current frame, relative to (0, 0) 
-   *   of the window.
-   *
-   */
-  pwinMouseX: any;
-
-  /**
-   *   The system variable pwinMouseY always contains the 
-   *   vertical position of the mouse in the frame 
-   *   previous to the current frame, relative to (0, 0) 
-   *   of the window.
-   *
-   */
-  pwinMouseY: any;
-
-  /**
-   *   Processing automatically tracks if the mouse 
-   *   button is pressed and which button is pressed. The 
-   *   value of the system variable mouseButton is either 
-   *   LEFT, RIGHT, or CENTER depending on which button 
-   *   is pressed. Browsers are weird, USE AT YOUR OWN 
-   *   RISK FOR NOW!
-   *
-   */
-  mouseButton: any;
-
-  /**
-   *   The boolean system variable mouseIsPressed is true 
-   *   if the mouse is pressed and false if not.
-   *
-   */
-  mouseIsPressed: any;
-
-  /**
-   *   The mouseMoved() function is called every time the 
-   *   mouse moves and a mouse button is not pressed. 
-   *   Browsers may have different default behaviors 
-   *   attached to various mouse events. To prevent any 
-   *   default behavior for this event, add `return 
-   *   false` to the end of the method.
-   *
-   */
-  mouseMoved(): void;
-
-  /**
-   *   The mouseDragged() function is called once every 
-   *   time the mouse moves and a mouse button is 
-   *   pressed. If no mouseDragged() function is defined, 
-   *   the touchMoved() function will be called instead 
-   *   if it is defined. Browsers may have different 
-   *   default behaviors attached to various mouse 
-   *   events. To prevent any default behavior for this 
-   *   event, add `return false` to the end of the 
-   *   method.
-   *
-   */
-  mouseDragged(): void;
-
-  /**
-   *   The mousePressed() function is called once after 
-   *   every time a mouse button is pressed. The 
-   *   mouseButton variable (see the related reference 
-   *   entry) can be used to determine which button has 
-   *   been pressed. If no mousePressed() function is 
-   *   defined, the touchStarted() function will be 
-   *   called instead if it is defined. Browsers may have 
-   *   different default behaviors attached to various 
-   *   mouse events. To prevent any default behavior for 
-   *   this event, add `return false` to the end of the 
-   *   method.
-   *
-   */
-  mousePressed(): void;
-
-  /**
-   *   The mouseReleased() function is called every time 
-   *   a mouse button is released. If no mouseReleased() 
-   *   function is defined, the touchEnded() function 
-   *   will be called instead if it is defined. Browsers 
-   *   may have different default behaviors attached to 
-   *   various mouse events. To prevent any default 
-   *   behavior for this event, add `return false` to the 
-   *   end of the method.
-   *
-   */
-  mouseReleased(): void;
-
-  /**
-   *   The mouseClicked() function is called once after a 
-   *   mouse button has been pressed and then released. 
-   *   Browsers may have different default behaviors 
-   *   attached to various mouse events. To prevent any 
-   *   default behavior for this event, add `return 
-   *   false` to the end of the method.
-   *
-   */
-  mouseClicked(): void;
-
-  /**
-   *   The event.wheelDelta or event.detail property 
-   *   returns negative values if the mouse wheel if 
-   *   rotated up or away from the user and positive in 
-   *   the other direction. On OS X with "natural" 
-   *   scrolling enabled, the values are opposite. 
-   *   Browsers may have different default behaviors 
-   *   attached to various mouse events. To prevent any 
-   *   default behavior for this event, add `return 
-   *   false` to the end of the method. See  mouse wheel 
-   *   event in JS.
-   *
-   */
-  mouseWheel(): void;
-
-  // src/input/time_date.js
-
-  /**
-   *   p5.js communicates with the clock on your 
-   *   computer. The day() function returns the current 
-   *   day as a value from 1 - 31.
-   *
-   *   @return the current day
-   */
-  day(): number;
-
-  /**
-   *   p5.js communicates with the clock on your 
-   *   computer. The hour() function returns the current 
-   *   hour as a value from 0 - 23.
-   *
-   *   @return the current hour
-   */
-  hour(): number;
-
-  /**
-   *   p5.js communicates with the clock on your 
-   *   computer. The minute() function returns the 
-   *   current minute as a value from 0 - 59.
-   *
-   *   @return the current minute
-   */
-  minute(): number;
-
-  /**
-   *   Returns the number of milliseconds (thousandths of 
-   *   a second) since starting the program. This 
-   *   information is often used for timing events and 
-   *   animation sequences.
-   *
-   *   @return the number of milliseconds since starting 
-   *   the program
-   */
-  millis(): number;
-
-  /**
-   *   p5.js communicates with the clock on your 
-   *   computer. The month() function returns the current 
-   *   month as a value from 1 - 12.
-   *
-   *   @return the current month
-   */
-  month(): number;
-
-  /**
-   *   p5.js communicates with the clock on your 
-   *   computer. The second() function returns the 
-   *   current second as a value from 0 - 59.
-   *
-   *   @return the current second
-   */
-  second(): number;
-
-  /**
-   *   p5.js communicates with the clock on your 
-   *   computer. The year() function returns the current 
-   *   year as an integer (2014, 2015, 2016, etc).
-   *
-   *   @return the current year
-   */
-  year(): number;
-
-  // src/input/touch.js
-
-  /**
-   *   The system variable touchX always contains the 
-   *   horizontal position of one finger, relative to (0, 
-   *   0) of the canvas. This is best used for single 
-   *   touch interactions. For multi-touch interactions, 
-   *   use the touches[] array.
-   *
-   */
-  touchX: any;
-
-  /**
-   *   The system variable touchY always contains the 
-   *   vertical position of one finger, relative to (0, 
-   *   0) of the canvas. This is best used for single 
-   *   touch interactions. For multi-touch interactions, 
-   *   use the touches[] array.
-   *
-   */
-  touchY: any;
-
-  /**
-   *   The system variable ptouchX always contains the 
-   *   horizontal position of one finger, relative to (0, 
-   *   0) of the canvas, in the frame previous to the 
-   *   current frame.
-   *
-   */
-  ptouchX: any;
-
-  /**
-   *   The system variable ptouchY always contains the 
-   *   vertical position of one finger, relative to (0, 
-   *   0) of the canvas, in the frame previous to the 
-   *   current frame.
-   *
-   */
-  ptouchY: any;
-
-  // TODO: Property "touches[]", defined in src/input/touch.js, line 51, is not a valid JS symbol name
-
-  /**
-   *   The boolean system variable touchIsDown is true if 
-   *   the screen is touched and false if not.
-   *
-   */
-  touchIsDown: any;
-
-  /**
-   *   The touchStarted() function is called once after 
-   *   every time a touch is registered. If no 
-   *   touchStarted() function is defined, the 
-   *   mousePressed() function will be called instead if 
-   *   it is defined. Browsers may have different default 
-   *   behaviors attached to various touch events. To 
-   *   prevent any default behavior for this event, add 
-   *   `return false` to the end of the method.
-   *
-   */
-  touchStarted(): void;
-
-  /**
-   *   The touchMoved() function is called every time a 
-   *   touch move is registered. If no touchStarted() 
-   *   function is defined, the mouseDragged() function 
-   *   will be called instead if it is defined. Browsers 
-   *   may have different default behaviors attached to 
-   *   various touch events. To prevent any default 
-   *   behavior for this event, add `return false` to the 
-   *   end of the method.
-   *
-   */
-  touchMoved(): void;
-
-  /**
-   *   The touchEnded() function is called every time a 
-   *   touch ends. If no touchStarted() function is 
-   *   defined, the mouseReleased() function will be 
-   *   called instead if it is defined. Browsers may have 
-   *   different default behaviors attached to various 
-   *   touch events. To prevent any default behavior for 
-   *   this event, add `return false` to the end of the 
-   *   method.
-   *
-   */
-  touchEnded(): void;
+  // TODO: Fix saveTable() errors in src/io/files.js, line 1035:
+  //
+  //   param "options" has invalid type: [String]
+  //
+  // saveTable(Table: p5.Table, filename: string, options: any): void;
 
   // src/math/calculation.js
 
@@ -1871,8 +2290,8 @@ declare class p5 {
   ceil(n: number): number;
 
   /**
-   *   Constrains a value to not exceed a maximum and 
-   *   minimum value.
+   *   Constrains a value between a minimum and maximum 
+   *   value.
    *
    *   @param n number to constrain
    *   @param low minimum limit
@@ -2324,804 +2743,11 @@ declare class p5 {
    */
   radians(degrees: number): number;
 
-  // TODO: Fix angleMode() errors in src/math/trigonometry.js, line 167:
+  // TODO: Fix angleMode() errors in src/math/trigonometry.js, line 305:
   //
   //   param "mode" has invalid type: Number/Constant
   //
   // angleMode(mode: any): void;
-
-  // src/output/files.js
-
-  // TODO: Fix save() errors in src/output/files.js, line 99:
-  //
-  //   param "filename" has invalid type: [String]
-  //   param "options" has invalid type: [Boolean/String]
-  //
-  // save(objectOrFilename: any|any, filename: any, options: any): void;
-
-  // src/output/text_area.js
-
-  /**
-   *   The print() function writes to the console area of 
-   *   your browser, it maps to console.log(). This 
-   *   function is often helpful for looking at the data 
-   *   a program is producing. This function creates a 
-   *   new line of text for each call to the function. 
-   *   More than one parameter can be passed into the 
-   *   function by separating them with commas. 
-   *   Alternatively, individual elements can be 
-   *   separated with quotes ("") and joined with the 
-   *   addition operator (+).
-   *
-   *   @param contents any combination of Number, String, 
-   *   Object, Boolean, Array to print
-   */
-  print(contents: any): void;
-
-  // src/rendering/rendering.js
-
-  /**
-   *   Creates a canvas element in the document, and sets 
-   *   the dimensions of it in pixels. This method should 
-   *   be called only once at the start of setup. Calling 
-   *   createCanvas more than once in a sketch will 
-   *   result in very unpredicable behavior. If you want 
-   *   more than one drawing canvas you could use 
-   *   createGraphics (hidden by default but it can be 
-   *   shown). The system variables width and height are 
-   *   set by the parameters passed to this function. If 
-   *   createCanvas() is not used, the window will be 
-   *   given a default size of 100x100 pixels.
-   *
-   *   @param w width of the canvas
-   *   @param h height of the canvas
-   *   @return canvas generated
-   */
-  createCanvas(w: number, h: number): object;
-
-  /**
-   *   Resizes the canvas to given width and height. Note 
-   *   that the canvas will be cleared so anything drawn 
-   *   previously in setup or draw will disappear on 
-   *   resize. Setup will not be called again.
-   *
-   */
-  resizeCanvas(): void;
-
-  /**
-   *   Removes the default canvas for a p5 sketch that 
-   *   doesn't require a canvas
-   *
-   */
-  noCanvas(): void;
-
-  /**
-   *   Creates and returns a new p5.Graphics object. Use 
-   *   this class if you need to draw into an off-screen 
-   *   graphics buffer. The two parameters define the 
-   *   width and height in pixels.
-   *
-   *   @param w width of the offscreen graphics buffer
-   *   @param h height of the offscreen graphics buffer
-   *   @return offscreen graphics buffer
-   */
-  createGraphics(w: number, h: number): object;
-
-  // TODO: Fix blendMode() errors in src/rendering/rendering.js, line 171:
-  //
-  //   param "mode" has invalid type: String/Constant
-  //
-  // blendMode(mode: any): void;
-
-  // src/shape/2d_primitives.js
-
-  /**
-   *   Draw an arc. If a,b,c,d,start and stop are the 
-   *   only params provided, draws an open pie. If mode 
-   *   is provided draws the arc either open, chord or 
-   *   pie, dependent on the variable provided.
-   *
-   *   @param a x-coordinate of the arc's ellipse
-   *   @param b y-coordinate of the arc's ellipse
-   *   @param c width of the arc's ellipse by default
-   *   @param d height of the arc's ellipse by default
-   *   @param start angle to start the arc, specified in 
-   *   radians
-   *   @param stop angle to stop the arc, specified in 
-   *   radians
-   *   @param [mode] optional parameter to determine the 
-   *   way of drawing the arc
-   *   @return the p5 object
-   */
-  arc(a: number, b: number, c: number, d: number, start: number, stop: number, mode?: string): object;
-
-  /**
-   *   Draws an ellipse (oval) to the screen. An ellipse 
-   *   with equal width and height is a circle. By 
-   *   default, the first two parameters set the 
-   *   location, and the third and fourth parameters set 
-   *   the shape's width and height. The origin may be 
-   *   changed with the ellipseMode() function.
-   *
-   *   @param a x-coordinate of the ellipse.
-   *   @param b y-coordinate of the ellipse.
-   *   @param c width of the ellipse.
-   *   @param d height of the ellipse.
-   *   @return the p5 object
-   */
-  ellipse(a: number, b: number, c: number, d: number): p5;
-
-  /**
-   *   Draws a line (a direct path between two points) to 
-   *   the screen. The version of line() with four 
-   *   parameters draws the line in 2D. To color a line, 
-   *   use the stroke() function. A line cannot be 
-   *   filled, therefore the fill() function will not 
-   *   affect the color of a line. 2D lines are drawn 
-   *   with a width of one pixel by default, but this can 
-   *   be changed with the strokeWeight() function.
-   *
-   *   @param x1 the x-coordinate of the first point
-   *   @param y1 the y-coordinate of the first point
-   *   @param x2 the x-coordinate of the second point
-   *   @param y2 the y-coordinate of the second point
-   *   @return the p5 object
-   */
-  line(x1: number, y1: number, x2: number, y2: number): p5;
-
-  /**
-   *   Draws a point, a coordinate in space at the 
-   *   dimension of one pixel. The first parameter is the 
-   *   horizontal value for the point, the second value 
-   *   is the vertical value for the point.
-   *
-   *   @param x the x-coordinate
-   *   @param y the y-coordinate
-   *   @return the p5 object
-   */
-  point(x: number, y: number): p5;
-
-  // TODO: Fix quad() errors in src/shape/2d_primitives.js, line 397:
-  //
-  //   param "x1" has invalid type: Type
-  //   param "y1" has invalid type: Type
-  //   param "x2" has invalid type: Type
-  //   param "y2" has invalid type: Type
-  //   param "x3" has invalid type: Type
-  //   param "y3" has invalid type: Type
-  //   param "x4" has invalid type: Type
-  //   param "y4" has invalid type: Type
-  //
-  // quad(x1: any, y1: any, x2: any, y2: any, x3: any, y3: any, x4: any, y4: any): p5;
-
-  /**
-   *   Draws a rectangle to the screen. A rectangle is a 
-   *   four-sided shape with every angle at ninety 
-   *   degrees. By default, the first two parameters set 
-   *   the location of the upper-left corner, the third 
-   *   sets the width, and the fourth sets the height. 
-   *   The way these parameters are interpreted, however, 
-   *   may be changed with the rectMode() function. If 
-   *   provided, the fifth, sixth seventh and eighth 
-   *   parameters, if specified, determine corner radius 
-   *   for the top-right, top-left, lower-right and 
-   *   lower-left corners, respectively. An omitted 
-   *   corner radius parameter is set to the value of the 
-   *   previously specified radius value in the parameter 
-   *   list.
-   *
-   *   @param x x-coordinate of the rectangle.
-   *   @param y y-coordinate of the rectangle.
-   *   @param w width of the rectangle.
-   *   @param h height of the rectangle.
-   *   @param [tl] optional radius of top-left corner.
-   *   @param [tr] optional radius of top-right corner.
-   *   @param [br] optional radius of bottom-right 
-   *   corner.
-   *   @param [bl] optional radius of bottom-left corner.
-   *   @return the p5 object.
-   */
-  rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): p5;
-
-  /**
-   *   A triangle is a plane created by connecting three 
-   *   points. The first two arguments specify the first 
-   *   point, the middle two arguments specify the second 
-   *   point, and the last two arguments specify the 
-   *   third point.
-   *
-   *   @param x1 x-coordinate of the first point
-   *   @param y1 y-coordinate of the first point
-   *   @param x2 x-coordinate of the second point
-   *   @param y2 y-coordinate of the second point
-   *   @param x3 x-coordinate of the third point
-   *   @param y3 y-coordinate of the third point
-   *   @return the p5 object
-   */
-  triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): p5;
-
-  // src/shape/attributes.js
-
-  // TODO: Fix ellipseMode() errors in src/shape/attributes.js, line 18:
-  //
-  //   param "mode" has invalid type: Number/Constant
-  //
-  // ellipseMode(mode: any): p5;
-
-  /**
-   *   Draws all geometry with jagged (aliased) edges. 
-   *   Note that smooth() is active by default, so it is 
-   *   necessary to call noSmooth() to disable smoothing 
-   *   of geometry, images, and fonts.
-   *
-   *   @return the p5 object
-   */
-  noSmooth(): p5;
-
-  // TODO: Fix rectMode() errors in src/shape/attributes.js, line 106:
-  //
-  //   param "mode" has invalid type: Number/Constant
-  //
-  // rectMode(mode: any): p5;
-
-  /**
-   *   Draws all geometry with smooth (anti-aliased) 
-   *   edges. smooth() will also improve image quality of 
-   *   resized images. Note that smooth() is active by 
-   *   default; noSmooth() can be used to disable 
-   *   smoothing of geometry, images, and fonts.
-   *
-   *   @return the p5 object
-   */
-  smooth(): p5;
-
-  // TODO: Fix strokeCap() errors in src/shape/attributes.js, line 195:
-  //
-  //   param "cap" has invalid type: Number/Constant
-  //
-  // strokeCap(cap: any): p5;
-
-  // TODO: Fix strokeJoin() errors in src/shape/attributes.js, line 226:
-  //
-  //   param "join" has invalid type: Number/Constant
-  //
-  // strokeJoin(join: any): p5;
-
-  /**
-   *   Sets the width of the stroke used for lines, 
-   *   points, and the border around shapes. All widths 
-   *   are set in units of pixels.
-   *
-   *   @param weight the weight (in pixels) of the stroke
-   *   @return the p5 object
-   */
-  strokeWeight(weight: number): p5;
-
-  // src/shape/curves.js
-
-  /**
-   *   Draws a Bezier curve on the screen. These curves 
-   *   are defined by a series of anchor and control 
-   *   points. The first two parameters specify the first 
-   *   anchor point and the last two parameters specify 
-   *   the other anchor point. The middle parameters 
-   *   specify the control points which define the shape 
-   *   of the curve. Bezier curves were developed by 
-   *   French engineer Pierre Bezier.
-   *
-   *   @param x1 x-coordinate for the first anchor point
-   *   @param y1 y-coordinate for the first anchor point
-   *   @param x2 x-coordinate for the first control point
-   *   @param y2 y-coordinate for the first control point
-   *   @param x3 x-coordinate for the second control 
-   *   point
-   *   @param y3 y-coordinate for the second control 
-   *   point
-   *   @param x4 x-coordinate for the second anchor point
-   *   @param y4 y-coordinate for the second anchor point
-   *   @return the p5 object
-   */
-  bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
-
-  /**
-   *   Calculate a point on the Bezier Curve Evaluates 
-   *   the Bezier at point t for points a, b, c, d. The 
-   *   parameter t varies between 0 and 1, a and d are 
-   *   points on the curve, and b and c are the control 
-   *   points. This can be done once with the x 
-   *   coordinates and a second time with the y 
-   *   coordinates to get the location of a bezier curve 
-   *   at t.
-   *
-   *   @param a coordinate of first point on the curve
-   *   @param b coordinate of first control point
-   *   @param c coordinate of second control point
-   *   @param d coordinate of second point on the curve
-   *   @param t value between 0 and 1
-   *   @return the value of the Bezier at point t
-   */
-  bezierPoint(a: number, b: number, c: number, d: number, t: number): number;
-
-  /**
-   *   Calculates the tangent of a point on a Bezier 
-   *   curve Evaluates the tangent at point t for points 
-   *   a, b, c, d. The parameter t varies between 0 and 
-   *   1, a and d are points on the curve, and b and c 
-   *   are the control points
-   *
-   *   @param a coordinate of first point on the curve
-   *   @param b coordinate of first control point
-   *   @param c coordinate of second control point
-   *   @param d coordinate of second point on the curve
-   *   @param t value between 0 and 1
-   *   @return the tangent at point t
-   */
-  bezierTangent(a: number, b: number, c: number, d: number, t: number): number;
-
-  /**
-   *   Draws a curved line on the screen. The first and 
-   *   second parameters specify the beginning control 
-   *   point and the last two parameters specify the 
-   *   ending control point. The middle parameters 
-   *   specify the start and stop of the curve. Longer 
-   *   curves can be created by putting a series of 
-   *   curve() functions together or using curveVertex(). 
-   *   An additional function called curveTightness() 
-   *   provides control for the visual quality of the 
-   *   curve. The curve() function is an implementation 
-   *   of Catmull-Rom splines.
-   *
-   *   @param x1 x-coordinate for the beginning control 
-   *   point
-   *   @param y1 y-coordinate for the beginning control 
-   *   point
-   *   @param x2 x-coordinate for the first point
-   *   @param y2 y-coordinate for the first point
-   *   @param x3 x-coordinate for the second point
-   *   @param y3 y-coordinate for the second point
-   *   @param x4 x-coordinate for the ending control 
-   *   point
-   *   @param y4 y-coordinate for the ending control 
-   *   point
-   *   @return the p5 object
-   */
-  curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
-
-  /**
-   *   Modifies the quality of forms created with curve() 
-   *   and curveVertex(). The parameter tightness 
-   *   determines how the curve fits to the vertex 
-   *   points. The value 0.0 is the default value for 
-   *   tightness (this value defines the curves to be 
-   *   Catmull-Rom splines) and the value 1.0 connects 
-   *   all the points with straight lines. Values within 
-   *   the range -5.0 and 5.0 will deform the curves but 
-   *   will leave them recognizable and as values 
-   *   increase in magnitude, they will continue to 
-   *   deform.
-   *
-   *   @param amount of deformation from the original 
-   *   vertices
-   *   @return the p5 object
-   */
-  curveTightness(amount: number): object;
-
-  /**
-   *   Calculate a point on the Curve Evaluates the 
-   *   Bezier at point t for points a, b, c, d. The 
-   *   parameter t varies between 0 and 1, a and d are 
-   *   points on the curve, and b and c are the control 
-   *   points. This can be done once with the x 
-   *   coordinates and a second time with the y 
-   *   coordinates to get the location of a curve at t.
-   *
-   *   @param a coordinate of first point on the curve
-   *   @param b coordinate of first control point
-   *   @param c coordinate of second control point
-   *   @param d coordinate of second point on the curve
-   *   @param t value between 0 and 1
-   *   @return bezier value at point t
-   */
-  curvePoint(a: number, b: number, c: number, d: number, t: number): number;
-
-  /**
-   *   Calculates the tangent of a point on a curve 
-   *   Evaluates the tangent at point t for points a, b, 
-   *   c, d. The parameter t varies between 0 and 1, a 
-   *   and d are points on the curve, and b and c are the 
-   *   control points
-   *
-   *   @param a coordinate of first point on the curve
-   *   @param b coordinate of first control point
-   *   @param c coordinate of second control point
-   *   @param d coordinate of second point on the curve
-   *   @param t value between 0 and 1
-   *   @return the tangent at point t
-   */
-  curveTangent(a: number, b: number, c: number, d: number, t: number): number;
-
-  // src/shape/vertex.js
-
-  /**
-   *   Use the beginContour() and endContour() functions 
-   *   to create negative shapes within shapes such as 
-   *   the center of the letter 'O'. beginContour() 
-   *   begins recording vertices for the shape and 
-   *   endContour() stops recording. The vertices that 
-   *   define a negative shape must "wind" in the 
-   *   opposite direction from the exterior shape. First 
-   *   draw vertices for the exterior clockwise order, 
-   *   then for internal shapes, draw vertices shape in 
-   *   counter-clockwise.  These functions can only be 
-   *   used within a beginShape()/endShape() pair and 
-   *   transformations such as translate(), rotate(), and 
-   *   scale() do not work within a 
-   *   beginContour()/endContour() pair. It is also not 
-   *   possible to use other shapes, such as ellipse() or 
-   *   rect() within.
-   *
-   *   @return the p5 object
-   */
-  beginContour(): object;
-
-  // TODO: Fix beginShape() errors in src/shape/vertex.js, line 79:
-  //
-  //   param "kind" has invalid type: Number/Constant
-  //
-  // beginShape(kind: any): object;
-
-  /**
-   *   Specifies vertex coordinates for Bezier curves. 
-   *   Each call to bezierVertex() defines the position 
-   *   of two control points and one anchor point of a 
-   *   Bezier curve, adding a new segment to a line or 
-   *   shape. The first time bezierVertex() is used 
-   *   within a beginShape() call, it must be prefaced 
-   *   with a call to vertex() to set the first anchor 
-   *   point. This function must be used between 
-   *   beginShape() and endShape() and only when there is 
-   *   no MODE parameter specified to beginShape().
-   *
-   *   @param x2 x-coordinate for the first control point
-   *   @param y2 y-coordinate for the first control point
-   *   @param x3 x-coordinate for the second control 
-   *   point
-   *   @param y3 y-coordinate for the second control 
-   *   point
-   *   @param x4 x-coordinate for the anchor point
-   *   @param y4 y-coordinate for the anchor point
-   *   @return the p5 object
-   */
-  bezierVertex(x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
-
-  /**
-   *   Specifies vertex coordinates for curves. This 
-   *   function may only be used between beginShape() and 
-   *   endShape() and only when there is no MODE 
-   *   parameter specified to beginShape(). The first and 
-   *   last points in a series of curveVertex() lines 
-   *   will be used to guide the beginning and end of a 
-   *   the curve. A minimum of four points is required to 
-   *   draw a tiny curve between the second and third 
-   *   points. Adding a fifth point with curveVertex() 
-   *   will draw the curve between the second, third, and 
-   *   fourth points. The curveVertex() function is an 
-   *   implementation of Catmull-Rom splines.
-   *
-   *   @param x x-coordinate of the vertex
-   *   @param y y-coordinate of the vertex
-   *   @return the p5 object
-   */
-  curveVertex(x: number, y: number): object;
-
-  /**
-   *   Use the beginContour() and endContour() functions 
-   *   to create negative shapes within shapes such as 
-   *   the center of the letter 'O'. beginContour() 
-   *   begins recording vertices for the shape and 
-   *   endContour() stops recording. The vertices that 
-   *   define a negative shape must "wind" in the 
-   *   opposite direction from the exterior shape. First 
-   *   draw vertices for the exterior clockwise order, 
-   *   then for internal shapes, draw vertices shape in 
-   *   counter-clockwise.  These functions can only be 
-   *   used within a beginShape()/endShape() pair and 
-   *   transformations such as translate(), rotate(), and 
-   *   scale() do not work within a 
-   *   beginContour()/endContour() pair. It is also not 
-   *   possible to use other shapes, such as ellipse() or 
-   *   rect() within.
-   *
-   *   @return the p5 object
-   */
-  endContour(): object;
-
-  // TODO: Fix endShape() errors in src/shape/vertex.js, line 405:
-  //
-  //   param "mode" has invalid type: Number/Constant
-  //
-  // endShape(mode: any): object;
-
-  /**
-   *   Specifies vertex coordinates for quadratic Bezier 
-   *   curves. Each call to quadraticVertex() defines the 
-   *   position of one control points and one anchor 
-   *   point of a Bezier curve, adding a new segment to a 
-   *   line or shape. The first time quadraticVertex() is 
-   *   used within a beginShape() call, it must be 
-   *   prefaced with a call to vertex() to set the first 
-   *   anchor point. This function must be used between 
-   *   beginShape() and endShape() and only when there is 
-   *   no MODE parameter specified to beginShape().
-   *
-   *   @param cx x-coordinate for the control point
-   *   @param cy y-coordinate for the control point
-   *   @param x3 x-coordinate for the anchor point
-   *   @param y3 y-coordinate for the anchor point
-   *   @return the p5 object
-   */
-  quadraticVertex(cx: number, cy: number, x3: number, y3: number): object;
-
-  /**
-   *   All shapes are constructed by connecting a series 
-   *   of vertices. vertex() is used to specify the 
-   *   vertex coordinates for points, lines, triangles, 
-   *   quads, and polygons. It is used exclusively within 
-   *   the beginShape() and endShape() functions.
-   *
-   *   @param x x-coordinate of the vertex
-   *   @param y y-coordinate of the vertex
-   *   @return the p5 object
-   */
-  vertex(x: number, y: number): object;
-
-  // src/structure/structure.js
-
-  /**
-   *   Stops p5.js from continuously executing the code 
-   *   within draw(). If loop() is called, the code in 
-   *   draw() begins to run continuously again. If using 
-   *   noLoop() in setup(), it should be the last line 
-   *   inside the block.  When noLoop() is used, it's not 
-   *   possible to manipulate or access the screen inside 
-   *   event handling functions such as mousePressed() or 
-   *   keyPressed(). Instead, use those functions to call 
-   *   redraw() or loop(), which will run draw(), which 
-   *   can update the screen properly. This means that 
-   *   when noLoop() has been called, no drawing can 
-   *   happen, and functions like saveFrame() or 
-   *   loadPixels() may not be used. 
-   * 
-   *   Note that if the sketch is resized, redraw() will 
-   *   be called to update the sketch, even after 
-   *   noLoop() has been specified. Otherwise, the sketch 
-   *   would enter an odd state until loop() was called.
-   *
-   */
-  noLoop(): void;
-
-  /**
-   *   By default, p5.js loops through draw() 
-   *   continuously, executing the code within it. 
-   *   However, the draw() loop may be stopped by calling 
-   *   noLoop(). In that case, the draw() loop can be 
-   *   resumed with loop().
-   *
-   */
-  loop(): void;
-
-  /**
-   *   The push() function saves the current drawing 
-   *   style settings and transformations, while pop() 
-   *   restores these settings. Note that these functions 
-   *   are always used together. They allow you to change 
-   *   the style and transformation settings and later 
-   *   return to what you had. When a new state is 
-   *   started with push(), it builds on the current 
-   *   style and transform information. The push() and 
-   *   pop() functions can be embedded to provide more 
-   *   control. (See the second example for a 
-   *   demonstration.)  push() stores information related 
-   *   to the current transformation state and style 
-   *   settings controlled by the following functions: 
-   *   fill(), stroke(), tint(), strokeWeight(), 
-   *   strokeCap(), strokeJoin(), imageMode(), 
-   *   rectMode(), ellipseMode(), colorMode(), 
-   *   textAlign(), textFont(), textMode(), textSize(), 
-   *   textLeading().
-   *
-   */
-  push(): void;
-
-  /**
-   *   The push() function saves the current drawing 
-   *   style settings and transformations, while pop() 
-   *   restores these settings. Note that these functions 
-   *   are always used together. They allow you to change 
-   *   the style and transformation settings and later 
-   *   return to what you had. When a new state is 
-   *   started with push(), it builds on the current 
-   *   style and transform information. The push() and 
-   *   pop() functions can be embedded to provide more 
-   *   control. (See the second example for a 
-   *   demonstration.)  push() stores information related 
-   *   to the current transformation state and style 
-   *   settings controlled by the following functions: 
-   *   fill(), stroke(), tint(), strokeWeight(), 
-   *   strokeCap(), strokeJoin(), imageMode(), 
-   *   rectMode(), ellipseMode(), colorMode(), 
-   *   textAlign(), textFont(), textMode(), textSize(), 
-   *   textLeading().
-   *
-   */
-  pop(): void;
-
-  /**
-   *   Executes the code within draw() one time. This 
-   *   functions allows the program to update the display 
-   *   window only when necessary, for example when an 
-   *   event registered by mousePressed() or keyPressed() 
-   *   occurs. In structuring a program, it only makes 
-   *   sense to call redraw() within events such as 
-   *   mousePressed(). This is because redraw() does not 
-   *   run draw() immediately (it only sets a flag that 
-   *   indicates an update is needed). The redraw() 
-   *   function does not work properly when called inside 
-   *   draw(). To enable/disable animations, use loop() 
-   *   and noLoop().
-   *
-   */
-  redraw(): void;
-
-  // src/transform/transform.js
-
-  /**
-   *   Multiplies the current matrix by the one specified 
-   *   through the parameters. This is very slow because 
-   *   it will try to calculate the inverse of the 
-   *   transform, so avoid it whenever possible.
-   *
-   *   @param n00 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n01 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n02 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n10 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n11 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n12 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @return the p5 object
-   */
-  applyMatrix(n00: number, n01: number, n02: number, n10: number, n11: number, n12: number): p5;
-
-  /**
-   *   Replaces the current matrix with the identity 
-   *   matrix.
-   *
-   *   @return the p5 object
-   */
-  resetMatrix(): p5;
-
-  /**
-   *   Rotates a shape the amount specified by the angle 
-   *   parameter. This function accounts for angleMode, 
-   *   so angles can be entered in either RADIANS or 
-   *   DEGREES. Objects are always rotated around their 
-   *   relative position to the origin and positive 
-   *   numbers rotate objects in a clockwise direction. 
-   *   Transformations apply to everything that happens 
-   *   after and subsequent calls to the function 
-   *   accumulates the effect. For example, calling 
-   *   rotate(HALF_PI) and then rotate(HALF_PI) is the 
-   *   same as rotate(PI). All tranformations are reset 
-   *   when draw() begins again. Technically, rotate() 
-   *   multiplies the current transformation matrix by a 
-   *   rotation matrix. This function can be further 
-   *   controlled by the push() and pop().
-   *
-   *   @param angle the angle of rotation, specified in 
-   *   radians or degrees, depending on current angleMode
-   *   @return the p5 object
-   */
-  rotate(angle: number): p5;
-
-  /**
-   *   Increases or decreases the size of a shape by 
-   *   expanding and contracting vertices. Objects always 
-   *   scale from their relative origin to the coordinate 
-   *   system. Scale values are specified as decimal 
-   *   percentages. For example, the function call 
-   *   scale(2.0) increases the dimension of a shape by 
-   *   200%. Transformations apply to everything that 
-   *   happens after and subsequent calls to the function 
-   *   multiply the effect. For example, calling 
-   *   scale(2.0) and then scale(1.5) is the same as 
-   *   scale(3.0). If scale() is called within draw(), 
-   *   the transformation is reset when the loop begins 
-   *   again. Using this fuction with the z parameter 
-   *   requires using P3D as a parameter for size(), as 
-   *   shown in the third example above. This function 
-   *   can be further controlled with push() and pop().
-   *
-   *   @param s percentage to scale the object, or 
-   *   percentage to scale the object in the x-axis if 
-   *   multiple arguments are given
-   *   @param [y] percentage to scale the object in the 
-   *   y-axis
-   *   @return the p5 object
-   */
-  scale(s: number, y?: number): p5;
-
-  /**
-   *   Shears a shape around the x-axis the amount 
-   *   specified by the angle parameter. Angles should be 
-   *   specified in the current angleMode. Objects are 
-   *   always sheared around their relative position to 
-   *   the origin and positive numbers shear objects in a 
-   *   clockwise direction. Transformations apply to 
-   *   everything that happens after and subsequent calls 
-   *   to the function accumulates the effect. For 
-   *   example, calling shearX(PI/2) and then 
-   *   shearX(PI/2) is the same as shearX(PI). If 
-   *   shearX() is called within the draw(), the 
-   *   transformation is reset when the loop begins 
-   *   again. Technically, shearX() multiplies the 
-   *   current transformation matrix by a rotation 
-   *   matrix. This function can be further controlled by 
-   *   the push() and pop() functions.
-   *
-   *   @param angle angle of shear specified in radians 
-   *   or degrees, depending on current angleMode
-   *   @return the p5 object
-   */
-  shearX(angle: number): p5;
-
-  /**
-   *   Shears a shape around the y-axis the amount 
-   *   specified by the angle parameter. Angles should be 
-   *   specified in the current angleMode. Objects are 
-   *   always sheared around their relative position to 
-   *   the origin and positive numbers shear objects in a 
-   *   clockwise direction. Transformations apply to 
-   *   everything that happens after and subsequent calls 
-   *   to the function accumulates the effect. For 
-   *   example, calling shearY(PI/2) and then 
-   *   shearY(PI/2) is the same as shearY(PI). If 
-   *   shearY() is called within the draw(), the 
-   *   transformation is reset when the loop begins 
-   *   again. Technically, shearY() multiplies the 
-   *   current transformation matrix by a rotation 
-   *   matrix. This function can be further controlled by 
-   *   the push() and pop() functions.
-   *
-   *   @param angle angle of shear specified in radians 
-   *   or degrees, depending on current angleMode
-   *   @return the p5 object
-   */
-  shearY(angle: number): p5;
-
-  /**
-   *   Specifies an amount to displace objects within the 
-   *   display window. The x parameter specifies 
-   *   left/right translation, the y parameter specifies 
-   *   up/down translation. Transformations are 
-   *   cumulative and apply to everything that happens 
-   *   after and subsequent calls to the function 
-   *   accumulates the effect. For example, calling 
-   *   translate(50, 0) and then translate(20, 0) is the 
-   *   same as translate(70, 0). If translate() is called 
-   *   within draw(), the transformation is reset when 
-   *   the loop begins again. This function can be 
-   *   further controlled by using push() and pop().
-   *
-   *   @param x left/right translation
-   *   @param y up/down translation
-   *   @return the p5 object
-   */
-  translate(x: number, y: number): p5;
 
   // src/typography/attributes.js
 
@@ -3130,33 +2756,34 @@ declare class p5 {
   //   param "h" has invalid type: Number/Constant
   //   param "v" has invalid type: Number/Constant
   //
-  // textAlign(h: any, v: any): void;
+  // textAlign(h: any, v: any): number;
 
   /**
-   *   Sets the spacing between lines of text in units of 
-   *   pixels. This setting will be used in all 
+   *   Sets/gets the spacing between lines of text in 
+   *   units of pixels. This setting will be used in all 
    *   subsequent calls to the text() function.
    *
    *   @param l the size in pixels for spacing between 
    *   lines
    */
-  textLeading(l: number): void;
+  textLeading(l: number): object|number;
 
   /**
-   *   Sets the current font size. This size will be used 
-   *   in all subsequent calls to the text() function. 
-   *   Font size is measured in units of pixels.
+   *   Sets/gets the current font size. This size will be 
+   *   used in all subsequent calls to the text() 
+   *   function. Font size is measured in units of 
+   *   pixels.
    *
    *   @param s the size of the letters in units of 
    *   pixels
    */
-  textSize(s: number): void;
+  textSize(s: number): object|number;
 
-  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 112:
+  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 119:
   //
   //   param "s" has invalid type: Number/Constant
   //
-  // textStyle(s: any): void;
+  // textStyle(s: any): object|string;
 
   /**
    *   Calculates and returns the width of any character 
@@ -3164,7 +2791,7 @@ declare class p5 {
    *
    *   @param s the String of characters to measure
    */
-  textWidth(s: string): void;
+  textWidth(s: string): number;
 
   // src/typography/loading_displaying.js
 
@@ -3197,16 +2824,501 @@ declare class p5 {
    *   see rectMode() for more info
    *   @param y2 by default, the height of the text box, 
    *   see rectMode() for more info
+   *   @return this
    */
-  text(str: string, x: number, y: number, x2: number, y2: number): void;
+  text(str: string, x: number, y: number, x2: number, y2: number): object;
 
   /**
    *   Sets the current font that will be drawn with the 
    *   text() function.
    *
-   *   @param str name of font
+   *   @param f a font loaded via loadFont(), or a String 
+   *   representing a browser-based dfault font.
+   *   @return this
    */
-  textFont(str: string): void;
+  textFont(f: object|string): object;
+
+  // src/utilities/array_functions.js
+
+  /**
+   *   Adds a value to the end of an array. Extends the 
+   *   length of the array by one. Maps to Array.push().
+   *
+   *   @param array Array to append
+   *   @param value to be added to the Array
+   */
+  append(array: any[], value: any): void;
+
+  // TODO: Fix arrayCopy() errors in src/utilities/array_functions.js, line 38:
+  //
+  //   required param "dst" follows an optional param
+  //   param "length" has invalid type: Nimber
+  //
+  // arrayCopy(src: any[], srcPosition?: number, dst: any[], dstPosition?: number, length?: any): void;
+
+  /**
+   *   Concatenates two arrays, maps to Array.concat(). 
+   *   Does not modify the input arrays.
+   *
+   *   @param a first Array to concatenate
+   *   @param b second Array to concatenate
+   *   @return concatenated array
+   */
+  concat(a: any[], b: any[]): any[];
+
+  /**
+   *   Reverses the order of an array, maps to 
+   *   Array.reverse()
+   *
+   *   @param list Array to reverse
+   */
+  reverse(list: any[]): void;
+
+  /**
+   *   Decreases an array by one element and returns the 
+   *   shortened array, maps to Array.pop().
+   *
+   *   @param list Array to shorten
+   *   @return shortened Array
+   */
+  shorten(list: any[]): any[];
+
+  /**
+   *   Randomizes the order of the elements of an array. 
+   *   Implements Fisher-Yates Shuffle Algorithm 
+   *   http://Bost.Ocks.org/mike/shuffle/ 
+   *   http://en.Wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+   *
+   *   @param array Array to shuffle
+   *   @param [bool] modify passed array
+   *   @return shuffled Array
+   */
+  shuffle(array: any[], bool?: boolean): any[];
+
+  /**
+   *   Sorts an array of numbers from smallest to 
+   *   largest, or puts an array of words in alphabetical 
+   *   order. The original array is not modified; a 
+   *   re-ordered array is returned. The count parameter 
+   *   states the number of elements to sort. For 
+   *   example, if there are 12 elements in an array and 
+   *   count is set to 5, only the first 5 elements in 
+   *   the array will be sorted.
+   *
+   *   @param list Array to sort
+   *   @param [count] number of elements to sort, 
+   *   starting from 0
+   */
+  sort(list: any[], count?: number): void;
+
+  /**
+   *   Inserts a value or an array of values into an 
+   *   existing array. The first parameter specifies the 
+   *   initial array to be modified, and the second 
+   *   parameter defines the data to be inserted. The 
+   *   third parameter is an index value which specifies 
+   *   the array position from which to insert data. 
+   *   (Remember that array index numbering starts at 
+   *   zero, so the first position is 0, the second 
+   *   position is 1, and so on.)
+   *
+   *   @param list Array to splice into
+   *   @param value value to be spliced in
+   *   @param position in the array from which to insert 
+   *   data
+   */
+  splice(list: any[], value: any, position: number): void;
+
+  /**
+   *   Extracts an array of elements from an existing 
+   *   array. The list parameter defines the array from 
+   *   which the elements will be copied, and the start 
+   *   and count parameters specify which elements to 
+   *   extract. If no count is given, elements will be 
+   *   extracted from the start to the end of the array. 
+   *   When specifying the start, remember that the first 
+   *   array element is 0. This function does not change 
+   *   the source array.
+   *
+   *   @param list Array to extract from
+   *   @param start position to begin
+   *   @param [count] number of values to extract
+   *   @return Array of extracted elements
+   */
+  subset(list: any[], start: number, count?: number): any[];
+
+  // src/utilities/conversion.js
+
+  /**
+   *   Converts a string to its floating point 
+   *   representation. The contents of a string must 
+   *   resemble a number, or NaN (not a number) will be 
+   *   returned. For example, float("1234.56") evaluates 
+   *   to 1234.56, but float("giraffe") will return NaN.
+   *
+   *   @param str float string to parse
+   *   @return floating point representation of string
+   */
+  float(str: string): number;
+
+  /**
+   *   Converts a boolean, string, or float to its 
+   *   integer representation. When an array of values is 
+   *   passed in, then an int array of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return integer representation of value
+   */
+  int(n: string|boolean|number|any[]): number;
+
+  /**
+   *   Converts a boolean, string or number to its string 
+   *   representation. When an array of values is passed 
+   *   in, then an array of strings of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return string representation of value
+   */
+  str(n: string|boolean|number|any[]): string;
+
+  /**
+   *   Converts a number or string to its boolean 
+   *   representation. For a number, any non-zero value 
+   *   (positive or negative) evaluates to true, while 
+   *   zero evaluates to false. For a string, the value 
+   *   "true" evaluates to true, while any other value 
+   *   evaluates to false. When an array of number or 
+   *   string values is passed in, then a array of 
+   *   booleans of the same length is returned.
+   *
+   *   @param n value to parse
+   *   @return boolean representation of value
+   */
+  boolean(n: string|boolean|number|any[]): boolean;
+
+  /**
+   *   Converts a number, string or boolean to its byte 
+   *   representation. A byte can be only a whole number 
+   *   between -128 and 127, so when a value outside of 
+   *   this range is converted, it wraps around to the 
+   *   corresponding byte representation. When an array 
+   *   of number, string or boolean values is passed in, 
+   *   then an array of bytes the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return byte representation of value
+   */
+  byte(n: string|boolean|number|any[]): number;
+
+  /**
+   *   Converts a number or string to its corresponding 
+   *   single-character string representation. If a 
+   *   string parameter is provided, it is first parsed 
+   *   as an integer and then translated into a 
+   *   single-character string. When an array of number 
+   *   or string values is passed in, then an array of 
+   *   single-character strings of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return string representation of value
+   */
+  char(n: string|number|any[]): string;
+
+  /**
+   *   Converts a single-character string to its 
+   *   corresponding integer representation. When an 
+   *   array of single-character string values is passed 
+   *   in, then an array of integers of the same length 
+   *   is returned.
+   *
+   *   @param n value to parse
+   *   @return integer representation of value
+   */
+  unchar(n: string|any[]): number;
+
+  /**
+   *   Converts a number to a string in its equivalent 
+   *   hexadecimal notation. If a second parameter is 
+   *   passed, it is used to set the number of characters 
+   *   to generate in the hexadecimal notation. When an 
+   *   array is passed in, an array of strings in 
+   *   hexadecimal notation of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return hexadecimal string representation of value
+   */
+  hex(n: number|any[]): string;
+
+  /**
+   *   Converts a string representation of a hexadecimal 
+   *   number to its equivalent integer value. When an 
+   *   array of strings in hexadecimal notation is passed 
+   *   in, an array of integers of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return integer representation of hexadecimal 
+   *   value
+   */
+  unhex(n: string|any[]): number;
+
+  // src/utilities/string_functions.js
+
+  /**
+   *   Combines an array of Strings into one String, each 
+   *   separated by the character(s) used for the 
+   *   separator parameter. To join arrays of ints or 
+   *   floats, it's necessary to first convert them to 
+   *   Strings using nf() or nfs().
+   *
+   *   @param list array of Strings to be joined
+   *   @param separator String to be placed between each 
+   *   item
+   *   @return joined String
+   */
+  join(list: any[], separator: string): string;
+
+  /**
+   *   This function is used to apply a regular 
+   *   expression to a piece of text, and return matching 
+   *   groups (elements found inside parentheses) as a 
+   *   String array. If there are no matches, a null 
+   *   value will be returned. If no groups are specified 
+   *   in the regular expression, but the sequence 
+   *   matches, an array of length 1 (with the matched 
+   *   text as the first element of the array) will be 
+   *   returned. To use the function, first check to see 
+   *   if the result is null. If the result is null, then 
+   *   the sequence did not match at all. If the sequence 
+   *   did match, an array is returned. If there are 
+   *   groups (specified by sets of parentheses) in the 
+   *   regular expression, then the contents of each will 
+   *   be returned in the array. Element [0] of a regular 
+   *   expression match returns the entire matching 
+   *   string, and the match groups start at element [1] 
+   *   (the first group is [1], the second [2], and so 
+   *   on).
+   *
+   *   @param str the String to be searched
+   *   @param regexp the regexp to be used for matching
+   *   @return Array of Strings found
+   */
+  match(str: string, regexp: string): any[];
+
+  /**
+   *   This function is used to apply a regular 
+   *   expression to a piece of text, and return a list 
+   *   of matching groups (elements found inside 
+   *   parentheses) as a two-dimensional String array. If 
+   *   there are no matches, a null value will be 
+   *   returned. If no groups are specified in the 
+   *   regular expression, but the sequence matches, a 
+   *   two dimensional array is still returned, but the 
+   *   second dimension is only of length one. To use the 
+   *   function, first check to see if the result is 
+   *   null. If the result is null, then the sequence did 
+   *   not match at all. If the sequence did match, a 2D 
+   *   array is returned. If there are groups (specified 
+   *   by sets of parentheses) in the regular expression, 
+   *   then the contents of each will be returned in the 
+   *   array. Assuming a loop with counter variable i, 
+   *   element [i][0] of a regular expression match 
+   *   returns the entire matching string, and the match 
+   *   groups start at element [i][1] (the first group is 
+   *   [i][1], the second [i][2], and so on).
+   *
+   *   @param str the String to be searched
+   *   @param regexp the regexp to be used for matching
+   *   @return 2d Array of Strings found
+   */
+  matchAll(str: string, regexp: string): any[];
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings. There are two versions: one for 
+   *   formatting floats, and one for formatting ints. 
+   *   The values for the digits, left, and right 
+   *   parameters should always be positive integers.
+   *
+   *   @param num the Number to format
+   *   @param [left] number of digits to the left of the 
+   *   decimal point
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted String
+   */
+  nf(num: number|any[], left?: number, right?: number): string|any[];
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings and placing appropriate commas to mark 
+   *   units of 1000. There are two versions: one for 
+   *   formatting ints, and one for formatting an array 
+   *   of ints. The value for the right parameter should 
+   *   always be a positive integer.
+   *
+   *   @param num the Number to format
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted String
+   */
+  nfc(num: number|any[], right?: number): string|any[];
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings. Similar to nf() but puts a "+" in front 
+   *   of positive numbers and a "-" in front of negative 
+   *   numbers. There are two versions: one for 
+   *   formatting floats, and one for formatting ints. 
+   *   The values for left, and right parameters should 
+   *   always be positive integers.
+   *
+   *   @param num the Number to format
+   *   @param [left] number of digits to the left of the 
+   *   decimal point
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted String
+   */
+  nfp(num: number|any[], left?: number, right?: number): string|any[];
+
+  /**
+   *   Utility function for formatting numbers into 
+   *   strings. Similar to nf() but puts a " " (space) in 
+   *   front of positive numbers and a "-" in front of 
+   *   negative numbers. There are two versions: one for 
+   *   formatting floats, and one for formatting ints. 
+   *   The values for the digits, left, and right 
+   *   parameters should always be positive integers.
+   *
+   *   @param num the Number to format
+   *   @param [left] number of digits to the left of the 
+   *   decimal point
+   *   @param [right] number of digits to the right of 
+   *   the decimal point
+   *   @return formatted String
+   */
+  nfs(num: number|any[], left?: number, right?: number): string|any[];
+
+  /**
+   *   The split() function maps to String.split(), it 
+   *   breaks a String into pieces using a character or 
+   *   string as the delimiter. The delim parameter 
+   *   specifies the character or characters that mark 
+   *   the boundaries between each piece. A String[] 
+   *   array is returned that contains each of the 
+   *   pieces. The splitTokens() function works in a 
+   *   similar fashion, except that it splits using a 
+   *   range of characters instead of a specific 
+   *   character or sequence.
+   *
+   *   @param value the String to be split
+   *   @param delim the String used to separate the data
+   *   @return Array of Strings
+   */
+  split(value: string, delim: string): any[];
+
+  /**
+   *   The splitTokens() function splits a String at one 
+   *   or many character delimiters or "tokens." The 
+   *   delim parameter specifies the character or 
+   *   characters to be used as a boundary. If no delim 
+   *   characters are specified, any whitespace character 
+   *   is used to split. Whitespace characters include 
+   *   tab (\t), line feed (\n), carriage return (\r), 
+   *   form feed (\f), and space.
+   *
+   *   @param value the String to be split
+   *   @param [delim] list of individual Strings that 
+   *   will be used as separators
+   *   @return Array of Strings
+   */
+  splitTokens(value: string, delim?: string): any[];
+
+  /**
+   *   Removes whitespace characters from the beginning 
+   *   and end of a String. In addition to standard 
+   *   whitespace characters such as space, carriage 
+   *   return, and tab, this function also removes the 
+   *   Unicode "nbsp" character.
+   *
+   *   @param [str] a String or Array of Strings to be 
+   *   trimmed
+   *   @return a trimmed String or Array of Strings
+   */
+  trim(str?: string|any[]): string|any[];
+
+  // src/utilities/time_date.js
+
+  /**
+   *   p5.js communicates with the clock on your 
+   *   computer. The day() function returns the current 
+   *   day as a value from 1 - 31.
+   *
+   *   @return the current day
+   */
+  day(): number;
+
+  /**
+   *   p5.js communicates with the clock on your 
+   *   computer. The hour() function returns the current 
+   *   hour as a value from 0 - 23.
+   *
+   *   @return the current hour
+   */
+  hour(): number;
+
+  /**
+   *   p5.js communicates with the clock on your 
+   *   computer. The minute() function returns the 
+   *   current minute as a value from 0 - 59.
+   *
+   *   @return the current minute
+   */
+  minute(): number;
+
+  /**
+   *   Returns the number of milliseconds (thousandths of 
+   *   a second) since starting the program. This 
+   *   information is often used for timing events and 
+   *   animation sequences.
+   *
+   *   @return the number of milliseconds since starting 
+   *   the program
+   */
+  millis(): number;
+
+  /**
+   *   p5.js communicates with the clock on your 
+   *   computer. The month() function returns the current 
+   *   month as a value from 1 - 12.
+   *
+   *   @return the current month
+   */
+  month(): number;
+
+  /**
+   *   p5.js communicates with the clock on your 
+   *   computer. The second() function returns the 
+   *   current second as a value from 0 - 59.
+   *
+   *   @return the current second
+   */
+  second(): number;
+
+  /**
+   *   p5.js communicates with the clock on your 
+   *   computer. The year() function returns the current 
+   *   year as an integer (2014, 2015, 2016, etc).
+   *
+   *   @return the current year
+   */
+  year(): number;
 
   // Properties from p5.dom
 
@@ -3334,26 +3446,45 @@ declare class p5 {
    */
   getAudioContext(): object;
 
-  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 205, is not a valid JS symbol name
+  /**
+   *   Returns a number representing the master amplitude 
+   *   (volume) for sound in this sketch.
+   *
+   *   @return Master amplitude (volume) for sound in 
+   *   this sketch. Should be between 0.0 (silence) and 
+   *   1.0.
+   */
+  getMasterVolume(): number;
 
   /**
-   *   Set the master amplitude (volume) for sound in 
-   *   this sketch. Note that values greater than 1.0 may 
-   *   lead to digital distortion. 
-   * 
-   *   How This Works: When you load the p5.sound module, 
-   *   it creates a single instance of p5sound. All sound 
+   *   Scale the output of all sound in this sketch 
+   *   Scaled between 0.0 (silence) and 1.0 (full 
+   *   volume). 1.0 is the maximum amplitude of a digital 
+   *   sound, so multiplying by greater than 1.0 may 
+   *   cause digital distortion. To fade, provide a 
+   *   rampTime parameter. For more complex fades, see 
+   *   the Env class. Alternately, you can pass in a 
+   *   signal source such as an oscillator to modulate 
+   *   the amplitude with an audio signal. How This 
+   *   Works: When you load the p5.sound module, it 
+   *   creates a single instance of p5sound. All sound 
    *   objects in this module output to p5sound before 
    *   reaching your computer's output. So if you change 
    *   the amplitude of p5sound, it impacts all of the 
-   *   sound in this module.
+   *   sound in this module. 
+   * 
+   *   If no value is provided, returns a Web Audio API 
+   *   Gain Node
    *
-   *   @param volume Master amplitude (volume) for sound 
-   *   in this sketch. Should be between 0.0 (silence) 
-   *   and 1.0. Values greater than 1.0 may lead to 
-   *   digital distortion.
+   *   @param volume Volume (amplitude) between 0.0 and 
+   *   1.0 or modulating signal/oscillator
+   *   @param [rampTime] Fade for t seconds
+   *   @param [timeFromNow] Schedule this event to happen 
+   *   at t seconds in the future
    */
-  masterVolume(volume: number): void;
+  masterVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
+
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 260, is not a valid JS symbol name
 
   /**
    *   Returns a number representing the sample rate, in 
@@ -3391,13 +3522,26 @@ declare class p5 {
 }
 
 declare namespace p5 {
-  // src/objects/p5.Color.js
+  // src/3d/p5.Matrix.js
+
+  class Matrix {
+    /**
+     *   A class to describe a 4x4 matrix for model and 
+     *   view matrix manipulation in the p5js webgl 
+     *   renderer.
+     *
+     *   @param [mat4] array literal of our 4x4 matrix
+     */
+    constructor(mat4?: any[]);
+  }
+
+  // src/color/p5.Color.js
 
   class Color {
     constructor();
   }
 
-  // src/objects/p5.Element.js
+  // src/core/p5.Element.js
 
   class Element {
     /**
@@ -3580,7 +3724,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/objects/p5.Element.js, line 406:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 406:
     //
     //   param "callback" is defined multiple times
     //
@@ -3701,63 +3845,38 @@ declare namespace p5 {
     remove(): void;
   }
 
-  // src/objects/p5.File.js
-
-  class File {
-    /**
-     *   Base class for a file Using this for 
-     *   createFileInput
-     *
-     *   @param file File that is wrapped
-     *   @param [pInst] pointer to p5 instance
-     */
-    constructor(file: File, pInst?: object);
-
-    /**
-     *   Underlying File object. All normal File methods 
-     *   can be called on this.
-     *
-     */
-    file: any;
-
-    /**
-     *   File type (image, text, etc.)
-     *
-     */
-    type: any;
-
-    /**
-     *   File subtype (usually the file extension jpg, png, 
-     *   xml, etc.)
-     *
-     */
-    subtype: any;
-
-    /**
-     *   File name
-     *
-     */
-    name: any;
-
-    /**
-     *   File size
-     *
-     */
-    size: any;
-  }
-
-  // src/objects/p5.Graphics.js
+  // src/core/p5.Graphics.js
 
   class Graphics extends p5.Element {
+    // TODO: Fix p5.Graphics() errors in src/core/p5.Graphics.js, line 11:
+    //
+    //   required param "whether" follows an optional param
+    //
+    // constructor(elt: string, pInst?: object, whether: boolean);
+
+  }
+
+  // src/core/p5.Renderer.js
+
+  class Renderer extends p5.Element {
+    // TODO: Fix p5.Renderer() errors in src/core/p5.Renderer.js, line 10:
+    //
+    //   required param "whether" follows an optional param
+    //
+    // constructor(elt: string, pInst?: object, whether: boolean);
+
+  }
+
+  // src/core/p5.Renderer2D.js
+
+  class Renderer2D extends p5.Renderer {
     /**
-     *   Main graphics and rendering context, as well as 
-     *   the base API implementation for p5.js "core". Use 
-     *   this class if you need to draw into an off-screen 
-     *   graphics buffer. A p5.Graphics object can be 
-     *   constructed with the createGraphics() function. 
-     *   The fields and methods for this class are 
-     *   extensive, but mirror the normal drawing API for 
-     *   p5.
+     *   2D graphics renderer class. Can also be used as an 
+     *   off-screen graphics buffer. A p5.Renderer2D object 
+     *   can be constructed with the createRenderer2D() 
+     *   function. The fields and methods for this class 
+     *   are extensive, but mirror the normal drawing API 
+     *   for p5.
      *
      *   @param elt DOM node that is wrapped
      *   @param [pInst] pointer to p5 instance
@@ -3765,7 +3884,7 @@ declare namespace p5 {
     constructor(elt: string, pInst?: object);
   }
 
-  // src/objects/p5.Image.js
+  // src/image/p5.Image.js
 
   class Image {
     /**
@@ -3801,7 +3920,7 @@ declare namespace p5 {
      */
     height: any;
 
-    // TODO: Property "pixels[]", defined in src/objects/p5.Image.js, line 58, is not a valid JS symbol name
+    // TODO: Property "pixels[]", defined in src/image/p5.Image.js, line 59, is not a valid JS symbol name
 
     /**
      *   Loads the pixels data for this image into the 
@@ -3956,7 +4075,7 @@ declare namespace p5 {
     save(filename: string, extension: string): void;
   }
 
-  // src/objects/p5.Table.js
+  // src/io/p5.Table.js
 
   class Table {
     /**
@@ -4209,9 +4328,26 @@ declare namespace p5 {
      *   @param column columnName (string) or ID (number)
      */
     getString(row: number, column: string|number): string;
+
+    /**
+     *   Retrieves all table data and returns as an object. 
+     *   If a column name is passed in, each row object 
+     *   will be stored with that attribute as its title.
+     *
+     *   @param headerColumn Name of the column which 
+     *   should be used to title each row object (optional)
+     */
+    getObject(headerColumn: string): object;
+
+    /**
+     *   Retrieves all table data and returns it as a 
+     *   multidimensional array.
+     *
+     */
+    getArray(): any[];
   }
 
-  // src/objects/p5.TableRow.js
+  // src/io/p5.TableRow.js
 
   class TableRow {
     /**
@@ -4287,7 +4423,7 @@ declare namespace p5 {
     getString(column: string|number): string;
   }
 
-  // src/objects/p5.Vector.js
+  // src/math/p5.Vector.js
 
   class Vector {
     /**
@@ -4337,6 +4473,14 @@ declare namespace p5 {
      *
      */
     z: any;
+
+    /**
+     *   Returns a string representation of a vector v by 
+     *   calling String(v) or v.toString(). This method is 
+     *   useful for logging vectors in the console.
+     *
+     */
+    toString(): void;
 
     /**
      *   Sets the x, y, and z component of the vector using 
@@ -4511,7 +4655,7 @@ declare namespace p5 {
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 516:
+    // TODO: Fix lerp() errors in src/math/p5.Vector.js, line 623:
     //
     //   required param "amt" follows an optional param
     //
@@ -4572,6 +4716,38 @@ declare namespace p5 {
      *   @return the angle between (in radians)
      */
     static angleBetween(v1: p5.Vector, v2: p5.Vector): number;
+  }
+
+  // src/typography/p5.Font.js
+
+  class Font {
+    /**
+     *   Base class for font handling
+     *
+     *   @param [pInst] pointer to p5 instance
+     */
+    constructor(pInst?: object);
+
+    /**
+     *   Underlying opentype font implementation
+     *
+     */
+    font: any;
+
+    /**
+     *   Returns a tight bounding box for the given custom 
+     *   text string using this font (currently only 
+     *   support single line)
+     *
+     *   @param line a line of text
+     *   @param x x-position
+     *   @param y y-position
+     *   @param fontSize font size to use (optional)
+     *   @param options opentype options (optional)
+     *   @return a rectangle object with properties: x, y, 
+     *   w, h
+     */
+    textBounds(line: string, x: number, y: number, fontSize: number, options: object): object;
   }
 
   // lib/addons/p5.dom.js
@@ -4657,18 +4833,137 @@ declare namespace p5 {
      *   @return duration
      */
     duration(): number;
+
+    /**
+     *   Send the audio output of this element to a 
+     *   specified audioNode or p5.sound object. If no 
+     *   element is provided, connects to p5's master 
+     *   output. That connection is established when this 
+     *   method is first called. All connections are 
+     *   removed by the .disconnect() method. This method 
+     *   is meant to be used with the p5.sound.js addon 
+     *   library.
+     *
+     *   @param audioNode AudioNode from the Web Audio API, 
+     *   or an object from the p5.sound library
+     */
+    connect(audioNode: AudioNode|any): void;
+
+    /**
+     *   Disconnect all Web Audio routing, including to 
+     *   master output. This is useful if you want to 
+     *   re-route the output through audio effects, for 
+     *   example.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Show the default MediaElement controls, as 
+     *   determined by the web browser.
+     *
+     */
+    showControls(): void;
+
+    /**
+     *   Hide the default mediaElement controls.
+     *
+     */
+    hideControls(): void;
+
+    /**
+     *   Schedule events to trigger every time a 
+     *   MediaElement (audio/video) reaches a playback cue 
+     *   point. Accepts a callback function, a time (in 
+     *   seconds) at which to trigger the callback, and an 
+     *   optional parameter for the callback. Time will be 
+     *   passed as the first parameter to the callback 
+     *   function, and param will be the second parameter.
+     *
+     *   @param time Time in seconds, relative to this 
+     *   media element's playback. For example, to trigger 
+     *   an event every time playback reaches two seconds, 
+     *   pass in the number 2. This will be passed as the 
+     *   first parameter to the callback function.
+     *   @param callback Name of a function that will be 
+     *   called at the given time. The callback will 
+     *   receive time and (optionally) param as its two 
+     *   parameters.
+     *   @param [value] An object to be passed as the 
+     *   second parameter to the callback function.
+     *   @return id ID of this cue, useful for 
+     *   removeCue(id)
+     */
+    addCue(time: number, callback: Function, value?: object): number;
+
+    /**
+     *   Remove a callback based on its ID. The ID is 
+     *   returned by the addCue method.
+     *
+     *   @param id ID of the cue, as returned by addCue
+     */
+    removeCue(id: number): void;
+
+    /**
+     *   Remove all of the callbacks that had originally 
+     *   been scheduled via the addCue method.
+     *
+     */
+    clearCues(): void;
+  }
+  class File {
+    /**
+     *   Base class for a file Using this for 
+     *   createFileInput
+     *
+     *   @param file File that is wrapped
+     *   @param [pInst] pointer to p5 instance
+     */
+    constructor(file: File, pInst?: object);
+
+    /**
+     *   Underlying File object. All normal File methods 
+     *   can be called on this.
+     *
+     */
+    file: any;
+
+    /**
+     *   File type (image, text, etc.)
+     *
+     */
+    type: any;
+
+    /**
+     *   File subtype (usually the file extension jpg, png, 
+     *   xml, etc.)
+     *
+     */
+    subtype: any;
+
+    /**
+     *   File name
+     *
+     */
+    name: any;
+
+    /**
+     *   File size
+     *
+     */
+    size: any;
   }
 
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 531:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 558:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 615:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 660:
     //
     //   param "path" has invalid type: String/Array
     //   param "callback" is defined multiple times
@@ -4692,9 +4987,10 @@ declare namespace p5 {
      *   playback
      *   @param [cueStart] (optional) cue start time in 
      *   seconds
-     *   @param [cueEnd] (optional) cue end time in seconds
+     *   @param [duration] (optional) duration of playback 
+     *   in seconds
      */
-    play(startTime?: number, rate?: number, amp?: number, cueStart?: number, cueEnd?: number): void;
+    play(startTime?: number, rate?: number, amp?: number, cueStart?: number, duration?: number): void;
 
     /**
      *   p5.SoundFile has two play modes: restart and 
@@ -4732,9 +5028,10 @@ declare namespace p5 {
      *   @param [rate] (optional) playback rate
      *   @param [amp] (optional) playback volume
      *   @param [cueLoopStart] startTime in seconds
-     *   @param [cueLoopEnd] (optional) endTime in seconds
+     *   @param [duration] (optional) loop duration in 
+     *   seconds
      */
-    loop(startTime?: number, rate?: number, amp?: number, cueLoopStart?: number, cueLoopEnd?: number): void;
+    loop(startTime?: number, rate?: number, amp?: number, cueLoopStart?: number, duration?: number): void;
 
     /**
      *   Returns true if a p5.SoundFile is playing, false 
@@ -4777,7 +5074,7 @@ declare namespace p5 {
      */
     setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1050:
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1123:
     //
     //   required param "timeFromNow" follows an optional param
     //
@@ -4819,10 +5116,9 @@ declare namespace p5 {
      *
      *   @param cueTime cueTime of the soundFile in 
      *   seconds.
-     *   @param endTime endTime of the soundFile in 
-     *   seconds.
+     *   @param uuration duration in seconds.
      */
-    jump(cueTime: number, endTime: number): void;
+    jump(cueTime: number, uuration: number): void;
 
     /**
      *   Return the number of channels in a sound file. For 
@@ -4910,6 +5206,71 @@ declare namespace p5 {
      *   @param callback Callback
      */
     setPath(path: string, callback: Function): void;
+
+    /**
+     *   processPeaks returns an array of timestamps where 
+     *   it thinks there is a beat. This is an asynchronous 
+     *   function that processes the soundfile in an 
+     *   offline audio context, and sends the results to 
+     *   your callback function. The process involves 
+     *   running the soundfile through a lowpass filter, 
+     *   and finding all of the peaks above the initial 
+     *   threshold. If the total number of peaks are below 
+     *   the minimum number of peaks, it decreases the 
+     *   threshold and re-runs the analysis until either 
+     *   minPeaks or minThreshold are reached.
+     *
+     *   @param callback a function to call once this data 
+     *   is returned
+     *   @param [initThreshold] initial threshold defaults 
+     *   to 0.9
+     *   @param [minThreshold] minimum threshold defaults 
+     *   to 0.22
+     *   @param [minPeaks] minimum number of peaks defaults 
+     *   to 200
+     *   @return Array of timestamped peaks
+     */
+    processPeaks(callback: Function, initThreshold?: number, minThreshold?: number, minPeaks?: number): any[];
+
+    /**
+     *   Schedule events to trigger every time a 
+     *   MediaElement (audio/video) reaches a playback cue 
+     *   point. Accepts a callback function, a time (in 
+     *   seconds) at which to trigger the callback, and an 
+     *   optional parameter for the callback. Time will be 
+     *   passed as the first parameter to the callback 
+     *   function, and param will be the second parameter.
+     *
+     *   @param time Time in seconds, relative to this 
+     *   media element's playback. For example, to trigger 
+     *   an event every time playback reaches two seconds, 
+     *   pass in the number 2. This will be passed as the 
+     *   first parameter to the callback function.
+     *   @param callback Name of a function that will be 
+     *   called at the given time. The callback will 
+     *   receive time and (optionally) param as its two 
+     *   parameters.
+     *   @param [value] An object to be passed as the 
+     *   second parameter to the callback function.
+     *   @return id ID of this cue, useful for 
+     *   removeCue(id)
+     */
+    addCue(time: number, callback: Function, value?: object): number;
+
+    /**
+     *   Remove a callback based on its ID. The ID is 
+     *   returned by the addCue method.
+     *
+     *   @param id ID of the cue, as returned by addCue
+     */
+    removeCue(id: number): void;
+
+    /**
+     *   Remove all of the callbacks that had originally 
+     *   been scheduled via the addCue method.
+     *
+     */
+    clearCues(): void;
   }
   class Amplitude {
     /**
@@ -4937,7 +5298,16 @@ declare namespace p5 {
      */
     setInput(snd?: any, smoothing?: number): void;
 
-    // TODO: Property "[channel] Optionally return only channel 0 (left) or 1 (right)", defined in lib/addons/p5.sound.js, line 1676, is not a valid JS symbol name
+    /**
+     *   Returns a single Amplitude reading at the moment 
+     *   it is called. For continuous readings, run in the 
+     *   draw loop.
+     *
+     *   @param [channel] Optionally return only channel 0 
+     *   (left) or 1 (right)
+     *   @return Amplitude as a number between 0.0 and 1.0
+     */
+    getLevel(channel?: number): number;
 
     /**
      *   Determines whether the results of 
@@ -5015,24 +5385,25 @@ declare namespace p5 {
      *
      *   @param [source] p5.sound object (or web audio API 
      *   source node)
-     *   @param [bins] Must be a power of two between 16 
-     *   and 1024
      */
-    setInput(source?: object, bins?: number): void;
+    setInput(source?: object): void;
 
     /**
-     *   Returns an array of amplitude values (between 
-     *   0-255) that represent a snapshot of amplitude 
+     *   Returns an array of amplitude values (between -1.0 
+     *   and +1.0) that represent a snapshot of amplitude 
      *   readings in a single buffer. Length will be equal 
      *   to bins (defaults to 1024). Can be used to draw 
      *   the waveform of a sound.
      *
      *   @param [bins] Must be a power of two between 16 
      *   and 1024. Defaults to 1024.
-     *   @return Array Array of amplitude values (0-255) 
+     *   @param [precision] If any value is provided, will 
+     *   return results in a Float32 Array which is more 
+     *   precise than a regular array.
+     *   @return Array Array of amplitude values (-1 to 1) 
      *   over time. Array length = bins.
      */
-    waveform(bins?: number): any[];
+    waveform(bins?: number, precision?: string): any[];
 
     /**
      *   Returns an array of amplitude values (between 0 
@@ -5046,12 +5417,15 @@ declare namespace p5 {
      *
      *   @param [bins] Must be a power of two between 16 
      *   and 1024. Defaults to 1024.
+     *   @param [scale] If "dB," returns decibel float 
+     *   measurements between -140 and 0 (max). Otherwise 
+     *   returns integers from 0-255.
      *   @return spectrum Array of energy 
      *   (amplitude/volume) values across the frequency 
      *   spectrum. Lowest energy (silence) = 0, highest 
      *   possible is 255.
      */
-    analyze(bins?: number): any[];
+    analyze(bins?: number, scale?: number): any[];
 
     /**
      *   Returns the amount of energy (volume) at a 
@@ -5110,25 +5484,25 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2687:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 3189:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2711:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 3213:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2730:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 3232:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2749:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 3251:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -5284,28 +5658,28 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3174:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3713:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3189:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3728:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3204:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3743:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 3219:
+    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 3758:
     //
     //   "p5.SqrOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -5637,7 +6011,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4209:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4761:
     //
     //   param "type" has invalid type: [String]
     //
@@ -5650,7 +6024,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4288:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4851:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -5723,19 +6097,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4416:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4979:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4428:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4991:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4440:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 5003:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -5886,21 +6260,33 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4763:
-    //
-    //   param "seconds" has invalid type: [Number]
-    //   param "decayRate" has invalid type: [Number]
-    //   param "reverse" has invalid type: [Boolean]
-    //
-    // process(src: object, seconds: any, decayRate: any, reverse: any): void;
+    /**
+     *   Connect a source to the reverb, and assign reverb 
+     *   parameters.
+     *
+     *   @param src p5.sound / Web Audio object with a 
+     *   sound output.
+     *   @param [seconds] Duration of the reverb, in 
+     *   seconds. Min: 0, Max: 10. Defaults to 3.
+     *   @param [decayRate] Percentage of decay with each 
+     *   echo. Min: 0, Max: 100. Defaults to 2.
+     *   @param [reverse] Play the reverb backwards or 
+     *   forwards.
+     */
+    process(src: object, seconds?: number, decayRate?: number, reverse?: boolean): void;
 
-    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4792:
-    //
-    //   param "seconds" has invalid type: [Number]
-    //   param "decayRate" has invalid type: [Number]
-    //   param "reverse" has invalid type: [Boolean]
-    //
-    // set(seconds: any, decayRate: any, reverse: any): void;
+    /**
+     *   Set the reverb settings. Similar to .process(), 
+     *   but without assigning a new input.
+     *
+     *   @param [seconds] Duration of the reverb, in 
+     *   seconds. Min: 0, Max: 10. Defaults to 3.
+     *   @param [decayRate] Percentage of decay with each 
+     *   echo. Min: 0, Max: 100. Defaults to 2.
+     *   @param [reverse] Play the reverb backwards or 
+     *   forwards.
+     */
+    set(seconds?: number, decayRate?: number, reverse?: boolean): void;
 
     /**
      *   Set the output level of the delay effect.
@@ -5926,7 +6312,7 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4894:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 5473:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5939,7 +6325,7 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4974:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 5553:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5963,13 +6349,13 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5092:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5671:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5109:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5688:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6019,9 +6405,10 @@ declare namespace p5 {
      *   Phrase.
      *   @param callback The name of a function that this 
      *   phrase will call. Typically it will play a sound, 
-     *   and accept two parameters: a value from the 
-     *   sequence array, followed by a time at which to 
-     *   play the sound.
+     *   and accept two parameters: a time at which to play 
+     *   the sound (in seconds from now), and a value from 
+     *   the sequence array. The time should be passed into 
+     *   the play() or start() method to ensure precision.
      *   @param sequence Array of values to pass into the 
      *   callback at each step of the phrase.
      */
@@ -6041,7 +6428,8 @@ declare namespace p5 {
     /**
      *   A p5.Part plays back one or more p5.Phrases. 
      *   Instantiate a part with steps and tatums. By 
-     *   default, each step represents 1/16th note.
+     *   default, each step represents 1/16th note. See 
+     *   p5.Phrase for more about musical timing.
      *
      *   @param [steps] Steps in the part
      *   @param [tatums] Divisions of a beat (default is 
@@ -6144,7 +6532,7 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5659:
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 6278:
     //
     //   param "part(s)" is not a valid JS symbol name
     //
@@ -6242,6 +6630,95 @@ declare namespace p5 {
      *   @param name name of the resulting .wav file.
      */
     saveSound(soundFile: p5.SoundFile, name: string): void;
+  }
+  class PeakDetect {
+    /**
+     *   PeakDetect works in conjunction with p5.FFT to 
+     *   look for onsets in some or all of the frequency 
+     *   spectrum.   To use p5.PeakDetect, call update in 
+     *   the draw loop and pass in a p5.FFT object.  
+     * 
+     *  
+     *   You can listen for a specific part of the 
+     *   frequency spectrum by setting the range between 
+     *   freq1 and freq2.  
+     * 
+     *   threshold is the threshold for detecting a peak, 
+     *   scaled between 0 and 1. It is logarithmic, so 0.1 
+     *   is half as loud as 1.0. 
+     * 
+     *  
+     *   The update method is meant to be run in the draw 
+     *   loop, and frames determines how many loops must 
+     *   pass before another peak can be detected. For 
+     *   example, if the frameRate() = 60, you could detect 
+     *   the beat of a 120 beat-per-minute song with this 
+     *   equation:  framesPerPeak = 60 / (estimatedBPM / 60 
+     *   );  
+     * 
+     *  
+     *   Based on example contribtued by @b2renger, and a 
+     *   simple beat detection explanation by Felix Turner.
+     *
+     *   @param [freq1] lowFrequency - defaults to 20Hz
+     *   @param [freq2] highFrequency - defaults to 20000 
+     *   Hz
+     *   @param [threshold] Threshold for detecting a beat 
+     *   between 0 and 1 scaled logarithmically where 0.1 
+     *   is 1/2 the loudness of 1.0. Defaults to 0.25.
+     *   @param [framesPerPeak] Defaults to 5.
+     */
+    constructor(freq1?: number, freq2?: number, threshold?: number, framesPerPeak?: number);
+    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 6784
+
+    /**
+     *   The update method is run in the draw loop. Accepts 
+     *   an FFT object. You must call .analyze() on the FFT 
+     *   object prior to updating the peakDetect because it 
+     *   relies on a completed FFT analysis.
+     *
+     *   @param fftObject A p5.FFT object
+     */
+    update(fftObject: p5.FFT): void;
+  }
+  class Gain {
+    /**
+     *   A gain node is usefull to set the relative volume 
+     *   of sound. It's typically used to build mixers.
+     *
+     */
+    constructor();
+
+    /**
+     *   Connect a source to the gain node.
+     *
+     *   @param src p5.sound / Web Audio object with a 
+     *   sound output.
+     */
+    setInput(src: object): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Set the output level of the gain node.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
   }
 }
 
