@@ -1,4 +1,4 @@
-// Type definitions for p5 0.3
+// Type definitions for p5 0.4
 // Project: https://github.com/processing/p5.js
 // Definitions by: p5-types <https://github.com/p5-types>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -836,11 +836,14 @@ declare class p5 {
    *   preload().
    *
    *   @param path Path of the image to be loaded
-   *   @param [callback] Function to be called once the 
-   *   image is loaded. Will be passed the p5.Image.
+   *   @param [successCallback] Function to be called 
+   *   once the image is loaded. Will be passed the 
+   *   p5.Image.
+   *   @param [failureCallback] called with event error 
+   *   if the image fails to load.
    *   @return the p5.Image object
    */
-  loadImage(path: string, callback?: (p1: p5.Image) => any): p5.Image;
+  loadImage(path: string, successCallback?: (p1: p5.Image) => any, failureCallback?: (p1: Event) => any): p5.Image;
 
   /**
    *   Draw an image to the main canvas of the p5js 
@@ -1045,7 +1048,7 @@ declare class p5 {
    */
   set(x: number, y: number, c: number|any[]|object): void;
 
-  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 435:
+  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 439:
   //
   //   param "w" is defined multiple times
   //
@@ -1193,6 +1196,8 @@ declare class p5 {
    *   the URL, defaulting to text.
    *
    *   @param path name of the file or url to load
+   *   @param [method] either "GET", "POST", or "PUT", 
+   *   defaults to "GET"
    *   @param [data] param data passed sent with request
    *   @param [datatype] "json", "jsonp", "xml", or 
    *   "text"
@@ -1200,7 +1205,7 @@ declare class p5 {
    *   httpGet() completes, data is passed in as first 
    *   argument
    */
-  httpDo(path: string, data?: object, datatype?: string, callback?: Function): void;
+  httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
   // src/input/keyboard.js
 
@@ -1590,6 +1595,13 @@ declare class p5 {
   ptouchY: any;
 
   // TODO: Property "touches[]", defined in src/input/touch.js, line 54, is not a valid JS symbol name
+
+  /**
+   *   The boolean system variable touchIsDown is true if 
+   *   the screen is touched and false if not.
+   *
+   */
+  touchIsDown: any;
 
   /**
    *   The touchStarted() function is called once after 
@@ -2923,7 +2935,7 @@ declare class p5 {
    */
   textSize(s: number): void;
 
-  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 111:
+  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 112:
   //
   //   param "s" has invalid type: Number/Constant
   //
@@ -3014,74 +3026,74 @@ declare class p5 {
    */
   removeElements(): void;
 
-  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 121:
+  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 127:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createDiv(html: string): any;
 
-  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 132:
+  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 138:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createP(html: string): any;
 
-  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 144:
+  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 150:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSpan(html: string): any;
 
-  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 164:
+  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 170:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createImg(src: string, alt: string): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 187:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 193:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 211:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 217:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 233:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 239:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 254:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 260:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 301:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 307:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 329:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 335:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 365:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 371:
   //
   //   param "type" has invalid type: String/Constant
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: any): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 416:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 422:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -4137,7 +4149,7 @@ declare namespace p5 {
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 517:
+    // TODO: Fix lerp() errors in src/objects/p5.Vector.js, line 516:
     //
     //   required param "amt" follows an optional param
     //
@@ -4277,13 +4289,13 @@ declare namespace p5 {
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 474:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 522:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 553:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 601:
     //
     //   param "path" has invalid type: String/Array
     //   param "callback" is defined multiple times
@@ -4300,13 +4312,16 @@ declare namespace p5 {
     /**
      *   Play the p5.SoundFile
      *
+     *   @param [startTime] (optional) schedule playback to 
+     *   start (in seconds from now).
      *   @param [rate] (optional) playback rate
      *   @param [amp] (optional) amplitude (volume) of 
      *   playback
-     *   @param [startTime] (optional) startTime in seconds
-     *   @param [endTime] (optional) endTime in seconds
+     *   @param [cueStart] (optional) cue start time in 
+     *   seconds
+     *   @param [cueEnd] (optional) cue end time in seconds
      */
-    play(rate?: number, amp?: number, startTime?: number, endTime?: number): void;
+    play(startTime?: number, rate?: number, amp?: number, cueStart?: number, cueEnd?: number): void;
 
     /**
      *   p5.SoundFile has two play modes: restart and 
@@ -4329,20 +4344,24 @@ declare namespace p5 {
      *   before it was paused, it will continue to loop 
      *   after it is unpaused with .play().
      *
+     *   @param [startTime] (optional) schedule event to 
+     *   occur seconds from now
      */
-    pause(): void;
+    pause(startTime?: number): void;
 
     /**
      *   Loop the p5.SoundFile. Accepts optional parameters 
      *   to set the playback rate, playback volume, 
      *   loopStart, loopEnd.
      *
+     *   @param [startTime] (optional) schedule event to 
+     *   occur seconds from now
      *   @param [rate] (optional) playback rate
      *   @param [amp] (optional) playback volume
-     *   @param [loopStart] (optional) startTime in seconds
-     *   @param [loopEnd] (optional) endTime in seconds
+     *   @param [cueLoopStart] startTime in seconds
+     *   @param [cueLoopEnd] (optional) endTime in seconds
      */
-    loop(rate?: number, amp?: number, loopStart?: number, loopEnd?: number): void;
+    loop(startTime?: number, rate?: number, amp?: number, cueLoopStart?: number, cueLoopEnd?: number): void;
 
     /**
      *   Returns true if a p5.SoundFile is playing, false 
@@ -4361,8 +4380,10 @@ declare namespace p5 {
     /**
      *   Stop soundfile playback.
      *
+     *   @param [startTime] (optional) schedule event to 
+     *   occur in seconds from now
      */
-    stop(): void;
+    stop(startTime?: number): void;
 
     /**
      *   Multiply the output volume (amplitude) of a sound 
@@ -4371,24 +4392,23 @@ declare namespace p5 {
      *   so multiplying by greater than 1.0 may cause 
      *   digital distortion. To fade, provide a rampTime 
      *   parameter. For more complex fades, see the Env 
-     *   class.
+     *   class. Alternately, you can pass in a signal 
+     *   source such as an oscillator to modulate the 
+     *   amplitude with an audio signal.
      *
      *   @param volume Volume (amplitude) between 0.0 and 
-     *   1.0
+     *   1.0 or modulating signal/oscillator
      *   @param [rampTime] Fade for t seconds
      *   @param [timeFromNow] Schedule this event to happen 
      *   at t seconds in the future
      */
-    setVolume(volume: number, rampTime?: number, timeFromNow?: number): void;
+    setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    /**
-     *   Set the stereo panning of a p5.sound object to a 
-     *   floating point number between -1.0 (left) and 1.0 
-     *   (right). Default is 0.0 (center).
-     *
-     *   @param [panValue] Set the stereo panner
-     */
-    pan(panValue?: number): void;
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1022:
+    //
+    //   required param "timeFromNow" follows an optional param
+    //
+    // pan(panValue?: number, timeFromNow: number): void;
 
     /**
      *   Set the playback rate of a sound file. Will change 
@@ -4724,25 +4744,25 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2457:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2596:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2481:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2620:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2500:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2639:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2519:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2658:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -4789,10 +4809,12 @@ declare namespace p5 {
     stop(secondsFromNow: number): void;
 
     /**
-     *   Set amplitude (volume) of an oscillator between 0 
-     *   and 1.0
+     *   Set the amplitude between 0 and 1.0. Or, pass in 
+     *   an object such as an oscillator to modulate 
+     *   amplitude with an audio signal.
      *
-     *   @param vol between 0 and 1.0
+     *   @param vol between 0 and 1.0 or a modulating 
+     *   signal/oscillator
      *   @param [rampTime] create a fade that lasts 
      *   rampTime
      *   @param [timeFromNow] schedule this event to happen 
@@ -4801,12 +4823,15 @@ declare namespace p5 {
      *   Web Audio API AudioParam that controls this 
      *   oscillator's gain/amplitude/volume)
      */
-    amp(vol: number, rampTime?: number, timeFromNow?: number): AudioParam;
+    amp(vol: number|object, rampTime?: number, timeFromNow?: number): AudioParam;
 
     /**
-     *   Set frequency of an oscillator.
+     *   Set frequency of an oscillator to a value. Or, 
+     *   pass in an object such as an oscillator to 
+     *   modulate the frequency with an audio signal.
      *
-     *   @param Frequency Frequency in Hz
+     *   @param Frequency Frequency in Hz or modulating 
+     *   signal/oscillator
      *   @param [rampTime] Ramp time (in seconds)
      *   @param [timeFromNow] Schedule this event to happen 
      *   at x seconds from now
@@ -4814,7 +4839,7 @@ declare namespace p5 {
      *   the Web Audio API AudioParam that controls this 
      *   oscillator's frequency
      */
-    freq(Frequency: number, rampTime?: number, timeFromNow?: number): AudioParam;
+    freq(Frequency: number|object, rampTime?: number, timeFromNow?: number): AudioParam;
 
     /**
      *   Set type to 'sine', 'triangle', 'sawtooth' or 
@@ -4842,8 +4867,10 @@ declare namespace p5 {
      *   Pan between Left (-1) and Right (1)
      *
      *   @param panning Number between -1 and 1
+     *   @param timeFromNow schedule this event to happen 
+     *   seconds from now
      */
-    pan(panning: number): void;
+    pan(panning: number, timeFromNow: number): void;
 
     /**
      *   Set the phase of an oscillator between 0.0 and 1.0
@@ -4891,28 +4918,28 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 2888:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3083:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 2903:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3098:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2918:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3113:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 2933:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3128:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -5107,8 +5134,10 @@ declare namespace p5 {
      *
      *   @param panning Number between -1 (left) and 1 
      *   (right)
+     *   @param timeFromNow schedule this event to happen 
+     *   seconds from now
      */
-    pan(panning: number): void;
+    pan(panning: number, timeFromNow: number): void;
 
     /**
      *   Send output to a p5.sound or web audio object
@@ -5231,7 +5260,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 3964:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4107:
     //
     //   param "type" has invalid type: [String]
     //
@@ -5244,7 +5273,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4043:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4186:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -5256,14 +5285,22 @@ declare namespace p5 {
      *
      *   @param freq Frequency in Hz, from 10 to 22050
      *   @param res Resonance (Q) from 0.001 to 1000
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
      */
-    set(freq: number, res: number): void;
+    set(freq: number, res: number, timeFromNow?: number): void;
 
-    // TODO: Fix freq() errors in lib/addons/p5.sound.js, line 4072:
-    //
-    //   param "freq" has invalid type: [Number]
-    //
-    // freq(freq: any): number;
+    /**
+     *   Set the filter frequency, in Hz, from 10 to 22050 
+     *   (the range of human hearing, although in reality 
+     *   most people hear in a narrower range).
+     *
+     *   @param freq Filter Frequency
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     *   @return value Returns the current frequency value
+     */
+    freq(freq: number, timeFromNow?: number): number;
 
     /**
      *   Controls either width of a bandpass frequency, or 
@@ -5271,9 +5308,11 @@ declare namespace p5 {
      *
      *   @param res Resonance/Width of filter freq from 
      *   0.001 to 1000
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
      *   @return value Returns the current res value
      */
-    res(res: number): number;
+    res(res: number, timeFromNow?: number): number;
 
     /**
      *   Set the type of a p5.Filter. Possible types 
@@ -5307,19 +5346,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4160:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4314:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4172:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4326:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4184:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4338:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -5470,7 +5509,7 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4507:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4661:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5478,7 +5517,7 @@ declare namespace p5 {
     //
     // process(src: object, seconds: any, decayRate: any, reverse: any): void;
 
-    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4536:
+    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4690:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5510,7 +5549,7 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4638:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4792:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5523,7 +5562,7 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4718:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4872:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5547,13 +5586,13 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4836:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4990:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 4853:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5007:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5662,8 +5701,9 @@ declare namespace p5 {
      *   through all of its phrases at a speed determined 
      *   by setBPM.
      *
+     *   @param [time] seconds from now
      */
-    loop(): void;
+    loop(time?: number): void;
 
     /**
      *   Tell the part to stop looping.
@@ -5709,6 +5749,16 @@ declare namespace p5 {
     getPhrase(phraseName: string): void;
 
     /**
+     *   Get a phrase from this part, based on the name it 
+     *   was given when it was created. Now you can modify 
+     *   its array.
+     *
+     *   @param sequence Array of values to pass into the 
+     *   callback at each step of the phrase.
+     */
+    replaceSequence(phraseName: string, sequence: any[]): void;
+
+    /**
      *   Fire a callback function at every step.
      *
      *   @param callback The name of the callback you want 
@@ -5717,7 +5767,7 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5365:
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5557:
     //
     //   param "part(s)" is not a valid JS symbol name
     //

@@ -1,4 +1,4 @@
-// Type definitions for p5 0.3
+// Type definitions for p5 0.4
 // Project: https://github.com/processing/p5.js
 // Definitions by: p5-types <https://github.com/p5-types>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -836,11 +836,14 @@ declare function createImage(width: number, height: number): p5.Image;
  *   preload().
  *
  *   @param path Path of the image to be loaded
- *   @param [callback] Function to be called once the 
- *   image is loaded. Will be passed the p5.Image.
+ *   @param [successCallback] Function to be called 
+ *   once the image is loaded. Will be passed the 
+ *   p5.Image.
+ *   @param [failureCallback] called with event error 
+ *   if the image fails to load.
  *   @return the p5.Image object
  */
-declare function loadImage(path: string, callback?: (p1: p5.Image) => any): p5.Image;
+declare function loadImage(path: string, successCallback?: (p1: p5.Image) => any, failureCallback?: (p1: Event) => any): p5.Image;
 
 /**
  *   Draw an image to the main canvas of the p5js 
@@ -1045,7 +1048,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 435:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 439:
 //
 //   param "w" is defined multiple times
 //
@@ -1193,6 +1196,8 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  *   the URL, defaulting to text.
  *
  *   @param path name of the file or url to load
+ *   @param [method] either "GET", "POST", or "PUT", 
+ *   defaults to "GET"
  *   @param [data] param data passed sent with request
  *   @param [datatype] "json", "jsonp", "xml", or 
  *   "text"
@@ -1200,7 +1205,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  *   httpGet() completes, data is passed in as first 
  *   argument
  */
-declare function httpDo(path: string, data?: object, datatype?: string, callback?: Function): void;
+declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
 // src/input/keyboard.js
 
@@ -1590,6 +1595,13 @@ declare var ptouchX: any;
 declare var ptouchY: any;
 
 // TODO: Property "touches[]", defined in src/input/touch.js, line 54, is not a valid JS symbol name
+
+/**
+ *   The boolean system variable touchIsDown is true if 
+ *   the screen is touched and false if not.
+ *
+ */
+declare var touchIsDown: any;
 
 /**
  *   The touchStarted() function is called once after 
@@ -2923,7 +2935,7 @@ declare function textLeading(l: number): void;
  */
 declare function textSize(s: number): void;
 
-// TODO: Fix textStyle() errors in src/typography/attributes.js, line 111:
+// TODO: Fix textStyle() errors in src/typography/attributes.js, line 112:
 //
 //   param "s" has invalid type: Number/Constant
 //
@@ -3014,74 +3026,74 @@ declare function getElements(theClass: string): any[];
  */
 declare function removeElements(): void;
 
-// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 121:
+// TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 127:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createDiv(html: string): any;
 
-// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 132:
+// TODO: Fix createP() errors in lib/addons/p5.dom.js, line 138:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createP(html: string): any;
 
-// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 144:
+// TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 150:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSpan(html: string): any;
 
-// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 164:
+// TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 170:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createImg(src: string, alt: string): any;
 
-// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 187:
+// TODO: Fix createA() errors in lib/addons/p5.dom.js, line 193:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createA(href: string, html: string, target?: string): any;
 
-// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 211:
+// TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 217:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createSlider(min: number, max: number, value?: number): any;
 
-// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 233:
+// TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 239:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createButton(label: string, value?: string): any;
 
-// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 254:
+// TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 260:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createInput(value?: number): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 301:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 307:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 329:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 335:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 365:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 371:
 //
 //   param "type" has invalid type: String/Constant
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: any): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 416:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 422:
 //
 //   return has invalid type: Object/p5.Element
 //
