@@ -17,19 +17,19 @@ declare class p5 {
    *   Extracts the alpha value from a color or pixel 
    *   array.
    *
-   *   @param obj p5.Color object or pixel array
+   *   @param color p5.Color object or pixel array
    *   @return the alpha value
    */
-  alpha(obj: p5.Color|number[]): number;
+  alpha(color: p5.Color|any[]): number;
 
   /**
    *   Extracts the blue value from a color or pixel 
    *   array.
    *
-   *   @param obj p5.Color object or pixel array
+   *   @param color p5.Color object or pixel array
    *   @return the blue value
    */
-  blue(obj: p5.Color|number[]): number;
+  blue(color: p5.Color|any[]): number;
 
   /**
    *   Extracts the HSB brightness value from a color or 
@@ -38,7 +38,7 @@ declare class p5 {
    *   @param color p5.Color object or pixel array
    *   @return the brightness value
    */
-  brightness(color: p5.Color|number[]): number;
+  brightness(color: p5.Color|any[]): number;
 
   /**
    *   Creates colors for storing in variables of the 
@@ -156,7 +156,32 @@ declare class p5 {
    *   @param values an array containing the 
    *   red,green,blue & and alpha components of the color
    */
-  color(values: number[]): p5.Color;
+  color(values: any[]): p5.Color;
+
+  /**
+   *   Creates colors for storing in variables of the 
+   *   color datatype. The parameters are interpreted as 
+   *   RGB or HSB values depending on the current 
+   *   colorMode(). The default mode is RGB values from 0 
+   *   to 255 and, therefore, the function call 
+   *   color(255, 204, 0) will return a bright yellow 
+   *   color.  Note that if only one value is provided to 
+   *   color(), it will be interpreted as a grayscale 
+   *   value. Add a second value, and it will be used for 
+   *   alpha transparency. When three values are 
+   *   specified, they are interpreted as either RGB or 
+   *   HSB values. Adding a fourth value applies alpha 
+   *   transparency. 
+   * 
+   *  
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. In this case, an alpha 
+   *   number value as a second argument is not 
+   *   supported, the RGBA form should be used.
+   *
+   */
+  color(color: p5.Color): p5.Color;
 
   /**
    *   Extracts the green value from a color or pixel 
@@ -165,7 +190,7 @@ declare class p5 {
    *   @param color p5.Color object or pixel array
    *   @return the green value
    */
-  green(color: p5.Color|number[]): number;
+  green(color: p5.Color|any[]): number;
 
   /**
    *   Extracts the hue value from a color or pixel 
@@ -181,7 +206,7 @@ declare class p5 {
    *   @param color p5.Color object or pixel array
    *   @return the hue
    */
-  hue(color: p5.Color|number[]): number;
+  hue(color: p5.Color|any[]): number;
 
   /**
    *   Blends two colors to find a third color somewhere 
@@ -211,16 +236,16 @@ declare class p5 {
    *   @param color p5.Color object or pixel array
    *   @return the lightness
    */
-  lightness(color: p5.Color|number[]): number;
+  lightness(color: p5.Color|any[]): number;
 
   /**
    *   Extracts the red value from a color or pixel 
    *   array.
    *
-   *   @param obj p5.Color object or pixel array
+   *   @param color p5.Color object or pixel array
    *   @return the red value
    */
-  red(obj: p5.Color|number[]): number;
+  red(color: p5.Color|any[]): number;
 
   /**
    *   Extracts the saturation value from a color or 
@@ -232,9 +257,9 @@ declare class p5 {
    *   saturation otherwise.
    *
    *   @param color p5.Color object or pixel array
-   *   @return the saturation
+   *   @return the saturation value
    */
-  saturation(color: p5.Color|number[]): number;
+  saturation(color: p5.Color|any[]): number;
 
   // src/color/setting.js
 
@@ -4780,7 +4805,7 @@ declare class p5 {
    *   the decimal point
    *   @return formatted String
    */
-  nf(num: number, left?: number, right?: number): string;
+  nf(num: number|string, left?: number|string, right?: number|string): string;
 
   /**
    *   Utility function for formatting numbers into 
@@ -4794,9 +4819,9 @@ declare class p5 {
    *   decimal point
    *   @param [right] number of digits to the right of 
    *   the decimal point
-   *   @return formatted Strings
+   *   @return formatted Strings\
    */
-  nf(nums: number[], left?: number, right?: number): string[];
+  nf(nums: any[], left?: number|string, right?: number|string): any[];
 
   /**
    *   Utility function for formatting numbers into 
@@ -4811,7 +4836,7 @@ declare class p5 {
    *   the decimal point
    *   @return formatted String
    */
-  nfc(num: number, right?: number): string;
+  nfc(num: number|string, right?: number|string): string;
 
   /**
    *   Utility function for formatting numbers into 
@@ -4826,7 +4851,7 @@ declare class p5 {
    *   the decimal point
    *   @return formatted Strings
    */
-  nfc(nums: number[], right?: number): string[];
+  nfc(nums: any[], right?: number|string): any[];
 
   /**
    *   Utility function for formatting numbers into 
@@ -4898,7 +4923,7 @@ declare class p5 {
    *   the decimal point
    *   @return formatted Strings
    */
-  nfs(nums: number[], left?: number, right?: number): string[];
+  nfs(nums: any[], left?: number, right?: number): any[];
 
   /**
    *   The split() function maps to String.split(), it 
@@ -4957,7 +4982,7 @@ declare class p5 {
    *   @param strs an Array of Strings to be trimmed
    *   @return an Array of trimmed Strings
    */
-  trim(strs: string[]): string[];
+  trim(strs: any[]): any[];
 
   // src/utilities/time_date.js
 
