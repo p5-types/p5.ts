@@ -41,7 +41,7 @@ createVideo() lib/addons/p5.dom.js, line 372, return has invalid type: Object/p5
 createAudio() lib/addons/p5.dom.js, line 400, return has invalid type: Object/p5.Element
 createCapture() lib/addons/p5.dom.js, line 436, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 436, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 487, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 492, return has invalid type: Object/p5.Element
 drop() src/objects/p5.Element.js, line 406, param "callback" is defined multiple times
 lerp() src/objects/p5.Vector.js, line 516, required param "amt" follows an optional param
 p5.SoundFile() lib/addons/p5.sound.js, line 530, param "path" has invalid type: String/Array
@@ -119,7 +119,7 @@ createVideo() lib/addons/p5.dom.js, line 372, return has invalid type: Object/p5
 createAudio() lib/addons/p5.dom.js, line 400, return has invalid type: Object/p5.Element
 createCapture() lib/addons/p5.dom.js, line 436, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 436, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 487, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 492, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant

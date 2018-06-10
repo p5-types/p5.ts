@@ -373,6 +373,18 @@ declare class p5 {
   shorten(list: any[]): any[];
 
   /**
+   *   Randomizes the order of the elements of an array. 
+   *   Implements Fisher-Yates Shuffle Algorithm 
+   *   http://Bost.Ocks.org/mike/shuffle/ 
+   *   http://en.Wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+   *
+   *   @param array Array to shuffle
+   *   @param [bool] modify passed array
+   *   @return shuffled Array
+   */
+  shuffle(array: any[], bool?: boolean): any[];
+
+  /**
    *   Sorts an array of numbers from smallest to 
    *   largest, or puts an array of words in alphabetical 
    *   order. The original array is not modified; a 
@@ -774,8 +786,10 @@ declare class p5 {
    *   devicePixelScaling() function must be the first 
    *   line of code inside setup().
    *
+   *   @param [val] whether or how much the sketch should 
+   *   scale
    */
-  devicePixelScaling(): void;
+  devicePixelScaling(val?: boolean|number): void;
 
   /**
    *   Gets the current URL.
@@ -1054,17 +1068,100 @@ declare class p5 {
   //
   // updatePixels(x?: number, y?: number, w?: number, w?: number): void;
 
+  // src/input/acceleration.js
+
+  /**
+   *   The system variable deviceOrientation always 
+   *   contains the orientation of the device. The value 
+   *   of this variable will either be set 'landscape' or 
+   *   'portrait'. If no data is avaliable it will be set 
+   *   to 'undefined'.
+   *
+   */
+  deviceOrientation: any;
+
+  /**
+   *   The system variable accelerationX always contains 
+   *   the acceleration of the device along the x axis. 
+   *   Value is represented as meters per second squared.
+   *
+   */
+  accelerationX: any;
+
+  /**
+   *   The system variable accelerationY always contains 
+   *   the acceleration of the device along the y axis. 
+   *   Value is represented as meters per second squared.
+   *
+   */
+  accelerationY: any;
+
+  /**
+   *   The system variable accelerationZ always contains 
+   *   the acceleration of the device along the z axis. 
+   *   Value is represented as meters per second squared.
+   *
+   */
+  accelerationZ: any;
+
+  /**
+   *   The system variable pAccelerationX always contains 
+   *   the acceleration of the device along the x axis in 
+   *   the frame previous to the current frame. Value is 
+   *   represented as meters per second squared.
+   *
+   */
+  pAccelerationX: any;
+
+  /**
+   *   The system variable pAccelerationY always contains 
+   *   the acceleration of the device along the y axis in 
+   *   the frame previous to the current frame. Value is 
+   *   represented as meters per second squared.
+   *
+   */
+  pAccelerationY: any;
+
+  /**
+   *   The system variable pAccelerationZ always contains 
+   *   the acceleration of the device along the z axis in 
+   *   the frame previous to the current frame. Value is 
+   *   represented as meters per second squared.
+   *
+   */
+  pAccelerationZ: any;
+
+  /**
+   *   The setMoveThreshold() function is used to set the 
+   *   movement threshold for the onDeviceMove() 
+   *   function.
+   *
+   *   @param value The threshold value
+   */
+  setMoveThreshold(value: number): void;
+
+  /**
+   *   The onDeviceMove() function is called when the 
+   *   devices orientation changes by more than the 
+   *   threshold value.
+   *
+   */
+  onDeviceMove(): void;
+
+  /**
+   *   The onDeviceTurn() function is called when the 
+   *   device rotates by more than 90 degrees.
+   *
+   */
+  onDeviceTurn(): void;
+
   // src/input/files.js
 
   /**
    *   Loads a JSON file from a file or a URL, and 
    *   returns an Object or Array. This method is 
    *   asynchronous, meaning it may not finish before the 
-   *   next line in your sketch is executed. Either use 
-   *   preload() to guarantee the file loads before 
-   *   setup() and draw() are called, or supply a 
-   *   callback function that is executed when 
-   *   loadStrings() completes.
+   *   next line in your sketch is executed.
    *
    *   @param path name of the file or url to load
    *   @param [callback] function to be executed after 
@@ -1087,10 +1184,7 @@ declare class p5 {
    *   the filename parameter can be a URL for a file 
    *   found on a network. This method is asynchronous, 
    *   meaning it may not finish before the next line in 
-   *   your sketch is executed. Either use preload() to 
-   *   guarantee the file loads before setup() and draw() 
-   *   are called, or supply a callback function that is 
-   *   executed when loadStrings() completes.
+   *   your sketch is executed.
    *
    *   @param filename name of the file or url to load
    *   @param [callback] function to be executed after 
@@ -1110,21 +1204,24 @@ declare class p5 {
    *   Table only looks for a header row if the 'header' 
    *   option is included. Possible options include: 
    * 
-   *   - csv - parse the table as comma-separated values 
-   *   - tsv - parse the table as tab-separated values 
-   *   - newlines - this CSV file contains newlines 
-   *   inside individual cells 
-   *   - header - this table has a header (title) row   
+   *   - csv - parse the table as comma-separated values
+   *   - tsv - parse the table as tab-separated values
+   *   - header - this table has a header (title) row  
+   * 
+   *   When passing in multiple options, pass them in as 
+   *   separate parameters, seperated by commas. For 
+   *   example: "csv, header". 
    * 
    *  
    *   All files loaded and saved use UTF-8 encoding. 
    * 
    *   This method is asynchronous, meaning it may not 
    *   finish before the next line in your sketch is 
-   *   executed. Either use preload() to guarantee the 
-   *   file loads before setup() and draw() are called, 
-   *   or supply a callback function that is executed 
-   *   when loadTable() completes.
+   *   executed. Calling loadTable() inside preload() 
+   *   guarantees to complete the operation before 
+   *   setup() and draw() are called. Outside preload(), 
+   *   you may supply a callback function to handle the 
+   *   object.
    *
    *   @param filename name of the file or URL to load
    *   @param [options] "header" "csv" "tsv"
@@ -1147,10 +1244,11 @@ declare class p5 {
    *   the filename parameter can be a URL for a file 
    *   found on a network. This method is asynchronous, 
    *   meaning it may not finish before the next line in 
-   *   your sketch is executed. Either use preload() to 
-   *   guarantee the file loads before setup() and draw() 
-   *   are called, or supply a callback function that is 
-   *   executed when loadXML() completes.
+   *   your sketch is executed. Calling loadXML() inside 
+   *   preload() guarantees to complete the operation 
+   *   before setup() and draw() are called. Outside 
+   *   preload(), you may supply a callback function to 
+   *   handle the object.
    *
    *   @param filename name of the file or URL to load
    *   @param [callback] function to be executed after 
@@ -3099,7 +3197,7 @@ declare class p5 {
   //
   // createCapture(type: any): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 487:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 492:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -3879,7 +3977,7 @@ declare namespace p5 {
      *   later by name. (If no title is specified, the new 
      *   column's title will be null.)
      *
-     *   @param [title] Title of the given column
+     *   @param [title] title of the given column
      */
     addColumn(title?: string): void;
 
@@ -3926,6 +4024,73 @@ declare namespace p5 {
      *   @param column columnName (string) or ID (number)
      */
     removeColumn(column: string|number): void;
+
+    /**
+     *   Stores a value in the Table's specified row and 
+     *   column. The row is specified by its ID, while the 
+     *   column may be specified by either its ID or title.
+     *
+     *   @param column column ID (Number) or title (String)
+     *   @param value value to assign
+     */
+    set(column: string|number, value: string|number): void;
+
+    /**
+     *   Stores a Float value in the Table's specified row 
+     *   and column. The row is specified by its ID, while 
+     *   the column may be specified by either its ID or 
+     *   title.
+     *
+     *   @param row row ID
+     *   @param column column ID (Number) or title (String)
+     *   @param value value to assign
+     */
+    setNum(row: number, column: string|number, value: number): void;
+
+    /**
+     *   Stores a String value in the Table's specified row 
+     *   and column. The row is specified by its ID, while 
+     *   the column may be specified by either its ID or 
+     *   title.
+     *
+     *   @param row row ID
+     *   @param column column ID (Number) or title (String)
+     *   @param value value to assign
+     */
+    setString(row: number, column: string|number, value: string): void;
+
+    /**
+     *   Retrieves a value from the Table's specified row 
+     *   and column. The row is specified by its ID, while 
+     *   the column may be specified by either its ID or 
+     *   title.
+     *
+     *   @param row row ID
+     *   @param column columnName (string) or ID (number)
+     */
+    get(row: number, column: string|number): string|number;
+
+    /**
+     *   Retrieves a Float value from the Table's specified 
+     *   row and column. The row is specified by its ID, 
+     *   while the column may be specified by either its ID 
+     *   or title.
+     *
+     *   @param row row ID
+     *   @param column columnName (string) or ID (number)
+     */
+    getNum(row: number, column: string|number): number;
+
+    /**
+     *   Retrieves a String value from the Table's 
+     *   specified row and column. The row is specified by 
+     *   its ID, while the column may be specified by 
+     *   either its ID or title.
+     *
+     *   @param row row ID
+     *   @param column columnName (string) or ID (number)
+     */
+    getString(row: number, column: string|number): string;
   }
 
   // src/objects/p5.TableRow.js
