@@ -2264,7 +2264,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  */
 declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 807:
+// TODO: Fix save() errors in src/io/files.js, line 806:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -2294,7 +2294,7 @@ declare function saveJSON(json: any[]|object, filename: string, optimize?: boole
  */
 declare function saveStrings(list: any[], filename: string): void;
 
-// TODO: Fix saveTable() errors in src/io/files.js, line 1049:
+// TODO: Fix saveTable() errors in src/io/files.js, line 1048:
 //
 //   param "options" has invalid type: [String]
 //

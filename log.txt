@@ -30,9 +30,9 @@ saveFrames() src/image/image.js, line 216, param "_fps" has invalid type: [type]
 saveFrames() src/image/image.js, line 216, param "callback" has invalid type: [Function]
 saveFrames() src/image/image.js, line 216, return has invalid type: [type]
 updatePixels() src/image/pixels.js, line 512, param "w" is defined multiple times
-save() src/io/files.js, line 807, param "filename" has invalid type: [String]
-save() src/io/files.js, line 807, param "options" has invalid type: [Boolean/String]
-saveTable() src/io/files.js, line 1049, param "options" has invalid type: [String]
+save() src/io/files.js, line 806, param "filename" has invalid type: [String]
+save() src/io/files.js, line 806, param "options" has invalid type: [Boolean/String]
+saveTable() src/io/files.js, line 1048, param "options" has invalid type: [String]
 angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "horizAlign" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "vertAlign" has invalid type: Number/Constant
@@ -130,9 +130,9 @@ saveFrames() src/image/image.js, line 216, param "_fps" has invalid type: [type]
 saveFrames() src/image/image.js, line 216, param "callback" has invalid type: [Function]
 saveFrames() src/image/image.js, line 216, return has invalid type: [type]
 updatePixels() src/image/pixels.js, line 512, param "w" is defined multiple times
-save() src/io/files.js, line 807, param "filename" has invalid type: [String]
-save() src/io/files.js, line 807, param "options" has invalid type: [Boolean/String]
-saveTable() src/io/files.js, line 1049, param "options" has invalid type: [String]
+save() src/io/files.js, line 806, param "filename" has invalid type: [String]
+save() src/io/files.js, line 806, param "options" has invalid type: [Boolean/String]
+saveTable() src/io/files.js, line 1048, param "options" has invalid type: [String]
 angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "horizAlign" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "vertAlign" has invalid type: Number/Constant

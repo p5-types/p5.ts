@@ -2264,7 +2264,7 @@ declare class p5 {
    */
   httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
-  // TODO: Fix save() errors in src/io/files.js, line 807:
+  // TODO: Fix save() errors in src/io/files.js, line 806:
   //
   //   param "filename" has invalid type: [String]
   //   param "options" has invalid type: [Boolean/String]
@@ -2294,7 +2294,7 @@ declare class p5 {
    */
   saveStrings(list: any[], filename: string): void;
 
-  // TODO: Fix saveTable() errors in src/io/files.js, line 1049:
+  // TODO: Fix saveTable() errors in src/io/files.js, line 1048:
   //
   //   param "options" has invalid type: [String]
   //
