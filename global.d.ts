@@ -733,7 +733,10 @@ declare var TWO_PI: any;
  *   setup() will wait until any load calls within have 
  *   finished. Nothing besides load calls should be 
  *   inside preload (loadImage, loadJSON, loadFont, 
- *   loadStrings, etc).
+ *   loadStrings, etc). By default the text 
+ *   "loading..." will be displayed. To make your own 
+ *   loading page, include an HTML element with id 
+ *   "p5_loading" in your page. More information here.
  *
  */
 declare function preload(): void;
@@ -2395,7 +2398,7 @@ declare function image(img: p5.Image, x: number, y: number, width: number, heigh
  *   sketch
  *
  *   @param img the image to display
- *   @param dx the -xcoordinate in the destination 
+ *   @param dx the x-coordinate in the destination 
  *   canvas at which to place the top-left corner of 
  *   the source image
  *   @param dy the y-coordinate in the destination 
