@@ -19,7 +19,7 @@ strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Numb
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
 createCanvas() src/core/rendering.js, line 14, param "optional:" is not a valid JS symbol name
-blendMode() src/core/rendering.js, line 195, param "mode" has invalid type: String/Constant
+blendMode() src/core/rendering.js, line 206, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 65, param "kind" has invalid type: Number/Constant
 endShape() src/core/vertex.js, line 395, param "mode" has invalid type: Number/Constant
 saveCanvas() src/image/image.js, line 98, param "canvas" has invalid type: [selectedCanvas]
@@ -34,7 +34,7 @@ saveFrames() src/image/image.js, line 216, return has invalid type: [type]
 updatePixels() src/image/pixels.js, line 511, param "w" is defined multiple times
 save() src/io/files.js, line 967, param "filename" has invalid type: [String]
 save() src/io/files.js, line 967, param "options" has invalid type: [Boolean/String]
-saveTable() src/io/files.js, line 1209, param "options" has invalid type: [String]
+saveTable() src/io/files.js, line 1205, param "options" has invalid type: [String]
 dist() src/math/calculation.js, line 108, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 108, required param "y2" follows an optional param
 angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
@@ -55,58 +55,59 @@ createSelect() lib/addons/p5.dom.js, line 500, return has invalid type: Object/p
 createRadio() lib/addons/p5.dom.js, line 565, return has invalid type: Object/p5.Element
 createInput() lib/addons/p5.dom.js, line 650, return has invalid type: Object/p5.Element
 createFileInput() lib/addons/p5.dom.js, line 679, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 773, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 801, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 837, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 935, return has invalid type: Object/p5.Element
-drop() src/core/p5.Element.js, line 444, param "callback" is defined multiple times
-addClass() lib/addons/p5.dom.js, line 961, return has invalid type: Object/p5.Element
-removeClass() lib/addons/p5.dom.js, line 988, return has invalid type: Object/p5.Element
-position() lib/addons/p5.dom.js, line 1122, return has invalid type: Object/p5.Element
-translate() lib/addons/p5.dom.js, line 1156, return has invalid type: Object/p5.Element
-rotate() lib/addons/p5.dom.js, line 1198, return has invalid type: Object/p5.Element
-style() lib/addons/p5.dom.js, line 1243, param "value" is defined multiple times
-style() lib/addons/p5.dom.js, line 1243, param "value" is defined multiple times
-style() lib/addons/p5.dom.js, line 1243, param "value" is defined multiple times
-show() lib/addons/p5.dom.js, line 1392, return has invalid type: Object/p5.Element
-hide() lib/addons/p5.dom.js, line 1404, return has invalid type: Object/p5.Element
-size() lib/addons/p5.dom.js, line 1415, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 776, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 804, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 840, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 938, return has invalid type: Object/p5.Element
+drop() src/core/p5.Element.js, line 456, param "callback" is defined multiple times
+addClass() lib/addons/p5.dom.js, line 964, return has invalid type: Object/p5.Element
+removeClass() lib/addons/p5.dom.js, line 991, return has invalid type: Object/p5.Element
+position() lib/addons/p5.dom.js, line 1129, return has invalid type: Object/p5.Element
+translate() lib/addons/p5.dom.js, line 1163, return has invalid type: Object/p5.Element
+rotate() lib/addons/p5.dom.js, line 1205, return has invalid type: Object/p5.Element
+style() lib/addons/p5.dom.js, line 1250, param "value" is defined multiple times
+style() lib/addons/p5.dom.js, line 1250, param "value" is defined multiple times
+style() lib/addons/p5.dom.js, line 1250, param "value" is defined multiple times
+show() lib/addons/p5.dom.js, line 1399, return has invalid type: Object/p5.Element
+hide() lib/addons/p5.dom.js, line 1411, return has invalid type: Object/p5.Element
+size() lib/addons/p5.dom.js, line 1422, return has invalid type: Object/p5.Element
 p5.Graphics() src/core/p5.Graphics.js, line 10, required param "whether" follows an optional param
 p5.Renderer() src/core/p5.Renderer.js, line 10, required param "whether" follows an optional param
 lerp() src/math/p5.Vector.js, line 622, required param "amt" follows an optional param
-play() lib/addons/p5.dom.js, line 1529, return has invalid type: Object/p5.Element
-stop() lib/addons/p5.dom.js, line 1550, return has invalid type: Object/p5.Element
-pause() lib/addons/p5.dom.js, line 1562, return has invalid type: Object/p5.Element
-loop() lib/addons/p5.dom.js, line 1573, return has invalid type: Object/p5.Element
-noLoop() lib/addons/p5.dom.js, line 1584, return has invalid type: Object/p5.Element
-autoplay() lib/addons/p5.dom.js, line 1597, return has invalid type: Object/p5.Element
+play() lib/addons/p5.dom.js, line 1567, return has invalid type: Object/p5.Element
+stop() lib/addons/p5.dom.js, line 1588, return has invalid type: Object/p5.Element
+pause() lib/addons/p5.dom.js, line 1600, return has invalid type: Object/p5.Element
+loop() lib/addons/p5.dom.js, line 1611, return has invalid type: Object/p5.Element
+noLoop() lib/addons/p5.dom.js, line 1622, return has invalid type: Object/p5.Element
+autoplay() lib/addons/p5.dom.js, line 1635, return has invalid type: Object/p5.Element
+onended() lib/addons/p5.dom.js, line 1723, return has invalid type: Object/p5.MediaElement
 p5.SoundFile() lib/addons/p5.sound.js, line 699, param "path" has invalid type: String/Array
-loadSound() lib/addons/p5.sound.js, line 801, param "path" has invalid type: String/Array
-loadSound() lib/addons/p5.sound.js, line 801, param "callback" is defined multiple times
-pan() lib/addons/p5.sound.js, line 1264, required param "timeFromNow" follows an optional param
-fade() lib/addons/p5.sound.js, line 3333, param "secondsFromNow" has invalid type: [Number]
-add() lib/addons/p5.sound.js, line 3357, return has invalid type: p5.SignalAdd
-mult() lib/addons/p5.sound.js, line 3376, return has invalid type: Tone.Multiply
-scale() lib/addons/p5.sound.js, line 3395, return has invalid type: p5.SignalScale
-p5.SinOsc() lib/addons/p5.sound.js, line 3857, "p5.SinOsc" is not a valid JS symbol name
-p5.SinOsc() lib/addons/p5.sound.js, line 3857, param "freq" has invalid type: [Number]
-p5.TriOsc() lib/addons/p5.sound.js, line 3872, "p5.TriOsc" is not a valid JS symbol name
-p5.TriOsc() lib/addons/p5.sound.js, line 3872, param "freq" has invalid type: [Number]
-p5.SawOsc() lib/addons/p5.sound.js, line 3887, "p5.SawOsc" is not a valid JS symbol name
-p5.SawOsc() lib/addons/p5.sound.js, line 3887, param "freq" has invalid type: [Number]
-p5.SqrOsc() lib/addons/p5.sound.js, line 3902, "p5.SqrOsc" is not a valid JS symbol name
-p5.SqrOsc() lib/addons/p5.sound.js, line 3902, param "freq" has invalid type: [Number]
-p5.Filter() lib/addons/p5.sound.js, line 4946, param "type" has invalid type: [String]
-process() lib/addons/p5.sound.js, line 5036, param "freq" has invalid type: [Number]
-process() lib/addons/p5.sound.js, line 5036, param "res" has invalid type: [Number]
-p5.LowPass() lib/addons/p5.sound.js, line 5164, "p5.LowPass" is not a valid JS symbol name
-p5.HighPass() lib/addons/p5.sound.js, line 5176, "p5.HighPass" is not a valid JS symbol name
-p5.BandPass() lib/addons/p5.sound.js, line 5188, "p5.BandPass" is not a valid JS symbol name
-p5.Convolver() lib/addons/p5.sound.js, line 5658, param "callback" has invalid type: [Function]
-createConvolver() lib/addons/p5.sound.js, line 5738, param "callback" has invalid type: [Function]
-addImpulse() lib/addons/p5.sound.js, line 5856, param "callback" has invalid type: [Function]
-resetImpulse() lib/addons/p5.sound.js, line 5873, param "callback" has invalid type: [Function]
-p5.Score() lib/addons/p5.sound.js, line 6463, param "part(s)" is not a valid JS symbol name
+loadSound() lib/addons/p5.sound.js, line 810, param "path" has invalid type: String/Array
+loadSound() lib/addons/p5.sound.js, line 810, param "callback" is defined multiple times
+pan() lib/addons/p5.sound.js, line 1366, required param "timeFromNow" follows an optional param
+fade() lib/addons/p5.sound.js, line 3435, param "secondsFromNow" has invalid type: [Number]
+add() lib/addons/p5.sound.js, line 3459, return has invalid type: p5.SignalAdd
+mult() lib/addons/p5.sound.js, line 3478, return has invalid type: Tone.Multiply
+scale() lib/addons/p5.sound.js, line 3497, return has invalid type: p5.SignalScale
+p5.SinOsc() lib/addons/p5.sound.js, line 3959, "p5.SinOsc" is not a valid JS symbol name
+p5.SinOsc() lib/addons/p5.sound.js, line 3959, param "freq" has invalid type: [Number]
+p5.TriOsc() lib/addons/p5.sound.js, line 3974, "p5.TriOsc" is not a valid JS symbol name
+p5.TriOsc() lib/addons/p5.sound.js, line 3974, param "freq" has invalid type: [Number]
+p5.SawOsc() lib/addons/p5.sound.js, line 3989, "p5.SawOsc" is not a valid JS symbol name
+p5.SawOsc() lib/addons/p5.sound.js, line 3989, param "freq" has invalid type: [Number]
+p5.SqrOsc() lib/addons/p5.sound.js, line 4004, "p5.SqrOsc" is not a valid JS symbol name
+p5.SqrOsc() lib/addons/p5.sound.js, line 4004, param "freq" has invalid type: [Number]
+p5.Filter() lib/addons/p5.sound.js, line 5048, param "type" has invalid type: [String]
+process() lib/addons/p5.sound.js, line 5138, param "freq" has invalid type: [Number]
+process() lib/addons/p5.sound.js, line 5138, param "res" has invalid type: [Number]
+p5.LowPass() lib/addons/p5.sound.js, line 5266, "p5.LowPass" is not a valid JS symbol name
+p5.HighPass() lib/addons/p5.sound.js, line 5278, "p5.HighPass" is not a valid JS symbol name
+p5.BandPass() lib/addons/p5.sound.js, line 5290, "p5.BandPass" is not a valid JS symbol name
+p5.Convolver() lib/addons/p5.sound.js, line 5760, param "callback" has invalid type: [Function]
+createConvolver() lib/addons/p5.sound.js, line 5840, param "callback" has invalid type: [Function]
+addImpulse() lib/addons/p5.sound.js, line 5958, param "callback" has invalid type: [Function]
+resetImpulse() lib/addons/p5.sound.js, line 5975, param "callback" has invalid type: [Function]
+p5.Score() lib/addons/p5.sound.js, line 6565, param "part(s)" is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
 directionalLight() src/3d/light.js, line 68, required param "x" follows an optional param
 pointLight() src/3d/light.js, line 188, required param "x" follows an optional param
@@ -127,7 +128,7 @@ strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Numb
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
 createCanvas() src/core/rendering.js, line 14, param "optional:" is not a valid JS symbol name
-blendMode() src/core/rendering.js, line 195, param "mode" has invalid type: String/Constant
+blendMode() src/core/rendering.js, line 206, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 65, param "kind" has invalid type: Number/Constant
 endShape() src/core/vertex.js, line 395, param "mode" has invalid type: Number/Constant
 saveCanvas() src/image/image.js, line 98, param "canvas" has invalid type: [selectedCanvas]
@@ -142,7 +143,7 @@ saveFrames() src/image/image.js, line 216, return has invalid type: [type]
 updatePixels() src/image/pixels.js, line 511, param "w" is defined multiple times
 save() src/io/files.js, line 967, param "filename" has invalid type: [String]
 save() src/io/files.js, line 967, param "options" has invalid type: [Boolean/String]
-saveTable() src/io/files.js, line 1209, param "options" has invalid type: [String]
+saveTable() src/io/files.js, line 1205, param "options" has invalid type: [String]
 dist() src/math/calculation.js, line 108, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 108, required param "y2" follows an optional param
 angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
@@ -163,10 +164,10 @@ createSelect() lib/addons/p5.dom.js, line 500, return has invalid type: Object/p
 createRadio() lib/addons/p5.dom.js, line 565, return has invalid type: Object/p5.Element
 createInput() lib/addons/p5.dom.js, line 650, return has invalid type: Object/p5.Element
 createFileInput() lib/addons/p5.dom.js, line 679, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 773, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 801, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 837, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 935, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 776, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 804, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 840, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 938, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Type
 MISSING: Number/Constant

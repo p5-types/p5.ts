@@ -25,19 +25,36 @@ declare class p5 {
    *   Draw a sphere with given raduis
    *
    *   @param radius radius of circle
-   *   @param [detail] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24
+   *   @param [detail] number of segments, the more 
+   *   segments the smoother geometry default is 24. 
+   *   Avoid detail number above 150, it may crash the 
+   *   browser.
+   */
+  sphere(radius: number, detail?: number): void;
+
+  /**
+   *   Draw an ellipsoid with given raduis
+   *
+   *   @param radiusx xradius of circle
+   *   @param radiusy yradius of circle
+   *   @param radiusz zradius of circle
+   *   @param [detail] number of segments, the more 
+   *   segments the smoother geometry default is 24. 
+   *   Avoid detail number above 150. It may crash the 
+   *   browser.
    *   @return the p5 object
    */
-  sphere(radius: number, detail?: number): p5;
+  ellipsoid(radiusx: number, radiusy: number, radiusz: number, detail?: number): p5;
 
   /**
    *   Draw a cylinder with given radius and height
    *
    *   @param radius radius of the surface
    *   @param height height of the cylinder
-   *   @param [detail] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24
+   *   @param [detail] number of segments, the more 
+   *   segments the smoother geometry default is 24. 
+   *   Avoid detail number above 150. It may crash the 
+   *   browser.
    *   @return the p5 object
    */
   cylinder(radius: number, height: number, detail?: number): p5;
@@ -47,22 +64,24 @@ declare class p5 {
    *
    *   @param radius radius of the bottom surface
    *   @param height height of the cone
-   *   @param [detail] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24
-   *   @return the p5 object
+   *   @param [detail] number of segments, the more 
+   *   segments the smoother geometry default is 24. 
+   *   Avoid detail number above 150. It may crash the 
+   *   browser.
    */
-  cone(radius: number, height: number, detail?: number): p5;
+  cone(radius: number, height: number, detail?: number): void;
 
   /**
    *   Draw a torus with given radius and tube radius
    *
    *   @param radius radius of the whole ring
    *   @param tubeRadius radius of the tube
-   *   @param [detail] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24
-   *   @return the p5 object
+   *   @param [detail] number of segments, the more 
+   *   segments the smoother geometry default is 24. 
+   *   Avoid detail number above 150. It may crash the 
+   *   browser.
    */
-  torus(radius: number, tubeRadius: number, detail?: number): p5;
+  torus(radius: number, tubeRadius: number, detail?: number): void;
 
   /**
    *   Draw a box with given width, height and depth
@@ -948,7 +967,9 @@ declare class p5 {
    *   frames per second. This is the same as 
    *   setFrameRate(val). Calling frameRate() with no 
    *   arguments returns the current framerate. This is 
-   *   the same as getFrameRate().
+   *   the same as getFrameRate(). Calling frameRate() 
+   *   with arguments that are not of the type numbers or 
+   *   are non positive also returns current framerate.
    *
    *   @param [fps] number of frames to be displayed 
    *   every second
@@ -1091,10 +1112,10 @@ declare class p5 {
   // createCanvas(w: number, h: number, optional:: string): object;
 
   /**
-   *   Resizes the canvas to given width and height. Note 
-   *   that the canvas will be cleared so anything drawn 
-   *   previously in setup or draw will disappear on 
-   *   resize. Setup will not be called again.
+   *   Resizes the canvas to given width and height. The 
+   *   canvas will be cleared and draw will be called 
+   *   immediately, allowing the sketch to re-render 
+   *   itself in the resized canvas.
    *
    */
   resizeCanvas(): void;
@@ -1120,7 +1141,7 @@ declare class p5 {
    */
   createGraphics(w: number, h: number, renderer: string): object;
 
-  // TODO: Fix blendMode() errors in src/core/rendering.js, line 195:
+  // TODO: Fix blendMode() errors in src/core/rendering.js, line 206:
   //
   //   param "mode" has invalid type: String/Constant
   //
@@ -1946,22 +1967,24 @@ declare class p5 {
 
   /**
    *   The function mouseWheel is executed every time a 
-   *   scroll event is detected either triggered by an 
-   *   actual mouse wheel or by a touchpad. The 
-   *   event.delta property returns -1 or +1 depending on 
-   *   the scroll direction and the user's settings. (on 
-   *   OS X with "natural" scrolling enabled, the values 
-   *   are inverted).
+   *   vertical mouse wheel event is detected either 
+   *   triggered by an actual mouse wheel or by a 
+   *   touchpad. The event.delta property returns the 
+   *   amount the mouse wheel have scrolled. The values 
+   *   can be positive or negative depending on the 
+   *   scroll direction (on OS X with "natural" scrolling 
+   *   enabled, the signs are inverted).
    * 
    *  
    *   Browsers may have different default behaviors 
    *   attached to various mouse events. To prevent any 
    *   default behavior for this event, add `return 
-   *   false` to the end of the method. The 
-   *   event.wheelDelta or event.detail properties can 
-   *   also be accessed but their behavior may differ 
-   *   depending on the browser. See  mouse wheel event 
-   *   in JS.
+   *   false` to the end of the method.
+   * 
+   *  
+   *   Due to the current support of the `wheel` event on 
+   *   Safari, the function may only work as expected if 
+   *   `return false` is included while using Safari.
    *
    */
   mouseWheel(): void;
@@ -2624,7 +2647,7 @@ declare class p5 {
    */
   saveStrings(list: any[], filename: string): void;
 
-  // TODO: Fix saveTable() errors in src/io/files.js, line 1209:
+  // TODO: Fix saveTable() errors in src/io/files.js, line 1205:
   //
   //   param "options" has invalid type: [String]
   //
@@ -3801,25 +3824,25 @@ declare class p5 {
   //
   // createFileInput(callback?: Function, multiple?: string): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 773:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 776:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 801:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 804:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 837:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 840:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: string|TYPE|object, callback: Function): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 935:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 938:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -4143,7 +4166,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/core/p5.Element.js, line 444:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 456:
     //
     //   param "callback" is defined multiple times
     //
@@ -4151,13 +4174,13 @@ declare namespace p5 {
 
     // lib/addons/p5.dom.js
 
-    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 961:
+    // TODO: Fix addClass() errors in lib/addons/p5.dom.js, line 964:
     //
     //   return has invalid type: Object/p5.Element
     //
     // addClass(theClass: string): any;
 
-    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 988:
+    // TODO: Fix removeClass() errors in lib/addons/p5.dom.js, line 991:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4166,12 +4189,13 @@ declare namespace p5 {
     /**
      *   Attaches the element as a child to the parent 
      *   specified. Accepts either a string ID, DOM node, 
-     *   or p5.Element
+     *   or p5.Element. If no argument is specified, an 
+     *   array of children DOM nodes is returned.
      *
-     *   @param child the ID, DOM node, or p5.Element to 
+     *   @param [child] the ID, DOM node, or p5.Element to 
      *   add to the current element
      */
-    child(child: string|any): p5.Element;
+    child(child?: string|object|p5.Element): p5.Element;
 
     /**
      *   If an argument is given, sets the inner HTML of 
@@ -4184,25 +4208,25 @@ declare namespace p5 {
      */
     html(html?: string): any|string;
 
-    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 1122:
+    // TODO: Fix position() errors in lib/addons/p5.dom.js, line 1129:
     //
     //   return has invalid type: Object/p5.Element
     //
     // position(x?: number, y?: number): any;
 
-    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 1156:
+    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 1163:
     //
     //   return has invalid type: Object/p5.Element
     //
     // translate(x: number, y: number, z?: number, perspective?: number): any;
 
-    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 1198:
+    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 1205:
     //
     //   return has invalid type: Object/p5.Element
     //
     // rotate(x: number, y?: number, z?: number): any;
 
-    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 1243:
+    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 1250:
     //
     //   param "value" is defined multiple times
     //   param "value" is defined multiple times
@@ -4232,19 +4256,19 @@ declare namespace p5 {
      */
     value(value?: string|number): string|any;
 
-    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1392:
+    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1399:
     //
     //   return has invalid type: Object/p5.Element
     //
     // show(): any;
 
-    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1404:
+    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1411:
     //
     //   return has invalid type: Object/p5.Element
     //
     // hide(): any;
 
-    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1415:
+    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1422:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4332,7 +4356,7 @@ declare namespace p5 {
      */
     height: any;
 
-    // TODO: Property "pixels[]", defined in src/image/p5.Image.js, line 60, is not a valid JS symbol name
+    // TODO: Property "pixels[]", defined in src/image/p5.Image.js, line 94, is not a valid JS symbol name
 
     /**
      *   Loads the pixels data for this image into the 
@@ -4427,18 +4451,12 @@ declare namespace p5 {
 
     /**
      *   Masks part of an image from displaying by loading 
-     *   another image and using it's alpha channel as an 
+     *   another image and using it's blue channel as an 
      *   alpha channel for this image.
      *
-     *   @param srcImage source image TODO: - Accept an 
-     *   array of alpha values. - Use other channels of an 
-     *   image. p5 uses the blue channel (which feels kind 
-     *   of arbitrary). Note: at the moment this method 
-     *   does not match native processings original 
-     *   functionality exactly. 
-     *   http://blogs.adobe.com/webplatform/2013/01/28/blending-features-in-canvas/
+     *   @param srcImage source image
      */
-    mask(srcImage: p5.Image|undefined): void;
+    mask(srcImage: p5.Image): void;
 
     /**
      *   Applies an image filter to a p5.Image
@@ -5178,37 +5196,43 @@ declare namespace p5 {
      */
     constructor(elt: string, pInst?: object);
 
-    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1529:
+    /**
+     *   Path to the media element source.
+     *
+     */
+    src: any;
+
+    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1567:
     //
     //   return has invalid type: Object/p5.Element
     //
     // play(): any;
 
-    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1550:
+    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1588:
     //
     //   return has invalid type: Object/p5.Element
     //
     // stop(): any;
 
-    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1562:
+    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1600:
     //
     //   return has invalid type: Object/p5.Element
     //
     // pause(): any;
 
-    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1573:
+    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1611:
     //
     //   return has invalid type: Object/p5.Element
     //
     // loop(): any;
 
-    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1584:
+    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1622:
     //
     //   return has invalid type: Object/p5.Element
     //
     // noLoop(): any;
 
-    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1597:
+    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1635:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -5240,6 +5264,12 @@ declare namespace p5 {
      *   @return duration
      */
     duration(): number;
+
+    // TODO: Fix onended() errors in lib/addons/p5.dom.js, line 1723:
+    //
+    //   return has invalid type: Object/p5.MediaElement
+    //
+    // onended(callback: Function): any;
 
     /**
      *   Send the audio output of this element to a 
@@ -5359,6 +5389,12 @@ declare namespace p5 {
      *
      */
     size: any;
+
+    /**
+     *   URL string containing image data.
+     *
+     */
+    data: any;
   }
 
   // lib/addons/p5.sound.js
@@ -5370,7 +5406,7 @@ declare namespace p5 {
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 801:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 810:
     //
     //   param "path" has invalid type: String/Array
     //   param "callback" is defined multiple times
@@ -5378,7 +5414,7 @@ declare namespace p5 {
     // loadSound(path: any, callback?: Function, callback?: Function): SoundFile;
 
     /**
-     *   Returns true if the sound file finished loading 
+     *   Returns true when the sound file finishes loading 
      *   successfully.
      *
      */
@@ -5426,14 +5462,19 @@ declare namespace p5 {
     pause(startTime?: number): void;
 
     /**
-     *   Loop the p5.SoundFile. Accepts optional parameters 
-     *   to set the playback rate, playback volume, 
-     *   loopStart, loopEnd.
+     *   Loop the p5.SoundFile - play it over and over 
+     *   again. You can .stop() at any time, or turn off 
+     *   looping with .setLoop(false). The loop method 
+     *   accepts optional parameters to schedule the 
+     *   looping in the future, and to set the playback 
+     *   rate, volume, loopStart, loopEnd.
      *
      *   @param [startTime] (optional) schedule event to 
-     *   occur seconds from now
-     *   @param [rate] (optional) playback rate
-     *   @param [amp] (optional) playback volume
+     *   occur seconds from now. Defaults to 0.
+     *   @param [rate] (optional) playback rate. Defaults 
+     *   to 1.
+     *   @param [amp] (optional) playback volume (max 
+     *   amplitude). Defaults to 1.
      *   @param [cueLoopStart] startTime in seconds
      *   @param [duration] (optional) loop duration in 
      *   seconds
@@ -5481,7 +5522,7 @@ declare namespace p5 {
      */
     setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1264:
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1366:
     //
     //   required param "timeFromNow" follows an optional param
     //
@@ -5891,25 +5932,25 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 3333:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 3435:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 3357:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 3459:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 3376:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 3478:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 3395:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 3497:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -6065,28 +6106,28 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3857:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3959:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3872:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3974:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3887:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3989:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 3902:
+    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 4004:
     //
     //   "p5.SqrOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
@@ -6429,7 +6470,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4946:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 5048:
     //
     //   param "type" has invalid type: [String]
     //
@@ -6442,7 +6483,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 5036:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 5138:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -6515,19 +6556,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 5164:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 5266:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 5176:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 5278:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 5188:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 5290:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -6730,7 +6771,7 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 5658:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 5760:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6743,7 +6784,7 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 5738:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 5840:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6767,13 +6808,13 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5856:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5958:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5873:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5975:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6950,7 +6991,7 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 6463:
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 6565:
     //
     //   param "part(s)" is not a valid JS symbol name
     //
@@ -7087,7 +7128,7 @@ declare namespace p5 {
      *   @param [framesPerPeak] Defaults to 20.
      */
     constructor(freq1?: number, freq2?: number, threshold?: number, framesPerPeak?: number);
-    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 6974
+    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 7076
 
     /**
      *   The update method is run in the draw loop. Accepts 

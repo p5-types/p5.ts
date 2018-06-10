@@ -25,19 +25,36 @@ declare function plane(width: number, height: number): p5;
  *   Draw a sphere with given raduis
  *
  *   @param radius radius of circle
- *   @param [detail] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
+ *   @param [detail] number of segments, the more 
+ *   segments the smoother geometry default is 24. 
+ *   Avoid detail number above 150, it may crash the 
+ *   browser.
+ */
+declare function sphere(radius: number, detail?: number): void;
+
+/**
+ *   Draw an ellipsoid with given raduis
+ *
+ *   @param radiusx xradius of circle
+ *   @param radiusy yradius of circle
+ *   @param radiusz zradius of circle
+ *   @param [detail] number of segments, the more 
+ *   segments the smoother geometry default is 24. 
+ *   Avoid detail number above 150. It may crash the 
+ *   browser.
  *   @return the p5 object
  */
-declare function sphere(radius: number, detail?: number): p5;
+declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, detail?: number): p5;
 
 /**
  *   Draw a cylinder with given radius and height
  *
  *   @param radius radius of the surface
  *   @param height height of the cylinder
- *   @param [detail] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
+ *   @param [detail] number of segments, the more 
+ *   segments the smoother geometry default is 24. 
+ *   Avoid detail number above 150. It may crash the 
+ *   browser.
  *   @return the p5 object
  */
 declare function cylinder(radius: number, height: number, detail?: number): p5;
@@ -47,22 +64,24 @@ declare function cylinder(radius: number, height: number, detail?: number): p5;
  *
  *   @param radius radius of the bottom surface
  *   @param height height of the cone
- *   @param [detail] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @return the p5 object
+ *   @param [detail] number of segments, the more 
+ *   segments the smoother geometry default is 24. 
+ *   Avoid detail number above 150. It may crash the 
+ *   browser.
  */
-declare function cone(radius: number, height: number, detail?: number): p5;
+declare function cone(radius: number, height: number, detail?: number): void;
 
 /**
  *   Draw a torus with given radius and tube radius
  *
  *   @param radius radius of the whole ring
  *   @param tubeRadius radius of the tube
- *   @param [detail] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @return the p5 object
+ *   @param [detail] number of segments, the more 
+ *   segments the smoother geometry default is 24. 
+ *   Avoid detail number above 150. It may crash the 
+ *   browser.
  */
-declare function torus(radius: number, tubeRadius: number, detail?: number): p5;
+declare function torus(radius: number, tubeRadius: number, detail?: number): void;
 
 /**
  *   Draw a box with given width, height and depth
@@ -948,7 +967,9 @@ declare var focused: any;
  *   frames per second. This is the same as 
  *   setFrameRate(val). Calling frameRate() with no 
  *   arguments returns the current framerate. This is 
- *   the same as getFrameRate().
+ *   the same as getFrameRate(). Calling frameRate() 
+ *   with arguments that are not of the type numbers or 
+ *   are non positive also returns current framerate.
  *
  *   @param [fps] number of frames to be displayed 
  *   every second
@@ -1091,10 +1112,10 @@ declare function getURLParams(): object;
 // declare function createCanvas(w: number, h: number, optional:: string): object;
 
 /**
- *   Resizes the canvas to given width and height. Note 
- *   that the canvas will be cleared so anything drawn 
- *   previously in setup or draw will disappear on 
- *   resize. Setup will not be called again.
+ *   Resizes the canvas to given width and height. The 
+ *   canvas will be cleared and draw will be called 
+ *   immediately, allowing the sketch to re-render 
+ *   itself in the resized canvas.
  *
  */
 declare function resizeCanvas(): void;
@@ -1120,7 +1141,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number, renderer: string): object;
 
-// TODO: Fix blendMode() errors in src/core/rendering.js, line 195:
+// TODO: Fix blendMode() errors in src/core/rendering.js, line 206:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -1946,22 +1967,24 @@ declare function mouseClicked(): void;
 
 /**
  *   The function mouseWheel is executed every time a 
- *   scroll event is detected either triggered by an 
- *   actual mouse wheel or by a touchpad. The 
- *   event.delta property returns -1 or +1 depending on 
- *   the scroll direction and the user's settings. (on 
- *   OS X with "natural" scrolling enabled, the values 
- *   are inverted).
+ *   vertical mouse wheel event is detected either 
+ *   triggered by an actual mouse wheel or by a 
+ *   touchpad. The event.delta property returns the 
+ *   amount the mouse wheel have scrolled. The values 
+ *   can be positive or negative depending on the 
+ *   scroll direction (on OS X with "natural" scrolling 
+ *   enabled, the signs are inverted).
  * 
  *  
  *   Browsers may have different default behaviors 
  *   attached to various mouse events. To prevent any 
  *   default behavior for this event, add `return 
- *   false` to the end of the method. The 
- *   event.wheelDelta or event.detail properties can 
- *   also be accessed but their behavior may differ 
- *   depending on the browser. See  mouse wheel event 
- *   in JS.
+ *   false` to the end of the method.
+ * 
+ *  
+ *   Due to the current support of the `wheel` event on 
+ *   Safari, the function may only work as expected if 
+ *   `return false` is included while using Safari.
  *
  */
 declare function mouseWheel(): void;
@@ -2624,7 +2647,7 @@ declare function saveJSON(json: any[]|object, filename: string, optimize?: boole
  */
 declare function saveStrings(list: any[], filename: string): void;
 
-// TODO: Fix saveTable() errors in src/io/files.js, line 1209:
+// TODO: Fix saveTable() errors in src/io/files.js, line 1205:
 //
 //   param "options" has invalid type: [String]
 //
@@ -3801,25 +3824,25 @@ declare function removeElements(): void;
 //
 // declare function createFileInput(callback?: Function, multiple?: string): any;
 
-// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 773:
+// TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 776:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createVideo(src: string|any[], callback?: object): any;
 
-// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 801:
+// TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 804:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createAudio(src: string|any[], callback?: object): any;
 
-// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 837:
+// TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 840:
 //
 //   return has invalid type: Object/p5.Element
 //
 // declare function createCapture(type: string|TYPE|object, callback: Function): any;
 
-// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 935:
+// TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 938:
 //
 //   return has invalid type: Object/p5.Element
 //
