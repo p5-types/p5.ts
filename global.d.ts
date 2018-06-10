@@ -1262,7 +1262,11 @@ declare var mouseIsPressed: any;
 
 /**
  *   The mouseMoved() function is called every time the 
- *   mouse moves and a mouse button is not pressed.
+ *   mouse moves and a mouse button is not pressed. 
+ *   Browsers may have different default behaviors 
+ *   attached to various mouse events. To prevent any 
+ *   default behavior for this event, add `return 
+ *   false` to the end of the method.
  *
  */
 declare function mouseMoved(): void;
@@ -1272,7 +1276,11 @@ declare function mouseMoved(): void;
  *   time the mouse moves and a mouse button is 
  *   pressed. If no mouseDragged() function is defined, 
  *   the touchMoved() function will be called instead 
- *   if it is defined.
+ *   if it is defined. Browsers may have different 
+ *   default behaviors attached to various mouse 
+ *   events. To prevent any default behavior for this 
+ *   event, add `return false` to the end of the 
+ *   method.
  *
  */
 declare function mouseDragged(): void;
@@ -1284,7 +1292,11 @@ declare function mouseDragged(): void;
  *   entry) can be used to determine which button has 
  *   been pressed. If no mousePressed() function is 
  *   defined, the touchStarted() function will be 
- *   called instead if it is defined.
+ *   called instead if it is defined. Browsers may have 
+ *   different default behaviors attached to various 
+ *   mouse events. To prevent any default behavior for 
+ *   this event, add `return false` to the end of the 
+ *   method.
  *
  */
 declare function mousePressed(): void;
@@ -1293,14 +1305,22 @@ declare function mousePressed(): void;
  *   The mouseReleased() function is called every time 
  *   a mouse button is released. If no mouseReleased() 
  *   function is defined, the touchEnded() function 
- *   will be called instead if it is defined.
+ *   will be called instead if it is defined. Browsers 
+ *   may have different default behaviors attached to 
+ *   various mouse events. To prevent any default 
+ *   behavior for this event, add `return false` to the 
+ *   end of the method.
  *
  */
 declare function mouseReleased(): void;
 
 /**
  *   The mouseClicked() function is called once after a 
- *   mouse button has been pressed and then released.
+ *   mouse button has been pressed and then released. 
+ *   Browsers may have different default behaviors 
+ *   attached to various mouse events. To prevent any 
+ *   default behavior for this event, add `return 
+ *   false` to the end of the method.
  *
  */
 declare function mouseClicked(): void;
@@ -1310,8 +1330,12 @@ declare function mouseClicked(): void;
  *   returns negative values if the mouse wheel if 
  *   rotated up or away from the user and positive in 
  *   the other direction. On OS X with "natural" 
- *   scrolling enabled, the values are opposite. See  
- *   mouse wheel event in JS.
+ *   scrolling enabled, the values are opposite. 
+ *   Browsers may have different default behaviors 
+ *   attached to various mouse events. To prevent any 
+ *   default behavior for this event, add `return 
+ *   false` to the end of the method. See  mouse wheel 
+ *   event in JS.
  *
  */
 declare function mouseWheel(): void;
@@ -1433,7 +1457,10 @@ declare var ptouchY: any;
  *   every time a touch is registered. If no 
  *   touchStarted() function is defined, the 
  *   mousePressed() function will be called instead if 
- *   it is defined.
+ *   it is defined. Browsers may have different default 
+ *   behaviors attached to various touch events. To 
+ *   prevent any default behavior for this event, add 
+ *   `return false` to the end of the method.
  *
  */
 declare function touchStarted(): void;
@@ -1442,7 +1469,11 @@ declare function touchStarted(): void;
  *   The touchMoved() function is called every time a 
  *   touch move is registered. If no touchStarted() 
  *   function is defined, the mouseDragged() function 
- *   will be called instead if it is defined.
+ *   will be called instead if it is defined. Browsers 
+ *   may have different default behaviors attached to 
+ *   various touch events. To prevent any default 
+ *   behavior for this event, add `return false` to the 
+ *   end of the method.
  *
  */
 declare function touchMoved(): void;
@@ -1451,7 +1482,11 @@ declare function touchMoved(): void;
  *   The touchEnded() function is called every time a 
  *   touch ends. If no touchStarted() function is 
  *   defined, the mouseReleased() function will be 
- *   called instead if it is defined.
+ *   called instead if it is defined. Browsers may have 
+ *   different default behaviors attached to various 
+ *   touch events. To prevent any default behavior for 
+ *   this event, add `return false` to the end of the 
+ *   method.
  *
  */
 declare function touchEnded(): void;
@@ -1972,9 +2007,13 @@ declare function print(contents: any): void;
 /**
  *   Creates a canvas element in the document, and sets 
  *   the dimensions of it in pixels. This method should 
- *   be called only once at the start of setup.  The 
- *   system variables width and height are set by the 
- *   parameters passed to this function. If 
+ *   be called only once at the start of setup. Calling 
+ *   createCanvas more than once in a sketch will 
+ *   result in very unpredicable behavior. If you want 
+ *   more more than one drawing canvas you could use 
+ *   createGraphics (hidden by default but it can be 
+ *   shown). The system variables width and height are 
+ *   set by the parameters passed to this function. If 
  *   createCanvas() is not used, the window will be 
  *   given a default size of 100x100 pixels.
  *
@@ -2003,7 +2042,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number): object;
 
-// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 195:
+// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 173:
 //
 //   param "mode" has invalid type: String/Constant
 //

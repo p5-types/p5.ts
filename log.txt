@@ -10,7 +10,7 @@ updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 195, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 173, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type
@@ -40,7 +40,6 @@ createAudio() lib/addons/p5.dom.js, line 318, return has invalid type: Object/p5
 createCapture() lib/addons/p5.dom.js, line 354, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 354, return has invalid type: Object/p5.Element
 createElement() lib/addons/p5.dom.js, line 386, return has invalid type: Object/p5.Element
-getNormalizedColor() src/objects/p5.Color.js, line 30, param "args" has invalid type: Array-like
 lerp() src/objects/p5.Vector.js, line 383, required param "amt" follows an optional param
 p5.SoundFile() lib/addons/p5.sound.js, line 425, param "path" has invalid type: String/Array
 loadSound() lib/addons/p5.sound.js, line 504, param "path" has invalid type: String/Array
@@ -89,7 +88,7 @@ updatePixels() src/image/pixels.js, line 391, param "w" is defined multiple time
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
 save() src/output/files.js, line 109, param "filename" has invalid type: [String]
 save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
-blendMode() src/rendering/rendering.js, line 195, param "mode" has invalid type: String/Constant
+blendMode() src/rendering/rendering.js, line 173, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 287, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "y1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 287, param "x2" has invalid type: Type
@@ -130,7 +129,6 @@ MISSING: [Boolean/String]
 MISSING: String/Constant
 MISSING: Type
 MISSING: Object/p5.Element
-MISSING: Array-like
 MISSING: Array/Color
 MISSING: {Array}
 MISSING: {Number}
