@@ -245,7 +245,7 @@ declare class p5 {
    *   colorMode(). The default mode is RGB values from 0 
    *   to 255 and, therefore, the function call 
    *   color(255, 204, 0) will return a bright yellow 
-   *   color. Note that if only one value is provided to 
+   *   color.  Note that if only one value is provided to 
    *   color(), it will be interpreted as a grayscale 
    *   value. Add a second value, and it will be used for 
    *   alpha transparency. When three values are 
@@ -375,9 +375,9 @@ declare class p5 {
    *   colorMode(RGB, 255). Setting colorMode(HSB) lets 
    *   you use the HSB system instead. By default, this 
    *   is colorMode(HSB, 360, 100, 100, 1). You can also 
-   *   use HSL. Note: existing color objects remember the 
-   *   mode that they were created in, so you can change 
-   *   modes as you like without affecting their 
+   *   use HSL.  Note: existing color objects remember 
+   *   the mode that they were created in, so you can 
+   *   change modes as you like without affecting their 
    *   appearance.
    *
    *   @param mode either RGB or HSB, corresponding to 
@@ -401,7 +401,7 @@ declare class p5 {
    *   either specified in terms of the RGB or HSB color 
    *   depending on the current colorMode(). (The default 
    *   color space is RGB, with each value in the range 
-   *   from 0 to 255.) If a single string argument is 
+   *   from 0 to 255).  If a single string argument is 
    *   provided, RGB, RGBA and Hex CSS color strings and 
    *   all named color strings are supported. A p5 Color 
    *   object can also be provided to set the fill color.
@@ -438,7 +438,7 @@ declare class p5 {
    *   around shapes. This color is either specified in 
    *   terms of the RGB or HSB color depending on the 
    *   current colorMode() (the default color space is 
-   *   RGB, with each value in the range from 0 to 255). 
+   *   RGB, with each value in the range from 0 to 255).  
    *   If a single string argument is provided, RGB, RGBA 
    *   and Hex CSS color strings and all named color 
    *   strings are supported. A p5 Color object can also 
@@ -552,14 +552,13 @@ declare class p5 {
    *   the location of the upper-left corner, the third 
    *   sets the width, and the fourth sets the height. 
    *   The way these parameters are interpreted, however, 
-   *   may be changed with the rectMode() function. If 
-   *   provided, the fifth, sixth seventh and eighth 
-   *   parameters, if specified, determine corner radius 
-   *   for the top-right, top-left, lower-right and 
-   *   lower-left corners, respectively. An omitted 
-   *   corner radius parameter is set to the value of the 
-   *   previously specified radius value in the parameter 
-   *   list.
+   *   may be changed with the rectMode() function.  The 
+   *   fifth, sixth, seventh and eighth parameters, if 
+   *   specified, determine corner radius for the 
+   *   top-right, top-left, lower-right and lower-left 
+   *   corners, respectively. An omitted corner radius 
+   *   parameter is set to the value of the previously 
+   *   specified radius value in the parameter list.
    *
    *   @param x x-coordinate of the rectangle.
    *   @param y y-coordinate of the rectangle.
@@ -723,8 +722,8 @@ declare class p5 {
    *   and fonts as the program starts. There can only be 
    *   one setup() function for each program and it 
    *   shouldn't be called again after its initial 
-   *   execution. Note: Variables declared within setup() 
-   *   are not accessible within other functions, 
+   *   execution.  Note: Variables declared within 
+   *   setup() are not accessible within other functions, 
    *   including draw().
    *
    */
@@ -735,20 +734,25 @@ declare class p5 {
    *   continuously executes the lines of code contained 
    *   inside its block until the program is stopped or 
    *   noLoop() is called. draw() is called automatically 
-   *   and should never be called explicitly. It should 
+   *   and should never be called explicitly.  It should 
    *   always be controlled with noLoop(), redraw() and 
    *   loop(). After noLoop() stops the code in draw() 
    *   from executing, redraw() causes the code inside 
    *   draw() to execute once, and loop() will cause the 
    *   code inside draw() to resume executing 
-   *   continuously. The number of times draw() executes 
-   *   in each second may be controlled with the 
-   *   frameRate() function. There can only be one draw() 
-   *   function for each sketch, and draw() must exist if 
-   *   you want the code to run continuously, or to 
-   *   process events such as mousePressed(). Sometimes, 
-   *   you might have an empty call to draw() in your 
-   *   program, as shown in the above example.
+   *   continuously. 
+   * 
+   *  
+   *   The number of times draw() executes in each second 
+   *   may be controlled with the frameRate() function. 
+   * 
+   *  
+   *   There can only be one draw() function for each 
+   *   sketch, and draw() must exist if you want the code 
+   *   to run continuously, or to process events such as 
+   *   mousePressed(). Sometimes, you might have an empty 
+   *   call to draw() in your program, as shown in the 
+   *   above example.
    *
    */
   draw(): void;
@@ -921,9 +925,9 @@ declare class p5 {
    *   function creates a new line of text for each call 
    *   to the function. Individual elements can be 
    *   separated with quotes ("") and joined with the 
-   *   addition operator (+). While print() is similar to 
-   *   console.log(), it does not directly map to it in 
-   *   order to simulate easier to understand behavior 
+   *   addition operator (+).  While print() is similar 
+   *   to console.log(), it does not directly map to it 
+   *   in order to simulate easier to understand behavior 
    *   than console.log(). Due to this, it is slower. For 
    *   fastest results, use console.log().
    *
@@ -965,11 +969,14 @@ declare class p5 {
    *   not be achieved. Setting the frame rate within 
    *   setup() is recommended. The default rate is 60 
    *   frames per second. This is the same as 
-   *   setFrameRate(val). Calling frameRate() with no 
+   *   setFrameRate(val).  Calling frameRate() with no 
    *   arguments returns the current framerate. This is 
-   *   the same as getFrameRate(). Calling frameRate() 
-   *   with arguments that are not of the type numbers or 
-   *   are non positive also returns current framerate.
+   *   the same as getFrameRate(). 
+   * 
+   *  
+   *   Calling frameRate() with arguments that are not of 
+   *   the type numbers or are non positive also returns 
+   *   current framerate.
    *
    *   @param [fps] number of frames to be displayed 
    *   every second
@@ -1141,7 +1148,7 @@ declare class p5 {
    */
   createGraphics(w: number, h: number, renderer: string): object;
 
-  // TODO: Fix blendMode() errors in src/core/rendering.js, line 206:
+  // TODO: Fix blendMode() errors in src/core/rendering.js, line 207:
   //
   //   param "mode" has invalid type: String/Constant
   //
@@ -1164,6 +1171,7 @@ declare class p5 {
    *   happen, and functions like saveFrame() or 
    *   loadPixels() may not be used. 
    * 
+   *  
    *   Note that if the sketch is resized, redraw() will 
    *   be called to update the sketch, even after 
    *   noLoop() has been specified. Otherwise, the sketch 
@@ -1233,14 +1241,16 @@ declare class p5 {
    *   functions allows the program to update the display 
    *   window only when necessary, for example when an 
    *   event registered by mousePressed() or keyPressed() 
-   *   occurs. In structuring a program, it only makes 
+   *   occurs.  In structuring a program, it only makes 
    *   sense to call redraw() within events such as 
    *   mousePressed(). This is because redraw() does not 
    *   run draw() immediately (it only sets a flag that 
-   *   indicates an update is needed). The redraw() 
-   *   function does not work properly when called inside 
-   *   draw(). To enable/disable animations, use loop() 
-   *   and noLoop().
+   *   indicates an update is needed). 
+   * 
+   *  
+   *   The redraw() function does not work properly when 
+   *   called inside draw(). To enable/disable 
+   *   animations, use loop() and noLoop().
    *
    */
   redraw(): void;
@@ -1281,7 +1291,7 @@ declare class p5 {
    *   Rotates a shape the amount specified by the angle 
    *   parameter. This function accounts for angleMode, 
    *   so angles can be entered in either RADIANS or 
-   *   DEGREES. Objects are always rotated around their 
+   *   DEGREES.  Objects are always rotated around their 
    *   relative position to the origin and positive 
    *   numbers rotate objects in a clockwise direction. 
    *   Transformations apply to everything that happens 
@@ -1289,10 +1299,13 @@ declare class p5 {
    *   accumulates the effect. For example, calling 
    *   rotate(HALF_PI) and then rotate(HALF_PI) is the 
    *   same as rotate(PI). All tranformations are reset 
-   *   when draw() begins again. Technically, rotate() 
-   *   multiplies the current transformation matrix by a 
-   *   rotation matrix. This function can be further 
-   *   controlled by the push() and pop().
+   *   when draw() begins again. 
+   * 
+   *  
+   *   Technically, rotate() multiplies the current 
+   *   transformation matrix by a rotation matrix. This 
+   *   function can be further controlled by the push() 
+   *   and pop().
    *
    *   @param angle the angle of rotation, specified in 
    *   radians or degrees, depending on current angleMode
@@ -1307,16 +1320,19 @@ declare class p5 {
    *   system. Scale values are specified as decimal 
    *   percentages. For example, the function call 
    *   scale(2.0) increases the dimension of a shape by 
-   *   200%. Transformations apply to everything that 
+   *   200%.  Transformations apply to everything that 
    *   happens after and subsequent calls to the function 
    *   multiply the effect. For example, calling 
    *   scale(2.0) and then scale(1.5) is the same as 
    *   scale(3.0). If scale() is called within draw(), 
    *   the transformation is reset when the loop begins 
-   *   again. Using this fuction with the z parameter 
-   *   requires using P3D as a parameter for size(), as 
-   *   shown in the third example above. This function 
-   *   can be further controlled with push() and pop().
+   *   again. 
+   * 
+   *  
+   *   Using this fuction with the z parameter requires 
+   *   using P3D as a parameter for size(), as shown in 
+   *   the third example above. This function can be 
+   *   further controlled with push() and pop().
    *
    *   @param s percent to scale the object, or 
    *   percentage to scale the object in the x-axis if 
@@ -1335,17 +1351,20 @@ declare class p5 {
    *   specified in the current angleMode. Objects are 
    *   always sheared around their relative position to 
    *   the origin and positive numbers shear objects in a 
-   *   clockwise direction. Transformations apply to 
+   *   clockwise direction.  Transformations apply to 
    *   everything that happens after and subsequent calls 
    *   to the function accumulates the effect. For 
    *   example, calling shearX(PI/2) and then 
    *   shearX(PI/2) is the same as shearX(PI). If 
    *   shearX() is called within the draw(), the 
    *   transformation is reset when the loop begins 
-   *   again. Technically, shearX() multiplies the 
-   *   current transformation matrix by a rotation 
-   *   matrix. This function can be further controlled by 
-   *   the push() and pop() functions.
+   *   again. 
+   * 
+   *  
+   *   Technically, shearX() multiplies the current 
+   *   transformation matrix by a rotation matrix. This 
+   *   function can be further controlled by the push() 
+   *   and pop() functions.
    *
    *   @param angle angle of shear specified in radians 
    *   or degrees, depending on current angleMode
@@ -1359,17 +1378,20 @@ declare class p5 {
    *   specified in the current angleMode. Objects are 
    *   always sheared around their relative position to 
    *   the origin and positive numbers shear objects in a 
-   *   clockwise direction. Transformations apply to 
+   *   clockwise direction.  Transformations apply to 
    *   everything that happens after and subsequent calls 
    *   to the function accumulates the effect. For 
    *   example, calling shearY(PI/2) and then 
    *   shearY(PI/2) is the same as shearY(PI). If 
    *   shearY() is called within the draw(), the 
    *   transformation is reset when the loop begins 
-   *   again. Technically, shearY() multiplies the 
-   *   current transformation matrix by a rotation 
-   *   matrix. This function can be further controlled by 
-   *   the push() and pop() functions.
+   *   again. 
+   * 
+   *  
+   *   Technically, shearY() multiplies the current 
+   *   transformation matrix by a rotation matrix. This 
+   *   function can be further controlled by the push() 
+   *   and pop() functions.
    *
    *   @param angle angle of shear specified in radians 
    *   or degrees, depending on current angleMode
@@ -1381,7 +1403,7 @@ declare class p5 {
    *   Specifies an amount to displace objects within the 
    *   display window. The x parameter specifies 
    *   left/right translation, the y parameter specifies 
-   *   up/down translation. Transformations are 
+   *   up/down translation.  Transformations are 
    *   cumulative and apply to everything that happens 
    *   after and subsequent calls to the function 
    *   accumulates the effect. For example, calling 
@@ -1432,7 +1454,7 @@ declare class p5 {
    *   Each call to bezierVertex() defines the position 
    *   of two control points and one anchor point of a 
    *   Bezier curve, adding a new segment to a line or 
-   *   shape. The first time bezierVertex() is used 
+   *   shape.  The first time bezierVertex() is used 
    *   within a beginShape() call, it must be prefaced 
    *   with a call to vertex() to set the first anchor 
    *   point. This function must be used between 
@@ -1455,8 +1477,8 @@ declare class p5 {
    *   Specifies vertex coordinates for curves. This 
    *   function may only be used between beginShape() and 
    *   endShape() and only when there is no MODE 
-   *   parameter specified to beginShape(). The first and 
-   *   last points in a series of curveVertex() lines 
+   *   parameter specified to beginShape().  The first 
+   *   and last points in a series of curveVertex() lines 
    *   will be used to guide the beginning and end of a 
    *   the curve. A minimum of four points is required to 
    *   draw a tiny curve between the second and third 
@@ -1493,7 +1515,7 @@ declare class p5 {
    */
   endContour(): object;
 
-  // TODO: Fix endShape() errors in src/core/vertex.js, line 395:
+  // TODO: Fix endShape() errors in src/core/vertex.js, line 399:
   //
   //   param "mode" has invalid type: Number/Constant
   //
@@ -1784,9 +1806,9 @@ declare class p5 {
    *   pressed will be stored in the key variable.  
    *   Because of how operating systems handle key 
    *   repeats, holding down a key will cause multiple 
-   *   calls to keyTyped(), the rate is set by the 
-   *   operating system and how each computer is 
-   *   configured.
+   *   calls to keyTyped() (and keyReleased() as well). 
+   *   The rate of repeat is set by the operating system 
+   *   and how each computer is configured.
    * 
    *  
    *   Browsers may have different default behaviors 
@@ -1798,7 +1820,7 @@ declare class p5 {
   keyTyped(): void;
 
   /**
-   *   The keyIsDown function checks if the key is 
+   *   The keyIsDown() function checks if the key is 
    *   currently down, i.e. pressed. It can be used if 
    *   you have an object that moves, and you want 
    *   several keys to be able to affect its behaviour 
@@ -1905,8 +1927,8 @@ declare class p5 {
    *   mouse moves and a mouse button is not pressed. 
    *   Browsers may have different default behaviors 
    *   attached to various mouse events. To prevent any 
-   *   default behavior for this event, add `return 
-   *   false` to the end of the method.
+   *   default behavior for this event, add "return 
+   *   false" to the end of the method.
    *
    */
   mouseMoved(): void;
@@ -1919,7 +1941,7 @@ declare class p5 {
    *   if it is defined. Browsers may have different 
    *   default behaviors attached to various mouse 
    *   events. To prevent any default behavior for this 
-   *   event, add `return false` to the end of the 
+   *   event, add "return false" to the end of the 
    *   method.
    *
    */
@@ -1935,7 +1957,7 @@ declare class p5 {
    *   called instead if it is defined. Browsers may have 
    *   different default behaviors attached to various 
    *   mouse events. To prevent any default behavior for 
-   *   this event, add `return false` to the end of the 
+   *   this event, add "return false" to the end of the 
    *   method.
    *
    */
@@ -1948,7 +1970,7 @@ declare class p5 {
    *   will be called instead if it is defined. Browsers 
    *   may have different default behaviors attached to 
    *   various mouse events. To prevent any default 
-   *   behavior for this event, add `return false` to the 
+   *   behavior for this event, add "return false" to the 
    *   end of the method.
    *
    */
@@ -1959,14 +1981,14 @@ declare class p5 {
    *   mouse button has been pressed and then released. 
    *   Browsers may have different default behaviors 
    *   attached to various mouse events. To prevent any 
-   *   default behavior for this event, add `return 
-   *   false` to the end of the method.
+   *   default behavior for this event, add "return 
+   *   false" to the end of the method.
    *
    */
   mouseClicked(): void;
 
   /**
-   *   The function mouseWheel is executed every time a 
+   *   The function mouseWheel() is executed every time a 
    *   vertical mouse wheel event is detected either 
    *   triggered by an actual mouse wheel or by a 
    *   touchpad. The event.delta property returns the 
@@ -1978,13 +2000,13 @@ declare class p5 {
    *  
    *   Browsers may have different default behaviors 
    *   attached to various mouse events. To prevent any 
-   *   default behavior for this event, add `return 
-   *   false` to the end of the method.
+   *   default behavior for this event, add "return 
+   *   false" to the end of the method.
    * 
    *  
-   *   Due to the current support of the `wheel` event on 
+   *   Due to the current support of the "wheel" event on 
    *   Safari, the function may only work as expected if 
-   *   `return false` is included while using Safari.
+   *   "return false" is included while using Safari.
    *
    */
   mouseWheel(): void;
@@ -2029,7 +2051,7 @@ declare class p5 {
    */
   ptouchY: any;
 
-  // TODO: Property "touches[]", defined in src/events/touch.js, line 50, is not a valid JS symbol name
+  // TODO: Property "touches[]", defined in src/events/touch.js, line 61, is not a valid JS symbol name
 
   /**
    *   The boolean system variable touchIsDown is true if 
@@ -2046,19 +2068,19 @@ declare class p5 {
    *   it is defined. Browsers may have different default 
    *   behaviors attached to various touch events. To 
    *   prevent any default behavior for this event, add 
-   *   `return false` to the end of the method.
+   *   "return false" to the end of the method.
    *
    */
   touchStarted(): void;
 
   /**
    *   The touchMoved() function is called every time a 
-   *   touch move is registered. If no touchStarted() 
+   *   touch move is registered. If no touchMoved() 
    *   function is defined, the mouseDragged() function 
    *   will be called instead if it is defined. Browsers 
    *   may have different default behaviors attached to 
    *   various touch events. To prevent any default 
-   *   behavior for this event, add `return false` to the 
+   *   behavior for this event, add "return false" to the 
    *   end of the method.
    *
    */
@@ -2066,12 +2088,12 @@ declare class p5 {
 
   /**
    *   The touchEnded() function is called every time a 
-   *   touch ends. If no touchStarted() function is 
+   *   touch ends. If no touchEnded() function is 
    *   defined, the mouseReleased() function will be 
    *   called instead if it is defined. Browsers may have 
    *   different default behaviors attached to various 
    *   touch events. To prevent any default behavior for 
-   *   this event, add `return false` to the end of the 
+   *   this event, add "return false" to the end of the 
    *   method.
    *
    */
@@ -2083,7 +2105,7 @@ declare class p5 {
    *   Creates a new p5.Image (the datatype for storing 
    *   images). This provides a fresh buffer of pixels to 
    *   play with. Set the size of the buffer with the 
-   *   width and height parameters. .pixels gives access 
+   *   width and height parameters.  .pixels gives access 
    *   to an array containing the values for all the 
    *   pixels in the display window. These values are 
    *   numbers. This array is the size (including an 
@@ -2092,11 +2114,14 @@ declare class p5 {
    *   values in order for each pixel, moving from left 
    *   to right across each row, then down each column. 
    *   See .pixels for more info. It may also be simpler 
-   *   to use set() or get().  Before accessing the 
-   *   pixels of an image, the data must loaded with the 
-   *   loadPixels() function. After the array data has 
-   *   been modified, the updatePixels() function must be 
-   *   run to update the changes.
+   *   to use set() or get(). 
+   * 
+   *  
+   *   Before accessing the pixels of an image, the data 
+   *   must loaded with the loadPixels() function. After 
+   *   the array data has been modified, the 
+   *   updatePixels() function must be run to update the 
+   *   changes.
    *
    *   @param width width in pixels
    *   @param height height in pixels
@@ -2104,7 +2129,7 @@ declare class p5 {
    */
   createImage(width: number, height: number): p5.Image;
 
-  // TODO: Fix saveCanvas() errors in src/image/image.js, line 98:
+  // TODO: Fix saveCanvas() errors in src/image/image.js, line 97:
   //
   //   param "canvas" has invalid type: [selectedCanvas]
   //   param "filename" has invalid type: [String]
@@ -2112,7 +2137,7 @@ declare class p5 {
   //
   // saveCanvas(canvas: any, filename: any, extension: any): void;
 
-  // TODO: Fix saveFrames() errors in src/image/image.js, line 216:
+  // TODO: Fix saveFrames() errors in src/image/image.js, line 215:
   //
   //   param "filename" has invalid type: [type]
   //   param "extension" has invalid type: [type]
@@ -2185,16 +2210,18 @@ declare class p5 {
   /**
    *   Sets the fill value for displaying images. Images 
    *   can be tinted to specified colors or made 
-   *   transparent by including an alpha value. To apply 
+   *   transparent by including an alpha value.  To apply 
    *   transparency to an image without affecting its 
    *   color, use white as the tint color and specify an 
    *   alpha value. For instance, tint(255, 128) will 
    *   make an image 50% transparent (assuming the 
    *   default alpha range of 0-255, which can be changed 
-   *   with colorMode()). The value for the gray 
-   *   parameter must be less than or equal to the 
-   *   current maximum value as specified by colorMode(). 
-   *   The default maximum value is 255.
+   *   with colorMode()). 
+   * 
+   *  
+   *   The value for the gray parameter must be less than 
+   *   or equal to the current maximum value as specified 
+   *   by colorMode(). The default maximum value is 255.
    *
    *   @param v1 gray value, red or hue value (depending 
    *   on the current color mode), or color Array
@@ -2222,15 +2249,17 @@ declare class p5 {
    *   interprets the second and third parameters of 
    *   image() as the upper-left corner of the image. If 
    *   two additional parameters are specified, they are 
-   *   used to set the image's width and height. 
+   *   used to set the image's width and height.  
    *   imageMode(CORNERS) interprets the second and third 
    *   parameters of image() as the location of one 
    *   corner, and the fourth and fifth parameters as the 
-   *   opposite corner. imageMode(CENTER) interprets the 
-   *   second and third parameters of image() as the 
-   *   image's center point. If two additional parameters 
-   *   are specified, they are used to set the image's 
-   *   width and height.
+   *   opposite corner. 
+   * 
+   *  
+   *   imageMode(CENTER) interprets the second and third 
+   *   parameters of image() as the image's center point. 
+   *   If two additional parameters are specified, they 
+   *   are used to set the image's width and height.
    *
    *   @param m The mode: either CORNER, CORNERS, or 
    *   CENTER.
@@ -2351,21 +2380,26 @@ declare class p5 {
    *   specifying additional w and h parameters. When 
    *   getting an image, the x and y parameters define 
    *   the coordinates for the upper-left corner of the 
-   *   image, regardless of the current imageMode(). If 
+   *   image, regardless of the current imageMode().  If 
    *   the pixel requested is outside of the image 
    *   window, [0,0,0,255] is returned. To get the 
    *   numbers scaled according to the current color 
    *   ranges and taking into account colorMode, use 
-   *   getColor instead of get. Getting the color of a 
-   *   single pixel with get(x, y) is easy, but not as 
-   *   fast as grabbing the data directly from pixels[]. 
-   *   The equivalent statement to get(x, y) using 
-   *   pixels[] with pixel density d is 
-   *   [pixels[(y*width*d+x)*d], 
+   *   getColor instead of get. 
+   * 
+   *  
+   *   Getting the color of a single pixel with get(x, y) 
+   *   is easy, but not as fast as grabbing the data 
+   *   directly from pixels[]. The equivalent statement 
+   *   to get(x, y) using pixels[] with pixel density d 
+   *   is [pixels[(y*width*d+x)*d], 
    *   pixels[(y*width*d+x)*d+1], 
    *   pixels[(y*width*d+x)*d+2], 
-   *   pixels[(y*width*d+x)*d+3] ]. See the reference for 
-   *   pixels[] for more information.
+   *   pixels[(y*width*d+x)*d+3]]. 
+   * 
+   *  
+   *   See the reference for pixels[] for more 
+   *   information.
    *
    *   @param [x] x-coordinate of the pixel
    *   @param [y] y-coordinate of the pixel
@@ -2418,7 +2452,7 @@ declare class p5 {
    */
   set(x: number, y: number, c: number|any[]|object): void;
 
-  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 511:
+  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 515:
   //
   //   param "w" is defined multiple times
   //
@@ -2466,14 +2500,17 @@ declare class p5 {
    *   array of its individual lines. If the name of the 
    *   file is used as the parameter, as in the above 
    *   example, the file must be located in the sketch 
-   *   directory/folder. Alternatively, the file maybe be 
-   *   loaded from anywhere on the local computer using 
-   *   an absolute path (something that starts with / on 
-   *   Unix and Linux, or a drive letter on Windows), or 
-   *   the filename parameter can be a URL for a file 
-   *   found on a network. This method is asynchronous, 
-   *   meaning it may not finish before the next line in 
-   *   your sketch is executed.
+   *   directory/folder.  Alternatively, the file maybe 
+   *   be loaded from anywhere on the local computer 
+   *   using an absolute path (something that starts with 
+   *   / on Unix and Linux, or a drive letter on 
+   *   Windows), or the filename parameter can be a URL 
+   *   for a file found on a network. 
+   * 
+   *  
+   *   This method is asynchronous, meaning it may not 
+   *   finish before the next line in your sketch is 
+   *   executed.
    *
    *   @param filename name of the file or url to load
    *   @param [callback] function to be executed after 
@@ -2533,18 +2570,23 @@ declare class p5 {
    *   object with its values. If the name of the file is 
    *   used as the parameter, as in the above example, 
    *   the file must be located in the sketch 
-   *   directory/folder. Alternatively, the file maybe be 
-   *   loaded from anywhere on the local computer using 
-   *   an absolute path (something that starts with / on 
-   *   Unix and Linux, or a drive letter on Windows), or 
-   *   the filename parameter can be a URL for a file 
-   *   found on a network. This method is asynchronous, 
-   *   meaning it may not finish before the next line in 
-   *   your sketch is executed. Calling loadXML() inside 
-   *   preload() guarantees to complete the operation 
-   *   before setup() and draw() are called. Outside of 
-   *   preload(), you may supply a callback function to 
-   *   handle the object:
+   *   directory/folder.  Alternatively, the file maybe 
+   *   be loaded from anywhere on the local computer 
+   *   using an absolute path (something that starts with 
+   *   / on Unix and Linux, or a drive letter on 
+   *   Windows), or the filename parameter can be a URL 
+   *   for a file found on a network. 
+   * 
+   *  
+   *   This method is asynchronous, meaning it may not 
+   *   finish before the next line in your sketch is 
+   *   executed. Calling loadXML() inside preload() 
+   *   guarantees to complete the operation before 
+   *   setup() and draw() are called. 
+   * 
+   *  
+   *   Outside of preload(), you may supply a callback 
+   *   function to handle the object:
    *
    *   @param filename name of the file or URL to load
    *   @param [callback] function to be executed after 
@@ -2757,11 +2799,11 @@ declare class p5 {
   mag(a: number, b: number): number;
 
   /**
-   *   Re-maps a number from one range to another. In the 
-   *   first example above, the number 25 is converted 
-   *   from a value in the range of 0 to 100 into a value 
-   *   that ranges from the left edge of the window (0) 
-   *   to the right edge (width).
+   *   Re-maps a number from one range to another.  In 
+   *   the first example above, the number 25 is 
+   *   converted from a value in the range of 0 to 100 
+   *   into a value that ranges from the left edge of the 
+   *   window (0) to the right edge (width).
    *
    *   @param value the incoming value to be converted
    *   @param start1 lower bound of the value's current 
@@ -2938,7 +2980,7 @@ declare class p5 {
    *   output signal and as such define the overall 
    *   intensity of the noise, whereas higher octaves 
    *   create finer grained details in the noise 
-   *   sequence. By default, noise is computed over 4 
+   *   sequence.  By default, noise is computed over 4 
    *   octaves with each octave contributing exactly half 
    *   than its predecessor, starting at 50% strength for 
    *   the 1st octave. This falloff amount can be changed 
@@ -2948,9 +2990,12 @@ declare class p5 {
    *   octave. Any value between 0.0 and 1.0 is valid, 
    *   however note that values greater than 0.5 might 
    *   result in greater than 1.0 values returned by 
-   *   noise().By changing these parameters, the signal 
-   *   created by the noise() function can be adapted to 
-   *   fit very specific needs and characteristics.
+   *   noise(). 
+   * 
+   *  
+   *   By changing these parameters, the signal created 
+   *   by the noise() function can be adapted to fit very 
+   *   specific needs and characteristics.
    *
    *   @param lod number of octaves to be used by the 
    *   noise
@@ -3003,11 +3048,17 @@ declare class p5 {
    *   might return. Rather, there is just a very low 
    *   probability that values far from the mean will be 
    *   returned; and a higher probability that numbers 
-   *   near the mean will be returned. Takes either 0, 1 
-   *   or 2 arguments. If no args, returns a mean of 0 
-   *   and standard deviation of 1 If one arg, that arg 
-   *   is the mean (standard deviation is 1) If two args, 
-   *   first is mean, second is standard deviation
+   *   near the mean will be returned.  Takes either 0, 1 
+   *   or 2 arguments.
+   *  
+   *   If no args, returns a mean of 0 and standard 
+   *   deviation of 1.
+   *  
+   *   If one arg, that arg is the mean (standard 
+   *   deviation is 1).
+   *  
+   *   If two args, first is mean, second is standard 
+   *   deviation.
    *
    *   @param mean the mean
    *   @param sd the standard deviation
@@ -3059,7 +3110,7 @@ declare class p5 {
    *   the positive x-axis. Values are returned as a 
    *   float in the range from PI to -PI. The atan2() 
    *   function is most often used for orienting geometry 
-   *   to the position of the cursor. Note: The 
+   *   to the position of the cursor.  Note: The 
    *   y-coordinate of the point is the first parameter, 
    *   and the x-coordinate is the second parameter, due 
    *   the the structure of calculating the tangent.
@@ -3126,7 +3177,7 @@ declare class p5 {
    */
   radians(degrees: number): number;
 
-  // TODO: Fix angleMode() errors in src/math/trigonometry.js, line 304:
+  // TODO: Fix angleMode() errors in src/math/trigonometry.js, line 306:
   //
   //   param "mode" has invalid type: Number/Constant
   //
@@ -3187,16 +3238,19 @@ declare class p5 {
    *   with textSize(). Change the color of the text with 
    *   the fill() function. Change the outline of the 
    *   text with the stroke() and strokeWeight() 
-   *   functions. The text displays in relation to the 
+   *   functions.  The text displays in relation to the 
    *   textAlign() function, which gives the option to 
    *   draw to the left, right, and center of the 
-   *   coordinates. The x2 and y2 parameters define a 
-   *   rectangular area to display within and may only be 
-   *   used with string data. When these parameters are 
-   *   specified, they are interpreted based on the 
-   *   current rectMode() setting. Text that does not fit 
-   *   completely within the rectangle specified will not 
-   *   be drawn to the screen.
+   *   coordinates. 
+   * 
+   *  
+   *   The x2 and y2 parameters define a rectangular area 
+   *   to display within and may only be used with string 
+   *   data. When these parameters are specified, they 
+   *   are interpreted based on the current rectMode() 
+   *   setting. Text that does not fit completely within 
+   *   the rectangle specified will not be drawn to the 
+   *   screen.
    *
    *   @param str the alphanumeric symbols to be 
    *   displayed
@@ -3267,9 +3321,7 @@ declare class p5 {
 
   /**
    *   Randomizes the order of the elements of an array. 
-   *   Implements Fisher-Yates Shuffle Algorithm 
-   *   http://Bost.Ocks.org/mike/shuffle/ 
-   *   http://en.Wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+   *   Implements  Fisher-Yates Shuffle Algorithm.
    *
    *   @param array Array to shuffle
    *   @param [bool] modify passed array
@@ -3474,17 +3526,19 @@ declare class p5 {
    *   in the regular expression, but the sequence 
    *   matches, an array of length 1 (with the matched 
    *   text as the first element of the array) will be 
-   *   returned. To use the function, first check to see 
+   *   returned.  To use the function, first check to see 
    *   if the result is null. If the result is null, then 
    *   the sequence did not match at all. If the sequence 
-   *   did match, an array is returned. If there are 
-   *   groups (specified by sets of parentheses) in the 
-   *   regular expression, then the contents of each will 
-   *   be returned in the array. Element [0] of a regular 
-   *   expression match returns the entire matching 
-   *   string, and the match groups start at element [1] 
-   *   (the first group is [1], the second [2], and so 
-   *   on).
+   *   did match, an array is returned. 
+   * 
+   *  
+   *   If there are groups (specified by sets of 
+   *   parentheses) in the regular expression, then the 
+   *   contents of each will be returned in the array. 
+   *   Element [0] of a regular expression match returns 
+   *   the entire matching string, and the match groups 
+   *   start at element [1] (the first group is [1], the 
+   *   second [2], and so on).
    *
    *   @param str the String to be searched
    *   @param regexp the regexp to be used for matching
@@ -3501,18 +3555,21 @@ declare class p5 {
    *   returned. If no groups are specified in the 
    *   regular expression, but the sequence matches, a 
    *   two dimensional array is still returned, but the 
-   *   second dimension is only of length one. To use the 
-   *   function, first check to see if the result is 
+   *   second dimension is only of length one.  To use 
+   *   the function, first check to see if the result is 
    *   null. If the result is null, then the sequence did 
    *   not match at all. If the sequence did match, a 2D 
-   *   array is returned. If there are groups (specified 
-   *   by sets of parentheses) in the regular expression, 
-   *   then the contents of each will be returned in the 
-   *   array. Assuming a loop with counter variable i, 
-   *   element [i][0] of a regular expression match 
-   *   returns the entire matching string, and the match 
-   *   groups start at element [i][1] (the first group is 
-   *   [i][1], the second [i][2], and so on).
+   *   array is returned. 
+   * 
+   *  
+   *   If there are groups (specified by sets of 
+   *   parentheses) in the regular expression, then the 
+   *   contents of each will be returned in the array. 
+   *   Assuming a loop with counter variable i, element 
+   *   [i][0] of a regular expression match returns the 
+   *   entire matching string, and the match groups start 
+   *   at element [i][1] (the first group is [i][1], the 
+   *   second [i][2], and so on).
    *
    *   @param str the String to be searched
    *   @param regexp the regexp to be used for matching
@@ -3609,7 +3666,7 @@ declare class p5 {
    *   The splitTokens() function splits a String at one 
    *   or many character delimiters or "tokens." The 
    *   delim parameter specifies the character or 
-   *   characters to be used as a boundary. If no delim 
+   *   characters to be used as a boundary.  If no delim 
    *   characters are specified, any whitespace character 
    *   is used to split. Whitespace characters include 
    *   tab (\t), line feed (\n), carriage return (\r), 
@@ -4256,19 +4313,19 @@ declare namespace p5 {
      */
     value(value?: string|number): string|any;
 
-    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1399:
+    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1381:
     //
     //   return has invalid type: Object/p5.Element
     //
     // show(): any;
 
-    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1411:
+    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1393:
     //
     //   return has invalid type: Object/p5.Element
     //
     // hide(): any;
 
-    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1422:
+    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1404:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -4303,42 +4360,29 @@ declare namespace p5 {
 
   }
 
-  // src/core/p5.Renderer2D.js
-
-  class Renderer2D extends p5.Renderer {
-    /**
-     *   2D graphics renderer class. Can also be used as an 
-     *   off-screen graphics buffer. A p5.Renderer2D object 
-     *   can be constructed with the createRenderer2D() 
-     *   function. The fields and methods for this class 
-     *   are extensive, but mirror the normal drawing API 
-     *   for p5.
-     *
-     *   @param elt DOM node that is wrapped
-     *   @param [pInst] pointer to p5 instance
-     */
-    constructor(elt: string, pInst?: object);
-  }
-
   // src/image/p5.Image.js
 
   class Image {
     /**
      *   Creates a new p5.Image. A p5.Image is a canvas 
-     *   backed representation of an image. p5 can display 
+     *   backed representation of an image.  p5 can display 
      *   .gif, .jpg and .png images. Images may be 
      *   displayed in 2D and 3D space. Before an image is 
      *   used, it must be loaded with the loadImage() 
      *   function. The p5.Image class contains fields for 
      *   the width and height of the image, as well as an 
      *   array called pixels[] that contains the values for 
-     *   every pixel in the image. The methods described 
-     *   below allow easy access to the image's pixels and 
-     *   alpha channel and simplify the process of 
-     *   compositing. Before using the pixels[] array, be 
-     *   sure to use the loadPixels() method on the image 
-     *   to make sure that the pixel data is properly 
-     *   loaded.
+     *   every pixel in the image. 
+     * 
+     *  
+     *   The methods described below allow easy access to 
+     *   the image's pixels and alpha channel and simplify 
+     *   the process of compositing. 
+     * 
+     *  
+     *   Before using the pixels[] array, be sure to use 
+     *   the loadPixels() method on the image to make sure 
+     *   that the pixel data is properly loaded.
      *
      *   @param pInst An instance of a p5 sketch.
      */
@@ -4356,7 +4400,7 @@ declare namespace p5 {
      */
     height: any;
 
-    // TODO: Property "pixels[]", defined in src/image/p5.Image.js, line 94, is not a valid JS symbol name
+    // TODO: Property "pixels[]", defined in src/image/p5.Image.js, line 97, is not a valid JS symbol name
 
     /**
      *   Loads the pixels data for this image into the 
@@ -4861,10 +4905,10 @@ declare namespace p5 {
      *   vector, specifically a Euclidean (also known as 
      *   geometric) vector. A vector is an entity that has 
      *   both magnitude and direction. The datatype, 
-     *   however, stores the components of the vector (x,y 
-     *   for 2D, and x,y,z for 3D). The magnitude and 
+     *   however, stores the components of the vector (x, y 
+     *   for 2D, and x, y, z for 3D). The magnitude and 
      *   direction can be accessed via the methods mag() 
-     *   and heading(). In many of the p5.js examples, you 
+     *   and heading().  In many of the p5.js examples, you 
      *   will see p5.Vector used to describe a position, 
      *   velocity, or acceleration. For example, if you 
      *   consider a rectangle moving across the screen, at 
@@ -4874,8 +4918,11 @@ declare namespace p5 {
      *   changes per time unit, expressed as a vector), and 
      *   acceleration (the rate at which the object's 
      *   velocity changes per time unit, expressed as a 
-     *   vector). Since vectors represent groupings of 
-     *   values, we cannot simply use traditional 
+     *   vector). 
+     * 
+     *  
+     *   Since vectors represent groupings of values, we 
+     *   cannot simply use traditional 
      *   addition/multiplication/etc. Instead, we'll need 
      *   to do some "vector" math, which is made easy by 
      *   the methods inside the p5.Vector class.
@@ -5085,7 +5132,7 @@ declare namespace p5 {
      */
     rotate(angle: number): p5.Vector;
 
-    // TODO: Fix lerp() errors in src/math/p5.Vector.js, line 622:
+    // TODO: Fix lerp() errors in src/math/p5.Vector.js, line 624:
     //
     //   required param "amt" follows an optional param
     //
@@ -5202,37 +5249,37 @@ declare namespace p5 {
      */
     src: any;
 
-    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1567:
+    // TODO: Fix play() errors in lib/addons/p5.dom.js, line 1549:
     //
     //   return has invalid type: Object/p5.Element
     //
     // play(): any;
 
-    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1588:
+    // TODO: Fix stop() errors in lib/addons/p5.dom.js, line 1570:
     //
     //   return has invalid type: Object/p5.Element
     //
     // stop(): any;
 
-    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1600:
+    // TODO: Fix pause() errors in lib/addons/p5.dom.js, line 1582:
     //
     //   return has invalid type: Object/p5.Element
     //
     // pause(): any;
 
-    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1611:
+    // TODO: Fix loop() errors in lib/addons/p5.dom.js, line 1593:
     //
     //   return has invalid type: Object/p5.Element
     //
     // loop(): any;
 
-    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1622:
+    // TODO: Fix noLoop() errors in lib/addons/p5.dom.js, line 1604:
     //
     //   return has invalid type: Object/p5.Element
     //
     // noLoop(): any;
 
-    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1635:
+    // TODO: Fix autoplay() errors in lib/addons/p5.dom.js, line 1617:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -5265,7 +5312,7 @@ declare namespace p5 {
      */
     duration(): number;
 
-    // TODO: Fix onended() errors in lib/addons/p5.dom.js, line 1723:
+    // TODO: Fix onended() errors in lib/addons/p5.dom.js, line 1705:
     //
     //   return has invalid type: Object/p5.MediaElement
     //

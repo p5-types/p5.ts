@@ -19,25 +19,25 @@ strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Numb
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
 createCanvas() src/core/rendering.js, line 14, param "optional:" is not a valid JS symbol name
-blendMode() src/core/rendering.js, line 206, param "mode" has invalid type: String/Constant
+blendMode() src/core/rendering.js, line 207, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 65, param "kind" has invalid type: Number/Constant
-endShape() src/core/vertex.js, line 395, param "mode" has invalid type: Number/Constant
-saveCanvas() src/image/image.js, line 98, param "canvas" has invalid type: [selectedCanvas]
-saveCanvas() src/image/image.js, line 98, param "filename" has invalid type: [String]
-saveCanvas() src/image/image.js, line 98, param "extension" has invalid type: [String]
-saveFrames() src/image/image.js, line 216, param "filename" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "extension" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "_duration" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "_fps" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "callback" has invalid type: [Function]
-saveFrames() src/image/image.js, line 216, return has invalid type: [type]
-updatePixels() src/image/pixels.js, line 511, param "w" is defined multiple times
+endShape() src/core/vertex.js, line 399, param "mode" has invalid type: Number/Constant
+saveCanvas() src/image/image.js, line 97, param "canvas" has invalid type: [selectedCanvas]
+saveCanvas() src/image/image.js, line 97, param "filename" has invalid type: [String]
+saveCanvas() src/image/image.js, line 97, param "extension" has invalid type: [String]
+saveFrames() src/image/image.js, line 215, param "filename" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "extension" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "_duration" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "_fps" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "callback" has invalid type: [Function]
+saveFrames() src/image/image.js, line 215, return has invalid type: [type]
+updatePixels() src/image/pixels.js, line 515, param "w" is defined multiple times
 save() src/io/files.js, line 967, param "filename" has invalid type: [String]
 save() src/io/files.js, line 967, param "options" has invalid type: [Boolean/String]
 saveTable() src/io/files.js, line 1205, param "options" has invalid type: [String]
 dist() src/math/calculation.js, line 108, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 108, required param "y2" follows an optional param
-angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
+angleMode() src/math/trigonometry.js, line 306, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "horizAlign" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "vertAlign" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 93, param "theStyle" has invalid type: Number/Constant
@@ -68,19 +68,19 @@ rotate() lib/addons/p5.dom.js, line 1205, return has invalid type: Object/p5.Ele
 style() lib/addons/p5.dom.js, line 1250, param "value" is defined multiple times
 style() lib/addons/p5.dom.js, line 1250, param "value" is defined multiple times
 style() lib/addons/p5.dom.js, line 1250, param "value" is defined multiple times
-show() lib/addons/p5.dom.js, line 1399, return has invalid type: Object/p5.Element
-hide() lib/addons/p5.dom.js, line 1411, return has invalid type: Object/p5.Element
-size() lib/addons/p5.dom.js, line 1422, return has invalid type: Object/p5.Element
+show() lib/addons/p5.dom.js, line 1381, return has invalid type: Object/p5.Element
+hide() lib/addons/p5.dom.js, line 1393, return has invalid type: Object/p5.Element
+size() lib/addons/p5.dom.js, line 1404, return has invalid type: Object/p5.Element
 p5.Graphics() src/core/p5.Graphics.js, line 10, required param "whether" follows an optional param
 p5.Renderer() src/core/p5.Renderer.js, line 10, required param "whether" follows an optional param
-lerp() src/math/p5.Vector.js, line 622, required param "amt" follows an optional param
-play() lib/addons/p5.dom.js, line 1567, return has invalid type: Object/p5.Element
-stop() lib/addons/p5.dom.js, line 1588, return has invalid type: Object/p5.Element
-pause() lib/addons/p5.dom.js, line 1600, return has invalid type: Object/p5.Element
-loop() lib/addons/p5.dom.js, line 1611, return has invalid type: Object/p5.Element
-noLoop() lib/addons/p5.dom.js, line 1622, return has invalid type: Object/p5.Element
-autoplay() lib/addons/p5.dom.js, line 1635, return has invalid type: Object/p5.Element
-onended() lib/addons/p5.dom.js, line 1723, return has invalid type: Object/p5.MediaElement
+lerp() src/math/p5.Vector.js, line 624, required param "amt" follows an optional param
+play() lib/addons/p5.dom.js, line 1549, return has invalid type: Object/p5.Element
+stop() lib/addons/p5.dom.js, line 1570, return has invalid type: Object/p5.Element
+pause() lib/addons/p5.dom.js, line 1582, return has invalid type: Object/p5.Element
+loop() lib/addons/p5.dom.js, line 1593, return has invalid type: Object/p5.Element
+noLoop() lib/addons/p5.dom.js, line 1604, return has invalid type: Object/p5.Element
+autoplay() lib/addons/p5.dom.js, line 1617, return has invalid type: Object/p5.Element
+onended() lib/addons/p5.dom.js, line 1705, return has invalid type: Object/p5.MediaElement
 p5.SoundFile() lib/addons/p5.sound.js, line 699, param "path" has invalid type: String/Array
 loadSound() lib/addons/p5.sound.js, line 810, param "path" has invalid type: String/Array
 loadSound() lib/addons/p5.sound.js, line 810, param "callback" is defined multiple times
@@ -128,25 +128,25 @@ strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Numb
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
 createCanvas() src/core/rendering.js, line 14, param "optional:" is not a valid JS symbol name
-blendMode() src/core/rendering.js, line 206, param "mode" has invalid type: String/Constant
+blendMode() src/core/rendering.js, line 207, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 65, param "kind" has invalid type: Number/Constant
-endShape() src/core/vertex.js, line 395, param "mode" has invalid type: Number/Constant
-saveCanvas() src/image/image.js, line 98, param "canvas" has invalid type: [selectedCanvas]
-saveCanvas() src/image/image.js, line 98, param "filename" has invalid type: [String]
-saveCanvas() src/image/image.js, line 98, param "extension" has invalid type: [String]
-saveFrames() src/image/image.js, line 216, param "filename" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "extension" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "_duration" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "_fps" has invalid type: [type]
-saveFrames() src/image/image.js, line 216, param "callback" has invalid type: [Function]
-saveFrames() src/image/image.js, line 216, return has invalid type: [type]
-updatePixels() src/image/pixels.js, line 511, param "w" is defined multiple times
+endShape() src/core/vertex.js, line 399, param "mode" has invalid type: Number/Constant
+saveCanvas() src/image/image.js, line 97, param "canvas" has invalid type: [selectedCanvas]
+saveCanvas() src/image/image.js, line 97, param "filename" has invalid type: [String]
+saveCanvas() src/image/image.js, line 97, param "extension" has invalid type: [String]
+saveFrames() src/image/image.js, line 215, param "filename" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "extension" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "_duration" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "_fps" has invalid type: [type]
+saveFrames() src/image/image.js, line 215, param "callback" has invalid type: [Function]
+saveFrames() src/image/image.js, line 215, return has invalid type: [type]
+updatePixels() src/image/pixels.js, line 515, param "w" is defined multiple times
 save() src/io/files.js, line 967, param "filename" has invalid type: [String]
 save() src/io/files.js, line 967, param "options" has invalid type: [Boolean/String]
 saveTable() src/io/files.js, line 1205, param "options" has invalid type: [String]
 dist() src/math/calculation.js, line 108, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 108, required param "y2" follows an optional param
-angleMode() src/math/trigonometry.js, line 304, param "mode" has invalid type: Number/Constant
+angleMode() src/math/trigonometry.js, line 306, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "horizAlign" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 13, param "vertAlign" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 93, param "theStyle" has invalid type: Number/Constant
