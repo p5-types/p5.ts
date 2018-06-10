@@ -33,15 +33,15 @@ declare class p5 {
   sphere(radius: number, detail?: number): void;
 
   /**
-   *   Draw an ellipsoid with given raduis
+   *   Draw an ellipsoid with given radius
    *
    *   @param radiusx xradius of circle
    *   @param radiusy yradius of circle
    *   @param radiusz zradius of circle
-   *   @param [detail] number of segments, the more 
-   *   segments the smoother geometry default is 24. 
-   *   Avoid detail number above 150. It may crash the 
-   *   browser.
+   *   @param [detail] Number of segments. The more 
+   *   segments, the smoother the geometry (default is 
+   *   24). Avoid detail number above 150. It may crash 
+   *   the browser.
    *   @return the p5 object
    */
   ellipsoid(radiusx: number, radiusy: number, radiusz: number, detail?: number): p5;
@@ -292,7 +292,7 @@ declare class p5 {
    */
   hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 315:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 323:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
@@ -532,18 +532,26 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 310:
-  //
-  //   param "x1" has invalid type: Type
-  //   param "y1" has invalid type: Type
-  //   param "x2" has invalid type: Type
-  //   param "y2" has invalid type: Type
-  //   param "x3" has invalid type: Type
-  //   param "y3" has invalid type: Type
-  //   param "x4" has invalid type: Type
-  //   param "y4" has invalid type: Type
-  //
-  // quad(x1: any, y1: any, x2: any, y2: any, x3: any, y3: any, x4: any, y4: any): p5;
+  /**
+   *   Draw a quad. A quad is a quadrilateral, a four 
+   *   sided polygon. It is similar to a rectangle, but 
+   *   the angles between its edges are not constrained 
+   *   to ninety degrees. The first pair of parameters 
+   *   (x1,y1) sets the first vertex and the subsequent 
+   *   pairs should proceed clockwise or 
+   *   counter-clockwise around the defined shape.
+   *
+   *   @param x1 the x-coordinate of the first point
+   *   @param y1 the y-coordinate of the first point
+   *   @param x2 the x-coordinate of the second point
+   *   @param y2 the y-coordinate of the second point
+   *   @param x3 the x-coordinate of the third point
+   *   @param y3 the y-coordinate of the third point
+   *   @param x4 the x-coordinate of the fourth point
+   *   @param y4 the y-coordinate of the fourth point
+   *   @return the p5 object
+   */
+  quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
 
   /**
    *   Draws a rectangle to the screen. A rectangle is a 
@@ -905,7 +913,7 @@ declare class p5 {
    *   Evaluates the tangent to the curve at position t 
    *   for points a, b, c, d. The parameter t varies 
    *   between 0 and 1, a and d are points on the curve, 
-   *   and b and c are the control points
+   *   and b and c are the control points.
    *
    *   @param a coordinate of first point on the curve
    *   @param b coordinate of first control point
@@ -1062,11 +1070,11 @@ declare class p5 {
    *   input, for example, on mouse press like the 
    *   example below.
    *
-   *   @param [val] whether the sketch should be 
-   *   fullscreened or not
+   *   @param [val] whether the sketch should be in 
+   *   fullscreen mode or not
    *   @return current fullscreen state
    */
-  fullScreen(val?: boolean): boolean;
+  fullscreen(val?: boolean): boolean;
 
   /**
    *   Sets the pixel scaling for high pixel density 
@@ -1112,11 +1120,25 @@ declare class p5 {
 
   // src/core/rendering.js
 
-  // TODO: Fix createCanvas() errors in src/core/rendering.js, line 14:
-  //
-  //   param "optional:" is not a valid JS symbol name
-  //
-  // createCanvas(w: number, h: number, optional:: string): object;
+  /**
+   *   Creates a canvas element in the document, and sets 
+   *   the dimensions of it in pixels. This method should 
+   *   be called only once at the start of setup. Calling 
+   *   createCanvas more than once in a sketch will 
+   *   result in very unpredicable behavior. If you want 
+   *   more than one drawing canvas you could use 
+   *   createGraphics (hidden by default but it can be 
+   *   shown).  The system variables width and height are 
+   *   set by the parameters passed to this function. If 
+   *   createCanvas() is not used, the window will be 
+   *   given a default size of 100x100 pixels.
+   *
+   *   @param w width of the canvas
+   *   @param h height of the canvas
+   *   @param [renderer] 'p2d' | 'webgl'
+   *   @return canvas generated
+   */
+  createCanvas(w: number, h: number, renderer?: string): object;
 
   /**
    *   Resizes the canvas to given width and height. The 
@@ -1620,7 +1642,10 @@ declare class p5 {
   /**
    *   The system variable rotationX always contains the 
    *   rotation of the device along the x axis. Value is 
-   *   represented as 0 to +/-180 degrees.
+   *   represented as 0 to +/-180 degrees.  Note: The 
+   *   order the rotations are called is important, ie. 
+   *   if used together, it must be called in the order 
+   *   Z-X-Y or there might be unexpected behaviour.
    *
    */
   rotationX: any;
@@ -1628,7 +1653,10 @@ declare class p5 {
   /**
    *   The system variable rotationY always contains the 
    *   rotation of the device along the y axis. Value is 
-   *   represented as 0 to +/-180 degrees.
+   *   represented as 0 to +/-90 degrees.  Note: The 
+   *   order the rotations are called is important, ie. 
+   *   if used together, it must be called in the order 
+   *   Z-X-Y or there might be unexpected behaviour.
    *
    */
   rotationY: any;
@@ -1638,7 +1666,13 @@ declare class p5 {
    *   rotation of the device along the z axis. Value is 
    *   represented as 0 to 359 degrees.  Unlike rotationX 
    *   and rotationY, this variable is available for 
-   *   devices with a built-in compass only.
+   *   devices with a built-in compass only. 
+   * 
+   *  
+   *   Note: The order the rotations are called is 
+   *   important, ie. if used together, it must be called 
+   *   in the order Z-X-Y or there might be unexpected 
+   *   behaviour.
    *
    */
   rotationZ: any;
@@ -1658,8 +1692,8 @@ declare class p5 {
    *   The system variable pRotationY always contains the 
    *   rotation of the device along the y axis in the 
    *   frame previous to the current frame. Value is 
-   *   represented as 0 to +/-180 degrees.  pRotationY 
-   *   can also be used with rotationY to determine the 
+   *   represented as 0 to +/-90 degrees.  pRotationY can 
+   *   also be used with rotationY to determine the 
    *   rotate direction of the device along the Y-axis.
    *
    */
@@ -2137,16 +2171,28 @@ declare class p5 {
   //
   // saveCanvas(canvas: any, filename: any, extension: any): void;
 
-  // TODO: Fix saveFrames() errors in src/image/image.js, line 215:
-  //
-  //   param "filename" has invalid type: [type]
-  //   param "extension" has invalid type: [type]
-  //   param "_duration" has invalid type: [type]
-  //   param "_fps" has invalid type: [type]
-  //   param "callback" has invalid type: [Function]
-  //   return has invalid type: [type]
-  //
-  // saveFrames(filename: any, extension: any, _duration: any, _fps: any, callback: any): any;
+  /**
+   *   Capture a sequence of frames that can be used to 
+   *   create a movie. Accepts a callback. For example, 
+   *   you may wish to send the frames to a server where 
+   *   they can be stored or converted into a movie. If 
+   *   no callback is provided, the browser will attempt 
+   *   to download all of the images that have just been 
+   *   created.
+   *
+   *   @param extension 'jpg' or 'png'
+   *   @param duration Duration in seconds to save the 
+   *   frames for.
+   *   @param framerate Framerate to save the frames in.
+   *   @param [callback] A callback function that will be 
+   *   executed to handle the image data. This function 
+   *   should accept an array as argument. The array will 
+   *   contain the spcecified number of frames of 
+   *   objects. Each object have three properties: 
+   *   imageData - an image/octet-stream, filename and 
+   *   extension.
+   */
+  saveFrames(filename: string, extension: string, duration: number, framerate: number, callback?: Function): void;
 
   // src/image/loading_displaying.js
 
@@ -2689,11 +2735,21 @@ declare class p5 {
    */
   saveStrings(list: any[], filename: string): void;
 
-  // TODO: Fix saveTable() errors in src/io/files.js, line 1205:
-  //
-  //   param "options" has invalid type: [String]
-  //
-  // saveTable(Table: p5.Table, filename: string, options: any): void;
+  /**
+   *   Writes the contents of a Table object to a file. 
+   *   Defaults to a text file with 
+   *   comma-separated-values ('csv') but can also use 
+   *   tab separation ('tsv'), or generate an HTML table 
+   *   ('html'). The file saving process and location of 
+   *   the saved file will vary between web browsers.
+   *
+   *   @param Table the Table object to save to a file
+   *   @param filename the filename to which the Table 
+   *   should be saved
+   *   @param [options] can be one of "tsv", "csv", or 
+   *   "html"
+   */
+  saveTable(Table: p5.Table, filename: string, options?: string): void;
 
   // src/math/calculation.js
 
@@ -3288,9 +3344,8 @@ declare class p5 {
   // TODO: Fix arrayCopy() errors in src/utilities/array_functions.js, line 37:
   //
   //   required param "dst" follows an optional param
-  //   param "length" has invalid type: Nimber
   //
-  // arrayCopy(src: any[], srcPosition?: number, dst: any[], dstPosition?: number, length?: any): void;
+  // arrayCopy(src: any[], srcPosition?: number, dst: any[], dstPosition?: number, length?: number): void;
 
   /**
    *   Concatenates two arrays, maps to Array.concat(). 
@@ -4226,7 +4281,7 @@ declare namespace p5 {
      */
     dragLeave(fxn: Function): p5.Element;
 
-    // TODO: Fix drop() errors in src/core/p5.Element.js, line 502:
+    // TODO: Fix drop() errors in src/core/p5.Element.js, line 694:
     //
     //   param "callback" is defined multiple times
     //
@@ -4274,19 +4329,7 @@ declare namespace p5 {
     //
     // position(x?: number, y?: number): any;
 
-    // TODO: Fix translate() errors in lib/addons/p5.dom.js, line 1163:
-    //
-    //   return has invalid type: Object/p5.Element
-    //
-    // translate(x: number, y: number, z?: number, perspective?: number): any;
-
-    // TODO: Fix rotate() errors in lib/addons/p5.dom.js, line 1205:
-    //
-    //   return has invalid type: Object/p5.Element
-    //
-    // rotate(x: number, y?: number, z?: number): any;
-
-    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 1250:
+    // TODO: Fix style() errors in lib/addons/p5.dom.js, line 1210:
     //
     //   param "value" is defined multiple times
     //   param "value" is defined multiple times
@@ -4316,19 +4359,19 @@ declare namespace p5 {
      */
     value(value?: string|number): string|any;
 
-    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1381:
+    // TODO: Fix show() errors in lib/addons/p5.dom.js, line 1365:
     //
     //   return has invalid type: Object/p5.Element
     //
     // show(): any;
 
-    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1393:
+    // TODO: Fix hide() errors in lib/addons/p5.dom.js, line 1383:
     //
     //   return has invalid type: Object/p5.Element
     //
     // hide(): any;
 
-    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1404:
+    // TODO: Fix size() errors in lib/addons/p5.dom.js, line 1399:
     //
     //   return has invalid type: Object/p5.Element
     //
@@ -5299,6 +5342,22 @@ declare namespace p5 {
 
     /**
      *   If no arguments are given, returns the current 
+     *   playback speed of the element. The speed parameter 
+     *   sets the speed where 2.0 will play the element 
+     *   twice as fast, 0.5 will play at half the speed, 
+     *   and -1 will play the element in normal speed in 
+     *   reverse.(Note that not all browsers support 
+     *   backward playback and even if they do, playback 
+     *   might not be smooth.)
+     *
+     *   @param [speed] speed multiplier for element 
+     *   playback
+     *   @return current playback speed or p5.MediaElement
+     */
+    speed(speed?: number): number|any;
+
+    /**
+     *   If no arguments are given, returns the current 
      *   time of the element. If an argument is given the 
      *   current time of the element is set to it.
      *
@@ -5315,7 +5374,7 @@ declare namespace p5 {
      */
     duration(): number;
 
-    // TODO: Fix onended() errors in lib/addons/p5.dom.js, line 1705:
+    // TODO: Fix onended() errors in lib/addons/p5.dom.js, line 1724:
     //
     //   return has invalid type: Object/p5.MediaElement
     //
