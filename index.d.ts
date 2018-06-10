@@ -7,7 +7,6 @@
 
 export = p5;
 type UNKNOWN_P5_CONSTANT = any;
-type 4x4 Matrix = any;
 declare class p5 {
   // Properties from p5
 
@@ -82,7 +81,7 @@ declare class p5 {
    */
   hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 279:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 307:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
@@ -303,7 +302,7 @@ declare class p5 {
    */
   point(x: number, y: number): p5;
 
-  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 260:
+  // TODO: Fix quad() errors in src/core/2d_primitives.js, line 278:
   //
   //   param "x1" has invalid type: Type
   //   param "y1" has invalid type: Type
@@ -780,14 +779,11 @@ declare class p5 {
    */
   windowHeight: any;
 
-  /**
-   *   The windowResized() function is called once every 
-   *   time the browser window is resized. This is a good 
-   *   place to resize the canvas or do any other 
-   *   adjustements to accomodate the new window size.
-   *
-   */
-  windowResized: any;
+  // TODO: Fix windowResized()() errors in src/core/environment.js, line 309:
+  //
+  //   "windowResized()" is not a valid JS symbol name
+  //
+  // windowResized()(): void;
 
   /**
    *   System variable that stores the width of the 
@@ -826,7 +822,7 @@ declare class p5 {
    *   fullscreened or not
    *   @return current fullscreen state
    */
-  fullscreen(val?: boolean): boolean;
+  fullScreen(val?: boolean): boolean;
 
   /**
    *   Toggles pixel scaling for high pixel density 
@@ -1249,7 +1245,7 @@ declare class p5 {
    */
   endContour(): object;
 
-  // TODO: Fix endShape() errors in src/core/vertex.js, line 391:
+  // TODO: Fix endShape() errors in src/core/vertex.js, line 395:
   //
   //   param "mode" has invalid type: Number/Constant
   //
@@ -1360,6 +1356,15 @@ declare class p5 {
   setMoveThreshold(value: number): void;
 
   /**
+   *   The setShakeThreshold() function is used to set 
+   *   the movement threshold for the deviceShaken() 
+   *   function. The default threshold is set to 30.
+   *
+   *   @param value The threshold value
+   */
+  setShakeThreshold(value: number): void;
+
+  /**
    *   The deviceMoved() function is called when the 
    *   devices orientation changes by more than the 
    *   threshold value.
@@ -1373,6 +1378,16 @@ declare class p5 {
    *
    */
   deviceTurned(): void;
+
+  /**
+   *   The deviceShaken() function is called when the 
+   *   device total acceleration changes of accelerationX 
+   *   and accelerationY values is more than the 
+   *   threshold value. The default threshold is set to 
+   *   30.
+   *
+   */
+  deviceShaken(): void;
 
   // src/events/keyboard.js
 
@@ -2231,7 +2246,7 @@ declare class p5 {
    */
   httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
-  // TODO: Fix save() errors in src/io/files.js, line 806:
+  // TODO: Fix save() errors in src/io/files.js, line 807:
   //
   //   param "filename" has invalid type: [String]
   //   param "options" has invalid type: [Boolean/String]
@@ -2261,7 +2276,7 @@ declare class p5 {
    */
   saveStrings(list: any[], filename: string): void;
 
-  // TODO: Fix saveTable() errors in src/io/files.js, line 1047:
+  // TODO: Fix saveTable() errors in src/io/files.js, line 1049:
   //
   //   param "options" has invalid type: [String]
   //
@@ -3442,6 +3457,92 @@ declare class p5 {
   //
   // createElement(tag: string, content?: string): any;
 
+  // Properties from p5.sound
+
+  // lib/addons/p5.sound.js
+
+  /**
+   *   Returns the Audio Context for this sketch. Useful 
+   *   for users who would like to dig deeper into the 
+   *   Web Audio API .
+   *
+   *   @return AudioContext for this sketch
+   */
+  getAudioContext(): object;
+
+  /**
+   *   Returns a number representing the master amplitude 
+   *   (volume) for sound in this sketch.
+   *
+   *   @return Master amplitude (volume) for sound in 
+   *   this sketch. Should be between 0.0 (silence) and 
+   *   1.0.
+   */
+  getMasterVolume(): number;
+
+  /**
+   *   Scale the output of all sound in this sketch 
+   *   Scaled between 0.0 (silence) and 1.0 (full 
+   *   volume). 1.0 is the maximum amplitude of a digital 
+   *   sound, so multiplying by greater than 1.0 may 
+   *   cause digital distortion. To fade, provide a 
+   *   rampTime parameter. For more complex fades, see 
+   *   the Env class. Alternately, you can pass in a 
+   *   signal source such as an oscillator to modulate 
+   *   the amplitude with an audio signal. How This 
+   *   Works: When you load the p5.sound module, it 
+   *   creates a single instance of p5sound. All sound 
+   *   objects in this module output to p5sound before 
+   *   reaching your computer's output. So if you change 
+   *   the amplitude of p5sound, it impacts all of the 
+   *   sound in this module. 
+   * 
+   *   If no value is provided, returns a Web Audio API 
+   *   Gain Node
+   *
+   *   @param volume Volume (amplitude) between 0.0 and 
+   *   1.0 or modulating signal/oscillator
+   *   @param [rampTime] Fade for t seconds
+   *   @param [timeFromNow] Schedule this event to happen 
+   *   at t seconds in the future
+   */
+  masterVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
+
+  // TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 260, is not a valid JS symbol name
+
+  /**
+   *   Returns a number representing the sample rate, in 
+   *   samples per second, of all sound objects in this 
+   *   audio context. It is determined by the sampling 
+   *   rate of your operating system's sound card, and it 
+   *   is not currently possile to change. It is often 
+   *   44100, or twice the range of human hearing.
+   *
+   *   @return samplerate samples per second
+   */
+  sampleRate(): number;
+
+  /**
+   *   Returns the frequency value of a MIDI note value. 
+   *   General MIDI treats notes as integers where middle 
+   *   C is 60, C# is 61, D is 62 etc. Useful for 
+   *   generating musical frequencies with oscillators.
+   *
+   *   @param midiNote The number of a MIDI note
+   *   @return Frequency value of the given MIDI note
+   */
+  midiToFreq(midiNote: number): number;
+
+  /**
+   *   List the SoundFile formats that you will include. 
+   *   LoadSound will search your directory for these 
+   *   extensions, and will pick a format that is 
+   *   compatable with the client's web browser. Here is 
+   *   a free online file converter.
+   *
+   *   @param formats i.e. 'mp3', 'wav', 'ogg'
+   */
+  soundFormats(formats: string|any): void;
 }
 
 declare namespace p5 {
@@ -4905,6 +5006,1796 @@ declare namespace p5 {
      *
      */
     size: any;
+  }
+
+  // lib/addons/p5.sound.js
+
+  class SoundFile {
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 583:
+    //
+    //   param "path" has invalid type: String/Array
+    //
+    // constructor(path: any, callback?: Function);
+
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 685:
+    //
+    //   param "path" has invalid type: String/Array
+    //   param "callback" is defined multiple times
+    //
+    // loadSound(path: any, callback?: Function, callback?: Function): SoundFile;
+
+    /**
+     *   Returns true if the sound file finished loading 
+     *   successfully.
+     *
+     */
+    isLoaded(): boolean;
+
+    /**
+     *   Play the p5.SoundFile
+     *
+     *   @param [startTime] (optional) schedule playback to 
+     *   start (in seconds from now).
+     *   @param [rate] (optional) playback rate
+     *   @param [amp] (optional) amplitude (volume) of 
+     *   playback
+     *   @param [cueStart] (optional) cue start time in 
+     *   seconds
+     *   @param [duration] (optional) duration of playback 
+     *   in seconds
+     */
+    play(startTime?: number, rate?: number, amp?: number, cueStart?: number, duration?: number): void;
+
+    /**
+     *   p5.SoundFile has two play modes: restart and 
+     *   sustain. Play Mode determines what happens to a 
+     *   p5.SoundFile if it is triggered while in the 
+     *   middle of playback. In sustain mode, playback will 
+     *   continue simultaneous to the new playback. In 
+     *   restart mode, play() will stop playback and start 
+     *   over. Sustain is the default mode.
+     *
+     *   @param str 'restart' or 'sustain'
+     */
+    playMode(str: string): void;
+
+    /**
+     *   Pauses a file that is currently playing. If the 
+     *   file is not playing, then nothing will happen. 
+     *   After pausing, .play() will resume from the paused 
+     *   position. If p5.SoundFile had been set to loop 
+     *   before it was paused, it will continue to loop 
+     *   after it is unpaused with .play().
+     *
+     *   @param [startTime] (optional) schedule event to 
+     *   occur seconds from now
+     */
+    pause(startTime?: number): void;
+
+    /**
+     *   Loop the p5.SoundFile. Accepts optional parameters 
+     *   to set the playback rate, playback volume, 
+     *   loopStart, loopEnd.
+     *
+     *   @param [startTime] (optional) schedule event to 
+     *   occur seconds from now
+     *   @param [rate] (optional) playback rate
+     *   @param [amp] (optional) playback volume
+     *   @param [cueLoopStart] startTime in seconds
+     *   @param [duration] (optional) loop duration in 
+     *   seconds
+     */
+    loop(startTime?: number, rate?: number, amp?: number, cueLoopStart?: number, duration?: number): void;
+
+    /**
+     *   Returns true if a p5.SoundFile is playing, false 
+     *   if not (i.e. paused or stopped).
+     *
+     */
+    isPlaying(): boolean;
+
+    /**
+     *   Returns true if a p5.SoundFile is paused, false if 
+     *   not (i.e. playing or stopped).
+     *
+     */
+    isPaused(): boolean;
+
+    /**
+     *   Stop soundfile playback.
+     *
+     *   @param [startTime] (optional) schedule event to 
+     *   occur in seconds from now
+     */
+    stop(startTime?: number): void;
+
+    /**
+     *   Multiply the output volume (amplitude) of a sound 
+     *   file between 0.0 (silence) and 1.0 (full volume). 
+     *   1.0 is the maximum amplitude of a digital sound, 
+     *   so multiplying by greater than 1.0 may cause 
+     *   digital distortion. To fade, provide a rampTime 
+     *   parameter. For more complex fades, see the Env 
+     *   class. Alternately, you can pass in a signal 
+     *   source such as an oscillator to modulate the 
+     *   amplitude with an audio signal.
+     *
+     *   @param volume Volume (amplitude) between 0.0 and 
+     *   1.0 or modulating signal/oscillator
+     *   @param [rampTime] Fade for t seconds
+     *   @param [timeFromNow] Schedule this event to happen 
+     *   at t seconds in the future
+     */
+    setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
+
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1148:
+    //
+    //   required param "timeFromNow" follows an optional param
+    //
+    // pan(panValue?: number, timeFromNow: number): void;
+
+    /**
+     *   Set the playback rate of a sound file. Will change 
+     *   the speed and the pitch. Values less than zero 
+     *   will reverse the audio buffer.
+     *
+     *   @param [playbackRate] Set the playback rate. 1.0 
+     *   is normal, .5 is half-speed, 2.0 is twice as fast. 
+     *   Must be greater than zero.
+     */
+    rate(playbackRate?: number): void;
+
+    /**
+     *   Returns the duration of a sound file in seconds.
+     *
+     *   @return The duration of the soundFile in seconds.
+     */
+    duration(): number;
+
+    /**
+     *   Return the current position of the p5.SoundFile 
+     *   playhead, in seconds. Note that if you change the 
+     *   playbackRate while the p5.SoundFile is playing, 
+     *   the results may not be accurate.
+     *
+     *   @return currentTime of the soundFile in seconds.
+     */
+    currentTime(): number;
+
+    /**
+     *   Move the playhead of the song to a position, in 
+     *   seconds. Start and Stop time. If none are given, 
+     *   will reset the file to play entire duration from 
+     *   start to finish.
+     *
+     *   @param cueTime cueTime of the soundFile in 
+     *   seconds.
+     *   @param uuration duration in seconds.
+     */
+    jump(cueTime: number, uuration: number): void;
+
+    /**
+     *   Return the number of channels in a sound file. For 
+     *   example, Mono = 1, Stereo = 2.
+     *
+     *   @return [channels]
+     */
+    channels(): number;
+
+    /**
+     *   Return the sample rate of the sound file.
+     *
+     *   @return [sampleRate]
+     */
+    sampleRate(): number;
+
+    /**
+     *   Return the number of samples in a sound file. 
+     *   Equal to sampleRate * duration.
+     *
+     *   @return [sampleCount]
+     */
+    frames(): number;
+
+    /**
+     *   Returns an array of amplitude peaks in a 
+     *   p5.SoundFile that can be used to draw a static 
+     *   waveform. Scans through the p5.SoundFile's audio 
+     *   buffer to find the greatest amplitudes. Accepts 
+     *   one parameter, 'length', which determines size of 
+     *   the array. Larger arrays result in more precise 
+     *   waveform visualizations. Inspired by 
+     *   Wavesurfer.js.
+     *
+     *   @param [length] length is the size of the returned 
+     *   array. Larger length results in more precision. 
+     *   Defaults to 5*width of the browser window.
+     *   @return Array of peaks.
+     */
+    getPeaks(length?: number): Float32Array;
+
+    /**
+     *   Reverses the p5.SoundFile's buffer source. 
+     *   Playback must be handled separately (see example).
+     *
+     */
+    reverseBuffer(): void;
+
+    /**
+     *   Connects the output of a p5sound object to input 
+     *   of another p5.sound object. For example, you may 
+     *   connect a p5.SoundFile to an FFT or an Effect. If 
+     *   no parameter is given, it will connect to the 
+     *   master output. Most p5sound objects connect to the 
+     *   master output when they are created.
+     *
+     *   @param [object] Audio object that accepts an input
+     */
+    connect(object?: object): void;
+
+    /**
+     *   Disconnects the output of this p5sound object.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Read the Amplitude (volume level) of a 
+     *   p5.SoundFile. The p5.SoundFile class contains its 
+     *   own instance of the Amplitude class to help make 
+     *   it easy to get a SoundFile's volume level. Accepts 
+     *   an optional smoothing value (0.0 < 1.0).
+     *
+     *   @param [smoothing] Smoothing is 0.0 by default. 
+     *   Smooths values based on previous values.
+     *   @return Volume level (between 0.0 and 1.0)
+     */
+    getLevel(smoothing?: number): number;
+
+    /**
+     *   Reset the source for this SoundFile to a new path 
+     *   (URL).
+     *
+     *   @param path path to audio file
+     *   @param callback Callback
+     */
+    setPath(path: string, callback: Function): void;
+
+    /**
+     *   processPeaks returns an array of timestamps where 
+     *   it thinks there is a beat. This is an asynchronous 
+     *   function that processes the soundfile in an 
+     *   offline audio context, and sends the results to 
+     *   your callback function. The process involves 
+     *   running the soundfile through a lowpass filter, 
+     *   and finding all of the peaks above the initial 
+     *   threshold. If the total number of peaks are below 
+     *   the minimum number of peaks, it decreases the 
+     *   threshold and re-runs the analysis until either 
+     *   minPeaks or minThreshold are reached.
+     *
+     *   @param callback a function to call once this data 
+     *   is returned
+     *   @param [initThreshold] initial threshold defaults 
+     *   to 0.9
+     *   @param [minThreshold] minimum threshold defaults 
+     *   to 0.22
+     *   @param [minPeaks] minimum number of peaks defaults 
+     *   to 200
+     *   @return Array of timestamped peaks
+     */
+    processPeaks(callback: Function, initThreshold?: number, minThreshold?: number, minPeaks?: number): any[];
+
+    /**
+     *   Schedule events to trigger every time a 
+     *   MediaElement (audio/video) reaches a playback cue 
+     *   point. Accepts a callback function, a time (in 
+     *   seconds) at which to trigger the callback, and an 
+     *   optional parameter for the callback. Time will be 
+     *   passed as the first parameter to the callback 
+     *   function, and param will be the second parameter.
+     *
+     *   @param time Time in seconds, relative to this 
+     *   media element's playback. For example, to trigger 
+     *   an event every time playback reaches two seconds, 
+     *   pass in the number 2. This will be passed as the 
+     *   first parameter to the callback function.
+     *   @param callback Name of a function that will be 
+     *   called at the given time. The callback will 
+     *   receive time and (optionally) param as its two 
+     *   parameters.
+     *   @param [value] An object to be passed as the 
+     *   second parameter to the callback function.
+     *   @return id ID of this cue, useful for 
+     *   removeCue(id)
+     */
+    addCue(time: number, callback: Function, value?: object): number;
+
+    /**
+     *   Remove a callback based on its ID. The ID is 
+     *   returned by the addCue method.
+     *
+     *   @param id ID of the cue, as returned by addCue
+     */
+    removeCue(id: number): void;
+
+    /**
+     *   Remove all of the callbacks that had originally 
+     *   been scheduled via the addCue method.
+     *
+     */
+    clearCues(): void;
+  }
+  class Amplitude {
+    /**
+     *   Amplitude measures volume between 0.0 and 1.0. 
+     *   Listens to all p5sound by default, or use 
+     *   setInput() to listen to a specific sound source. 
+     *   Accepts an optional smoothing value, which 
+     *   defaults to 0.
+     *
+     *   @param [smoothing] between 0.0 and .999 to smooth 
+     *   amplitude readings (defaults to 0)
+     *   @return Amplitude Object
+     */
+    constructor(smoothing?: number);
+
+    /**
+     *   Connects to the p5sound instance (master output) 
+     *   by default. Optionally, you can pass in a specific 
+     *   source (i.e. a soundfile).
+     *
+     *   @param [snd] set the sound source (optional, 
+     *   defaults to master output)
+     *   @param [smoothing] a range between 0.0 and 1.0 to 
+     *   smooth amplitude readings
+     */
+    setInput(snd?: any, smoothing?: number): void;
+
+    /**
+     *   Returns a single Amplitude reading at the moment 
+     *   it is called. For continuous readings, run in the 
+     *   draw loop.
+     *
+     *   @param [channel] Optionally return only channel 0 
+     *   (left) or 1 (right)
+     *   @return Amplitude as a number between 0.0 and 1.0
+     */
+    getLevel(channel?: number): number;
+
+    /**
+     *   Determines whether the results of 
+     *   Amplitude.process() will be Normalized. To 
+     *   normalize, Amplitude finds the difference the 
+     *   loudest reading it has processed and the maximum 
+     *   amplitude of 1.0. Amplitude adds this difference 
+     *   to all values to produce results that will 
+     *   reliably map between 0.0 and 1.0. However, if a 
+     *   louder moment occurs, the amount that Normalize 
+     *   adds to all the values will change. Accepts an 
+     *   optional boolean parameter (true or false). 
+     *   Normalizing is off by default.
+     *
+     *   @param [boolean] set normalize to true (1) or 
+     *   false (0)
+     */
+    toggleNormalize(boolean?: boolean): void;
+
+    /**
+     *   Smooth Amplitude analysis by averaging with the 
+     *   last analysis frame. Off by default.
+     *
+     *   @param set smoothing from 0.0
+     */
+    smooth(set: number): void;
+  }
+  class FFT {
+    /**
+     *   FFT (Fast Fourier Transform) is an analysis 
+     *   algorithm that isolates individual  audio 
+     *   frequencies within a waveform. Once instantiated, 
+     *   a p5.FFT object can return an array based on two 
+     *   types of analyses: 
+     *  
+     *   • FFT.waveform() computes amplitude values along 
+     *   the time domain. The array indices correspond to 
+     *   samples across a brief moment in time. Each value 
+     *   represents amplitude of the waveform at that 
+     *   sample of time.
+     *  
+     *   • FFT.analyze()  computes amplitude values along 
+     *   the frequency domain. The array indices correspond 
+     *   to frequencies (i.e. pitches), from the lowest to 
+     *   the highest that humans can hear. Each value 
+     *   represents amplitude at that slice of the 
+     *   frequency spectrum. Use with getEnergy() to 
+     *   measure amplitude at specific frequencies, or 
+     *   within a range of frequencies.  
+     * 
+     *   FFT analyzes a very short snapshot of sound called 
+     *   a sample buffer. It returns an array of amplitude 
+     *   measurements, referred to as bins. The array is 
+     *   1024 bins long by default. You can change the bin 
+     *   array length, but it must be a power of 2 between 
+     *   16 and 1024 in order for the FFT algorithm to 
+     *   function correctly. The actual size of the FFT 
+     *   buffer is twice the number of bins, so given a 
+     *   standard sample rate, the buffer is 2048/44100 
+     *   seconds long.
+     *
+     *   @param [smoothing] Smooth results of Freq 
+     *   Spectrum. 0.0 < smoothing < 1.0. Defaults to 0.8.
+     *   @param [bins] Length of resulting array. Must be a 
+     *   power of two between 16 and 1024. Defaults to 
+     *   1024.
+     *   @return FFT Object
+     */
+    constructor(smoothing?: number, bins?: number);
+
+    /**
+     *   Set the input source for the FFT analysis. If no 
+     *   source is provided, FFT will analyze all sound in 
+     *   the sketch.
+     *
+     *   @param [source] p5.sound object (or web audio API 
+     *   source node)
+     */
+    setInput(source?: object): void;
+
+    /**
+     *   Returns an array of amplitude values (between -1.0 
+     *   and +1.0) that represent a snapshot of amplitude 
+     *   readings in a single buffer. Length will be equal 
+     *   to bins (defaults to 1024). Can be used to draw 
+     *   the waveform of a sound.
+     *
+     *   @param [bins] Must be a power of two between 16 
+     *   and 1024. Defaults to 1024.
+     *   @param [precision] If any value is provided, will 
+     *   return results in a Float32 Array which is more 
+     *   precise than a regular array.
+     *   @return Array Array of amplitude values (-1 to 1) 
+     *   over time. Array length = bins.
+     */
+    waveform(bins?: number, precision?: string): any[];
+
+    /**
+     *   Returns an array of amplitude values (between 0 
+     *   and 255) across the frequency spectrum. Length is 
+     *   equal to FFT bins (1024 by default). The array 
+     *   indices correspond to frequencies (i.e. pitches), 
+     *   from the lowest to the highest that humans can 
+     *   hear. Each value represents amplitude at that 
+     *   slice of the frequency spectrum. Must be called 
+     *   prior to using getEnergy().
+     *
+     *   @param [bins] Must be a power of two between 16 
+     *   and 1024. Defaults to 1024.
+     *   @param [scale] If "dB," returns decibel float 
+     *   measurements between -140 and 0 (max). Otherwise 
+     *   returns integers from 0-255.
+     *   @return spectrum Array of energy 
+     *   (amplitude/volume) values across the frequency 
+     *   spectrum. Lowest energy (silence) = 0, highest 
+     *   possible is 255.
+     */
+    analyze(bins?: number, scale?: number): any[];
+
+    /**
+     *   Returns the amount of energy (volume) at a 
+     *   specific  frequency, or the average amount of 
+     *   energy between two frequencies. Accepts Number(s) 
+     *   corresponding to frequency (in Hz), or a String 
+     *   corresponding to predefined frequency ranges 
+     *   ("bass", "lowMid", "mid", "highMid", "treble"). 
+     *   Returns a range between 0 (no energy/volume at 
+     *   that frequency) and 255 (maximum energy). NOTE: 
+     *   analyze() must be called prior to getEnergy(). 
+     *   Analyze() tells the FFT to analyze frequency data, 
+     *   and getEnergy() uses the results determine the 
+     *   value at a specific frequency or range of 
+     *   frequencies.
+     *
+     *   @param frequency1 Will return a value representing 
+     *   energy at this frequency. Alternately, the strings 
+     *   "bass", "lowMid" "mid", "highMid", and "treble" 
+     *   will return predefined frequency ranges.
+     *   @param [frequency2] If a second frequency is 
+     *   given, will return average amount of energy that 
+     *   exists between the two frequencies.
+     *   @return Energy Energy (volume/amplitude) from 0 
+     *   and 255.
+     */
+    getEnergy(frequency1: number|string, frequency2?: number): number;
+
+    /**
+     *   Smooth FFT analysis by averaging with the last 
+     *   analysis frame.
+     *
+     *   @param smoothing 0.0 < smoothing < 1.0. Defaults 
+     *   to 0.8.
+     */
+    smooth(smoothing: number): void;
+  }
+  class Signal {
+    /**
+     *   p5.Signal is a constant audio-rate signal used by 
+     *   p5.Oscillator and p5.Envelope for modulation math. 
+     *   This is necessary because Web Audio is processed 
+     *   on a seprate clock. For example, the p5 draw loop 
+     *   runs about 60 times per second. But the audio 
+     *   clock must process samples 44100 times per second. 
+     *   If we want to add a value to each of those 
+     *   samples, we can't do it in the draw loop, but we 
+     *   can do it by adding a constant-rate audio 
+     *   signal.This class mostly functions behind the 
+     *   scenes in p5.sound, and returns a Tone.Signal from 
+     *   the Tone.js library by Yotam Mann. If you want to 
+     *   work directly with audio signals for modular 
+     *   synthesis, check out tone.js.
+     *
+     *   @return A Signal object from the Tone.js library
+     */
+    constructor();
+
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 3214:
+    //
+    //   param "secondsFromNow" has invalid type: [Number]
+    //
+    // fade(value: number, secondsFromNow: any): void;
+
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 3238:
+    //
+    //   return has invalid type: p5.SignalAdd
+    //
+    // add(number: number): any;
+
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 3257:
+    //
+    //   return has invalid type: Tone.Multiply
+    //
+    // mult(number: number): any;
+
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 3276:
+    //
+    //   return has invalid type: p5.SignalScale
+    //
+    // scale(number: number, inMin: number, inMax: number, outMin: number, outMax: number): any;
+
+  }
+  class Oscillator {
+    /**
+     *   Creates a signal that oscillates between -1.0 and 
+     *   1.0. By default, the oscillation takes the form of 
+     *   a sinusoidal shape ('sine'). Additional types 
+     *   include 'triangle', 'sawtooth' and 'square'. The 
+     *   frequency defaults to 440 oscillations per second 
+     *   (440Hz, equal to the pitch of an 'A' note). Set 
+     *   the type of oscillation with setType(), or by 
+     *   creating a specific oscillator. For example: new 
+     *   p5.SinOsc(freq) new p5.TriOsc(freq) new 
+     *   p5.SqrOsc(freq) new p5.SawOsc(freq).
+     *
+     *   @param [freq] frequency defaults to 440Hz
+     *   @param [type] type of oscillator. Options: 'sine' 
+     *   (default), 'triangle', 'sawtooth', 'square'
+     *   @return Oscillator object
+     */
+    constructor(freq?: number, type?: string);
+
+    /**
+     *   Start an oscillator. Accepts an optional parameter 
+     *   to determine how long (in seconds from now) until 
+     *   the oscillator starts.
+     *
+     *   @param [time] startTime in seconds from now.
+     *   @param [frequency] frequency in Hz.
+     */
+    start(time?: number, frequency?: number): void;
+
+    /**
+     *   Stop an oscillator. Accepts an optional parameter 
+     *   to determine how long (in seconds from now) until 
+     *   the oscillator stops.
+     *
+     *   @param secondsFromNow Time, in seconds from now.
+     */
+    stop(secondsFromNow: number): void;
+
+    /**
+     *   Set the amplitude between 0 and 1.0. Or, pass in 
+     *   an object such as an oscillator to modulate 
+     *   amplitude with an audio signal.
+     *
+     *   @param vol between 0 and 1.0 or a modulating 
+     *   signal/oscillator
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     *   @return gain If no value is provided, returns the 
+     *   Web Audio API AudioParam that controls this 
+     *   oscillator's gain/amplitude/volume)
+     */
+    amp(vol: number|object, rampTime?: number, timeFromNow?: number): AudioParam;
+
+    /**
+     *   Set frequency of an oscillator to a value. Or, 
+     *   pass in an object such as an oscillator to 
+     *   modulate the frequency with an audio signal.
+     *
+     *   @param Frequency Frequency in Hz or modulating 
+     *   signal/oscillator
+     *   @param [rampTime] Ramp time (in seconds)
+     *   @param [timeFromNow] Schedule this event to happen 
+     *   at x seconds from now
+     *   @return Frequency If no value is provided, returns 
+     *   the Web Audio API AudioParam that controls this 
+     *   oscillator's frequency
+     */
+    freq(Frequency: number|object, rampTime?: number, timeFromNow?: number): AudioParam;
+
+    /**
+     *   Set type to 'sine', 'triangle', 'sawtooth' or 
+     *   'square'.
+     *
+     *   @param type 'sine', 'triangle', 'sawtooth' or 
+     *   'square'.
+     */
+    setType(type: string): void;
+
+    /**
+     *   Connect to a p5.sound / Web Audio object.
+     *
+     *   @param unit A p5.sound or Web Audio object
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all outputs
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Pan between Left (-1) and Right (1)
+     *
+     *   @param panning Number between -1 and 1
+     *   @param timeFromNow schedule this event to happen 
+     *   seconds from now
+     */
+    pan(panning: number, timeFromNow: number): void;
+
+    /**
+     *   Set the phase of an oscillator between 0.0 and 1.0
+     *
+     *   @param phase float between 0.0 and 1.0
+     */
+    phase(phase: number): void;
+
+    /**
+     *   Add a value to the p5.Oscillator's output 
+     *   amplitude, and return the oscillator. Calling this 
+     *   method again will override the initial add() with 
+     *   a new value.
+     *
+     *   @param number Constant number to add
+     *   @return Oscillator Returns this oscillator with 
+     *   scaled output
+     */
+    add(number: number): p5.Oscillator;
+
+    /**
+     *   Multiply the p5.Oscillator's output amplitude by a 
+     *   fixed value (i.e. turn it up!). Calling this 
+     *   method again will override the initial mult() with 
+     *   a new value.
+     *
+     *   @param number Constant number to multiply
+     *   @return Oscillator Returns this oscillator with 
+     *   multiplied output
+     */
+    mult(number: number): p5.Oscillator;
+
+    /**
+     *   Scale this oscillator's amplitude values to a 
+     *   given range, and return the oscillator. Calling 
+     *   this method again will override the initial 
+     *   scale() with new values.
+     *
+     *   @param inMin input range minumum
+     *   @param inMax input range maximum
+     *   @param outMin input range minumum
+     *   @param outMax input range maximum
+     *   @return Oscillator Returns this oscillator with 
+     *   scaled output
+     */
+    scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
+
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3738:
+    //
+    //   "p5.SinOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.SinOsc(freq: any): void;
+
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3753:
+    //
+    //   "p5.TriOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.TriOsc(freq: any): void;
+
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3768:
+    //
+    //   "p5.SawOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.SawOsc(freq: any): void;
+
+    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 3783:
+    //
+    //   "p5.SqrOsc" is not a valid JS symbol name
+    //   param "freq" has invalid type: [Number]
+    //
+    // p5.SqrOsc(freq: any): void;
+
+  }
+  class Env {
+    /**
+     *   Envelopes are pre-defined amplitude distribution 
+     *   over time. The p5.Env accepts up to four 
+     *   time/level pairs, where time determines how long 
+     *   of a ramp before value reaches level. Typically, 
+     *   envelopes are used to control the output volume of 
+     *   an object, a series of fades referred to as 
+     *   Attack, Decay, Sustain and Release (ADSR). But 
+     *   p5.Env can control any Web Audio Param, for 
+     *   example it can be passed to an Oscillator 
+     *   frequency like osc.freq(env)
+     *
+     *   @param aTime Time (in seconds) before level 
+     *   reaches attackLevel
+     *   @param aLevel Typically an amplitude between 0.0 
+     *   and 1.0
+     *   @param dTime Time
+     *   @param [dLevel] Amplitude (In a standard ADSR 
+     *   envelope, decayLevel = sustainLevel)
+     *   @param [sTime] Time (in seconds)
+     *   @param [sLevel] Amplitude 0.0 to 1.0
+     *   @param [rTime] Time (in seconds)
+     *   @param [rLevel] Amplitude 0.0 to 1.0
+     */
+    constructor(aTime: number, aLevel: number, dTime: number, dLevel?: number, sTime?: number, sLevel?: number, rTime?: number, rLevel?: number);
+    attackTime: any;
+    attackLevel: any;
+    decayTime: any;
+    decayLevel: any;
+    sustainTime: any;
+    sustainLevel: any;
+    releaseTime: any;
+    releaseLevel: any;
+
+    /**
+     *   Reset the envelope with a series of time/value 
+     *   pairs.
+     *
+     *   @param aTime Time (in seconds) before level 
+     *   reaches attackLevel
+     *   @param aLevel Typically an amplitude between 0.0 
+     *   and 1.0
+     *   @param dTime Time
+     *   @param [dLevel] Amplitude (In a standard ADSR 
+     *   envelope, decayLevel = sustainLevel)
+     *   @param [sTime] Time (in seconds)
+     *   @param [sLevel] Amplitude 0.0 to 1.0
+     *   @param [rTime] Time (in seconds)
+     *   @param [rLevel] Amplitude 0.0 to 1.0
+     */
+    set(aTime: number, aLevel: number, dTime: number, dLevel?: number, sTime?: number, sLevel?: number, rTime?: number, rLevel?: number): void;
+
+    /**
+     *   Assign a parameter to be controlled by this 
+     *   envelope. If a p5.Sound object is given, then the 
+     *   p5.Env will control its output gain. If multiple 
+     *   inputs are provided, the env will control all of 
+     *   them.
+     *
+     *   @param unit A p5.sound object or Web Audio Param.
+     */
+    setInput(unit: object): void;
+
+    /**
+     *   Play tells the envelope to start acting on a given 
+     *   input. If the input is a p5.sound object (i.e. 
+     *   AudioIn, Oscillator, SoundFile), then Env will 
+     *   control its output volume. Envelopes can also be 
+     *   used to control any  Web Audio Audio Param.
+     *
+     *   @param unit A p5.sound object or Web Audio Param.
+     *   @param secondsFromNow time from now (in seconds)
+     */
+    play(unit: object, secondsFromNow: number): void;
+
+    /**
+     *   Trigger the Attack, Decay, and Sustain of the 
+     *   Envelope. Similar to holding down a key on a 
+     *   piano, but it will hold the sustain level until 
+     *   you let go. Input can be any p5.sound object, or a  
+     *   Web Audio Param.
+     *
+     *   @param unit p5.sound Object or Web Audio Param
+     *   @param secondsFromNow time from now (in seconds)
+     */
+    triggerAttack(unit: object, secondsFromNow: number): void;
+
+    /**
+     *   Trigger the Release of the Envelope. This is 
+     *   similar to releasing the key on a piano and 
+     *   letting the sound fade according to the release 
+     *   level and release time.
+     *
+     *   @param unit p5.sound Object or Web Audio Param
+     *   @param secondsFromNow time to trigger the release
+     */
+    triggerRelease(unit: object, secondsFromNow: number): void;
+
+    /**
+     *   Add a value to the p5.Oscillator's output 
+     *   amplitude, and return the oscillator. Calling this 
+     *   method again will override the initial add() with 
+     *   new values.
+     *
+     *   @param number Constant number to add
+     *   @return Envelope Returns this envelope with scaled 
+     *   output
+     */
+    add(number: number): p5.Env;
+
+    /**
+     *   Multiply the p5.Env's output amplitude by a fixed 
+     *   value. Calling this method again will override the 
+     *   initial mult() with new values.
+     *
+     *   @param number Constant number to multiply
+     *   @return Envelope Returns this envelope with scaled 
+     *   output
+     */
+    mult(number: number): p5.Env;
+
+    /**
+     *   Scale this envelope's amplitude values to a given 
+     *   range, and return the envelope. Calling this 
+     *   method again will override the initial scale() 
+     *   with new values.
+     *
+     *   @param inMin input range minumum
+     *   @param inMax input range maximum
+     *   @param outMin input range minumum
+     *   @param outMax input range maximum
+     *   @return Envelope Returns this envelope with scaled 
+     *   output
+     */
+    scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Env;
+  }
+  class Pulse {
+    /**
+     *   Creates a Pulse object, an oscillator that 
+     *   implements Pulse Width Modulation. The pulse is 
+     *   created with two oscillators. Accepts a parameter 
+     *   for frequency, and to set the width between the 
+     *   pulses. See  p5.Oscillator for a full list of 
+     *   methods.
+     *
+     *   @param [freq] Frequency in oscillations per second 
+     *   (Hz)
+     *   @param [w] Width between the pulses (0 to 1.0, 
+     *   defaults to 0)
+     */
+    constructor(freq?: number, w?: number);
+
+    /**
+     *   Set the width of a Pulse object (an oscillator 
+     *   that implements Pulse Width Modulation).
+     *
+     *   @param [width] Width between the pulses (0 to 1.0, 
+     *   defaults to 0)
+     */
+    width(width?: number): void;
+  }
+  class Noise {
+    /**
+     *   Noise is a type of oscillator that generates a 
+     *   buffer with random values.
+     *
+     *   @param type Type of noise can be 'white' 
+     *   (default), 'brown' or 'pink'.
+     *   @return Noise Object
+     */
+    constructor(type: string);
+
+    /**
+     *   Set type of noise to 'white', 'pink' or 'brown'. 
+     *   White is the default.
+     *
+     *   @param [type] 'white', 'pink' or 'brown'
+     */
+    setType(type?: string): void;
+
+    /**
+     *   Start the noise
+     *
+     */
+    start(): void;
+
+    /**
+     *   Stop the noise.
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Pan the noise.
+     *
+     *   @param panning Number between -1 (left) and 1 
+     *   (right)
+     *   @param timeFromNow schedule this event to happen 
+     *   seconds from now
+     */
+    pan(panning: number, timeFromNow: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+  }
+  class AudioIn {
+    /**
+     *   Get audio from an input, i.e. your computer's 
+     *   microphone. Turn the mic on/off with the start() 
+     *   and stop() methods. When the mic is on, its volume 
+     *   can be measured with getLevel or by connecting an 
+     *   FFT object. 
+     * 
+     *   If you want to hear the AudioIn, use the 
+     *   .connect() method. AudioIn does not connect to 
+     *   p5.sound output by default to prevent feedback. 
+     * 
+     *   Note: This uses the getUserMedia/ Stream API, 
+     *   which is not supported by certain browsers.
+     *
+     *   @return AudioIn
+     */
+    constructor();
+
+    /**
+     *   Client must allow browser to access their 
+     *   microphone / audioin source. Default: false. Will 
+     *   become true when the client enables acces.
+     *
+     */
+    enabled: boolean;
+
+    /**
+     *   Start processing audio input. This enables the use 
+     *   of other AudioIn methods like getLevel(). Note 
+     *   that by default, AudioIn is not connected to 
+     *   p5.sound's output. So you won't hear anything 
+     *   unless you use the connect() method.
+     *
+     */
+    start(): void;
+
+    /**
+     *   Turn the AudioIn off. If the AudioIn is stopped, 
+     *   it cannot getLevel().
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Connect to an audio unit. If no parameter is 
+     *   provided, will connect to the master output (i.e. 
+     *   your speakers).
+     *
+     *   @param [unit] An object that accepts audio input, 
+     *   such as an FFT
+     */
+    connect(unit?: object): void;
+
+    /**
+     *   Disconnect the AudioIn from all audio units. For 
+     *   example, if connect() had been called, 
+     *   disconnect() will stop sending signal to your 
+     *   speakers.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Read the Amplitude (volume level) of an AudioIn. 
+     *   The AudioIn class contains its own instance of the 
+     *   Amplitude class to help make it easy to get a 
+     *   microphone's volume level. Accepts an optional 
+     *   smoothing value (0.0 < 1.0). NOTE: AudioIn must 
+     *   .start() before using .getLevel().
+     *
+     *   @param [smoothing] Smoothing is 0.0 by default. 
+     *   Smooths values based on previous values.
+     *   @return Volume level (between 0.0 and 1.0)
+     */
+    getLevel(smoothing?: number): number;
+
+    /**
+     *   Set amplitude (volume) of a mic input between 0 
+     *   and 1.0.
+     *
+     *   @param vol between 0 and 1.0
+     *   @param [time] ramp time (optional)
+     */
+    amp(vol: number, time?: number): void;
+
+    /**
+     *   Chrome only. Returns a list of available input 
+     *   sources and allows the user to set the media 
+     *   source. Firefox allows the user to choose from 
+     *   input sources in the permissions dialogue instead 
+     *   of enumerating available sources and selecting 
+     *   one. Note: in order to have descriptive media 
+     *   names your page must be served over a secure 
+     *   (HTTPS) connection and the page should request 
+     *   user media before enumerating devices. Otherwise 
+     *   device ID will be a long device ID number and does 
+     *   not specify device type. For example see 
+     *   https://simpl.info/getusermedia/sources/index.html 
+     *   vs. 
+     *   http://simpl.info/getusermedia/sources/index.html
+     *
+     *   @param callback a callback to handle the sources 
+     *   when they have been enumerated
+     */
+    getSources(callback: Function): void;
+
+    /**
+     *   Set the input source. Accepts a number 
+     *   representing a position in the array returned by 
+     *   listSources(). This is only available in browsers 
+     *   that support MediaStreamTrack.getSources(). 
+     *   Instead, some browsers give users the option to 
+     *   set their own media source.
+     *
+     *   @param num position of input source in the array
+     */
+    setSource(num: number): void;
+  }
+  class Filter {
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4827:
+    //
+    //   param "type" has invalid type: [String]
+    //
+    // constructor(type: any);
+
+    /**
+     *   The p5.Filter is built with a  Web Audio 
+     *   BiquadFilter Node.
+     *
+     */
+    biquadFilter: any;
+
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4917:
+    //
+    //   param "freq" has invalid type: [Number]
+    //   param "res" has invalid type: [Number]
+    //
+    // process(Signal: object, freq: any, res: any): void;
+
+    /**
+     *   Set the frequency and the resonance of the filter.
+     *
+     *   @param freq Frequency in Hz, from 10 to 22050
+     *   @param res Resonance (Q) from 0.001 to 1000
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    set(freq: number, res: number, timeFromNow?: number): void;
+
+    /**
+     *   Set the filter frequency, in Hz, from 10 to 22050 
+     *   (the range of human hearing, although in reality 
+     *   most people hear in a narrower range).
+     *
+     *   @param freq Filter Frequency
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     *   @return value Returns the current frequency value
+     */
+    freq(freq: number, timeFromNow?: number): number;
+
+    /**
+     *   Controls either width of a bandpass frequency, or 
+     *   the resonance of a low/highpass cutoff frequency.
+     *
+     *   @param res Resonance/Width of filter freq from 
+     *   0.001 to 1000
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     *   @return value Returns the current res value
+     */
+    res(res: number, timeFromNow?: number): number;
+
+    /**
+     *   Set the type of a p5.Filter. Possible types 
+     *   include: "lowpass" (default), "highpass", 
+     *   "bandpass", "lowshelf", "highshelf", "peaking", 
+     *   "notch", "allpass".
+     *
+     */
+    setType(UNKNOWN: string): void;
+
+    /**
+     *   Set the output level of the filter.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 5045:
+    //
+    //   "p5.LowPass" is not a valid JS symbol name
+    //
+    // p5.LowPass(): void;
+
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 5057:
+    //
+    //   "p5.HighPass" is not a valid JS symbol name
+    //
+    // p5.HighPass(): void;
+
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 5069:
+    //
+    //   "p5.BandPass" is not a valid JS symbol name
+    //
+    // p5.BandPass(): void;
+
+  }
+  class Delay {
+    /**
+     *   Delay is an echo effect. It processes an existing 
+     *   sound source, and outputs a delayed version of 
+     *   that sound. The p5.Delay can produce different 
+     *   effects depending on the delayTime, feedback, 
+     *   filter, and type. In the example below, a feedback 
+     *   of 0.5 will produce a looping delay that decreases 
+     *   in volume by 50% each repeat. A filter will cut 
+     *   out the high frequencies so that the delay does 
+     *   not sound as piercing as the original source.
+     *
+     *   @return Returns a p5.Delay object
+     */
+    constructor();
+
+    /**
+     *   The p5.Delay is built with two  Web Audio Delay 
+     *   Nodes, one for each stereo channel.
+     *
+     */
+    leftDelay: any;
+
+    /**
+     *   The p5.Delay is built with two  Web Audio Delay 
+     *   Nodes, one for each stereo channel.
+     *
+     */
+    rightDelay: any;
+
+    /**
+     *   Internal filter. Set to lowPass by default, but 
+     *   can be accessed directly. See p5.Filter for 
+     *   methods. Or use the p5.Delay.filter() method to 
+     *   change frequency and q.
+     *
+     */
+    lowPass: any;
+
+    /**
+     *   Add delay to an audio signal according to a set of 
+     *   delay parameters.
+     *
+     *   @param Signal An object that outputs audio
+     *   @param [delayTime] Time (in seconds) of the 
+     *   delay/echo. Some browsers limit delayTime to 1 
+     *   second.
+     *   @param [feedback] sends the delay back through 
+     *   itself in a loop that decreases in volume each 
+     *   time.
+     *   @param [lowPass] Cutoff frequency. Only 
+     *   frequencies below the lowPass will be part of the 
+     *   delay.
+     */
+    process(Signal: object, delayTime?: number, feedback?: number, lowPass?: number): void;
+
+    /**
+     *   Set the delay (echo) time, in seconds. Usually 
+     *   this value will be a floating point number between 
+     *   0.0 and 1.0.
+     *
+     *   @param delayTime Time (in seconds) of the delay
+     */
+    delayTime(delayTime: number): void;
+
+    /**
+     *   Feedback occurs when Delay sends its signal back 
+     *   through its input in a loop. The feedback amount 
+     *   determines how much signal to send each time 
+     *   through the loop. A feedback greater than 1.0 is 
+     *   not desirable because it will increase the overall 
+     *   output each time through the loop, creating an 
+     *   infinite feedback loop.
+     *
+     *   @param feedback 0.0 to 1.0, or an object such as 
+     *   an Oscillator that can be used to modulate this 
+     *   param
+     */
+    feedback(feedback: number|object): void;
+
+    /**
+     *   Set a lowpass filter frequency for the delay. A 
+     *   lowpass filter will cut off any frequencies higher 
+     *   than the filter frequency.
+     *
+     *   @param cutoffFreq A lowpass filter will cut off 
+     *   any frequencies higher than the filter frequency.
+     *   @param res Resonance of the filter frequency 
+     *   cutoff, or an object (i.e. a p5.Oscillator) that 
+     *   can be used to modulate this parameter. High 
+     *   numbers (i.e. 15) will produce a resonance, low 
+     *   numbers (i.e. .2) will produce a slope.
+     */
+    filter(cutoffFreq: number|object, res: number|object): void;
+
+    /**
+     *   Choose a preset type of delay. 'pingPong' bounces 
+     *   the signal from the left to the right channel to 
+     *   produce a stereo effect. Any other parameter will 
+     *   revert to the default delay setting.
+     *
+     *   @param type 'pingPong' (1) or 'default' (0)
+     */
+    setType(type: string|number): void;
+
+    /**
+     *   Set the output level of the delay effect.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+  }
+  class Reverb {
+    /**
+     *   Reverb adds depth to a sound through a large 
+     *   number of decaying echoes. It creates the 
+     *   perception that sound is occurring in a physical 
+     *   space. The p5.Reverb has paramters for Time (how 
+     *   long does the reverb last) and decayRate (how much 
+     *   the sound decays with each echo) that can be set 
+     *   with the .set() or .process() methods. The 
+     *   p5.Convolver extends p5.Reverb allowing you to 
+     *   recreate the sound of actual physical spaces 
+     *   through convolution.
+     *
+     */
+    constructor();
+
+    /**
+     *   Connect a source to the reverb, and assign reverb 
+     *   parameters.
+     *
+     *   @param src p5.sound / Web Audio object with a 
+     *   sound output.
+     *   @param [seconds] Duration of the reverb, in 
+     *   seconds. Min: 0, Max: 10. Defaults to 3.
+     *   @param [decayRate] Percentage of decay with each 
+     *   echo. Min: 0, Max: 100. Defaults to 2.
+     *   @param [reverse] Play the reverb backwards or 
+     *   forwards.
+     */
+    process(src: object, seconds?: number, decayRate?: number, reverse?: boolean): void;
+
+    /**
+     *   Set the reverb settings. Similar to .process(), 
+     *   but without assigning a new input.
+     *
+     *   @param [seconds] Duration of the reverb, in 
+     *   seconds. Min: 0, Max: 10. Defaults to 3.
+     *   @param [decayRate] Percentage of decay with each 
+     *   echo. Min: 0, Max: 100. Defaults to 2.
+     *   @param [reverse] Play the reverb backwards or 
+     *   forwards.
+     */
+    set(seconds?: number, decayRate?: number, reverse?: boolean): void;
+
+    /**
+     *   Set the output level of the delay effect.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+  }
+  class Convolver {
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 5539:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // constructor(path: string, callback: any);
+
+    /**
+     *   Internally, the p5.Convolver uses the a  Web Audio 
+     *   Convolver Node.
+     *
+     */
+    convolverNode: any;
+
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 5619:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // createConvolver(path: string, callback: any): p5.Convolver;
+
+    /**
+     *   Connect a source to the reverb, and assign reverb 
+     *   parameters.
+     *
+     *   @param src p5.sound / Web Audio object with a 
+     *   sound output.
+     */
+    process(src: object): void;
+
+    /**
+     *   If you load multiple impulse files using the 
+     *   .addImpulse method, they will be stored as Objects 
+     *   in this Array. Toggle between them with the 
+     *   toggleImpulse(id) method.
+     *
+     */
+    impulses: any;
+
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5737:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // addImpulse(path: string, callback: any): void;
+
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5754:
+    //
+    //   param "callback" has invalid type: [Function]
+    //
+    // resetImpulse(path: string, callback: any): void;
+
+    /**
+     *   If you have used .addImpulse() to add multiple 
+     *   impulses to a p5.Convolver, then you can use this 
+     *   method to toggle between the items in the 
+     *   .impulses Array. Accepts a parameter to identify 
+     *   which impulse you wish to use, identified either 
+     *   by its original filename (String) or by its 
+     *   position in the .impulses  Array (Number). You can 
+     *   access the objects in the .impulses Array 
+     *   directly. Each Object has two attributes: an 
+     *   .audioBuffer (type: Web Audio  AudioBuffer) and a 
+     *   .name, a String that corresponds with the original 
+     *   filename.
+     *
+     *   @param id Identify the impulse by its original 
+     *   filename (String), or by its position in the 
+     *   .impulses Array (Number).
+     */
+    toggleImpulse(id: string|number): void;
+  }
+  class Phrase {
+    /**
+     *   A phrase is a pattern of musical events over time, 
+     *   i.e. a series of notes and rests. Phrases must be 
+     *   added to a p5.Part for playback, and each part can 
+     *   play multiple phrases at the same time. For 
+     *   example, one Phrase might be a kick drum, another 
+     *   could be a snare, and another could be the 
+     *   bassline. 
+     * 
+     *   The first parameter is a name so that the phrase 
+     *   can be modified or deleted later. The callback is 
+     *   a a function that this phrase will call at every 
+     *   step—for example it might be called 
+     *   playNote(value){}. The array determines which 
+     *   value is passed into the callback at each step of 
+     *   the phrase. It can be numbers, an object with 
+     *   multiple numbers, or a zero (0) indicates a rest 
+     *   so the callback won't be called).
+     *
+     *   @param name Name so that you can access the 
+     *   Phrase.
+     *   @param callback The name of a function that this 
+     *   phrase will call. Typically it will play a sound, 
+     *   and accept two parameters: a time at which to play 
+     *   the sound (in seconds from now), and a value from 
+     *   the sequence array. The time should be passed into 
+     *   the play() or start() method to ensure precision.
+     *   @param sequence Array of values to pass into the 
+     *   callback at each step of the phrase.
+     */
+    constructor(name: string, callback: Function, sequence: any[]);
+
+    /**
+     *   Array of values to pass into the callback at each 
+     *   step of the phrase. Depending on the callback 
+     *   function's requirements, these values may be 
+     *   numbers, strings, or an object with multiple 
+     *   parameters. Zero (0) indicates a rest.
+     *
+     */
+    sequence: any;
+  }
+  class Part {
+    /**
+     *   A p5.Part plays back one or more p5.Phrases. 
+     *   Instantiate a part with steps and tatums. By 
+     *   default, each step represents 1/16th note. See 
+     *   p5.Phrase for more about musical timing.
+     *
+     *   @param [steps] Steps in the part
+     *   @param [tatums] Divisions of a beat (default is 
+     *   1/16, a quarter note)
+     */
+    constructor(steps?: number, tatums?: number);
+
+    /**
+     *   Set the tempo of this part, in Beats Per Minute.
+     *
+     *   @param BPM Beats Per Minute
+     *   @param [rampTime] Seconds from now
+     */
+    setBPM(BPM: number, rampTime?: number): void;
+
+    /**
+     *   Returns the Beats Per Minute of this currently 
+     *   part.
+     *
+     */
+    getBPM(): number;
+
+    /**
+     *   Start playback of this part. It will play through 
+     *   all of its phrases at a speed determined by 
+     *   setBPM.
+     *
+     *   @param [time] seconds from now
+     */
+    start(time?: number): void;
+
+    /**
+     *   Loop playback of this part. It will begin looping 
+     *   through all of its phrases at a speed determined 
+     *   by setBPM.
+     *
+     *   @param [time] seconds from now
+     */
+    loop(time?: number): void;
+
+    /**
+     *   Tell the part to stop looping.
+     *
+     */
+    noLoop(): void;
+
+    /**
+     *   Stop the part and cue it to step 0.
+     *
+     *   @param [time] seconds from now
+     */
+    stop(time?: number): void;
+
+    /**
+     *   Pause the part. Playback will resume from the 
+     *   current step.
+     *
+     *   @param time seconds from now
+     */
+    pause(time: number): void;
+
+    /**
+     *   Add a p5.Phrase to this Part.
+     *
+     *   @param phrase reference to a p5.Phrase
+     */
+    addPhrase(phrase: p5.Phrase): void;
+
+    /**
+     *   Remove a phrase from this part, based on the name 
+     *   it was given when it was created.
+     *
+     */
+    removePhrase(phraseName: string): void;
+
+    /**
+     *   Get a phrase from this part, based on the name it 
+     *   was given when it was created. Now you can modify 
+     *   its array.
+     *
+     */
+    getPhrase(phraseName: string): void;
+
+    /**
+     *   Get a phrase from this part, based on the name it 
+     *   was given when it was created. Now you can modify 
+     *   its array.
+     *
+     *   @param sequence Array of values to pass into the 
+     *   callback at each step of the phrase.
+     */
+    replaceSequence(phraseName: string, sequence: any[]): void;
+
+    /**
+     *   Fire a callback function at every step.
+     *
+     *   @param callback The name of the callback you want 
+     *   to fire on every beat/tatum.
+     */
+    onStep(callback: Function): void;
+  }
+  class Score {
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 6344:
+    //
+    //   param "part(s)" is not a valid JS symbol name
+    //
+    // constructor(part(s): p5.Part);
+
+    /**
+     *   Start playback of the score.
+     *
+     */
+    start(): void;
+
+    /**
+     *   Stop playback of the score.
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Pause playback of the score.
+     *
+     */
+    pause(): void;
+
+    /**
+     *   Loop playback of the score.
+     *
+     */
+    loop(): void;
+
+    /**
+     *   Stop looping playback of the score. If it is 
+     *   currently playing, this will go into effect after 
+     *   the current round of playback completes.
+     *
+     */
+    noLoop(): void;
+  }
+  class SoundRecorder {
+    /**
+     *   Record sounds for playback and/or to save as a 
+     *   .wav file. The p5.SoundRecorder records all sound 
+     *   output from your sketch, or can be assigned a 
+     *   specific source with setInput(). The record() 
+     *   method accepts a p5.SoundFile as a parameter. When 
+     *   playback is stopped (either after the given amount 
+     *   of time, or with the stop() method), the 
+     *   p5.SoundRecorder will send its recording to that 
+     *   p5.SoundFile for playback.
+     *
+     */
+    constructor();
+
+    /**
+     *   Connect a specific device to the p5.SoundRecorder. 
+     *   If no parameter is given, p5.SoundRecorer will 
+     *   record all audible p5.sound from your sketch.
+     *
+     *   @param [unit] p5.sound object or a web audio unit 
+     *   that outputs sound
+     */
+    setInput(unit?: object): void;
+
+    /**
+     *   Start recording. To access the recording, provide 
+     *   a p5.SoundFile as the first parameter. The 
+     *   p5.SoundRecorder will send its recording to that 
+     *   p5.SoundFile for playback once recording is 
+     *   complete. Optional parameters include duration (in 
+     *   seconds) of the recording, and a callback function 
+     *   that will be called once the complete recording 
+     *   has been transfered to the p5.SoundFile.
+     *
+     *   @param soundFile p5.SoundFile
+     *   @param [duration] Time (in seconds)
+     *   @param [callback] The name of a function that will 
+     *   be called once the recording completes
+     */
+    record(soundFile: p5.SoundFile, duration?: number, callback?: Function): void;
+
+    /**
+     *   Stop the recording. Once the recording is stopped, 
+     *   the results will be sent to the p5.SoundFile that 
+     *   was given on .record(), and if a callback function 
+     *   was provided on record, that function will be 
+     *   called.
+     *
+     */
+    stop(): void;
+
+    /**
+     *   Save a p5.SoundFile as a .wav audio file.
+     *
+     *   @param soundFile p5.SoundFile that you wish to 
+     *   save
+     *   @param name name of the resulting .wav file.
+     */
+    saveSound(soundFile: p5.SoundFile, name: string): void;
+  }
+  class PeakDetect {
+    /**
+     *   PeakDetect works in conjunction with p5.FFT to 
+     *   look for onsets in some or all of the frequency 
+     *   spectrum.   To use p5.PeakDetect, call update in 
+     *   the draw loop and pass in a p5.FFT object.  
+     * 
+     *  
+     *   You can listen for a specific part of the 
+     *   frequency spectrum by setting the range between 
+     *   freq1 and freq2.  
+     * 
+     *   threshold is the threshold for detecting a peak, 
+     *   scaled between 0 and 1. It is logarithmic, so 0.1 
+     *   is half as loud as 1.0. 
+     * 
+     *  
+     *   The update method is meant to be run in the draw 
+     *   loop, and frames determines how many loops must 
+     *   pass before another peak can be detected. For 
+     *   example, if the frameRate() = 60, you could detect 
+     *   the beat of a 120 beat-per-minute song with this 
+     *   equation:  framesPerPeak = 60 / (estimatedBPM / 60 
+     *   );  
+     * 
+     *  
+     *   Based on example contribtued by @b2renger, and a 
+     *   simple beat detection explanation by Felix Turner.
+     *
+     *   @param [freq1] lowFrequency - defaults to 20Hz
+     *   @param [freq2] highFrequency - defaults to 20000 
+     *   Hz
+     *   @param [threshold] Threshold for detecting a beat 
+     *   between 0 and 1 scaled logarithmically where 0.1 
+     *   is 1/2 the loudness of 1.0. Defaults to 0.35.
+     *   @param [framesPerPeak] Defaults to 20.
+     */
+    constructor(freq1?: number, freq2?: number, threshold?: number, framesPerPeak?: number);
+    // TODO: Annotate attribute "isDetected", defined in lib/addons/p5.sound.js, line 6855
+
+    /**
+     *   The update method is run in the draw loop. Accepts 
+     *   an FFT object. You must call .analyze() on the FFT 
+     *   object prior to updating the peakDetect because it 
+     *   relies on a completed FFT analysis.
+     *
+     *   @param fftObject A p5.FFT object
+     */
+    update(fftObject: p5.FFT): void;
+
+    /**
+     *   onPeak accepts two arguments: a function to call 
+     *   when a peak is detected. The value of the peak, 
+     *   between 0.0 and 1.0, is passed to the callback.
+     *
+     *   @param callback Name of a function that will be 
+     *   called when a peak is detected.
+     *   @param [val] Optional value to pass into the 
+     *   function when a peak is detected.
+     */
+    onPeak(callback: Function, val?: object): void;
+  }
+  class Gain {
+    /**
+     *   A gain node is usefull to set the relative volume 
+     *   of sound. It's typically used to build mixers.
+     *
+     */
+    constructor();
+
+    /**
+     *   Connect a source to the gain node.
+     *
+     *   @param src p5.sound / Web Audio object with a 
+     *   sound output.
+     */
+    setInput(src: object): void;
+
+    /**
+     *   Send output to a p5.sound or web audio object
+     *
+     */
+    connect(unit: object): void;
+
+    /**
+     *   Disconnect all output.
+     *
+     */
+    disconnect(): void;
+
+    /**
+     *   Set the output level of the gain node.
+     *
+     *   @param volume amplitude between 0 and 1.0
+     *   @param [rampTime] create a fade that lasts 
+     *   rampTime
+     *   @param [timeFromNow] schedule this event to happen 
+     *   seconds from now
+     */
+    amp(volume: number, rampTime?: number, timeFromNow?: number): void;
   }
 }
 

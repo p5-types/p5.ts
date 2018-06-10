@@ -81,7 +81,7 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 279:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 307:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number
@@ -302,7 +302,7 @@ declare function line(x1: number, y1: number, x2: number, y2: number): p5;
  */
 declare function point(x: number, y: number): p5;
 
-// TODO: Fix quad() errors in src/core/2d_primitives.js, line 260:
+// TODO: Fix quad() errors in src/core/2d_primitives.js, line 278:
 //
 //   param "x1" has invalid type: Type
 //   param "y1" has invalid type: Type
@@ -779,14 +779,11 @@ declare var windowWidth: any;
  */
 declare var windowHeight: any;
 
-/**
- *   The windowResized() function is called once every 
- *   time the browser window is resized. This is a good 
- *   place to resize the canvas or do any other 
- *   adjustements to accomodate the new window size.
- *
- */
-declare var windowResized: any;
+// TODO: Fix windowResized()() errors in src/core/environment.js, line 309:
+//
+//   "windowResized()" is not a valid JS symbol name
+//
+// declare function windowResized()(): void;
 
 /**
  *   System variable that stores the width of the 
@@ -825,7 +822,7 @@ declare var height: any;
  *   fullscreened or not
  *   @return current fullscreen state
  */
-declare function fullscreen(val?: boolean): boolean;
+declare function fullScreen(val?: boolean): boolean;
 
 /**
  *   Toggles pixel scaling for high pixel density 
@@ -1248,7 +1245,7 @@ declare function curveVertex(x: number, y: number): object;
  */
 declare function endContour(): object;
 
-// TODO: Fix endShape() errors in src/core/vertex.js, line 391:
+// TODO: Fix endShape() errors in src/core/vertex.js, line 395:
 //
 //   param "mode" has invalid type: Number/Constant
 //
@@ -1359,6 +1356,15 @@ declare var pAccelerationZ: any;
 declare function setMoveThreshold(value: number): void;
 
 /**
+ *   The setShakeThreshold() function is used to set 
+ *   the movement threshold for the deviceShaken() 
+ *   function. The default threshold is set to 30.
+ *
+ *   @param value The threshold value
+ */
+declare function setShakeThreshold(value: number): void;
+
+/**
  *   The deviceMoved() function is called when the 
  *   devices orientation changes by more than the 
  *   threshold value.
@@ -1372,6 +1378,16 @@ declare function deviceMoved(): void;
  *
  */
 declare function deviceTurned(): void;
+
+/**
+ *   The deviceShaken() function is called when the 
+ *   device total acceleration changes of accelerationX 
+ *   and accelerationY values is more than the 
+ *   threshold value. The default threshold is set to 
+ *   30.
+ *
+ */
+declare function deviceShaken(): void;
 
 // src/events/keyboard.js
 
@@ -2230,7 +2246,7 @@ declare function httpPost(path: string, data?: object, datatype?: string, callba
  */
 declare function httpDo(path: string, method?: string, data?: object, datatype?: string, callback?: Function): void;
 
-// TODO: Fix save() errors in src/io/files.js, line 806:
+// TODO: Fix save() errors in src/io/files.js, line 807:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]
@@ -2260,7 +2276,7 @@ declare function saveJSON(json: any[]|object, filename: string, optimize?: boole
  */
 declare function saveStrings(list: any[], filename: string): void;
 
-// TODO: Fix saveTable() errors in src/io/files.js, line 1047:
+// TODO: Fix saveTable() errors in src/io/files.js, line 1049:
 //
 //   param "options" has invalid type: [String]
 //
@@ -3441,3 +3457,89 @@ declare function removeElements(): void;
 //
 // declare function createElement(tag: string, content?: string): any;
 
+// Properties from p5.sound
+
+// lib/addons/p5.sound.js
+
+/**
+ *   Returns the Audio Context for this sketch. Useful 
+ *   for users who would like to dig deeper into the 
+ *   Web Audio API .
+ *
+ *   @return AudioContext for this sketch
+ */
+declare function getAudioContext(): object;
+
+/**
+ *   Returns a number representing the master amplitude 
+ *   (volume) for sound in this sketch.
+ *
+ *   @return Master amplitude (volume) for sound in 
+ *   this sketch. Should be between 0.0 (silence) and 
+ *   1.0.
+ */
+declare function getMasterVolume(): number;
+
+/**
+ *   Scale the output of all sound in this sketch 
+ *   Scaled between 0.0 (silence) and 1.0 (full 
+ *   volume). 1.0 is the maximum amplitude of a digital 
+ *   sound, so multiplying by greater than 1.0 may 
+ *   cause digital distortion. To fade, provide a 
+ *   rampTime parameter. For more complex fades, see 
+ *   the Env class. Alternately, you can pass in a 
+ *   signal source such as an oscillator to modulate 
+ *   the amplitude with an audio signal. How This 
+ *   Works: When you load the p5.sound module, it 
+ *   creates a single instance of p5sound. All sound 
+ *   objects in this module output to p5sound before 
+ *   reaching your computer's output. So if you change 
+ *   the amplitude of p5sound, it impacts all of the 
+ *   sound in this module. 
+ * 
+ *   If no value is provided, returns a Web Audio API 
+ *   Gain Node
+ *
+ *   @param volume Volume (amplitude) between 0.0 and 
+ *   1.0 or modulating signal/oscillator
+ *   @param [rampTime] Fade for t seconds
+ *   @param [timeFromNow] Schedule this event to happen 
+ *   at t seconds in the future
+ */
+declare function masterVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
+
+// TODO: Property "p5.soundOut", defined in lib/addons/p5.sound.js, line 260, is not a valid JS symbol name
+
+/**
+ *   Returns a number representing the sample rate, in 
+ *   samples per second, of all sound objects in this 
+ *   audio context. It is determined by the sampling 
+ *   rate of your operating system's sound card, and it 
+ *   is not currently possile to change. It is often 
+ *   44100, or twice the range of human hearing.
+ *
+ *   @return samplerate samples per second
+ */
+declare function sampleRate(): number;
+
+/**
+ *   Returns the frequency value of a MIDI note value. 
+ *   General MIDI treats notes as integers where middle 
+ *   C is 60, C# is 61, D is 62 etc. Useful for 
+ *   generating musical frequencies with oscillators.
+ *
+ *   @param midiNote The number of a MIDI note
+ *   @return Frequency value of the given MIDI note
+ */
+declare function midiToFreq(midiNote: number): number;
+
+/**
+ *   List the SoundFile formats that you will include. 
+ *   LoadSound will search your directory for these 
+ *   extensions, and will pick a format that is 
+ *   compatable with the client's web browser. Here is 
+ *   a free online file converter.
+ *
+ *   @param formats i.e. 'mp3', 'wav', 'ogg'
+ */
+declare function soundFormats(formats: string|any): void;
