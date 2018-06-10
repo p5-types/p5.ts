@@ -775,6 +775,27 @@ declare function fullscreen(val?: boolean): boolean;
  */
 declare function devicePixelScaling(): void;
 
+/**
+ *   Gets the current URL.
+ *
+ *   @return url
+ */
+declare function getURL(): string;
+
+/**
+ *   Gets the current URL path as an array.
+ *
+ *   @return path components
+ */
+declare function getURLPath(): any[];
+
+/**
+ *   Gets the current URL params as an Object.
+ *
+ *   @return URL params
+ */
+declare function getURLParams(): object;
+
 // src/image/image.js
 
 /**
@@ -893,7 +914,11 @@ declare function imageMode(m: string): void;
 /**
  *   Copies a region of pixels from one image to 
  *   another, using a specified blend mode to do the 
- *   operation.
+ *   operation. Available blend modes are: BLEND | 
+ *   DARKEST | LIGHTEST | DIFFERENCE | MULTIPLY| 
+ *   EXCLUSION | SCREEN | REPLACE | OVERLAY | 
+ *   HARD_LIGHT | SOFT_LIGHT | DODGE | BURN | ADD | 
+ *   NORMAL
  *
  *   @param srcImage source image
  *   @param sx X coordinate of the source's upper left 
@@ -908,12 +933,7 @@ declare function imageMode(m: string): void;
  *   left corner
  *   @param dw destination image width
  *   @param dh destination image height
- *   @param blendMode the blend mode Available blend 
- *   modes are: normal | multiply | screen | overlay | 
- *   darken | lighten | color-dodge | color-burn | 
- *   hard-light | soft-light | difference | exclusion | 
- *   hue | saturation | color | luminosity 
- *   http://blogs.adobe.com/webplatform/2013/01/28/blending-features-in-canvas/
+ *   @param blendMode the blend mode
  */
 declare function blend(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: number): void;
 
@@ -1023,7 +1043,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 393:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 435:
 //
 //   param "w" is defined multiple times
 //
@@ -1134,8 +1154,51 @@ declare function loadTable(filename: string, options?: string|any, callback?: Fu
  *   @return XML object containing data
  */
 declare function loadXML(filename: string, callback?: Function): object;
+
+/**
+ *   Method for executing an HTTP GET request. If data 
+ *   type is not specified, p5 will try to guess based 
+ *   on the URL, defaulting to text.
+ *
+ *   @param path name of the file or url to load
+ *   @param [data] param data passed sent with request
+ *   @param [datatype] "json", "jsonp", "xml", or 
+ *   "text"
+ *   @param [callback] function to be executed after 
+ *   httpGet() completes, data is passed in as first 
+ *   argument
+ */
 declare function httpGet(path: string, data?: object, datatype?: string, callback?: Function): void;
+
+/**
+ *   Method for executing an HTTP POST request. If data 
+ *   type is not specified, p5 will try to guess based 
+ *   on the URL, defaulting to text.
+ *
+ *   @param path name of the file or url to load
+ *   @param [data] param data passed sent with request
+ *   @param [datatype] "json", "jsonp", "xml", or 
+ *   "text"
+ *   @param [callback] function to be executed after 
+ *   httpGet() completes, data is passed in as first 
+ *   argument
+ */
 declare function httpPost(path: string, data?: object, datatype?: string, callback?: Function): void;
+
+/**
+ *   Method for executing an HTTP request. If data type 
+ *   is not specified, p5 will try to guess based on 
+ *   the URL, defaulting to text.
+ *
+ *   @param path name of the file or url to load
+ *   @param [data] param data passed sent with request
+ *   @param [datatype] "json", "jsonp", "xml", or 
+ *   "text"
+ *   @param [callback] function to be executed after 
+ *   httpGet() completes, data is passed in as first 
+ *   argument
+ */
+declare function httpDo(path: string, data?: object, datatype?: string, callback?: Function): void;
 
 // src/input/keyboard.js
 
@@ -1237,11 +1300,14 @@ declare function keyTyped(): void;
  *   you have an object that moves, and you want 
  *   several keys to be able to affect its behaviour 
  *   simultaneously, such as moving a sprite 
- *   diagonally.
+ *   diagonally. You can put in any number representing 
+ *   the keyCode of the key, or use any of the variable 
+ *   keyCode names listed here.
  *
- *   @param [code] The key to check for.
+ *   @param code The key to check for.
+ *   @return whether key is down or not
  */
-declare function keyIsDown(code?: number): void;
+declare function keyIsDown(code: number): boolean;
 
 // src/input/mouse.js
 
@@ -2047,7 +2113,7 @@ declare function radians(degrees: number): number;
 
 // src/output/files.js
 
-// TODO: Fix save() errors in src/output/files.js, line 109:
+// TODO: Fix save() errors in src/output/files.js, line 99:
 //
 //   param "filename" has invalid type: [String]
 //   param "options" has invalid type: [Boolean/String]

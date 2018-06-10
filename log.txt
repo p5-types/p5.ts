@@ -6,10 +6,10 @@ lerpColor() src/color/creating_reading.js, line 233, return has invalid type: Ar
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
-updatePixels() src/image/pixels.js, line 393, param "w" is defined multiple times
+updatePixels() src/image/pixels.js, line 435, param "w" is defined multiple times
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
-save() src/output/files.js, line 109, param "filename" has invalid type: [String]
-save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
+save() src/output/files.js, line 99, param "filename" has invalid type: [String]
+save() src/output/files.js, line 99, param "options" has invalid type: [Boolean/String]
 blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 294, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 294, param "y1" has invalid type: Type
@@ -81,10 +81,10 @@ lerpColor() src/color/creating_reading.js, line 233, return has invalid type: Ar
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
-updatePixels() src/image/pixels.js, line 393, param "w" is defined multiple times
+updatePixels() src/image/pixels.js, line 435, param "w" is defined multiple times
 angleMode() src/math/trigonometry.js, line 167, param "mode" has invalid type: Number/Constant
-save() src/output/files.js, line 109, param "filename" has invalid type: [String]
-save() src/output/files.js, line 109, param "options" has invalid type: [Boolean/String]
+save() src/output/files.js, line 99, param "filename" has invalid type: [String]
+save() src/output/files.js, line 99, param "options" has invalid type: [Boolean/String]
 blendMode() src/rendering/rendering.js, line 169, param "mode" has invalid type: String/Constant
 quad() src/shape/2d_primitives.js, line 294, param "x1" has invalid type: Type
 quad() src/shape/2d_primitives.js, line 294, param "y1" has invalid type: Type
