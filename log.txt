@@ -1,8 +1,8 @@
 Generating definitions...
 Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
-lerpColor() src/color/creating_reading.js, line 223, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 223, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 223, return has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 259, param "c1" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 259, param "c2" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 259, return has invalid type: Array/Number
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
@@ -39,9 +39,8 @@ createInput() lib/addons/p5.dom.js, line 261, return has invalid type: Object/p5
 createFileInput() lib/addons/p5.dom.js, line 279, return has invalid type: Object/p5.Element
 createVideo() lib/addons/p5.dom.js, line 372, return has invalid type: Object/p5.Element
 createAudio() lib/addons/p5.dom.js, line 400, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 436, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 436, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 492, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 532, return has invalid type: Object/p5.Element
 drop() src/objects/p5.Element.js, line 406, param "callback" is defined multiple times
 lerp() src/objects/p5.Vector.js, line 516, required param "amt" follows an optional param
 p5.SoundFile() lib/addons/p5.sound.js, line 530, param "path" has invalid type: String/Array
@@ -78,9 +77,9 @@ addImpulse() lib/addons/p5.sound.js, line 4997, param "callback" has invalid typ
 resetImpulse() lib/addons/p5.sound.js, line 5014, param "callback" has invalid type: [Function]
 p5.Score() lib/addons/p5.sound.js, line 5564, param "part(s)" is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
-lerpColor() src/color/creating_reading.js, line 223, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 223, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 223, return has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 259, param "c1" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 259, param "c2" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 259, return has invalid type: Array/Number
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
@@ -117,9 +116,8 @@ createInput() lib/addons/p5.dom.js, line 261, return has invalid type: Object/p5
 createFileInput() lib/addons/p5.dom.js, line 279, return has invalid type: Object/p5.Element
 createVideo() lib/addons/p5.dom.js, line 372, return has invalid type: Object/p5.Element
 createAudio() lib/addons/p5.dom.js, line 400, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 436, param "type" has invalid type: String/Constant
 createCapture() lib/addons/p5.dom.js, line 436, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 492, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 532, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant

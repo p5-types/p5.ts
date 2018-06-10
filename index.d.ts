@@ -48,11 +48,13 @@ declare class p5 {
    *   alpha transparency. When three values are 
    *   specified, they are interpreted as either RGB or 
    *   HSB values. Adding a fourth value applies alpha 
-   *   transparency. Colors are stored as Numbers or 
-   *   Arrays.
+   *   transparency. If a single string parameter is 
+   *   provided it will be interpreted as a 
+   *   CSS-compatible color string. Colors are stored as 
+   *   Numbers or Arrays.
    *
    *   @param v1 gray value or red or hue value relative 
-   *   to the current color range
+   *   to the current color range, or a color string
    *   @param [v2] gray value or green or saturation 
    *   value relative to the current color range (or 
    *   alpha value if first param is gray value)
@@ -62,7 +64,7 @@ declare class p5 {
    *   color range
    *   @return resulting color
    */
-  color(v1: number, v2?: number, v3?: number, alpha?: number): any[];
+  color(v1: number|string, v2?: number, v3?: number, alpha?: number): any[];
 
   /**
    *   Extracts the green value from a color or pixel 
@@ -79,7 +81,7 @@ declare class p5 {
    */
   hue(color: object): void;
 
-  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 223:
+  // TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 259:
   //
   //   param "c1" has invalid type: Array/Number
   //   param "c2" has invalid type: Array/Number
@@ -115,14 +117,15 @@ declare class p5 {
    *   need only be set once.
    *
    *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color or p5.Image
+   *   on the current color mode), color string, 
+   *   p5.Color, or p5.Image
    *   @param [v2] green or saturation value (depending 
    *   on the current color mode)
    *   @param [v3] blue or brightness value (depending on 
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  background(v1: number|Color|p5.Image, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  background(v1: number|string|p5.Color|p5.Image, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
 
   /**
    *   Clears the pixels within a buffer. This function 
@@ -165,17 +168,21 @@ declare class p5 {
    *   either specified in terms of the RGB or HSB color 
    *   depending on the current colorMode(). (The default 
    *   color space is RGB, with each value in the range 
-   *   from 0 to 255.)
+   *   from 0 to 255.) If a single string argument is 
+   *   provided, RGB, RGBA and Hex CSS color strings and 
+   *   all named color strings are supported. A p5 Color 
+   *   object can also be provided to set the fill color.
    *
    *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color Array
+   *   on the current color mode), or color Array, or CSS 
+   *   color string
    *   @param [v2] green or saturation value (depending 
    *   on the current color mode)
    *   @param [v3] blue or brightness value (depending on 
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  fill(v1: number|any[], v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  fill(v1: number|any[]|string|p5.Color, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
 
   /**
    *   Disables filling geometry. If both noStroke() and 
@@ -198,17 +205,22 @@ declare class p5 {
    *   around shapes. This color is either specified in 
    *   terms of the RGB or HSB color depending on the 
    *   current colorMode() (the default color space is 
-   *   RGB, with each value in the range from 0 to 255).
+   *   RGB, with each value in the range from 0 to 255). 
+   *   If a single string argument is provided, RGB, RGBA 
+   *   and Hex CSS color strings and all named color 
+   *   strings are supported. A p5 Color object can also 
+   *   be provided to set the stroke color.
    *
    *   @param v1 gray value, red or hue value (depending 
-   *   on the current color mode), or color Array
+   *   on the current color mode), or color Array, or CSS 
+   *   color string
    *   @param [v2] green or saturation value (depending 
    *   on the current color mode)
    *   @param [v3] blue or brightness value (depending on 
    *   the current color mode)
    *   @param [a] opacity of the background
    */
-  stroke(v1: number|any[], v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
+  stroke(v1: number|any[]|string|p5.Color, v2?: number|any[], v3?: number|any[], a?: number|any[]): void;
 
   // src/core/constants.js
 
@@ -1663,36 +1675,33 @@ declare class p5 {
 
   /**
    *   The system variable touchY always contains the 
-   *   horizontal position of one finger, relative to (0, 
-   *   0) of the canvas in the frame previous to the 
-   *   current frame. This is best used for single touch 
-   *   interactions. For multi-touch interactions, use 
-   *   the touches[] array.
+   *   vertical position of one finger, relative to (0, 
+   *   0) of the canvas. This is best used for single 
+   *   touch interactions. For multi-touch interactions, 
+   *   use the touches[] array.
    *
    */
   touchY: any;
 
   /**
-   *   The system variable touchY always contains the 
+   *   The system variable ptouchX always contains the 
    *   horizontal position of one finger, relative to (0, 
-   *   0) of the canvas in the frame previous to the 
-   *   current frame. This is best used for single touch 
-   *   interactions. For multi-touch interactions, use 
-   *   the touches[] array.
+   *   0) of the canvas, in the frame previous to the 
+   *   current frame.
    *
    */
   ptouchX: any;
 
   /**
-   *   The system variable pmouseY always contains the 
-   *   vertical position of the mouse in the frame 
-   *   previous to the current frame, relative to (0, 0) 
-   *   of the canvas.
+   *   The system variable ptouchY always contains the 
+   *   vertical position of one finger, relative to (0, 
+   *   0) of the canvas, in the frame previous to the 
+   *   current frame.
    *
    */
   ptouchY: any;
 
-  // TODO: Property "touches[]", defined in src/input/touch.js, line 54, is not a valid JS symbol name
+  // TODO: Property "touches[]", defined in src/input/touch.js, line 51, is not a valid JS symbol name
 
   /**
    *   The boolean system variable touchIsDown is true if 
@@ -3192,12 +3201,11 @@ declare class p5 {
 
   // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 436:
   //
-  //   param "type" has invalid type: String/Constant
   //   return has invalid type: Object/p5.Element
   //
-  // createCapture(type: any): any;
+  // createCapture(type: any|object, callback: Function): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 492:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 532:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -4409,6 +4417,17 @@ declare namespace p5 {
      *   @return an Array with the 3 values
      */
     array(): any[];
+
+    /**
+     *   Equality check against a p5.Vector
+     *
+     *   @param [x] the x component of the vector or a 
+     *   p5.Vector or an Array
+     *   @param [y] the y component of the vector
+     *   @param [z] the z component of the vector
+     *   @return whether the vectors are equals
+     */
+    equals(x?: number|p5.Vector|any[], y?: number, z?: number): boolean;
 
     /**
      *   Make a new 2D unit vector from an angle
