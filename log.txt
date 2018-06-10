@@ -25,22 +25,21 @@ strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Num
 strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: Number/Constant
 beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number/Constant
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
-textAlign() src/typography/attributes.js, line 20, param "a" has invalid type: Number/Constant
-textStyle() src/typography/attributes.js, line 122, param "s" has invalid type: Number/Constant
-removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>() lib/addons/p5.dom.js, line 73, "removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>" is not a valid JS symbol name
-createDiv() lib/addons/p5.dom.js, line 109, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 120, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 152, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 175, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 199, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 221, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 242, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 289, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 317, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 353, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 353, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 385, return has invalid type: Object/p5.Element
+textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
+textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
+createDiv() lib/addons/p5.dom.js, line 110, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 133, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 153, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 176, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 200, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 222, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 243, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 290, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 318, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 354, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 354, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 386, return has invalid type: Object/p5.Element
 getNormalizedColor() src/objects/p5.Color.js, line 30, param "args" has invalid type: Array-like
 lerp() src/objects/p5.Vector.js, line 383, required param "amt" follows an optional param
 p5.SoundFile() lib/addons/p5.sound.js, line 425, param "path" has invalid type: String/Array
@@ -105,22 +104,21 @@ strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Num
 strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: Number/Constant
 beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number/Constant
 endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
-textAlign() src/typography/attributes.js, line 20, param "a" has invalid type: Number/Constant
-textStyle() src/typography/attributes.js, line 122, param "s" has invalid type: Number/Constant
-removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>() lib/addons/p5.dom.js, line 73, "removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>" is not a valid JS symbol name
-createDiv() lib/addons/p5.dom.js, line 109, return has invalid type: Object/p5.Element
-createP() lib/addons/p5.dom.js, line 120, return has invalid type: Object/p5.Element
-createSpan() lib/addons/p5.dom.js, line 132, return has invalid type: Object/p5.Element
-createImg() lib/addons/p5.dom.js, line 152, return has invalid type: Object/p5.Element
-createA() lib/addons/p5.dom.js, line 175, return has invalid type: Object/p5.Element
-createSlider() lib/addons/p5.dom.js, line 199, return has invalid type: Object/p5.Element
-createButton() lib/addons/p5.dom.js, line 221, return has invalid type: Object/p5.Element
-createInput() lib/addons/p5.dom.js, line 242, return has invalid type: Object/p5.Element
-createVideo() lib/addons/p5.dom.js, line 289, return has invalid type: Object/p5.Element
-createAudio() lib/addons/p5.dom.js, line 317, return has invalid type: Object/p5.Element
-createCapture() lib/addons/p5.dom.js, line 353, param "type" has invalid type: String/Constant
-createCapture() lib/addons/p5.dom.js, line 353, return has invalid type: Object/p5.Element
-createElement() lib/addons/p5.dom.js, line 385, return has invalid type: Object/p5.Element
+textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
+textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
+createDiv() lib/addons/p5.dom.js, line 110, return has invalid type: Object/p5.Element
+createP() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
+createSpan() lib/addons/p5.dom.js, line 133, return has invalid type: Object/p5.Element
+createImg() lib/addons/p5.dom.js, line 153, return has invalid type: Object/p5.Element
+createA() lib/addons/p5.dom.js, line 176, return has invalid type: Object/p5.Element
+createSlider() lib/addons/p5.dom.js, line 200, return has invalid type: Object/p5.Element
+createButton() lib/addons/p5.dom.js, line 222, return has invalid type: Object/p5.Element
+createInput() lib/addons/p5.dom.js, line 243, return has invalid type: Object/p5.Element
+createVideo() lib/addons/p5.dom.js, line 290, return has invalid type: Object/p5.Element
+createAudio() lib/addons/p5.dom.js, line 318, return has invalid type: Object/p5.Element
+createCapture() lib/addons/p5.dom.js, line 354, param "type" has invalid type: String/Constant
+createCapture() lib/addons/p5.dom.js, line 354, return has invalid type: Object/p5.Element
+createElement() lib/addons/p5.dom.js, line 386, return has invalid type: Object/p5.Element
 MISSING: Array/Number
 MISSING: Nimber
 MISSING: Number/Constant

@@ -748,7 +748,19 @@ declare class p5 {
    *   Creates a new p5.Image (the datatype for storing 
    *   images). This provides a fresh buffer of pixels to 
    *   play with. Set the size of the buffer with the 
-   *   width and height parameters.
+   *   width and height parameters. .pixels gives access 
+   *   to an array containing the values for all the 
+   *   pixels in the display window. These values are 
+   *   numbers. This array is the size of the display 
+   *   window x4, representing the R, G, B, A values in 
+   *   order for each pixel, moving from left to right 
+   *   across each row, then down each column. See 
+   *   .pixels for more info. It may also be simpler to 
+   *   use set() or get().  Before accessing the pixels 
+   *   of an image, the data must loaded with the 
+   *   loadPixels() function. After the array data has 
+   *   been modified, the updatePixels() function must be 
+   *   run to update the changes.
    *
    *   @param width width in pixels
    *   @param height height in pixels
@@ -2681,19 +2693,11 @@ declare class p5 {
 
   // src/typography/attributes.js
 
-  // TODO: Fix textAlign() errors in src/typography/attributes.js, line 20:
+  // TODO: Fix textAlign() errors in src/typography/attributes.js, line 22:
   //
   //   param "a" has invalid type: Number/Constant
   //
   // textAlign(a: any): void;
-
-  /**
-   *   Calculates and returns the height of any character 
-   *   or text string.
-   *
-   *   @param s the String of characters to measure
-   */
-  textHeight(s: string): void;
 
   /**
    *   Sets the spacing between lines of text in units of 
@@ -2715,7 +2719,7 @@ declare class p5 {
    */
   textSize(s: number): void;
 
-  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 122:
+  // TODO: Fix textStyle() errors in src/typography/attributes.js, line 103:
   //
   //   param "s" has invalid type: Number/Constant
   //
@@ -2795,80 +2799,83 @@ declare class p5 {
    */
   getElements(theClass: string): any[];
 
-  // TODO: Fix removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>() errors in lib/addons/p5.dom.js, line 73:
-  //
-  //   "removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>" is not a valid JS symbol name
-  //
-  // removeElements!~YUIDOC_LINE~!<div class='norender'><code>!~YUIDOC_LINE~!function setup() !~YUIDOC_LINE~!function mousePressed() {!~YUIDOC_LINE~!  removeElements(); // this will remove the div and p, not canvas!~YUIDOC_LINE~!}!~YUIDOC_LINE~!</code></div>(): void;
+  /**
+   *   Removes all elements created by p5, except any 
+   *   canvas / graphics elements created by createCanvas 
+   *   or createGraphics. Event handlers are removed, and 
+   *   element is removed from the DOM.
+   *
+   */
+  removeElements(): void;
 
-  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 109:
+  // TODO: Fix createDiv() errors in lib/addons/p5.dom.js, line 110:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createDiv(html: string): any;
 
-  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 120:
+  // TODO: Fix createP() errors in lib/addons/p5.dom.js, line 121:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createP(html: string): any;
 
-  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 132:
+  // TODO: Fix createSpan() errors in lib/addons/p5.dom.js, line 133:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSpan(html: string): any;
 
-  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 152:
+  // TODO: Fix createImg() errors in lib/addons/p5.dom.js, line 153:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createImg(src: string, alt: string): any;
 
-  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 175:
+  // TODO: Fix createA() errors in lib/addons/p5.dom.js, line 176:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createA(href: string, html: string, target?: string): any;
 
-  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 199:
+  // TODO: Fix createSlider() errors in lib/addons/p5.dom.js, line 200:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createSlider(min: number, max: number, value?: number): any;
 
-  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 221:
+  // TODO: Fix createButton() errors in lib/addons/p5.dom.js, line 222:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createButton(label: string, value?: string): any;
 
-  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 242:
+  // TODO: Fix createInput() errors in lib/addons/p5.dom.js, line 243:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createInput(value?: number): any;
 
-  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 289:
+  // TODO: Fix createVideo() errors in lib/addons/p5.dom.js, line 290:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createVideo(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 317:
+  // TODO: Fix createAudio() errors in lib/addons/p5.dom.js, line 318:
   //
   //   return has invalid type: Object/p5.Element
   //
   // createAudio(src: string|any[], callback?: object): any;
 
-  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 353:
+  // TODO: Fix createCapture() errors in lib/addons/p5.dom.js, line 354:
   //
   //   param "type" has invalid type: String/Constant
   //   return has invalid type: Object/p5.Element
   //
   // createCapture(type: any): any;
 
-  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 385:
+  // TODO: Fix createElement() errors in lib/addons/p5.dom.js, line 386:
   //
   //   return has invalid type: Object/p5.Element
   //
@@ -3305,7 +3312,7 @@ declare namespace p5 {
      *   into this p5.Image. Note that for a large number 
      *   of pixels this will be slower than directly 
      *   manipulating the pixels array and then calling 
-     *   updatePixels()
+     *   updatePixels().
      *
      *   @param x x-coordinate of the pixel
      *   @param y y-coordinate of the pixel
