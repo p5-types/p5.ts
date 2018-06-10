@@ -2299,7 +2299,9 @@ declare class p5 {
    *   relative to (0, 0) of the canvas, and IDs 
    *   identifying a unique touch as it moves. Each 
    *   element in the array is an object with x, y, and 
-   *   id properties.
+   *   id properties. The touches[] array is not 
+   *   supported on Safari and IE on touch-based desktops 
+   *   (laptops).
    *
    */
   touches: object[];
@@ -2544,7 +2546,7 @@ declare class p5 {
    *   display window x4, representing the R, G, B, A 
    *   values in order for each pixel, moving from left 
    *   to right across each row, then down each column. 
-   *   Retina and other high denisty displays will have 
+   *   Retina and other high density displays will have 
    *   more pixels[] (by a factor of pixelDensity^2). For 
    *   example, if the image is 100x100 pixels, there 
    *   will be 40,000. On a retina display, there will be 
@@ -2733,7 +2735,9 @@ declare class p5 {
   /**
    *   Loads the pixel data for the display window into 
    *   the pixels[] array. This function must always be 
-   *   called before reading from or writing to pixels[].
+   *   called before reading from or writing to pixels[]. 
+   *   Note that only changes made with set() or direct 
+   *   manipulation of pixels[] will occur.
    *
    */
   loadPixels(): void;
@@ -2780,7 +2784,9 @@ declare class p5 {
    *   the array, there's no need to call updatePixels() 
    *   — updating is only necessary to apply changes. 
    *   updatePixels() should be called anytime the pixels 
-   *   array is manipulated or set() is called.
+   *   array is manipulated or set() is called, and only 
+   *   changes made with set() or direct changes to 
+   *   pixels[] will occur.
    *
    *   @param [x] x-coordinate of the upper-left corner 
    *   of region to update
@@ -3746,10 +3752,10 @@ declare class p5 {
    *
    *   @param f a font loaded via loadFont(), or a String 
    *   representing a web safe font (a font that is 
-   *   generally available across all systems).
-   *   @return this
+   *   generally available across all systems)
+   *   @return the current font
    */
-  textFont(f: object|string): object;
+  textFont(f: object|string): object|string;
 
   // src/utilities/array_functions.js
 
@@ -4620,13 +4626,24 @@ declare class p5 {
 
   /**
    *   Creates a dropdown menu <select></select> element 
-   *   in the DOM.
+   *   in the DOM. It also helps to assign select-box 
+   *   methods to p5.Element when selecting existing 
+   *   select box
    *
    *   @param [multiple] true if dropdown should support 
    *   multiple selections
-   *   @return pointer to p5.Element holding created node
    */
-  createSelect(multiple?: boolean): object|p5.Element;
+  createSelect(multiple?: boolean): void;
+
+  /**
+   *   Creates a dropdown menu <select></select> element 
+   *   in the DOM. It also helps to assign select-box 
+   *   methods to p5.Element when selecting existing 
+   *   select box
+   *
+   *   @param existing DOM select element
+   */
+  createSelect(existing: object): void;
 
   /**
    *   Creates a radio button <input></input> element in 
@@ -5452,8 +5469,8 @@ declare namespace p5 {
      *   Applies an image filter to a p5.Image
      *
      *   @param operation one of threshold, gray, invert, 
-     *   posterize and opaque see Filters.js for docs on 
-     *   each available filter
+     *   posterize, opaque erode, dilate and blur. See 
+     *   Filters.js for docs on each available filter
      */
     filter(operation: string, value: number|undefined): void;
 
@@ -5978,7 +5995,7 @@ declare namespace p5 {
      *   @param [defaultValue] the default value of the 
      *   attribute
      */
-    getNumber(name: string, defaultValue?: number): number;
+    getNum(name: string, defaultValue?: number): number;
 
     /**
      *   Returns an attribute value of the element as an 
