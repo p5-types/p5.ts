@@ -1221,6 +1221,18 @@ declare function keyReleased(): void;
  */
 declare function keyTyped(): void;
 
+/**
+ *   The keyIsDown function checks if the key is 
+ *   currently down, i.e. pressed. It can be used if 
+ *   you have an object that moves, and you want 
+ *   several keys to be able to affect its behaviour 
+ *   simultaneously, such as moving a sprite 
+ *   diagonally.
+ *
+ *   @param [code] The key to check for.
+ */
+declare function keyIsDown(code?: number): void;
+
 // src/input/mouse.js
 
 /**
@@ -2305,15 +2317,6 @@ declare function strokeWeight(weight: number): p5;
 declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
 
 /**
- *   Sets the resolution at which Beziers display. The 
- *   default value is 20.
- *
- *   @param detail resolution of the curves
- *   @return the p5 object
- */
-declare function bezierDetail(detail: number): object;
-
-/**
  *   Calculate a point on the Bezier Curve Evaluates 
  *   the Bezier at point t for points a, b, c, d. The 
  *   parameter t varies between 0 and 1, a and d are 
@@ -2378,13 +2381,23 @@ declare function bezierTangent(a: number, b: number, c: number, d: number, t: nu
 declare function curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
 
 /**
- *   Sets the resolution at which curves display. The 
- *   default value is 20.
+ *   Modifies the quality of forms created with curve() 
+ *   and curveVertex(). The parameter tightness 
+ *   determines how the curve fits to the vertex 
+ *   points. The value 0.0 is the default value for 
+ *   tightness (this value defines the curves to be 
+ *   Catmull-Rom splines) and the value 1.0 connects 
+ *   all the points with straight lines. Values within 
+ *   the range -5.0 and 5.0 will deform the curves but 
+ *   will leave them recognizable and as values 
+ *   increase in magnitude, they will continue to 
+ *   deform.
  *
- *   @param resolution of the curves
+ *   @param amount of deformation from the original 
+ *   vertices
  *   @return the p5 object
  */
-declare function curveDetail(resolution: number): object;
+declare function curveTightness(amount: number): object;
 
 /**
  *   Calculate a point on the Curve Evaluates the 
@@ -2423,23 +2436,28 @@ declare function curveTangent(a: number, b: number, c: number, d: number, t: num
 // src/shape/vertex.js
 
 /**
- *   Use the beginContour() and endContour() function 
- *   to create negative shapes within shapes. For 
- *   instance, the center of the letter 'O'. 
- *   beginContour() begins recording vertices for the 
- *   shape and endContour() stops recording. These 
- *   functions can only be within a 
- *   beginShape()/endShape() pair. Transformations such 
- *   as translate(), rotate(), and scale() do not work 
- *   within a beginContour()/endContour() pair. It is 
- *   also not possible to use other shapes, such as 
- *   ellipse() or rect() within.
+ *   Use the beginContour() and endContour() functions 
+ *   to create negative shapes within shapes such as 
+ *   the center of the letter 'O'. beginContour() 
+ *   begins recording vertices for the shape and 
+ *   endContour() stops recording. The vertices that 
+ *   define a negative shape must "wind" in the 
+ *   opposite direction from the exterior shape. First 
+ *   draw vertices for the exterior clockwise order, 
+ *   then for internal shapes, draw vertices shape in 
+ *   counter-clockwise.  These functions can only be 
+ *   used within a beginShape()/endShape() pair and 
+ *   transformations such as translate(), rotate(), and 
+ *   scale() do not work within a 
+ *   beginContour()/endContour() pair. It is also not 
+ *   possible to use other shapes, such as ellipse() or 
+ *   rect() within.
  *
  *   @return the p5 object
  */
 declare function beginContour(): object;
 
-// TODO: Fix beginShape() errors in src/shape/vertex.js, line 62:
+// TODO: Fix beginShape() errors in src/shape/vertex.js, line 79:
 //
 //   param "kind" has invalid type: Number/Constant
 //
@@ -2490,19 +2508,28 @@ declare function bezierVertex(x2: number, y2: number, x3: number, y3: number, x4
 declare function curveVertex(x: number, y: number): object;
 
 /**
- *   Use the beginContour() and endContour() function 
- *   to create negative shapes within shapes. For 
- *   instance, the center of the letter 'O'. 
- *   beginContour() begins recording vertices for the 
- *   shape and endContour() stops recording. These 
- *   functions can only be within a 
- *   beginShape()/endShape() pair.
+ *   Use the beginContour() and endContour() functions 
+ *   to create negative shapes within shapes such as 
+ *   the center of the letter 'O'. beginContour() 
+ *   begins recording vertices for the shape and 
+ *   endContour() stops recording. The vertices that 
+ *   define a negative shape must "wind" in the 
+ *   opposite direction from the exterior shape. First 
+ *   draw vertices for the exterior clockwise order, 
+ *   then for internal shapes, draw vertices shape in 
+ *   counter-clockwise.  These functions can only be 
+ *   used within a beginShape()/endShape() pair and 
+ *   transformations such as translate(), rotate(), and 
+ *   scale() do not work within a 
+ *   beginContour()/endContour() pair. It is also not 
+ *   possible to use other shapes, such as ellipse() or 
+ *   rect() within.
  *
  *   @return the p5 object
  */
 declare function endContour(): object;
 
-// TODO: Fix endShape() errors in src/shape/vertex.js, line 420:
+// TODO: Fix endShape() errors in src/shape/vertex.js, line 405:
 //
 //   param "mode" has invalid type: Number/Constant
 //

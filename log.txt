@@ -23,8 +23,8 @@ ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: N
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
 strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: Number/Constant
-beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number/Constant
-endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
+beginShape() src/shape/vertex.js, line 79, param "kind" has invalid type: Number/Constant
+endShape() src/shape/vertex.js, line 405, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
 createDiv() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
@@ -101,8 +101,8 @@ ellipseMode() src/shape/attributes.js, line 18, param "mode" has invalid type: N
 rectMode() src/shape/attributes.js, line 106, param "mode" has invalid type: Number/Constant
 strokeCap() src/shape/attributes.js, line 195, param "cap" has invalid type: Number/Constant
 strokeJoin() src/shape/attributes.js, line 226, param "join" has invalid type: Number/Constant
-beginShape() src/shape/vertex.js, line 62, param "kind" has invalid type: Number/Constant
-endShape() src/shape/vertex.js, line 420, param "mode" has invalid type: Number/Constant
+beginShape() src/shape/vertex.js, line 79, param "kind" has invalid type: Number/Constant
+endShape() src/shape/vertex.js, line 405, param "mode" has invalid type: Number/Constant
 textAlign() src/typography/attributes.js, line 22, param "a" has invalid type: Number/Constant
 textStyle() src/typography/attributes.js, line 103, param "s" has invalid type: Number/Constant
 createDiv() lib/addons/p5.dom.js, line 121, return has invalid type: Object/p5.Element
