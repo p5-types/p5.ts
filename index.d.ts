@@ -2013,8 +2013,10 @@ declare class p5 {
    *   DILATE Increases the light areas. No parameter is 
    *   used.
    *
+   *   @param filterParam an optional parameter unique to 
+   *   each filter, see above
    */
-  filter(kind: string, param: number|undefined): void;
+  filter(filterType: string, filterParam: number): void;
 
   /**
    *   Returns an array of [R,G,B,A] values for any pixel 

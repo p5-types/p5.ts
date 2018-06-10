@@ -2013,8 +2013,10 @@ declare function copy(srcImage: p5.Image|undefined, sx: number, sy: number, sw: 
  *   DILATE Increases the light areas. No parameter is 
  *   used.
  *
+ *   @param filterParam an optional parameter unique to 
+ *   each filter, see above
  */
-declare function filter(kind: string, param: number|undefined): void;
+declare function filter(filterType: string, filterParam: number): void;
 
 /**
  *   Returns an array of [R,G,B,A] values for any pixel 
