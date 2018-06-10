@@ -79,7 +79,7 @@ declare function green(color: object): void;
  */
 declare function hue(color: object): void;
 
-// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 227:
+// TODO: Fix lerpColor() errors in src/color/creating_reading.js, line 223:
 //
 //   param "c1" has invalid type: Array/Number
 //   param "c2" has invalid type: Array/Number

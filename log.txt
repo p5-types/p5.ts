@@ -1,8 +1,8 @@
 Generating definitions...
 Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
-lerpColor() src/color/creating_reading.js, line 227, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 227, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 227, return has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 223, param "c1" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 223, param "c2" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 223, return has invalid type: Array/Number
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
@@ -78,9 +78,9 @@ addImpulse() lib/addons/p5.sound.js, line 4997, param "callback" has invalid typ
 resetImpulse() lib/addons/p5.sound.js, line 5014, param "callback" has invalid type: [Function]
 p5.Score() lib/addons/p5.sound.js, line 5564, param "part(s)" is not a valid JS symbol name
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
-lerpColor() src/color/creating_reading.js, line 227, param "c1" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 227, param "c2" has invalid type: Array/Number
-lerpColor() src/color/creating_reading.js, line 227, return has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 223, param "c1" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 223, param "c2" has invalid type: Array/Number
+lerpColor() src/color/creating_reading.js, line 223, return has invalid type: Array/Number
 arrayCopy() src/data/array_functions.js, line 25, required param "dst" follows an optional param
 arrayCopy() src/data/array_functions.js, line 25, param "length" has invalid type: Nimber
 cursor() src/environment/environment.js, line 59, param "type" has invalid type: Number/Constant
