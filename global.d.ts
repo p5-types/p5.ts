@@ -424,6 +424,31 @@ declare function splice(list: any[], value: any, position: number): void;
  */
 declare function subset(list: any[], start: number, count?: number): any[];
 
+// src/data/conversion.js
+
+/**
+ *   Converts a string to its floating point 
+ *   representation. The contents of a string must 
+ *   resemble a number, or NaN (not a number) will be 
+ *   returned. For example, float("1234.56") evaluates 
+ *   to 1234.56, but float("giraffe") will return NaN.
+ *
+ *   @param str float string to parse
+ *   @return floating point representation of string
+ */
+declare function float(str: string): number;
+
+/**
+ *   Converts a boolean, string, or float to its 
+ *   integer representation. When an array of values is 
+ *   passed in, then an int array of the same length is 
+ *   returned.
+ *
+ *   @param n value to parse
+ *   @return integer representation of value
+ */
+declare function int(n: string|boolean|number|any[]): number;
+
 // src/data/string_functions.js
 
 /**
@@ -1001,7 +1026,7 @@ declare function set(x: number, y: number, c: number|any[]|object): void;
  *   Loads a JSON file from a file or a URL, and 
  *   returns an Object or Array. This method is 
  *   asynchronous, meaning it may not finish before the 
- *   next line in your sketch is executed, either use 
+ *   next line in your sketch is executed. Either use 
  *   preload() to guarantee the file loads before 
  *   setup() and draw() are called, or supply a 
  *   callback function that is executed when 
@@ -1027,7 +1052,7 @@ declare function loadJSON(path: string, callback?: Function): object|any[];
  *   the filename parameter can be a URL for a file 
  *   found on a network. This method is asynchronous, 
  *   meaning it may not finish before the next line in 
- *   your sketch is executed, either use preload() to 
+ *   your sketch is executed. Either use preload() to 
  *   guarantee the file loads before setup() and draw() 
  *   are called, or supply a callback function that is 
  *   executed when loadStrings() completes.
@@ -1057,7 +1082,14 @@ declare function loadStrings(filename: string, callback?: Function): any[];
  *   - header - this table has a header (title) row   
  * 
  *  
- *   All files loaded and saved use UTF-8 encoding.
+ *   All files loaded and saved use UTF-8 encoding. 
+ * 
+ *   This method is asynchronous, meaning it may not 
+ *   finish before the next line in your sketch is 
+ *   executed. Either use preload() to guarantee the 
+ *   file loads before setup() and draw() are called, 
+ *   or supply a callback function that is executed 
+ *   when loadTable() completes.
  *
  *   @param filename name of the file or URL to load
  *   @param [options] "header" "csv" "tsv"
@@ -1080,7 +1112,7 @@ declare function loadTable(filename: string, options?: string|any, callback?: Fu
  *   the filename parameter can be a URL for a file 
  *   found on a network. This method is asynchronous, 
  *   meaning it may not finish before the next line in 
- *   your sketch is executed, either use preload() to 
+ *   your sketch is executed. Either use preload() to 
  *   guarantee the file loads before setup() and draw() 
  *   are called, or supply a callback function that is 
  *   executed when loadXML() completes.
@@ -2042,7 +2074,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number): object;
 
-// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 173:
+// TODO: Fix blendMode() errors in src/rendering/rendering.js, line 170:
 //
 //   param "mode" has invalid type: String/Constant
 //
