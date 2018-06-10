@@ -473,6 +473,101 @@ declare class p5 {
    */
   int(n: string|boolean|number|any[]): number;
 
+  /**
+   *   Converts a boolean, string or number to its string 
+   *   representation. When an array of values is passed 
+   *   in, then an array of strings of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return string representation of value
+   */
+  str(n: string|boolean|number|any[]): string;
+
+  /**
+   *   Converts a number or string to its boolean 
+   *   representation. For a number, any non-zero value 
+   *   (positive or negative) evaluates to true, while 
+   *   zero evaluates to false. For a string, the value 
+   *   "true" evaluates to true, while any other value 
+   *   evaluates to false. When an array of number or 
+   *   string values is passed in, then a array of 
+   *   booleans of the same length is returned.
+   *
+   *   @param n value to parse
+   *   @return boolean representation of value
+   */
+  boolean(n: string|boolean|number|any[]): boolean;
+
+  /**
+   *   Converts a number, string or boolean to its byte 
+   *   representation. A byte can be only a whole number 
+   *   between -128 and 127, so when a value outside of 
+   *   this range is converted, it wraps around to the 
+   *   corresponding byte representation. When an array 
+   *   of number, string or boolean values is passed in, 
+   *   then an array of bytes the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return byte representation of value
+   */
+  byte(n: string|boolean|number|any[]): number;
+
+  /**
+   *   Converts a number or string to its corresponding 
+   *   single-character string representation. If a 
+   *   string parameter is provided, it is first parsed 
+   *   as an integer and then translated into a 
+   *   single-character string. When an array of number 
+   *   or string values is passed in, then an array of 
+   *   single-character strings of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return string representation of value
+   */
+  char(n: string|number|any[]): string;
+
+  /**
+   *   Converts a single-character string to its 
+   *   corresponding integer representation. When an 
+   *   array of single-character string values is passed 
+   *   in, then an array of integers of the same length 
+   *   is returned.
+   *
+   *   @param n value to parse
+   *   @return integer representation of value
+   */
+  unchar(n: string|any[]): number;
+
+  /**
+   *   Converts a number to a string in its equivalent 
+   *   hexadecimal notation. If a second parameter is 
+   *   passed, it is used to set the number of characters 
+   *   to generate in the hexadecimal notation. When an 
+   *   array is passed in, an array of strings in 
+   *   hexadecimal notation of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return hexadecimal string representation of value
+   */
+  hex(n: number|any[]): string;
+
+  /**
+   *   Converts a string representation of a hexadecimal 
+   *   number to its equivalent integer value. When an 
+   *   array of strings in hexadecimal notation is passed 
+   *   in, an array of integers of the same length is 
+   *   returned.
+   *
+   *   @param n value to parse
+   *   @return integer representation of hexadecimal 
+   *   value
+   */
+  unhex(n: string|any[]): number;
+
   // src/data/string_functions.js
 
   /**
@@ -1074,7 +1169,7 @@ declare class p5 {
    */
   set(x: number, y: number, c: number|any[]|object): void;
 
-  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 439:
+  // TODO: Fix updatePixels() errors in src/image/pixels.js, line 447:
   //
   //   param "w" is defined multiple times
   //
@@ -1222,7 +1317,10 @@ declare class p5 {
    * 
    *   When passing in multiple options, pass them in as 
    *   separate parameters, seperated by commas. For 
-   *   example: "csv, header". 
+   *   example: 
+   * 
+   *   
+   *   loadTable("my_csv_file.csv", "csv", "header")   
    * 
    *  
    *   All files loaded and saved use UTF-8 encoding. 
@@ -2268,7 +2366,7 @@ declare class p5 {
    *   be called only once at the start of setup. Calling 
    *   createCanvas more than once in a sketch will 
    *   result in very unpredicable behavior. If you want 
-   *   more more than one drawing canvas you could use 
+   *   more than one drawing canvas you could use 
    *   createGraphics (hidden by default but it can be 
    *   shown). The system variables width and height are 
    *   set by the parameters passed to this function. If 
@@ -2403,15 +2501,27 @@ declare class p5 {
    *   the location of the upper-left corner, the third 
    *   sets the width, and the fourth sets the height. 
    *   The way these parameters are interpreted, however, 
-   *   may be changed with the rectMode() function.
+   *   may be changed with the rectMode() function. If 
+   *   provided, the fifth, sixth seventh and eighth 
+   *   parameters, if specified, determine corner radius 
+   *   for the top-right, top-left, lower-right and 
+   *   lower-left corners, respectively. An omitted 
+   *   corner radius parameter is set to the value of the 
+   *   previously specified radius value in the parameter 
+   *   list.
    *
-   *   @param a x-coordinate of the rectangle
-   *   @param b y-coordinate of the rectangle
-   *   @param c width of the rectangle
-   *   @param d height of the rectangle
-   *   @return the p5 object
+   *   @param x x-coordinate of the rectangle.
+   *   @param y y-coordinate of the rectangle.
+   *   @param w width of the rectangle.
+   *   @param h height of the rectangle.
+   *   @param [tl] optional radius of top-left corner.
+   *   @param [tr] optional radius of top-right corner.
+   *   @param [br] optional radius of bottom-right 
+   *   corner.
+   *   @param [bl] optional radius of bottom-left corner.
+   *   @return the p5 object.
    */
-  rect(a: number, b: number, c: number, d: number): p5;
+  rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): p5;
 
   /**
    *   A triangle is a plane created by connecting three 
@@ -4246,7 +4356,7 @@ declare namespace p5 {
      *
      *   @return the copy of the p5.Vector object
      */
-    get(): p5.Vector;
+    copy(): p5.Vector;
 
     /**
      *   Adds x, y, and z components to a vector, adds one 
@@ -4552,13 +4662,13 @@ declare namespace p5 {
   // lib/addons/p5.sound.js
 
   class SoundFile {
-    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 530:
+    // TODO: Fix p5.SoundFile() errors in lib/addons/p5.sound.js, line 531:
     //
     //   param "path" has invalid type: String/Array
     //
     // constructor(path: any, callback?: Function);
 
-    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 609:
+    // TODO: Fix loadSound() errors in lib/addons/p5.sound.js, line 615:
     //
     //   param "path" has invalid type: String/Array
     //   param "callback" is defined multiple times
@@ -4667,7 +4777,7 @@ declare namespace p5 {
      */
     setVolume(volume: number|object, rampTime?: number, timeFromNow?: number): void;
 
-    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1030:
+    // TODO: Fix pan() errors in lib/addons/p5.sound.js, line 1050:
     //
     //   required param "timeFromNow" follows an optional param
     //
@@ -4827,14 +4937,7 @@ declare namespace p5 {
      */
     setInput(snd?: any, smoothing?: number): void;
 
-    /**
-     *   Returns a single Amplitude reading at the moment 
-     *   it is called. For continuous readings, run in the 
-     *   draw loop.
-     *
-     *   @return Amplitude as a number between 0.0 and 1.0
-     */
-    getLevel(): number;
+    // TODO: Property "[channel] Optionally return only channel 0 (left) or 1 (right)", defined in lib/addons/p5.sound.js, line 1676, is not a valid JS symbol name
 
     /**
      *   Determines whether the results of 
@@ -5007,25 +5110,25 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2603:
+    // TODO: Fix fade() errors in lib/addons/p5.sound.js, line 2687:
     //
     //   param "secondsFromNow" has invalid type: [Number]
     //
     // fade(value: number, secondsFromNow: any): void;
 
-    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2627:
+    // TODO: Fix add() errors in lib/addons/p5.sound.js, line 2711:
     //
     //   return has invalid type: p5.SignalAdd
     //
     // add(number: number): any;
 
-    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2646:
+    // TODO: Fix mult() errors in lib/addons/p5.sound.js, line 2730:
     //
     //   return has invalid type: Tone.Multiply
     //
     // mult(number: number): any;
 
-    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2665:
+    // TODO: Fix scale() errors in lib/addons/p5.sound.js, line 2749:
     //
     //   return has invalid type: p5.SignalScale
     //
@@ -5181,33 +5284,33 @@ declare namespace p5 {
      */
     scale(inMin: number, inMax: number, outMin: number, outMax: number): p5.Oscillator;
 
-    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3090:
+    // TODO: Fix p5.SinOsc() errors in lib/addons/p5.sound.js, line 3174:
     //
     //   "p5.SinOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SinOsc(freq: any): void;
 
-    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3105:
+    // TODO: Fix p5.TriOsc() errors in lib/addons/p5.sound.js, line 3189:
     //
     //   "p5.TriOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.TriOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3120:
+    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3204:
     //
     //   "p5.SawOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
     // p5.SawOsc(freq: any): void;
 
-    // TODO: Fix p5.SawOsc() errors in lib/addons/p5.sound.js, line 3135:
+    // TODO: Fix p5.SqrOsc() errors in lib/addons/p5.sound.js, line 3219:
     //
-    //   "p5.SawOsc" is not a valid JS symbol name
+    //   "p5.SqrOsc" is not a valid JS symbol name
     //   param "freq" has invalid type: [Number]
     //
-    // p5.SawOsc(freq: any): void;
+    // p5.SqrOsc(freq: any): void;
 
   }
   class Env {
@@ -5262,6 +5365,17 @@ declare namespace p5 {
      *   @param [rLevel] Amplitude 0.0 to 1.0
      */
     set(aTime: number, aLevel: number, dTime: number, dLevel?: number, sTime?: number, sLevel?: number, rTime?: number, rLevel?: number): void;
+
+    /**
+     *   Assign a parameter to be controlled by this 
+     *   envelope. If a p5.Sound object is given, then the 
+     *   p5.Env will control its output gain. If multiple 
+     *   inputs are provided, the env will control all of 
+     *   them.
+     *
+     *   @param unit A p5.sound object or Web Audio Param.
+     */
+    setInput(unit: object): void;
 
     /**
      *   Play tells the envelope to start acting on a given 
@@ -5523,7 +5637,7 @@ declare namespace p5 {
     setSource(num: number): void;
   }
   class Filter {
-    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4114:
+    // TODO: Fix p5.Filter() errors in lib/addons/p5.sound.js, line 4209:
     //
     //   param "type" has invalid type: [String]
     //
@@ -5536,7 +5650,7 @@ declare namespace p5 {
      */
     biquadFilter: any;
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4193:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4288:
     //
     //   param "freq" has invalid type: [Number]
     //   param "res" has invalid type: [Number]
@@ -5609,19 +5723,19 @@ declare namespace p5 {
      */
     disconnect(): void;
 
-    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4321:
+    // TODO: Fix p5.LowPass() errors in lib/addons/p5.sound.js, line 4416:
     //
     //   "p5.LowPass" is not a valid JS symbol name
     //
     // p5.LowPass(): void;
 
-    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4333:
+    // TODO: Fix p5.HighPass() errors in lib/addons/p5.sound.js, line 4428:
     //
     //   "p5.HighPass" is not a valid JS symbol name
     //
     // p5.HighPass(): void;
 
-    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4345:
+    // TODO: Fix p5.BandPass() errors in lib/addons/p5.sound.js, line 4440:
     //
     //   "p5.BandPass" is not a valid JS symbol name
     //
@@ -5772,7 +5886,7 @@ declare namespace p5 {
      */
     constructor();
 
-    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4668:
+    // TODO: Fix process() errors in lib/addons/p5.sound.js, line 4763:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5780,7 +5894,7 @@ declare namespace p5 {
     //
     // process(src: object, seconds: any, decayRate: any, reverse: any): void;
 
-    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4697:
+    // TODO: Fix set() errors in lib/addons/p5.sound.js, line 4792:
     //
     //   param "seconds" has invalid type: [Number]
     //   param "decayRate" has invalid type: [Number]
@@ -5812,7 +5926,7 @@ declare namespace p5 {
     disconnect(): void;
   }
   class Convolver {
-    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4799:
+    // TODO: Fix p5.Convolver() errors in lib/addons/p5.sound.js, line 4894:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5825,7 +5939,7 @@ declare namespace p5 {
      */
     convolverNode: any;
 
-    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4879:
+    // TODO: Fix createConvolver() errors in lib/addons/p5.sound.js, line 4974:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -5849,13 +5963,13 @@ declare namespace p5 {
      */
     impulses: any;
 
-    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 4997:
+    // TODO: Fix addImpulse() errors in lib/addons/p5.sound.js, line 5092:
     //
     //   param "callback" has invalid type: [Function]
     //
     // addImpulse(path: string, callback: any): void;
 
-    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5014:
+    // TODO: Fix resetImpulse() errors in lib/addons/p5.sound.js, line 5109:
     //
     //   param "callback" has invalid type: [Function]
     //
@@ -6030,7 +6144,7 @@ declare namespace p5 {
     onStep(callback: Function): void;
   }
   class Score {
-    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5564:
+    // TODO: Fix p5.Score() errors in lib/addons/p5.sound.js, line 5659:
     //
     //   param "part(s)" is not a valid JS symbol name
     //

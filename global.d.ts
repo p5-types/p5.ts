@@ -473,6 +473,101 @@ declare function float(str: string): number;
  */
 declare function int(n: string|boolean|number|any[]): number;
 
+/**
+ *   Converts a boolean, string or number to its string 
+ *   representation. When an array of values is passed 
+ *   in, then an array of strings of the same length is 
+ *   returned.
+ *
+ *   @param n value to parse
+ *   @return string representation of value
+ */
+declare function str(n: string|boolean|number|any[]): string;
+
+/**
+ *   Converts a number or string to its boolean 
+ *   representation. For a number, any non-zero value 
+ *   (positive or negative) evaluates to true, while 
+ *   zero evaluates to false. For a string, the value 
+ *   "true" evaluates to true, while any other value 
+ *   evaluates to false. When an array of number or 
+ *   string values is passed in, then a array of 
+ *   booleans of the same length is returned.
+ *
+ *   @param n value to parse
+ *   @return boolean representation of value
+ */
+declare function boolean(n: string|boolean|number|any[]): boolean;
+
+/**
+ *   Converts a number, string or boolean to its byte 
+ *   representation. A byte can be only a whole number 
+ *   between -128 and 127, so when a value outside of 
+ *   this range is converted, it wraps around to the 
+ *   corresponding byte representation. When an array 
+ *   of number, string or boolean values is passed in, 
+ *   then an array of bytes the same length is 
+ *   returned.
+ *
+ *   @param n value to parse
+ *   @return byte representation of value
+ */
+declare function byte(n: string|boolean|number|any[]): number;
+
+/**
+ *   Converts a number or string to its corresponding 
+ *   single-character string representation. If a 
+ *   string parameter is provided, it is first parsed 
+ *   as an integer and then translated into a 
+ *   single-character string. When an array of number 
+ *   or string values is passed in, then an array of 
+ *   single-character strings of the same length is 
+ *   returned.
+ *
+ *   @param n value to parse
+ *   @return string representation of value
+ */
+declare function char(n: string|number|any[]): string;
+
+/**
+ *   Converts a single-character string to its 
+ *   corresponding integer representation. When an 
+ *   array of single-character string values is passed 
+ *   in, then an array of integers of the same length 
+ *   is returned.
+ *
+ *   @param n value to parse
+ *   @return integer representation of value
+ */
+declare function unchar(n: string|any[]): number;
+
+/**
+ *   Converts a number to a string in its equivalent 
+ *   hexadecimal notation. If a second parameter is 
+ *   passed, it is used to set the number of characters 
+ *   to generate in the hexadecimal notation. When an 
+ *   array is passed in, an array of strings in 
+ *   hexadecimal notation of the same length is 
+ *   returned.
+ *
+ *   @param n value to parse
+ *   @return hexadecimal string representation of value
+ */
+declare function hex(n: number|any[]): string;
+
+/**
+ *   Converts a string representation of a hexadecimal 
+ *   number to its equivalent integer value. When an 
+ *   array of strings in hexadecimal notation is passed 
+ *   in, an array of integers of the same length is 
+ *   returned.
+ *
+ *   @param n value to parse
+ *   @return integer representation of hexadecimal 
+ *   value
+ */
+declare function unhex(n: string|any[]): number;
+
 // src/data/string_functions.js
 
 /**
@@ -1074,7 +1169,7 @@ declare function loadPixels(): void;
  */
 declare function set(x: number, y: number, c: number|any[]|object): void;
 
-// TODO: Fix updatePixels() errors in src/image/pixels.js, line 439:
+// TODO: Fix updatePixels() errors in src/image/pixels.js, line 447:
 //
 //   param "w" is defined multiple times
 //
@@ -1222,7 +1317,10 @@ declare function loadStrings(filename: string, callback?: Function): any[];
  * 
  *   When passing in multiple options, pass them in as 
  *   separate parameters, seperated by commas. For 
- *   example: "csv, header". 
+ *   example: 
+ * 
+ *   
+ *   loadTable("my_csv_file.csv", "csv", "header")   
  * 
  *  
  *   All files loaded and saved use UTF-8 encoding. 
@@ -2268,7 +2366,7 @@ declare function print(contents: any): void;
  *   be called only once at the start of setup. Calling 
  *   createCanvas more than once in a sketch will 
  *   result in very unpredicable behavior. If you want 
- *   more more than one drawing canvas you could use 
+ *   more than one drawing canvas you could use 
  *   createGraphics (hidden by default but it can be 
  *   shown). The system variables width and height are 
  *   set by the parameters passed to this function. If 
@@ -2403,15 +2501,27 @@ declare function point(x: number, y: number): p5;
  *   the location of the upper-left corner, the third 
  *   sets the width, and the fourth sets the height. 
  *   The way these parameters are interpreted, however, 
- *   may be changed with the rectMode() function.
+ *   may be changed with the rectMode() function. If 
+ *   provided, the fifth, sixth seventh and eighth 
+ *   parameters, if specified, determine corner radius 
+ *   for the top-right, top-left, lower-right and 
+ *   lower-left corners, respectively. An omitted 
+ *   corner radius parameter is set to the value of the 
+ *   previously specified radius value in the parameter 
+ *   list.
  *
- *   @param a x-coordinate of the rectangle
- *   @param b y-coordinate of the rectangle
- *   @param c width of the rectangle
- *   @param d height of the rectangle
- *   @return the p5 object
+ *   @param x x-coordinate of the rectangle.
+ *   @param y y-coordinate of the rectangle.
+ *   @param w width of the rectangle.
+ *   @param h height of the rectangle.
+ *   @param [tl] optional radius of top-left corner.
+ *   @param [tr] optional radius of top-right corner.
+ *   @param [br] optional radius of bottom-right 
+ *   corner.
+ *   @param [bl] optional radius of bottom-left corner.
+ *   @return the p5 object.
  */
-declare function rect(a: number, b: number, c: number, d: number): p5;
+declare function rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): p5;
 
 /**
  *   A triangle is a plane created by connecting three 
