@@ -1238,7 +1238,10 @@ declare function draw(): void;
  *   or methods from the window global scope. It will 
  *   leave a variable p5 in case you wanted to create a 
  *   new p5 sketch. If you like, you can set p5 = null 
- *   to erase it.
+ *   to erase it. While all functions and variables and 
+ *   objects created by the p5 library will be removed, 
+ *   any other global variables created by your code 
+ *   will remain.
  *
  */
 declare function remove(): void;
@@ -1446,11 +1449,7 @@ declare function curveTangent(a: number, b: number, c: number, d: number, t: num
  *   function creates a new line of text for each call 
  *   to the function. Individual elements can be 
  *   separated with quotes ("") and joined with the 
- *   addition operator (+).  While print() is similar 
- *   to console.log(), it does not directly map to it 
- *   in order to simulate easier to understand behavior 
- *   than console.log(). Due to this, it is slower. For 
- *   fastest results, use console.log().
+ *   addition operator (+).
  *
  *   @param contents any combination of Number, String, 
  *   Object, Boolean, Array to print
@@ -1704,10 +1703,10 @@ declare function createCanvas(w: number, h: number, renderer?: RENDERER): HTMLCa
  *
  *   @param w width of the canvas
  *   @param h height of the canvas
- *   @param noRedraw don't redraw the canvas 
+ *   @param [noRedraw] don't redraw the canvas 
  *   immediately
  */
-declare function resizeCanvas(w: number, h: number, noRedraw: boolean): void;
+declare function resizeCanvas(w: number, h: number, noRedraw?: boolean): void;
 
 /**
  *   Removes the default canvas for a p5 sketch that 
@@ -1883,25 +1882,30 @@ declare function redraw(n?: number): void;
 
 /**
  *   Multiplies the current matrix by the one specified 
- *   through the parameters. This is very slow because 
- *   it will try to calculate the inverse of the 
- *   transform, so avoid it whenever possible.
+ *   through the parameters. This is a powerful 
+ *   operation that can perform the equivalent of 
+ *   translate, scale, shear and rotate all at once. 
+ *   You can learn more about transformation matrices 
+ *   on  Wikipedia. The naming of the arguments here 
+ *   follows the naming of the  WHATWG specification 
+ *   and corresponds to a transformation matrix of the 
+ *   form:
  *
- *   @param n00 numbers which define the 3x2 matrix to 
- *   be multiplied
- *   @param n01 numbers which define the 3x2 matrix to 
- *   be multiplied
- *   @param n02 numbers which define the 3x2 matrix to 
- *   be multiplied
- *   @param n10 numbers which define the 3x2 matrix to 
- *   be multiplied
- *   @param n11 numbers which define the 3x2 matrix to 
- *   be multiplied
- *   @param n12 numbers which define the 3x2 matrix to 
- *   be multiplied
+ *   @param a numbers which define the 2x3 matrix to be 
+ *   multiplied
+ *   @param b numbers which define the 2x3 matrix to be 
+ *   multiplied
+ *   @param c numbers which define the 2x3 matrix to be 
+ *   multiplied
+ *   @param d numbers which define the 2x3 matrix to be 
+ *   multiplied
+ *   @param e numbers which define the 2x3 matrix to be 
+ *   multiplied
+ *   @param f numbers which define the 2x3 matrix to be 
+ *   multiplied
  *   @chainable
  */
-declare function applyMatrix(n00: number, n01: number, n02: number, n10: number, n11: number, n12: number): p5;
+declare function applyMatrix(a: number, b: number, c: number, d: number, e: number, f: number): p5;
 
 /**
  *   Replaces the current matrix with the identity 
@@ -2855,7 +2859,11 @@ declare function saveCanvas(filename?: string, extension?: string): void;
  *   callback provided the image data isn't saved by 
  *   default but instead passed as an argument to the 
  *   callback function as an array of objects, with the 
- *   size of array equal to the total number of frames.
+ *   size of array equal to the total number of frames. 
+ *   Note that saveFrames() will only save the first 15 
+ *   frames of an animation. To export longer 
+ *   animations, you might look into a library like 
+ *   ccapture.js.
  *
  *   @param extension 'jpg' or 'png'
  *   @param duration Duration in seconds to save the 
@@ -2898,44 +2906,76 @@ declare function saveFrames(filename: string, extension: string, duration: numbe
 declare function loadImage(path: string, successCallback?: (p1: p5.Image) => any, failureCallback?: (p1: Event) => any): p5.Image;
 
 /**
- *   Draw an image to the main canvas of the p5js 
- *   sketch
+ *   Draw an image to the p5.js canvas. This function 
+ *   can be used with different numbers of parameters. 
+ *   The simplest use requires only three parameters: 
+ *   img, x, and y—where (x, y) is the position of the 
+ *   image. Two more parameters can optionally be added 
+ *   to specify the width and height of the image. 
+ * 
+ *   This function can also be used with all eight 
+ *   Number parameters. To differentiate between all 
+ *   these parameters, p5.js uses the language of 
+ *   "destination rectangle" (which corresponds to 
+ *   "dx", "dy", etc.) and "source image" (which 
+ *   corresponds to "sx", "sy", etc.) below. Specifying 
+ *   the "source image" dimensions can be useful when 
+ *   you want to display a subsection of the source 
+ *   image instead of the whole thing. Here's a diagram 
+ *   to explain further:
  *
  *   @param img the image to display
- *   @param x the x-coordinate at which to place the 
- *   top-left corner of the source image
- *   @param y the y-coordinate at which to place the 
- *   top-left corner of the source image
+ *   @param x the x-coordinate of the top-left corner 
+ *   of the image
+ *   @param y the y-coordinate of the top-left corner 
+ *   of the image
  *   @param [width] the width to draw the image
  *   @param [height] the height to draw the image
  */
-declare function image(img: p5.Image, x: number, y: number, width?: number, height?: number): void;
+declare function image(img: p5.Image|p5.Graphics, x: number, y: number, width?: number, height?: number): void;
 
 /**
- *   Draw an image to the main canvas of the p5js 
- *   sketch
+ *   Draw an image to the p5.js canvas. This function 
+ *   can be used with different numbers of parameters. 
+ *   The simplest use requires only three parameters: 
+ *   img, x, and y—where (x, y) is the position of the 
+ *   image. Two more parameters can optionally be added 
+ *   to specify the width and height of the image. 
+ * 
+ *   This function can also be used with all eight 
+ *   Number parameters. To differentiate between all 
+ *   these parameters, p5.js uses the language of 
+ *   "destination rectangle" (which corresponds to 
+ *   "dx", "dy", etc.) and "source image" (which 
+ *   corresponds to "sx", "sy", etc.) below. Specifying 
+ *   the "source image" dimensions can be useful when 
+ *   you want to display a subsection of the source 
+ *   image instead of the whole thing. Here's a diagram 
+ *   to explain further:
  *
  *   @param img the image to display
- *   @param x the x-coordinate at which to place the 
- *   top-left corner of the source image
- *   @param y the y-coordinate at which to place the 
- *   top-left corner of the source image
- *   @param width the width to draw the image
- *   @param height the height to draw the image
- *   @param sx the x-coordinate of the top left corner 
- *   of the sub-rectangle of the source image to draw 
- *   into the destination canvas
- *   @param sy the y-coordinate of the top left corner 
- *   of the sub-rectangle of the source image to draw 
- *   into the destination canvas
- *   @param [sWidth] the width of the sub-rectangle of 
+ *   @param dx the x-coordinate of the destination 
+ *   rectangle in which to draw the source image
+ *   @param dy the y-coordinate of the destination 
+ *   rectangle in which to draw the source image
+ *   @param dWidth the width of the destination 
+ *   rectangle
+ *   @param dHeight the height of the destination 
+ *   rectangle
+ *   @param sx the x-coordinate of the subsection of 
  *   the source image to draw into the destination 
- *   canvas
- *   @param [sHeight] the height of the sub-rectangle 
- *   of the source image to draw into the destination 
- *   context
+ *   rectangle
+ *   @param sy the y-coordinate of the subsection of 
+ *   the source image to draw into the destination 
+ *   rectangle
+ *   @param [sWidth] the width of the subsection of the 
+ *   source image to draw into the destination 
+ *   rectangle
+ *   @param [sHeight] the height of the subsection of 
+ *   the source image to draw into the destination 
+ *   rectangle
  */
-declare function image(img: p5.Image, x: number, y: number, width: number, height: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
+declare function image(img: p5.Image|p5.Graphics, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
 
 /**
  *   Sets the fill value for displaying images. Images 
@@ -3076,9 +3116,9 @@ declare function imageMode(mode: IMAGE_MODE): void;
  *   pixel at (1, 0). More generally, to set values for 
  *   a pixel at (x, y): 
  * 
- *   var d = pixelDensity; for (var i = 0; i < d; i++) 
- *   { for (var j = 0; j < d; j++) { // loop over idx = 
- *   4 * ((y * d + j) * width * d + (x * d + i)); 
+ *   var d = pixelDensity(); for (var i = 0; i < d; 
+ *   i++) { for (var j = 0; j < d; j++) { // loop over 
+ *   idx = 4 * ((y * d + j) * width * d + (x * d + i)); 
  *   pixels[idx] = r; pixels[idx+1] = g; pixels[idx+2] 
  *   = b; pixels[idx+3] = a; } }  
  * 
@@ -3322,7 +3362,9 @@ declare function updatePixels(x?: number, y?: number, w?: number, h?: number): v
 
 /**
  *   Loads a JSON file from a file or a URL, and 
- *   returns an Object or Array. This method is 
+ *   returns an Object. Note that even if the JSON file 
+ *   contains an Array, an Object will be returned with 
+ *   index numbers as keys. This method is 
  *   asynchronous, meaning it may not finish before the 
  *   next line in your sketch is executed. JSONP is 
  *   supported via a polyfill and you can pass in as 
@@ -3476,10 +3518,10 @@ declare function httpGet(path: string, datatype?: string, data?: object, callbac
  *
  *   @param path name of the file or url to load
  *   @param [datatype] "json", "jsonp", "xml", or 
- *   "text"
+ *   "text". If omitted, httpPost() will guess.
  *   @param [data] param data passed sent with request
  *   @param [callback] function to be executed after 
- *   httpGet() completes, data is passed in as first 
+ *   httpPost() completes, data is passed in as first 
  *   argument
  *   @param [errorCallback] function to be executed if 
  *   there is an error, response is passed in as first 
@@ -3763,9 +3805,11 @@ declare function mag(a: number, b: number): number;
  *   range
  *   @param stop2 upper bound of the value's target 
  *   range
+ *   @param [withinBounds] constrain the value to the 
+ *   newly mapped range
  *   @return remapped number
  */
-declare function map(value: number, start1: number, stop1: number, start2: number, stop2: number): number;
+declare function map(value: number, start1: number, stop1: number, start2: number, stop2: number, withinBounds?: boolean): number;
 
 /**
  *   Determines the largest value in a sequence of 
@@ -5053,26 +5097,49 @@ declare function year(): number;
 // src/webgl/camera.js
 
 /**
- *   Sets camera position
+ *   Sets camera position for a 3D sketch. The function 
+ *   behaves similarly gluLookAt, except that it 
+ *   replaces the existing modelview matrix instead of 
+ *   applying any transformations calculated here on 
+ *   top of the existing model view. When called with 
+ *   no arguments, this function sets a default camera 
+ *   equivalent to calling camera(0, 0, (height/2.0) / 
+ *   tan(PI*30.0 / 180.0), 0, 0, 0, 0, 1, 0);
  *
- *   @param x camera position value on x axis
- *   @param y camera position value on y axis
- *   @param z camera position value on z axis
+ *   @param [x] camera position value on x axis
+ *   @param [y] camera position value on y axis
+ *   @param [z] camera position value on z axis
+ *   @param [centerX] x coordinate representing center 
+ *   of the sketch
+ *   @param [centerY] y coordinate representing center 
+ *   of the sketch
+ *   @param [centerZ] z coordinate representing center 
+ *   of the sketch
+ *   @param [upX] x component of direction 'up' from 
+ *   camera
+ *   @param [upY] y component of direction 'up' from 
+ *   camera
+ *   @param [upZ] z component of direction 'up' from 
+ *   camera
  *   @return the p5 object
  */
-declare function camera(x: number, y: number, z: number): p5;
+declare function camera(x?: number, y?: number, z?: number, centerX?: number, centerY?: number, centerZ?: number, upX?: number, upY?: number, upZ?: number): p5;
 
 /**
- *   Sets perspective camera
+ *   Sets perspective camera. When called with no 
+ *   arguments, the defaults provided are equivalent to 
+ *   perspective(PI/3.0, width/height, cameraZ/10.0, 
+ *   cameraZ10.0) where cameraZ is ((height/2.0) / 
+ *   tan(PI60.0/360.0));
  *
- *   @param fovy camera frustum vertical field of view, 
- *   from bottom to top of view, in degrees
- *   @param aspect camera frustum aspect ratio
- *   @param near frustum near plane length
- *   @param far frustum far plane length
+ *   @param [fovy] camera frustum vertical field of 
+ *   view, from bottom to top of view, in degrees
+ *   @param [aspect] camera frustum aspect ratio
+ *   @param [near] frustum near plane length
+ *   @param [far] frustum far plane length
  *   @return the p5 object
  */
-declare function perspective(fovy: number, aspect: number, near: number, far: number): p5;
+declare function perspective(fovy?: number, aspect?: number, near?: number, far?: number): p5;
 
 /**
  *   Setup ortho camera
@@ -5127,13 +5194,13 @@ declare function ambientLight(values: number[]): p5;
  */
 declare function ambientLight(color: p5.Color, alpha?: number): p5;
 
-// TODO: Fix directionalLight() errors in src/webgl/light.js, line 96:
+// TODO: Fix directionalLight() errors in src/webgl/light.js, line 89:
 //
 //   required param "x" follows an optional param
 //
 // declare function directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
-// TODO: Fix pointLight() errors in src/webgl/light.js, line 190:
+// TODO: Fix pointLight() errors in src/webgl/light.js, line 168:
 //
 //   required param "x" follows an optional param
 //
@@ -5197,6 +5264,37 @@ declare function model(model: p5.Geometry): void;
 // src/webgl/material.js
 
 /**
+ *   Loads a custom shader from the provided vertex and 
+ *   fragment shader paths. The shader files are loaded 
+ *   asynchronously in the background, so this method 
+ *   should be used in preload(). For now, there are 
+ *   three main types of shaders. p5 will automatically 
+ *   supply appropriate vertices, normals, colors, and 
+ *   lighting attributes if the parameters defined in 
+ *   the shader match the names.
+ *
+ *   @param [vertFilename] path to file containing 
+ *   vertex shader source code
+ *   @param [fragFilename] path to file containing 
+ *   fragment shader source code
+ *   @return a shader object created from the provided 
+ *   vertex and fragment shader files.
+ */
+declare function loadShader(vertFilename?: string, fragFilename?: string): p5.Shader;
+
+/**
+ *   The shader() function lets the user provide a 
+ *   custom shader to fill in shapes in WEBGL mode. 
+ *   Users can create their own shaders by loading 
+ *   vertex and fragment shaders with loadShader().
+ *
+ *   @param [s] the desired p5.Shader to use for 
+ *   rendering shapes.
+ *   @chainable
+ */
+declare function shader(s?: p5.Shader): p5;
+
+/**
  *   Normal material for geometry. You can view all 
  *   possible materials in this example.
  *
@@ -5222,9 +5320,9 @@ declare function texture(tex: p5.Image|p5.MediaElement|p5.Graphics): p5;
  *   @param v1 gray value, red or hue value (depending 
  *   on the current color mode), or color Array, or CSS 
  *   color string
- *   @param [v2] optional: green or saturation value
- *   @param [v3] optional: blue or brightness value
- *   @param [a] optional: opacity
+ *   @param [v2] green or saturation value
+ *   @param [v3] blue or brightness value
+ *   @param [a] opacity
  *   @chainable
  */
 declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
@@ -5237,9 +5335,9 @@ declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, 
  *   @param v1 gray value, red or hue value (depending 
  *   on the current color mode), or color Array, or CSS 
  *   color string
- *   @param [v2] optional: green or saturation value
- *   @param [v3] optional: blue or brightness value
- *   @param [a] optional: opacity
+ *   @param [v2] green or saturation value
+ *   @param [v3] blue or brightness value
+ *   @param [a] opacity
  *   @chainable
  */
 declare function specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
@@ -5277,10 +5375,10 @@ declare function box(width: number, Height?: number, depth?: number, detailX?: n
  *   Draw a sphere with given radius
  *
  *   @param radius radius of circle
- *   @param [detailX] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @param [detailY] optional: number of segments, the 
- *   more segments the smoother geometry default is 16
+ *   @param [detailX] number of segments, the more 
+ *   segments the smoother geometry default is 24
+ *   @param [detailY] number of segments, the more 
+ *   segments the smoother geometry default is 16
  *   @chainable
  */
 declare function sphere(radius: number, detailX?: number, detailY?: number): p5;
@@ -5290,9 +5388,9 @@ declare function sphere(radius: number, detailX?: number, detailY?: number): p5;
  *
  *   @param radius radius of the surface
  *   @param height height of the cylinder
- *   @param [detailX] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @param [detailY] optional: number of segments in 
+ *   @param [detailX] number of segments, the more 
+ *   segments the smoother geometry default is 24
+ *   @param [detailY] number of segments in 
  *   y-dimension, the more segments the smoother 
  *   geometry default is 16
  *   @chainable
@@ -5304,10 +5402,10 @@ declare function cylinder(radius: number, height: number, detailX?: number, deta
  *
  *   @param radius radius of the bottom surface
  *   @param height height of the cone
- *   @param [detailX] optional: number of segments, the 
- *   more segments the smoother geometry default is 24
- *   @param [detailY] optional: number of segments, the 
- *   more segments the smoother geometry default is 16
+ *   @param [detailX] number of segments, the more 
+ *   segments the smoother geometry default is 24
+ *   @param [detailY] number of segments, the more 
+ *   segments the smoother geometry default is 16
  *   @chainable
  */
 declare function cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
@@ -5318,12 +5416,12 @@ declare function cone(radius: number, height: number, detailX?: number, detailY?
  *   @param radiusx xradius of circle
  *   @param radiusy yradius of circle
  *   @param radiusz zradius of circle
- *   @param [detailX] optional: number of segments, the 
- *   more segments the smoother geometry default is 24. 
+ *   @param [detailX] number of segments, the more 
+ *   segments the smoother geometry default is 24. 
  *   Avoid detail number above 150, it may crash the 
  *   browser.
- *   @param [detailY] optional: number of segments, the 
- *   more segments the smoother geometry default is 16. 
+ *   @param [detailY] number of segments, the more 
+ *   segments the smoother geometry default is 16. 
  *   Avoid detail number above 150, it may crash the 
  *   browser.
  *   @chainable
@@ -5335,10 +5433,10 @@ declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, de
  *
  *   @param radius radius of the whole ring
  *   @param tubeRadius radius of the tube
- *   @param [detailX] optional: number of segments in 
+ *   @param [detailX] number of segments in 
  *   x-dimension, the more segments the smoother 
  *   geometry default is 24
- *   @param [detailY] optional: number of segments in 
+ *   @param [detailY] number of segments in 
  *   y-dimension, the more segments the smoother 
  *   geometry default is 16
  *   @chainable

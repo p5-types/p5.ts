@@ -1239,7 +1239,10 @@ declare class p5 {
    *   or methods from the window global scope. It will 
    *   leave a variable p5 in case you wanted to create a 
    *   new p5 sketch. If you like, you can set p5 = null 
-   *   to erase it.
+   *   to erase it. While all functions and variables and 
+   *   objects created by the p5 library will be removed, 
+   *   any other global variables created by your code 
+   *   will remain.
    *
    */
   remove(): void;
@@ -1447,11 +1450,7 @@ declare class p5 {
    *   function creates a new line of text for each call 
    *   to the function. Individual elements can be 
    *   separated with quotes ("") and joined with the 
-   *   addition operator (+).  While print() is similar 
-   *   to console.log(), it does not directly map to it 
-   *   in order to simulate easier to understand behavior 
-   *   than console.log(). Due to this, it is slower. For 
-   *   fastest results, use console.log().
+   *   addition operator (+).
    *
    *   @param contents any combination of Number, String, 
    *   Object, Boolean, Array to print
@@ -1705,10 +1704,10 @@ declare class p5 {
    *
    *   @param w width of the canvas
    *   @param h height of the canvas
-   *   @param noRedraw don't redraw the canvas 
+   *   @param [noRedraw] don't redraw the canvas 
    *   immediately
    */
-  resizeCanvas(w: number, h: number, noRedraw: boolean): void;
+  resizeCanvas(w: number, h: number, noRedraw?: boolean): void;
 
   /**
    *   Removes the default canvas for a p5 sketch that 
@@ -1884,25 +1883,30 @@ declare class p5 {
 
   /**
    *   Multiplies the current matrix by the one specified 
-   *   through the parameters. This is very slow because 
-   *   it will try to calculate the inverse of the 
-   *   transform, so avoid it whenever possible.
+   *   through the parameters. This is a powerful 
+   *   operation that can perform the equivalent of 
+   *   translate, scale, shear and rotate all at once. 
+   *   You can learn more about transformation matrices 
+   *   on  Wikipedia. The naming of the arguments here 
+   *   follows the naming of the  WHATWG specification 
+   *   and corresponds to a transformation matrix of the 
+   *   form:
    *
-   *   @param n00 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n01 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n02 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n10 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n11 numbers which define the 3x2 matrix to 
-   *   be multiplied
-   *   @param n12 numbers which define the 3x2 matrix to 
-   *   be multiplied
+   *   @param a numbers which define the 2x3 matrix to be 
+   *   multiplied
+   *   @param b numbers which define the 2x3 matrix to be 
+   *   multiplied
+   *   @param c numbers which define the 2x3 matrix to be 
+   *   multiplied
+   *   @param d numbers which define the 2x3 matrix to be 
+   *   multiplied
+   *   @param e numbers which define the 2x3 matrix to be 
+   *   multiplied
+   *   @param f numbers which define the 2x3 matrix to be 
+   *   multiplied
    *   @chainable
    */
-  applyMatrix(n00: number, n01: number, n02: number, n10: number, n11: number, n12: number): p5;
+  applyMatrix(a: number, b: number, c: number, d: number, e: number, f: number): p5;
 
   /**
    *   Replaces the current matrix with the identity 
@@ -2856,7 +2860,11 @@ declare class p5 {
    *   callback provided the image data isn't saved by 
    *   default but instead passed as an argument to the 
    *   callback function as an array of objects, with the 
-   *   size of array equal to the total number of frames.
+   *   size of array equal to the total number of frames. 
+   *   Note that saveFrames() will only save the first 15 
+   *   frames of an animation. To export longer 
+   *   animations, you might look into a library like 
+   *   ccapture.js.
    *
    *   @param extension 'jpg' or 'png'
    *   @param duration Duration in seconds to save the 
@@ -2899,44 +2907,76 @@ declare class p5 {
   loadImage(path: string, successCallback?: (p1: p5.Image) => any, failureCallback?: (p1: Event) => any): p5.Image;
 
   /**
-   *   Draw an image to the main canvas of the p5js 
-   *   sketch
+   *   Draw an image to the p5.js canvas. This function 
+   *   can be used with different numbers of parameters. 
+   *   The simplest use requires only three parameters: 
+   *   img, x, and y—where (x, y) is the position of the 
+   *   image. Two more parameters can optionally be added 
+   *   to specify the width and height of the image. 
+   * 
+   *   This function can also be used with all eight 
+   *   Number parameters. To differentiate between all 
+   *   these parameters, p5.js uses the language of 
+   *   "destination rectangle" (which corresponds to 
+   *   "dx", "dy", etc.) and "source image" (which 
+   *   corresponds to "sx", "sy", etc.) below. Specifying 
+   *   the "source image" dimensions can be useful when 
+   *   you want to display a subsection of the source 
+   *   image instead of the whole thing. Here's a diagram 
+   *   to explain further:
    *
    *   @param img the image to display
-   *   @param x the x-coordinate at which to place the 
-   *   top-left corner of the source image
-   *   @param y the y-coordinate at which to place the 
-   *   top-left corner of the source image
+   *   @param x the x-coordinate of the top-left corner 
+   *   of the image
+   *   @param y the y-coordinate of the top-left corner 
+   *   of the image
    *   @param [width] the width to draw the image
    *   @param [height] the height to draw the image
    */
-  image(img: p5.Image, x: number, y: number, width?: number, height?: number): void;
+  image(img: p5.Image|p5.Graphics, x: number, y: number, width?: number, height?: number): void;
 
   /**
-   *   Draw an image to the main canvas of the p5js 
-   *   sketch
+   *   Draw an image to the p5.js canvas. This function 
+   *   can be used with different numbers of parameters. 
+   *   The simplest use requires only three parameters: 
+   *   img, x, and y—where (x, y) is the position of the 
+   *   image. Two more parameters can optionally be added 
+   *   to specify the width and height of the image. 
+   * 
+   *   This function can also be used with all eight 
+   *   Number parameters. To differentiate between all 
+   *   these parameters, p5.js uses the language of 
+   *   "destination rectangle" (which corresponds to 
+   *   "dx", "dy", etc.) and "source image" (which 
+   *   corresponds to "sx", "sy", etc.) below. Specifying 
+   *   the "source image" dimensions can be useful when 
+   *   you want to display a subsection of the source 
+   *   image instead of the whole thing. Here's a diagram 
+   *   to explain further:
    *
    *   @param img the image to display
-   *   @param x the x-coordinate at which to place the 
-   *   top-left corner of the source image
-   *   @param y the y-coordinate at which to place the 
-   *   top-left corner of the source image
-   *   @param width the width to draw the image
-   *   @param height the height to draw the image
-   *   @param sx the x-coordinate of the top left corner 
-   *   of the sub-rectangle of the source image to draw 
-   *   into the destination canvas
-   *   @param sy the y-coordinate of the top left corner 
-   *   of the sub-rectangle of the source image to draw 
-   *   into the destination canvas
-   *   @param [sWidth] the width of the sub-rectangle of 
+   *   @param dx the x-coordinate of the destination 
+   *   rectangle in which to draw the source image
+   *   @param dy the y-coordinate of the destination 
+   *   rectangle in which to draw the source image
+   *   @param dWidth the width of the destination 
+   *   rectangle
+   *   @param dHeight the height of the destination 
+   *   rectangle
+   *   @param sx the x-coordinate of the subsection of 
    *   the source image to draw into the destination 
-   *   canvas
-   *   @param [sHeight] the height of the sub-rectangle 
-   *   of the source image to draw into the destination 
-   *   context
+   *   rectangle
+   *   @param sy the y-coordinate of the subsection of 
+   *   the source image to draw into the destination 
+   *   rectangle
+   *   @param [sWidth] the width of the subsection of the 
+   *   source image to draw into the destination 
+   *   rectangle
+   *   @param [sHeight] the height of the subsection of 
+   *   the source image to draw into the destination 
+   *   rectangle
    */
-  image(img: p5.Image, x: number, y: number, width: number, height: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
+  image(img: p5.Image|p5.Graphics, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
 
   /**
    *   Sets the fill value for displaying images. Images 
@@ -3077,9 +3117,9 @@ declare class p5 {
    *   pixel at (1, 0). More generally, to set values for 
    *   a pixel at (x, y): 
    * 
-   *   var d = pixelDensity; for (var i = 0; i < d; i++) 
-   *   { for (var j = 0; j < d; j++) { // loop over idx = 
-   *   4 * ((y * d + j) * width * d + (x * d + i)); 
+   *   var d = pixelDensity(); for (var i = 0; i < d; 
+   *   i++) { for (var j = 0; j < d; j++) { // loop over 
+   *   idx = 4 * ((y * d + j) * width * d + (x * d + i)); 
    *   pixels[idx] = r; pixels[idx+1] = g; pixels[idx+2] 
    *   = b; pixels[idx+3] = a; } }  
    * 
@@ -3323,7 +3363,9 @@ declare class p5 {
 
   /**
    *   Loads a JSON file from a file or a URL, and 
-   *   returns an Object or Array. This method is 
+   *   returns an Object. Note that even if the JSON file 
+   *   contains an Array, an Object will be returned with 
+   *   index numbers as keys. This method is 
    *   asynchronous, meaning it may not finish before the 
    *   next line in your sketch is executed. JSONP is 
    *   supported via a polyfill and you can pass in as 
@@ -3477,10 +3519,10 @@ declare class p5 {
    *
    *   @param path name of the file or url to load
    *   @param [datatype] "json", "jsonp", "xml", or 
-   *   "text"
+   *   "text". If omitted, httpPost() will guess.
    *   @param [data] param data passed sent with request
    *   @param [callback] function to be executed after 
-   *   httpGet() completes, data is passed in as first 
+   *   httpPost() completes, data is passed in as first 
    *   argument
    *   @param [errorCallback] function to be executed if 
    *   there is an error, response is passed in as first 
@@ -3764,9 +3806,11 @@ declare class p5 {
    *   range
    *   @param stop2 upper bound of the value's target 
    *   range
+   *   @param [withinBounds] constrain the value to the 
+   *   newly mapped range
    *   @return remapped number
    */
-  map(value: number, start1: number, stop1: number, start2: number, stop2: number): number;
+  map(value: number, start1: number, stop1: number, start2: number, stop2: number, withinBounds?: boolean): number;
 
   /**
    *   Determines the largest value in a sequence of 
@@ -5054,26 +5098,49 @@ declare class p5 {
   // src/webgl/camera.js
 
   /**
-   *   Sets camera position
+   *   Sets camera position for a 3D sketch. The function 
+   *   behaves similarly gluLookAt, except that it 
+   *   replaces the existing modelview matrix instead of 
+   *   applying any transformations calculated here on 
+   *   top of the existing model view. When called with 
+   *   no arguments, this function sets a default camera 
+   *   equivalent to calling camera(0, 0, (height/2.0) / 
+   *   tan(PI*30.0 / 180.0), 0, 0, 0, 0, 1, 0);
    *
-   *   @param x camera position value on x axis
-   *   @param y camera position value on y axis
-   *   @param z camera position value on z axis
+   *   @param [x] camera position value on x axis
+   *   @param [y] camera position value on y axis
+   *   @param [z] camera position value on z axis
+   *   @param [centerX] x coordinate representing center 
+   *   of the sketch
+   *   @param [centerY] y coordinate representing center 
+   *   of the sketch
+   *   @param [centerZ] z coordinate representing center 
+   *   of the sketch
+   *   @param [upX] x component of direction 'up' from 
+   *   camera
+   *   @param [upY] y component of direction 'up' from 
+   *   camera
+   *   @param [upZ] z component of direction 'up' from 
+   *   camera
    *   @return the p5 object
    */
-  camera(x: number, y: number, z: number): p5;
+  camera(x?: number, y?: number, z?: number, centerX?: number, centerY?: number, centerZ?: number, upX?: number, upY?: number, upZ?: number): p5;
 
   /**
-   *   Sets perspective camera
+   *   Sets perspective camera. When called with no 
+   *   arguments, the defaults provided are equivalent to 
+   *   perspective(PI/3.0, width/height, cameraZ/10.0, 
+   *   cameraZ10.0) where cameraZ is ((height/2.0) / 
+   *   tan(PI60.0/360.0));
    *
-   *   @param fovy camera frustum vertical field of view, 
-   *   from bottom to top of view, in degrees
-   *   @param aspect camera frustum aspect ratio
-   *   @param near frustum near plane length
-   *   @param far frustum far plane length
+   *   @param [fovy] camera frustum vertical field of 
+   *   view, from bottom to top of view, in degrees
+   *   @param [aspect] camera frustum aspect ratio
+   *   @param [near] frustum near plane length
+   *   @param [far] frustum far plane length
    *   @return the p5 object
    */
-  perspective(fovy: number, aspect: number, near: number, far: number): p5;
+  perspective(fovy?: number, aspect?: number, near?: number, far?: number): p5;
 
   /**
    *   Setup ortho camera
@@ -5128,13 +5195,13 @@ declare class p5 {
    */
   ambientLight(color: p5.Color, alpha?: number): p5;
 
-  // TODO: Fix directionalLight() errors in src/webgl/light.js, line 96:
+  // TODO: Fix directionalLight() errors in src/webgl/light.js, line 89:
   //
   //   required param "x" follows an optional param
   //
   // directionalLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
-  // TODO: Fix pointLight() errors in src/webgl/light.js, line 190:
+  // TODO: Fix pointLight() errors in src/webgl/light.js, line 168:
   //
   //   required param "x" follows an optional param
   //
@@ -5198,6 +5265,37 @@ declare class p5 {
   // src/webgl/material.js
 
   /**
+   *   Loads a custom shader from the provided vertex and 
+   *   fragment shader paths. The shader files are loaded 
+   *   asynchronously in the background, so this method 
+   *   should be used in preload(). For now, there are 
+   *   three main types of shaders. p5 will automatically 
+   *   supply appropriate vertices, normals, colors, and 
+   *   lighting attributes if the parameters defined in 
+   *   the shader match the names.
+   *
+   *   @param [vertFilename] path to file containing 
+   *   vertex shader source code
+   *   @param [fragFilename] path to file containing 
+   *   fragment shader source code
+   *   @return a shader object created from the provided 
+   *   vertex and fragment shader files.
+   */
+  loadShader(vertFilename?: string, fragFilename?: string): p5.Shader;
+
+  /**
+   *   The shader() function lets the user provide a 
+   *   custom shader to fill in shapes in WEBGL mode. 
+   *   Users can create their own shaders by loading 
+   *   vertex and fragment shaders with loadShader().
+   *
+   *   @param [s] the desired p5.Shader to use for 
+   *   rendering shapes.
+   *   @chainable
+   */
+  shader(s?: p5.Shader): p5;
+
+  /**
    *   Normal material for geometry. You can view all 
    *   possible materials in this example.
    *
@@ -5223,9 +5321,9 @@ declare class p5 {
    *   @param v1 gray value, red or hue value (depending 
    *   on the current color mode), or color Array, or CSS 
    *   color string
-   *   @param [v2] optional: green or saturation value
-   *   @param [v3] optional: blue or brightness value
-   *   @param [a] optional: opacity
+   *   @param [v2] green or saturation value
+   *   @param [v3] blue or brightness value
+   *   @param [a] opacity
    *   @chainable
    */
   ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
@@ -5238,9 +5336,9 @@ declare class p5 {
    *   @param v1 gray value, red or hue value (depending 
    *   on the current color mode), or color Array, or CSS 
    *   color string
-   *   @param [v2] optional: green or saturation value
-   *   @param [v3] optional: blue or brightness value
-   *   @param [a] optional: opacity
+   *   @param [v2] green or saturation value
+   *   @param [v3] blue or brightness value
+   *   @param [a] opacity
    *   @chainable
    */
   specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
@@ -5278,10 +5376,10 @@ declare class p5 {
    *   Draw a sphere with given radius
    *
    *   @param radius radius of circle
-   *   @param [detailX] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24
-   *   @param [detailY] optional: number of segments, the 
-   *   more segments the smoother geometry default is 16
+   *   @param [detailX] number of segments, the more 
+   *   segments the smoother geometry default is 24
+   *   @param [detailY] number of segments, the more 
+   *   segments the smoother geometry default is 16
    *   @chainable
    */
   sphere(radius: number, detailX?: number, detailY?: number): p5;
@@ -5291,9 +5389,9 @@ declare class p5 {
    *
    *   @param radius radius of the surface
    *   @param height height of the cylinder
-   *   @param [detailX] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24
-   *   @param [detailY] optional: number of segments in 
+   *   @param [detailX] number of segments, the more 
+   *   segments the smoother geometry default is 24
+   *   @param [detailY] number of segments in 
    *   y-dimension, the more segments the smoother 
    *   geometry default is 16
    *   @chainable
@@ -5305,10 +5403,10 @@ declare class p5 {
    *
    *   @param radius radius of the bottom surface
    *   @param height height of the cone
-   *   @param [detailX] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24
-   *   @param [detailY] optional: number of segments, the 
-   *   more segments the smoother geometry default is 16
+   *   @param [detailX] number of segments, the more 
+   *   segments the smoother geometry default is 24
+   *   @param [detailY] number of segments, the more 
+   *   segments the smoother geometry default is 16
    *   @chainable
    */
   cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
@@ -5319,12 +5417,12 @@ declare class p5 {
    *   @param radiusx xradius of circle
    *   @param radiusy yradius of circle
    *   @param radiusz zradius of circle
-   *   @param [detailX] optional: number of segments, the 
-   *   more segments the smoother geometry default is 24. 
+   *   @param [detailX] number of segments, the more 
+   *   segments the smoother geometry default is 24. 
    *   Avoid detail number above 150, it may crash the 
    *   browser.
-   *   @param [detailY] optional: number of segments, the 
-   *   more segments the smoother geometry default is 16. 
+   *   @param [detailY] number of segments, the more 
+   *   segments the smoother geometry default is 16. 
    *   Avoid detail number above 150, it may crash the 
    *   browser.
    *   @chainable
@@ -5336,10 +5434,10 @@ declare class p5 {
    *
    *   @param radius radius of the whole ring
    *   @param tubeRadius radius of the tube
-   *   @param [detailX] optional: number of segments in 
+   *   @param [detailX] number of segments in 
    *   x-dimension, the more segments the smoother 
    *   geometry default is 24
-   *   @param [detailY] optional: number of segments in 
+   *   @param [detailY] number of segments in 
    *   y-dimension, the more segments the smoother 
    *   geometry default is 16
    *   @chainable
@@ -5748,16 +5846,17 @@ declare namespace p5 {
 
   class Color {
     /**
-     *   We define colors to be immutable objects. Each 
-     *   color stores the color mode and level maxes that 
-     *   applied at the time of its construction. These are 
-     *   used to interpret the input arguments and to 
-     *   format the output e.g. when saturation() is 
-     *   requested. Internally we store an array 
-     *   representing the ideal RGBA values in floating 
-     *   point form, normalized from 0 to 1. From this we 
-     *   calculate the closest screen color (RGBA levels 
-     *   from 0 to 255) and expose this to the renderer. 
+     *   Each color stores the color mode and level maxes 
+     *   that applied at the time of its construction. 
+     *   These are used to interpret the input arguments 
+     *   (at construction and later for that instance of 
+     *   color) and to format the output e.g. when 
+     *   saturation() is requested. Internally we store an 
+     *   array representing the ideal RGBA values in 
+     *   floating point form, normalized from 0 to 1. From 
+     *   this we calculate the closest screen color (RGBA 
+     *   levels from 0 to 255) and expose this to the 
+     *   renderer. 
      * 
      *   We also cache normalized, floating point 
      *   components of the color in various representations 
@@ -5864,10 +5963,12 @@ declare namespace p5 {
      *   specific event listeners.
      *
      *   @param fxn function to be fired when mouse is 
-     *   pressed over the element.
+     *   pressed over the element. if false is passed 
+     *   instead, the previously firing function will no 
+     *   longer fire.
      *   @chainable
      */
-    mousePressed(fxn: Function): p5.Element;
+    mousePressed(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .doubleClicked() function is called once after 
@@ -5876,9 +5977,11 @@ declare namespace p5 {
      *   and action specific event listeners.
      *
      *   @param fxn function to be fired when mouse is 
-     *   pressed over the element.
+     *   double clicked over the element. if false is 
+     *   passed instead, the previously firing function 
+     *   will no longer fire.
      */
-    doubleClicked(fxn: Function): p5.Element;
+    doubleClicked(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .mouseWheel() function is called once after 
@@ -5899,11 +6002,13 @@ declare namespace p5 {
      *   On OS X with "natural" scrolling enabled, the 
      *   event.deltaY values are reversed.
      *
-     *   @param fxn function to be fired when mouse wheel 
-     *   is scrolled over the element.
+     *   @param fxn function to be fired when mouse is 
+     *   scrolled over the element. if false is passed 
+     *   instead, the previously firing function will no 
+     *   longer fire.
      *   @chainable
      */
-    mouseWheel(fxn: Function): p5.Element;
+    mouseWheel(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .mouseReleased() function is called once after 
@@ -5912,10 +6017,12 @@ declare namespace p5 {
      *   specific event listeners.
      *
      *   @param fxn function to be fired when mouse is 
-     *   released over the element.
+     *   released over the element. if false is passed 
+     *   instead, the previously firing function will no 
+     *   longer fire.
      *   @chainable
      */
-    mouseReleased(fxn: Function): p5.Element;
+    mouseReleased(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .mouseClicked() function is called once after 
@@ -5924,21 +6031,24 @@ declare namespace p5 {
      *   specific event listeners.
      *
      *   @param fxn function to be fired when mouse is 
-     *   clicked over the element.
+     *   clicked over the element. if false is passed 
+     *   instead, the previously firing function will no 
+     *   longer fire.
      *   @chainable
      */
-    mouseClicked(fxn: Function): p5.Element;
+    mouseClicked(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .mouseMoved() function is called once every 
      *   time a mouse moves over the element. This can be 
      *   used to attach an element specific event listener.
      *
-     *   @param fxn function to be fired when mouse is 
-     *   moved over the element.
+     *   @param fxn function to be fired when a mouse moves 
+     *   over the element. if false is passed instead, the 
+     *   previously firing function will no longer fire.
      *   @chainable
      */
-    mouseMoved(fxn: Function): p5.Element;
+    mouseMoved(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .mouseOver() function is called once after 
@@ -5946,22 +6056,25 @@ declare namespace p5 {
      *   can be used to attach an element specific event 
      *   listener.
      *
-     *   @param fxn function to be fired when mouse is 
-     *   moved over the element.
+     *   @param fxn function to be fired when a mouse moves 
+     *   onto the element. if false is passed instead, the 
+     *   previously firing function will no longer fire.
      *   @chainable
      */
-    mouseOver(fxn: Function): p5.Element;
+    mouseOver(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .changed() function is called when the value 
-     *   of an element is changed. This can be used to 
-     *   attach an element specific event listener.
+     *   of an element changes. This can be used to attach 
+     *   an element specific event listener.
      *
      *   @param fxn function to be fired when the value of 
-     *   an element changes.
+     *   an element changes. if false is passed instead, 
+     *   the previously firing function will no longer 
+     *   fire.
      *   @chainable
      */
-    changed(fxn: Function): p5.Element;
+    changed(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .input() function is called when any user 
@@ -5971,10 +6084,13 @@ declare namespace p5 {
      *   be used to attach an element specific event 
      *   listener.
      *
-     *   @param fxn function to be fired on user input.
+     *   @param fxn function to be fired when any user 
+     *   input is detected within the element. if false is 
+     *   passed instead, the previously firing function 
+     *   will no longer fire.
      *   @chainable
      */
-    input(fxn: Function): p5.Element;
+    input(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .mouseOut() function is called once after 
@@ -5982,44 +6098,49 @@ declare namespace p5 {
      *   be used to attach an element specific event 
      *   listener.
      *
-     *   @param fxn function to be fired when mouse is 
-     *   moved off the element.
+     *   @param fxn function to be fired when a mouse moves 
+     *   off of an element. if false is passed instead, the 
+     *   previously firing function will no longer fire.
      *   @chainable
      */
-    mouseOut(fxn: Function): p5.Element;
+    mouseOut(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .touchStarted() function is called once after 
      *   every time a touch is registered. This can be used 
      *   to attach element specific event listeners.
      *
-     *   @param fxn function to be fired when touch is 
-     *   started over the element.
+     *   @param fxn function to be fired when a touch 
+     *   starts over the element. if false is passed 
+     *   instead, the previously firing function will no 
+     *   longer fire.
      *   @chainable
      */
-    touchStarted(fxn: Function): p5.Element;
+    touchStarted(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .touchMoved() function is called once after 
      *   every time a touch move is registered. This can be 
      *   used to attach element specific event listeners.
      *
-     *   @param fxn function to be fired when touch is 
-     *   moved over the element.
+     *   @param fxn function to be fired when a touch moves 
+     *   over the element. if false is passed instead, the 
+     *   previously firing function will no longer fire.
      *   @chainable
      */
-    touchMoved(fxn: Function): p5.Element;
+    touchMoved(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .touchEnded() function is called once after 
      *   every time a touch is registered. This can be used 
      *   to attach element specific event listeners.
      *
-     *   @param fxn function to be fired when touch is 
-     *   ended over the element.
+     *   @param fxn function to be fired when a touch ends 
+     *   over the element. if false is passed instead, the 
+     *   previously firing function will no longer fire.
      *   @chainable
      */
-    touchEnded(fxn: Function): p5.Element;
+    touchEnded(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .dragOver() function is called once after 
@@ -6027,11 +6148,13 @@ declare namespace p5 {
      *   This can be used to attach an element specific 
      *   event listener.
      *
-     *   @param fxn function to be fired when mouse is 
-     *   dragged over the element.
+     *   @param fxn function to be fired when a file is 
+     *   dragged over the element. if false is passed 
+     *   instead, the previously firing function will no 
+     *   longer fire.
      *   @chainable
      */
-    dragOver(fxn: Function): p5.Element;
+    dragOver(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .dragLeave() function is called once after 
@@ -6039,11 +6162,13 @@ declare namespace p5 {
      *   This can be used to attach an element specific 
      *   event listener.
      *
-     *   @param fxn function to be fired when mouse is 
-     *   dragged over the element.
+     *   @param fxn function to be fired when a file is 
+     *   dragged off the element. if false is passed 
+     *   instead, the previously firing function will no 
+     *   longer fire.
      *   @chainable
      */
-    dragLeave(fxn: Function): p5.Element;
+    dragLeave(fxn: Function|boolean): p5.Element;
 
     /**
      *   The .drop() function is called for each file 
@@ -6060,7 +6185,7 @@ declare namespace p5 {
      *   @param fxn callback to receive loaded file.
      *   @chainable
      */
-    drop(callback: Function, fxn: Function): p5.Element;
+    drop(callback: Function|boolean, fxn: Function|boolean): p5.Element;
 
     // lib/addons/p5.dom.js
 
@@ -6593,7 +6718,7 @@ declare namespace p5 {
      *   @param dw destination image width
      *   @param dh destination image height
      */
-    copy(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
+    copy(srcImage: p5.Image|p5.Graphics|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
 
     /**
      *   Masks part of an image from displaying by loading 
@@ -6642,6 +6767,28 @@ declare namespace p5 {
      *   http://blogs.adobe.com/webplatform/2013/01/28/blending-features-in-canvas/
      */
     blend(srcImage: p5.Image|undefined, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: number): void;
+
+    /**
+     *   helper method for web GL mode to indicate that an 
+     *   image has been changed or unchanged since last 
+     *   upload. gl texture upload will set this value to 
+     *   false after uploading the texture.
+     *
+     *   @param val sets whether or not the image has been 
+     *   modified.
+     */
+    setModified(val: boolean): void;
+
+    /**
+     *   helper method for web GL mode to figure out if the 
+     *   image has been modified and might need to be 
+     *   re-uploaded to texture memory between frames.
+     *
+     *   @return a boolean indicating whether or not the 
+     *   image has been updated or modified since last 
+     *   texture upload.
+     */
+    isModified(): boolean;
 
     /**
      *   Saves the image to a file and force the browser to 
@@ -7579,7 +7726,7 @@ declare namespace p5 {
      *   @param y the y component
      *   @param z the z component
      *   @param amt the amount of interpolation; some value 
-     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.9 
      *   is very near the new vector. 0.5 is halfway in 
      *   between.
      *   @chainable
@@ -7591,7 +7738,7 @@ declare namespace p5 {
      *
      *   @param v the p5.Vector to lerp to
      *   @param amt the amount of interpolation; some value 
-     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.9 
      *   is very near the new vector. 0.5 is halfway in 
      *   between.
      *   @chainable
@@ -7602,7 +7749,7 @@ declare namespace p5 {
      *   Linear interpolate the vector to another vector
      *
      *   @param amt the amount of interpolation; some value 
-     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.9 
      *   is very near the new vector. 0.5 is halfway in 
      *   between.
      *   @param target if undefined a new vector will be 
@@ -7614,7 +7761,7 @@ declare namespace p5 {
      *   Linear interpolate the vector to another vector
      *
      *   @param amt the amount of interpolation; some value 
-     *   between 0.0 (old vector) and 1.0 (new vector). 0.1 
+     *   between 0.0 (old vector) and 1.0 (new vector). 0.9 
      *   is very near the new vector. 0.5 is halfway in 
      *   between.
      *   @return the lerped value
@@ -7696,6 +7843,33 @@ declare namespace p5 {
      *   w, h
      */
     textBounds(line: string, x: number, y: number, fontSize: number, options: object): object;
+
+    /**
+     *   Computes an array of points following the path for 
+     *   specified text
+     *
+     *   @param txt a line of text
+     *   @param x x-position
+     *   @param y y-position
+     *   @param fontSize font size to use (optional)
+     *   @param options an (optional) object that can 
+     *   contain: 
+     * 
+     * 
+     *   sampleFactor - the ratio of path-length to number 
+     *   of samples (default=.25); higher values yield more 
+     *   points and are therefore more precise 
+     * 
+     * 
+     *   simplifyThreshold - if set to a non-zero value, 
+     *   collinear points will be be removed from the 
+     *   polygon; the value represents the threshold angle 
+     *   to use when determining whether two edges are 
+     *   collinear
+     *   @return an array of points, each with x, y, alpha 
+     *   (the path angle)
+     */
+    textToPoints(txt: string, x: number, y: number, fontSize: number, options: object): any[];
   }
 
   // src/webgl/p5.Geometry.js
@@ -7726,18 +7900,265 @@ declare namespace p5 {
     constructor();
 
     /**
+     *   Set attributes for the WebGL Drawing context. This 
+     *   is a way of adjusting ways that the WebGL renderer 
+     *   works to fine-tune the display and performance. 
+     *   This should be put in setup(). The available 
+     *   attributes are:  alpha - indicates if the canvas 
+     *   contains an alpha buffer default is true 
+     * 
+     *  
+     *   depth - indicates whether the drawing buffer has a 
+     *   depth buffer of at least 16 bits - default is true 
+     * 
+     *  
+     *   stencil - indicates whether the drawing buffer has 
+     *   a stencil buffer of at least 8 bits 
+     * 
+     *  
+     *   antialias - indicates whether or not to perform 
+     *   anti-aliasing default is false 
+     * 
+     *  
+     *   premultipliedAlpha - indicates that the page 
+     *   compositor will assume the drawing buffer contains 
+     *   colors with pre-multiplied alpha default is false 
+     * 
+     *  
+     *   preserveDrawingBuffer - if true the buffers will 
+     *   not be cleared and and will preserve their values 
+     *   until cleared or overwritten by author (note that 
+     *   p5 clears automatically on draw loop) default is 
+     *   true 
+     * 
+     *    
+     *   function setup() { createCanvas(150,150,WEBGL); } 
+     *   function draw() { background(255); push(); 
+     *   rotateZ(frameCount  0.02); rotateX(frameCount  
+     *   0.02); rotateY(frameCount  0.02); fill(0,0,0); 
+     *   box(50); pop(); }   
+     *  
+     *   Now with the antialias attribute set to true. 
+     *    
+     *   function setup() { createCanvas(150,150,WEBGL); 
+     *   setAttributes('antialias', true); } function 
+     *   draw() { background(255); push(); 
+     *   rotateZ(frameCount 0.02); rotateX(frameCount  
+     *   0.02); rotateY(frameCount  0.02); fill(0,0,0); 
+     *   box(50); pop(); }
+     *
+     *   @param String name of attribute or object with 
+     *   key-value pairs
+     *   @param New value of named attribute
+     */
+    setAttributes(String: string|object, New: boolean): void;
+
+    /**
      *   Basic fill material for geometry with a given 
      *   color
      *
      *   @param v1 gray value, red or hue value (depending 
      *   on the current color mode), or color Array, or CSS 
      *   color string
-     *   @param [v2] optional: green or saturation value
-     *   @param [v3] optional: blue or brightness value
-     *   @param [a] optional: opacity
+     *   @param [v2] green or saturation value
+     *   @param [v3] blue or brightness value
+     *   @param [a] opacity
+     *   @return the p5 object
+     */
+    fill(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+    /**
+     *   Does not render fill material
+     *
+     */
+    noFill(): void;
+
+    /**
+     *   Does not render stroke
+     *
+     */
+    noStroke(): void;
+
+    /**
+     *   Basic stroke material for geometry with a given 
+     *   color
+     *
+     *   @param v1 gray value, red or hue value (depending 
+     *   on the current color mode), or color Array, or CSS 
+     *   color string
+     *   @param [v2] green or saturation value
+     *   @param [v3] blue or brightness value
+     *   @param [a] opacity
+     */
+    stroke(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): void;
+
+    /**
+     *   Change weight of stroke
+     *
+     *   @param stroke weight to be used for drawing
+     */
+    strokeWeight(stroke: number): void;
+
+    /**
+     *   Returns an array of [R,G,B,A] values for any pixel 
+     *   or grabs a section of an image. If no parameters 
+     *   are specified, the entire image is returned. Use 
+     *   the x and y parameters to get the value of one 
+     *   pixel. Get a section of the display window by 
+     *   specifying additional w and h parameters. When 
+     *   getting an image, the x and y parameters define 
+     *   the coordinates for the upper-left corner of the 
+     *   image, regardless of the current imageMode().  If 
+     *   the pixel requested is outside of the image 
+     *   window, [0,0,0,255] is returned. 
+     * 
+     *  
+     *   Getting the color of a single pixel with get(x, y) 
+     *   is easy, but not as fast as grabbing the data 
+     *   directly from pixels[]. The equivalent statement 
+     *   to get(x, y) is using pixels[] with pixel density 
+     *   d
+     *
+     *   @param [x] x-coordinate of the pixel
+     *   @param [y] y-coordinate of the pixel
+     *   @param [w] width
+     *   @param [h] height
+     *   @return color of pixel at x,y in array format [R, 
+     *   G, B, A] or p5.Image
+     */
+    get(x?: number, y?: number, w?: number, h?: number): any[]|Color|p5.Image;
+
+    /**
+     *   Loads the pixels data for this canvas into the 
+     *   pixels[] attribute. Note that updatePixels() and 
+     *   set() do not work. Any pixel manipulation must be 
+     *   done directly to the pixels[] array.
+     *
+     *   @param [x] starting pixel x position, defaults to 
+     *   0
+     *   @param [y] starting pixel y position, defaults to 
+     *   0
+     *   @param [w] width of pixels to load, defaults to 
+     *   sketch width
+     *   @param [h] height of pixels to load, defaults to 
+     *   sketch height
+     */
+    loadPixels(x?: number, y?: number, w?: number, h?: number): void;
+  }
+
+  // src/webgl/p5.Shader.js
+
+  class Shader {
+    /**
+     *   Shader class for WEBGL Mode
+     *
+     *   @param renderer an instance of p5.RendererGL that 
+     *   will provide the GL context for this new p5.Shader
+     *   @param vertSrc source code for the vertex shader 
+     *   (as a string)
+     *   @param fragSrc source code for the fragment shader 
+     *   (as a string)
+     */
+    constructor(renderer: p5.RendererGL, vertSrc: string, fragSrc: string);
+
+    /**
+     *   Creates, compiles, and links the shader based on 
+     *   its sources for the vertex and fragment shaders 
+     *   (provided to the constructor). Populates known 
+     *   attributes and uniforms from the shader.
+     *
      *   @chainable
      */
-    fill(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5.RendererGL;
+    init(): p5.Shader;
+
+    /**
+     *   Queries the active attributes for this shader and 
+     *   loads their names and locations into the 
+     *   attributes array.
+     *
+     */
+    _loadAttributes(): void;
+
+    /**
+     *   Queries the active uniforms for this shader and 
+     *   loads their names and locations into the uniforms 
+     *   array.
+     *
+     */
+    _loadUniforms(): void;
+
+    /**
+     *   initializes (if needed) and binds the shader 
+     *   program.
+     *
+     */
+    bindShader(): void;
+    unbindShader(): p5.Shader;
+    useProgram(): p5.Shader;
+
+    /**
+     *   Wrapper around gl.uniform functions. As we store 
+     *   uniform info in the shader we can use that to do 
+     *   type checking on the supplied data and call the 
+     *   appropriate function.
+     *
+     *   @param uniformName the name of the uniform in the 
+     *   shader program
+     *   @param data the data to be associated with that 
+     *   uniform; type varies (could be a single numerical 
+     *   value, array, matrix, or texture / sampler 
+     *   reference)
+     *   @chainable
+     */
+    setUniform(uniformName: string, data: object): p5.Shader;
+    enableAttrib(): p5.Shader;
+  }
+
+  // src/webgl/p5.Texture.js
+
+  class Texture {
+    /**
+     *   Texture class for WEBGL Mode
+     *
+     *   @param renderer an instance of p5.RendererGL that 
+     *   will provide the GL context for this new 
+     *   p5.Texture
+     *   @param [obj] the object containing the image data 
+     *   to store in the texture.
+     */
+    constructor(renderer: p5.RendererGL, obj?: p5.Image|p5.Graphics|p5.Element|p5.MediaElement);
+
+    /**
+     *   Initializes common texture parameters, creates a 
+     *   gl texture, tries to upload the texture for the 
+     *   first time if data is already available.
+     *
+     */
+    init(): void;
+
+    /**
+     *   Checks if the source data for this texture has 
+     *   changed (if it's easy to do so) and reuploads the 
+     *   texture if necessary. If it's not possible or to 
+     *   expensive to do a calculation to determine wheter 
+     *   or not the data has occurred, this method simply 
+     *   re-uploads the texture.
+     *
+     */
+    update(): void;
+
+    /**
+     *   Binds the texture to the appropriate GL target.
+     *
+     */
+    bindTexture(): void;
+
+    /**
+     *   Unbinds the texture from the appropriate GL 
+     *   target.
+     *
+     */
+    unbindTexture(): void;
   }
 
   // lib/addons/p5.dom.js
@@ -7844,6 +8265,30 @@ declare namespace p5 {
      *   @return duration
      */
     duration(): number;
+
+    /**
+     *   helper method for web GL mode to figure out if the 
+     *   element has been modified and might need to be 
+     *   re-uploaded to texture memory between frames.
+     *
+     *   @return a boolean indicating whether or not the 
+     *   image has been updated or modified since last 
+     *   texture upload.
+     */
+    isModified(): boolean;
+
+    /**
+     *   helper method for web GL mode to indicate that an 
+     *   element has been changed or unchanged since last 
+     *   upload. gl texture upload will set this value to 
+     *   false after uploading the texture; or might set it 
+     *   to true if metadata has become available but there 
+     *   is no actual texture data available yet..
+     *
+     *   @param val sets whether or not the element has 
+     *   been modified.
+     */
+    setModified(val: boolean): void;
 
     /**
      *   Schedule an event to be called when the audio or 

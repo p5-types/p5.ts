@@ -1,7 +1,7 @@
 Generating definitions...
 Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
-directionalLight() src/webgl/light.js, line 96, required param "x" follows an optional param
-pointLight() src/webgl/light.js, line 190, required param "x" follows an optional param
+directionalLight() src/webgl/light.js, line 89, required param "x" follows an optional param
+pointLight() src/webgl/light.js, line 168, required param "x" follows an optional param
 add() lib/addons/p5.sound.js, line 4343, return has invalid type: p5.SignalAdd
 mult() lib/addons/p5.sound.js, line 4362, return has invalid type: Tone.Multiply
 scale() lib/addons/p5.sound.js, line 4381, return has invalid type: p5.SignalScale
@@ -9,8 +9,8 @@ p5.Effect() lib/addons/p5.sound.js, line 7694, param "input" has invalid type: W
 p5.Effect() lib/addons/p5.sound.js, line 7694, param "output" has invalid type: WebAudioNode
 p5.Effect() lib/addons/p5.sound.js, line 7694, param "wet" has invalid type: WebAudioNode
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
-directionalLight() src/webgl/light.js, line 96, required param "x" follows an optional param
-pointLight() src/webgl/light.js, line 190, required param "x" follows an optional param
+directionalLight() src/webgl/light.js, line 89, required param "x" follows an optional param
+pointLight() src/webgl/light.js, line 168, required param "x" follows an optional param
 UNKNOWN CLASS: BandPass
 MISSING: p5.SignalAdd
 MISSING: Tone.Multiply
