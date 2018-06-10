@@ -2,6 +2,8 @@ Generating definitions...
 Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
 directionalLight() src/3d/light.js, line 68, required param "x" follows an optional param
 pointLight() src/3d/light.js, line 188, required param "x" follows an optional param
+loadModel() src/3d/loading.js, line 14, return has invalid type: p5.Geometry
+model() src/3d/loading.js, line 151, param "model" has invalid type: p5.Geometry
 lerpColor() src/color/creating_reading.js, line 330, param "c1" has invalid type: Array/Number
 lerpColor() src/color/creating_reading.js, line 330, param "c2" has invalid type: Array/Number
 lerpColor() src/color/creating_reading.js, line 330, return has invalid type: Array/Number
@@ -10,7 +12,7 @@ rectMode() src/core/attributes.js, line 99, param "mode" has invalid type: Numbe
 strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Number/Constant
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
-blendMode() src/core/rendering.js, line 207, param "mode" has invalid type: String/Constant
+blendMode() src/core/rendering.js, line 211, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 66, param "kind" has invalid type: Number/Constant
 endShape() src/core/vertex.js, line 405, param "mode" has invalid type: Number/Constant
 saveCanvas() src/image/image.js, line 97, param "canvas" has invalid type: [selectedCanvas]
@@ -19,7 +21,6 @@ saveCanvas() src/image/image.js, line 97, param "extension" has invalid type: [S
 updatePixels() src/image/pixels.js, line 521, param "w" is defined multiple times
 save() src/io/files.js, line 987, param "filename" has invalid type: [String]
 save() src/io/files.js, line 987, param "options" has invalid type: [Boolean/String]
-getChild() src/io/p5.XML.js, line 254, return has invalid type: p5.XML
 dist() src/math/calculation.js, line 108, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 108, required param "y2" follows an optional param
 angleMode() src/math/trigonometry.js, line 306, param "mode" has invalid type: Number/Constant
@@ -43,7 +44,7 @@ createVideo() lib/addons/p5.dom.js, line 826, return has invalid type: Object/p5
 createAudio() lib/addons/p5.dom.js, line 854, return has invalid type: Object/p5.Element
 createCapture() lib/addons/p5.dom.js, line 890, return has invalid type: Object/p5.Element
 createElement() lib/addons/p5.dom.js, line 990, return has invalid type: Object/p5.Element
-drop() src/core/p5.Element.js, line 692, param "callback" is defined multiple times
+drop() src/core/p5.Element.js, line 695, param "callback" is defined multiple times
 addClass() lib/addons/p5.dom.js, line 1016, return has invalid type: Object/p5.Element
 removeClass() lib/addons/p5.dom.js, line 1043, return has invalid type: Object/p5.Element
 position() lib/addons/p5.dom.js, line 1181, return has invalid type: Object/p5.Element
@@ -88,6 +89,8 @@ p5.Score() lib/addons/p5.sound.js, line 8267, param "part(s)" is not a valid JS 
 Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
 directionalLight() src/3d/light.js, line 68, required param "x" follows an optional param
 pointLight() src/3d/light.js, line 188, required param "x" follows an optional param
+loadModel() src/3d/loading.js, line 14, return has invalid type: p5.Geometry
+model() src/3d/loading.js, line 151, param "model" has invalid type: p5.Geometry
 lerpColor() src/color/creating_reading.js, line 330, param "c1" has invalid type: Array/Number
 lerpColor() src/color/creating_reading.js, line 330, param "c2" has invalid type: Array/Number
 lerpColor() src/color/creating_reading.js, line 330, return has invalid type: Array/Number
@@ -96,7 +99,7 @@ rectMode() src/core/attributes.js, line 99, param "mode" has invalid type: Numbe
 strokeCap() src/core/attributes.js, line 185, param "cap" has invalid type: Number/Constant
 strokeJoin() src/core/attributes.js, line 215, param "join" has invalid type: Number/Constant
 cursor() src/core/environment.js, line 111, param "type" has invalid type: Number/Constant
-blendMode() src/core/rendering.js, line 207, param "mode" has invalid type: String/Constant
+blendMode() src/core/rendering.js, line 211, param "mode" has invalid type: String/Constant
 beginShape() src/core/vertex.js, line 66, param "kind" has invalid type: Number/Constant
 endShape() src/core/vertex.js, line 405, param "mode" has invalid type: Number/Constant
 saveCanvas() src/image/image.js, line 97, param "canvas" has invalid type: [selectedCanvas]
@@ -105,7 +108,6 @@ saveCanvas() src/image/image.js, line 97, param "extension" has invalid type: [S
 updatePixels() src/image/pixels.js, line 521, param "w" is defined multiple times
 save() src/io/files.js, line 987, param "filename" has invalid type: [String]
 save() src/io/files.js, line 987, param "options" has invalid type: [Boolean/String]
-getChild() src/io/p5.XML.js, line 254, return has invalid type: p5.XML
 dist() src/math/calculation.js, line 108, required param "x2" follows an optional param
 dist() src/math/calculation.js, line 108, required param "y2" follows an optional param
 angleMode() src/math/trigonometry.js, line 306, param "mode" has invalid type: Number/Constant
@@ -129,6 +131,7 @@ createVideo() lib/addons/p5.dom.js, line 826, return has invalid type: Object/p5
 createAudio() lib/addons/p5.dom.js, line 854, return has invalid type: Object/p5.Element
 createCapture() lib/addons/p5.dom.js, line 890, return has invalid type: Object/p5.Element
 createElement() lib/addons/p5.dom.js, line 990, return has invalid type: Object/p5.Element
+MISSING: p5.Geometry
 MISSING: Array/Number
 MISSING: Number/Constant
 MISSING: String/Constant
@@ -138,7 +141,6 @@ MISSING: Strings
 MISSING: [Object
 MISSING: String]
 MISSING: [Boolean/String]
-MISSING: p5.XML
 MISSING: Object/p5.Element
 MISSING: Array/Color
 MISSING: {Array}

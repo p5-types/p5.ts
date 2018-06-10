@@ -10,95 +10,6 @@
 
 // Properties from p5
 
-// src/3d/3d_primitives.js
-
-/**
- *   Draw a plane with given a width and height
- *
- *   @param width width of the plane
- *   @param height height of the plane
- *   @return the p5 object
- */
-declare function plane(width: number, height: number): p5;
-
-/**
- *   Draw a sphere with given radius
- *
- *   @param radius radius of circle
- *   @param [detail] number of segments, the more 
- *   segments the smoother geometry default is 24. 
- *   Avoid detail number above 150, it may crash the 
- *   browser.
- */
-declare function sphere(radius: number, detail?: number): void;
-
-/**
- *   Draw an ellipsoid with given radius
- *
- *   @param radiusx xradius of circle
- *   @param radiusy yradius of circle
- *   @param radiusz zradius of circle
- *   @param [detail] Number of segments. The more 
- *   segments, the smoother the geometry (default is 
- *   24). Avoid detail number above 150. It may crash 
- *   the browser.
- *   @return the p5 object
- */
-declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, detail?: number): p5;
-
-/**
- *   Draw a cylinder with given radius and height
- *
- *   @param radius radius of the surface
- *   @param height height of the cylinder
- *   @param [detail] number of segments, the more 
- *   segments the smoother geometry default is 24. 
- *   Avoid detail number above 
- * 
- *  
- *   150. It may crash the browser.
- *   @return the p5 object
- */
-declare function cylinder(radius: number, height: number, detail?: number): p5;
-
-/**
- *   Draw a cone with given radius and height
- *
- *   @param radius radius of the bottom surface
- *   @param height height of the cone
- *   @param [detail] number of segments, the more 
- *   segments the smoother geometry default is 24. 
- *   Avoid detail number above 
- * 
- *  
- *   150. It may crash the browser.
- */
-declare function cone(radius: number, height: number, detail?: number): void;
-
-/**
- *   Draw a torus with given radius and tube radius
- *
- *   @param radius radius of the whole ring
- *   @param tubeRadius radius of the tube
- *   @param [detail] number of segments, the more 
- *   segments the smoother geometry default is 24. 
- *   Avoid detail number above 
- * 
- *  
- *   150. It may crash the browser.
- */
-declare function torus(radius: number, tubeRadius: number, detail?: number): void;
-
-/**
- *   Draw a box with given width, height and depth
- *
- *   @param width width of the box
- *   @param height height of the box
- *   @param depth depth of the box
- *   @return the p5 object
- */
-declare function box(width: number, height: number, depth: number): p5;
-
 // src/3d/camera.js
 
 /**
@@ -163,6 +74,20 @@ declare function ambientLight(v1: number|any[]|string|p5.Color, v2?: number, v3?
 //
 // declare function pointLight(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number, x: number|p5.Vector, y?: number, z?: number): p5;
 
+// src/3d/loading.js
+
+// TODO: Fix loadModel() errors in src/3d/loading.js, line 14:
+//
+//   return has invalid type: p5.Geometry
+//
+// declare function loadModel(path: string): any;
+
+// TODO: Fix model() errors in src/3d/loading.js, line 151:
+//
+//   param "model" has invalid type: p5.Geometry
+//
+// declare function model(model: any): void;
+
 // src/3d/material.js
 
 /**
@@ -178,19 +103,6 @@ declare function normalMaterial(): p5;
  *   @return the p5 object
  */
 declare function texture(): p5;
-
-/**
- *   Basic material for geometry with a given color
- *
- *   @param v1 gray value, red or hue value (depending 
- *   on the current color mode), or color Array, or CSS 
- *   color string
- *   @param [v2] optional: green or saturation value
- *   @param [v3] optional: blue or brightness value
- *   @param [a] optional: opacity
- *   @return the p5 object
- */
-declare function basicMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
 
 /**
  *   Ambient material for geometry with a given color
@@ -217,6 +129,105 @@ declare function ambientMaterial(v1: number|any[]|string|p5.Color, v2?: number, 
  *   @return the p5 object
  */
 declare function specularMaterial(v1: number|any[]|string|p5.Color, v2?: number, v3?: number, a?: number): p5;
+
+// src/3d/primitives.js
+
+/**
+ *   Draw a plane with given a width and height
+ *
+ *   @param width width of the plane
+ *   @param height height of the plane
+ *   @param [detailX] Optional number of triangle 
+ *   subdivisions in x-dimension
+ *   @param [detailY] Optional number of triangle 
+ *   subdivisions in y-dimension
+ *   @return the p5 object
+ */
+declare function plane(width: number, height: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a box with given width, height and depth
+ *
+ *   @param width width of the box
+ *   @param Height height of the box
+ *   @param depth depth of the box
+ *   @param [detailX] Optional number of triangle 
+ *   subdivisions in x-dimension
+ *   @param [detailY] Optional number of triangle 
+ *   subdivisions in y-dimension
+ *   @return the p5 object
+ */
+declare function box(width: number, Height: number, depth: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a sphere with given radius
+ *
+ *   @param radius radius of circle
+ *   @param [detailX] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @param [detailY] optional: number of segments, the 
+ *   more segments the smoother geometry default is 16
+ *   @return the p5 object
+ */
+declare function sphere(radius: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a cylinder with given radius and height
+ *
+ *   @param radius radius of the surface
+ *   @param height height of the cylinder
+ *   @param [detailX] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @param [detailY] optional: number of segments in 
+ *   y-dimension, the more segments the smoother 
+ *   geometry default is 16
+ *   @return the p5 object
+ */
+declare function cylinder(radius: number, height: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw a cone with given radius and height
+ *
+ *   @param radius radius of the bottom surface
+ *   @param height height of the cone
+ *   @param [detailX] optional: number of segments, the 
+ *   more segments the smoother geometry default is 24
+ *   @param [detailY] optional: number of segments, the 
+ *   more segments the smoother geometry default is 16
+ *   @return the p5 object
+ */
+declare function cone(radius: number, height: number, detailX?: number, detailY?: number): p5;
+
+/**
+ *   Draw an ellipsoid with given raduis
+ *
+ *   @param radiusx xradius of circle
+ *   @param radiusy yradius of circle
+ *   @param radiusz zradius of circle
+ *   @param [detail] number of segments, the more 
+ *   segments the smoother geometry default is 24. 
+ *   Avoid detail number above 
+ * 
+ *  
+ *   150. It may crash the browser.
+ *   @return the p5 object
+ */
+declare function ellipsoid(radiusx: number, radiusy: number, radiusz: number, detail?: number): p5;
+
+/**
+ *   Draw a torus with given radius and tube radius
+ *
+ *   @param radius radius of the whole ring
+ *   @param tubeRadius radius of the tube
+ *   @param [detailX] optional: number of segments in 
+ *   x-dimension, the more segments the smoother 
+ *   geometry default is 24
+ *   @param [detailY] optional: number of segments in 
+ *   y-dimension, the more segments the smoother 
+ *   geometry default is 16
+ *   @return the p5 object
+ */
+declare function torus(radius: number, tubeRadius: number, detailX?: number, detailY?: number): p5;
 
 // src/color/creating_reading.js
 
@@ -589,13 +600,28 @@ declare function arc(a: number, b: number, c: number, d: number, start: number, 
  *   the shape's width and height. The origin may be 
  *   changed with the ellipseMode() function.
  *
- *   @param a x-coordinate of the ellipse.
- *   @param b y-coordinate of the ellipse.
- *   @param c width of the ellipse.
- *   @param d height of the ellipse.
- *   @return the p5 object
+ *   @param x x-coordinate of the ellipse.
+ *   @param y y-coordinate of the ellipse.
+ *   @param w width of the ellipse.
+ *   @param h height of the ellipse.
  */
-declare function ellipse(a: number, b: number, c: number, d: number): p5;
+declare function ellipse(x: number, y: number, w: number, h: number): void;
+
+/**
+ *   Draws an ellipse (oval) to the screen. An ellipse 
+ *   with equal width and height is a circle. By 
+ *   default, the first two parameters set the 
+ *   location, and the third and fourth parameters set 
+ *   the shape's width and height. The origin may be 
+ *   changed with the ellipseMode() function.
+ *
+ *   @param x x-coordinate of the ellipse.
+ *   @param y y-coordinate of the ellipse.
+ *   @param z z-coordinate of the ellipse
+ *   @param w width of the ellipse.
+ *   @param h height of the ellipse.
+ */
+declare function ellipse(x: number, y: number, z: number, w: number, h: number): void;
 
 /**
  *   Draws a line (a direct path between two points) to 
@@ -645,9 +671,24 @@ declare function point(x: number, y: number): p5;
  *   @param y3 the y-coordinate of the third point
  *   @param x4 the x-coordinate of the fourth point
  *   @param y4 the y-coordinate of the fourth point
- *   @return the p5 object
  */
-declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): p5;
+declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+
+/**
+ *   Draw a quad. A quad is a quadrilateral, a four 
+ *   sided polygon. It is similar to a rectangle, but 
+ *   the angles between its edges are not constrained 
+ *   to ninety degrees. The first pair of parameters 
+ *   (x1,y1) sets the first vertex and the subsequent 
+ *   pairs should proceed clockwise or 
+ *   counter-clockwise around the defined shape.
+ *
+ *   @param z1 the z-coordinate of the first point
+ *   @param z2 the z-coordinate of the second point
+ *   @param z3 the z-coordinate of the third point
+ *   @param z4 the z-coordinate of the fourth point
+ */
+declare function quad(z1: number, z2: number, z3: number, z4: number): void;
 
 /**
  *   Draws a rectangle to the screen. A rectangle is a 
@@ -673,9 +714,27 @@ declare function quad(x1: number, y1: number, x2: number, y2: number, x3: number
  *   @param [br] optional radius of bottom-right 
  *   corner.
  *   @param [bl] optional radius of bottom-left corner.
- *   @return the p5 object.
  */
-declare function rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): p5;
+declare function rect(x: number, y: number, w: number, h: number, tl?: number, tr?: number, br?: number, bl?: number): void;
+
+/**
+ *   Draws a rectangle to the screen. A rectangle is a 
+ *   four-sided shape with every angle at ninety 
+ *   degrees. By default, the first two parameters set 
+ *   the location of the upper-left corner, the third 
+ *   sets the width, and the fourth sets the height. 
+ *   The way these parameters are interpreted, however, 
+ *   may be changed with the rectMode() function.  The 
+ *   fifth, sixth, seventh and eighth parameters, if 
+ *   specified, determine corner radius for the 
+ *   top-right, top-left, lower-right and lower-left 
+ *   corners, respectively. An omitted corner radius 
+ *   parameter is set to the value of the previously 
+ *   specified radius value in the parameter list.
+ *
+ *   @param z z-coordinate of the rectangle.
+ */
+declare function rect(z: number): void;
 
 /**
  *   A triangle is a plane created by connecting three 
@@ -858,7 +917,18 @@ declare function setup(): void;
  *   to run continuously, or to process events such as 
  *   mousePressed(). Sometimes, you might have an empty 
  *   call to draw() in your program, as shown in the 
- *   above example.
+ *   above example. 
+ * 
+ *  
+ *   It is important to note that the drawing 
+ *   coordinate system will be reset at the beginning 
+ *   of each draw() call. If any transformations are 
+ *   performed within draw() (ex: scale, rotate, 
+ *   translate, their effects will be undone at the 
+ *   beginning of draw(), so transformations will not 
+ *   accumulate over time. On the other hand, styling 
+ *   applied (ex: fill, stroke, etc) will remain in 
+ *   effect.
  *
  */
 declare function draw(): void;
@@ -902,9 +972,30 @@ declare function remove(): void;
  *   point
  *   @param x4 x-coordinate for the second anchor point
  *   @param y4 y-coordinate for the second anchor point
- *   @return the p5 object
  */
-declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
+declare function bezier(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+
+/**
+ *   Draws a cubic Bezier curve on the screen. These 
+ *   curves are defined by a series of anchor and 
+ *   control points. The first two parameters specify 
+ *   the first anchor point and the last two parameters 
+ *   specify the other anchor point, which become the 
+ *   first and last points on the curve. The middle 
+ *   parameters specify the two control points which 
+ *   define the shape of the curve. Approximately 
+ *   speaking, control points "pull" the curve towards 
+ *   them.Bezier curves were developed by French 
+ *   automotive engineer Pierre Bezier, and are 
+ *   commonly used in computer graphics to define 
+ *   gently sloping curves. See also curve().
+ *
+ *   @param z1 z-coordinate for the first anchor point
+ *   @param z2 z-coordinate for the first control point
+ *   @param z3 z-coordinate for the first anchor point
+ *   @param z4 z-coordinate for the first control point
+ */
+declare function bezier(z1: number, z2: number, z3: number, z4: number): void;
 
 /**
  *   Evaluates the Bezier at position t for points a, 
@@ -967,9 +1058,31 @@ declare function bezierTangent(a: number, b: number, c: number, d: number, t: nu
  *   point
  *   @param y4 y-coordinate for the ending control 
  *   point
- *   @return the p5 object
  */
-declare function curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): object;
+declare function curve(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): void;
+
+/**
+ *   Draws a curved line on the screen between two 
+ *   points, given as the middle four parameters. The 
+ *   first two parameters are a control point, as if 
+ *   the curve came from this point even though it's 
+ *   not drawn. The last two parameters similarly 
+ *   describe the other control point.  Longer curves 
+ *   can be created by putting a series of curve() 
+ *   functions together or using curveVertex(). An 
+ *   additional function called curveTightness() 
+ *   provides control for the visual quality of the 
+ *   curve. The curve() function is an implementation 
+ *   of Catmull-Rom splines.
+ *
+ *   @param z1 z-coordinate for the beginning control 
+ *   point
+ *   @param z2 z-coordinate for the first point
+ *   @param z3 z-coordinate for the second point
+ *   @param z4 z-coordinate for the ending control 
+ *   point
+ */
+declare function curve(z1: number, z2: number, z3: number, z4: number): void;
 
 /**
  *   Modifies the quality of forms created with curve() 
@@ -1229,7 +1342,11 @@ declare function getURLParams(): object;
  *   shown).  The system variables width and height are 
  *   set by the parameters passed to this function. If 
  *   createCanvas() is not used, the window will be 
- *   given a default size of 100x100 pixels.
+ *   given a default size of 100x100 pixels. 
+ * 
+ *  
+ *   For more ways to position the canvas, see the  
+ *   positioning the canvas wiki page.
  *
  *   @param w width of the canvas
  *   @param h height of the canvas
@@ -1268,7 +1385,7 @@ declare function noCanvas(): void;
  */
 declare function createGraphics(w: number, h: number, renderer: string): object;
 
-// TODO: Fix blendMode() errors in src/core/rendering.js, line 207:
+// TODO: Fix blendMode() errors in src/core/rendering.js, line 211:
 //
 //   param "mode" has invalid type: String/Constant
 //
@@ -2859,167 +2976,6 @@ declare function saveStrings(list: any[], filename: string): void;
  *   "html"
  */
 declare function saveTable(Table: p5.Table, filename: string, options?: string): void;
-
-// src/io/p5.XML.js
-
-/**
- *   Gets a copy of the element's parent. Returns the 
- *   parent as another p5.XML object.
- *
- *   @return element parent
- */
-declare function getParent(): object;
-
-/**
- *   Gets the element's full name, which is returned as 
- *   a String.
- *
- *   @return the name of the node
- */
-declare function getName(): string;
-
-/**
- *   Sets the element's name, which is specified as a 
- *   String.
- *
- *   @param the new name of the node
- */
-declare function setName(the: string): void;
-
-/**
- *   Checks whether or not the element has any 
- *   children, and returns the result as a boolean.
- *
- */
-declare function hasChildren(): boolean;
-
-/**
- *   Get the names of all of the element's children, 
- *   and returns the names as an array of Strings. This 
- *   is the same as looping through and calling 
- *   getName() on each child element individually.
- *
- *   @return names of the children of the element
- */
-declare function listChildren(): any[];
-
-/**
- *   Returns all of the element's children as an array 
- *   of p5.XML objects. When the name parameter is 
- *   specified, then it will return all children that 
- *   match that name.
- *
- *   @param [name] element name
- *   @return children of the element
- */
-declare function getChildren(name?: string): any[];
-
-// TODO: Fix getChild() errors in src/io/p5.XML.js, line 254:
-//
-//   return has invalid type: p5.XML
-//
-// declare function getChild(name: string|number): any;
-
-/**
- *   Appends a new child to the element. The child can 
- *   be specified with either a String, which will be 
- *   used as the new tag's name, or as a reference to 
- *   an existing p5.XML object. A reference to the 
- *   newly created child is returned as an p5.XML 
- *   object.
- *
- *   @param a p5.XML Object which will be the child to 
- *   be added
- */
-declare function addChild(a: object): void;
-
-/**
- *   Removes the element specified by name or index.
- *
- *   @param name element name or index
- */
-declare function removeChild(name: string|number): void;
-
-/**
- *   Counts the specified element's number of 
- *   attributes, returned as an Number.
- *
- */
-declare function getAttributeCount(): number;
-
-/**
- *   Gets all of the specified element's attributes, 
- *   and returns them as an array of Strings.
- *
- *   @return an array of strings containing the names 
- *   of attributes
- */
-declare function listAttributes(): any[];
-
-/**
- *   Checks whether or not an element has the specified 
- *   attribute.
- *
- *   @param the attribute to be checked
- *   @return true if attribute found else false
- */
-declare function hasAttribute(the: string): boolean;
-
-/**
- *   Returns an attribute value of the element as an 
- *   Number. If the defaultValue parameter is specified 
- *   and the attribute doesn't exist, then defaultValue 
- *   is returned. If no defaultValue is specified and 
- *   the attribute doesn't exist, the value 0 is 
- *   returned.
- *
- *   @param name the non-null full name of the 
- *   attribute
- *   @param [defaultValue] the default value of the 
- *   attribute
- */
-declare function getNumber(name: string, defaultValue?: number): number;
-
-/**
- *   Returns an attribute value of the element as an 
- *   String. If the defaultValue parameter is specified 
- *   and the attribute doesn't exist, then defaultValue 
- *   is returned. If no defaultValue is specified and 
- *   the attribute doesn't exist, null is returned.
- *
- *   @param name the non-null full name of the 
- *   attribute
- *   @param [defaultValue] the default value of the 
- *   attribute
- */
-declare function getString(name: string, defaultValue?: number): number;
-
-/**
- *   Sets the content of an element's attribute. The 
- *   first parameter specifies the attribute name, 
- *   while the second specifies the new content.
- *
- *   @param name the full name of the attribute
- *   @param value the value of the attribute
- */
-declare function setAttribute(name: string, value: number): void;
-
-/**
- *   Returns the content of an element. If there is no 
- *   such content, defaultValue is returned if 
- *   specified, otherwise null is returned.
- *
- *   @param [defaultValue] value returned if no content 
- *   is found
- */
-declare function getContent(defaultValue?: string): string;
-
-/**
- *   Sets the element's content.
- *
- *   @param text the new content
- */
-declare function setContent(text: string): void;
 
 // src/math/calculation.js
 
