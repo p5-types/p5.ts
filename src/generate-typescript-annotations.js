@@ -307,16 +307,15 @@ function mod(args) {
     Object.keys(constants).forEach(function(key) {
       const values = constants[key];
 
+      emit.sectionBreak();
       emit(`type ${key} =`);
       values.forEach(function(v, i) {
         let str = `${i ? '|' : ' '} ${v}`;
         if (i === values.length - 1) {
           str += ';';
         }
-        emit('    ' + str);
+        emit(`    ${str}`);
       });
-
-      emit('');
     });
   }
 
