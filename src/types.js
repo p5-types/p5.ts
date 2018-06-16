@@ -16,8 +16,7 @@ const EXTERNAL_TYPES = new Set([
   'Blob',
   'null',
   'Node',
-  'RegExp',
-  'Promise'
+  'RegExp'
 ]);
 
 const CONSTANT = 'Constant';
@@ -37,6 +36,7 @@ const YUIDOC_TO_TYPESCRIPT_PARAM_MAP = {
   '*': 'any',
   Void: 'void',
   P5: 'p5',
+  Promise: 'Promise<any>',
   // When the docs don't specify what kind of function we expect,
   // then we need to use the global type `Function`
   Function: 'Function',
