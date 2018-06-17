@@ -1,0 +1,4 @@
+Generating definitions...
+Emitting local definitions to E:/Programming/node/p5.ts/index.d.ts
+Emitting global definitions to E:/Programming/node/p5.ts/global.d.ts
+Generated without errors
