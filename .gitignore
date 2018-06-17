@@ -7,6 +7,7 @@
 /data.json
 /DefinitelyTyped/types/p5/index.d.ts
 /DefinitelyTyped/types/p5/global.d.ts
+/DefinitelyTyped/types/p5/samples/*/
 /p5
 /global.d.ts
 /index.d.ts

@@ -1,8 +1,4 @@
 {
-    "files": [
-        "index.d.ts",
-        "p5-tests.ts"
-    ],
     "compilerOptions": {
         "module": "commonjs",
         "lib": ["dom", "es5"],
@@ -17,5 +13,10 @@
         "types": [],
         "noEmit": true,
         "forceConsistentCasingInFileNames": true
-    }
+    },
+    "files": [
+        "global.d.ts",
+        "index.d.ts",
+        "p5-tests.ts"
+    ]
 }

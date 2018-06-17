@@ -6,9 +6,11 @@
   "repository": "github:Zalastax/p5.ts",
   "scripts": {
     "dtslint": "dtslint DefinitelyTyped/types/p5",
+    "dtslint:samples": "dtslint DefinitelyTyped/types/p5/samples",
     "cli": "node src/cli.js",
     "checkout": "node src/cli.js checkout",
     "download-p5": "node src/cli.js download-p5",
+    "emit-samples": "node src/cli.js emit-samples",
     "generate-and-commit": "node src/cli.js generate-and-commit",
     "generate-data": "node src/cli.js generate-data",
     "generate": "node src/cli.js generate",
@@ -19,7 +21,9 @@
   "license": "LGPL-2.1",
   "dependencies": {
     "git-range": "^0.2.0",
+    "glob": "^7.1.2",
     "html2plaintext": "^2.0.1",
+    "make-dir": "^1.3.0",
     "nodegit": "^0.22.1",
     "semver": "^5.5.0",
     "upath": "^1.1.0",
