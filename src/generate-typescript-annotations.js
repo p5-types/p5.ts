@@ -2,7 +2,7 @@
 const createEmitter = require('./emit');
 const types = require('./types');
 const fs = require('fs');
-const path = require('upath');
+const semver = require('semver');
 
 function position(file, line) {
   return file + ', line ' + line;
@@ -16,11 +16,30 @@ function overloadPosition(classitem, overload) {
   return position(classitem.file, overload.line);
 }
 
-function referenceToOther(from, to) {
-  return `///<reference path="${path.relative(
-    path.normalizeSafe(path.dirname(from)),
-    path.normalizeSafe(to)
-  )}" />\n`;
+const formatLocals = {
+  constructor: params => `constructor(${params});`,
+  method: decl => decl,
+  property: (final, decl) => {
+    const modifier = final ? 'readonly ' : '';
+    return `${modifier}${decl};`;
+  }
+};
+
+const formatGlobals = {
+  constructor: params => `p5(${params}): p5;`,
+  method: decl => `function ${decl}`,
+  property: (final, decl) => {
+    const declarationType = final ? 'const' : 'let';
+    return `${declarationType} ${decl};`;
+  }
+};
+
+function getVersionString(version) {
+  try {
+    return `${semver.major(version)}.${semver.minor(version)}`;
+  } catch (_) {
+    return '0.0';
+  }
 }
 
 // mod is used to make yuidocs "global". It actually just calls generate()
@@ -37,6 +56,7 @@ function mod(args) {
   const literals = {};
   const missingTypes = {};
   const version = yuidocs.project.version;
+  const versionString = getVersionString(version);
 
   const translateType = (type, defaultType) =>
     types.translateType(yuidocs, constants, missingTypes, type, defaultType);
@@ -126,17 +146,22 @@ function mod(args) {
     return `${name}: ${translated.join('|')}`;
   }
 
-  function generateClassMethod(className, classitem) {
+  function generateClassMethod(format, className, classitem) {
     if (classitem.overloads) {
       classitem.overloads.forEach(function(overload) {
-        generateClassMethodWithParams(className, classitem, overload);
+        generateClassMethodWithParams(format, className, classitem, overload);
       });
     } else {
-      generateClassMethodWithParams(className, classitem, classitem);
+      generateClassMethodWithParams(format, className, classitem, classitem);
     }
   }
 
-  function generateClassMethodWithParams(className, classitem, overload) {
+  function generateClassMethodWithParams(
+    format,
+    className,
+    classitem,
+    overload
+  ) {
     types.populateConstantType(constants, classitem, overload);
     const errors = validateMethod(classitem, overload);
     const params = (overload.params || []).map(translateParam);
@@ -148,15 +173,11 @@ function mod(args) {
     let decl;
 
     if (classitem.is_constructor) {
-      decl = `constructor(${params.join(', ')});`;
+      decl = format.constructor(params.join(', '));
     } else {
       decl = `${overload.static ? 'static ' : ''}${
         classitem.name
       }(${params.join(', ')}): ${returnType};`;
-    }
-
-    if (emit.getIndentLevel() === 0) {
-      decl = `declare function ${decl}`;
     }
 
     if (errors.length) {
@@ -183,14 +204,14 @@ function mod(args) {
       emit('');
     } else {
       emit.description(classitem, overload);
-      emit(decl);
+      emit(format.method(decl));
     }
   }
 
-  function generateClassConstructor(className) {
+  function generateClassConstructor(format, className) {
     const classitem = yuidocs.classes[className];
     if (classitem.is_constructor) {
-      generateClassMethod(className, classitem);
+      generateClassMethod(format, className, classitem);
     }
   }
 
@@ -201,7 +222,7 @@ function mod(args) {
     return literal;
   }
 
-  function generateClassProperty(className, classitem) {
+  function generateClassProperty(format, className, classitem) {
     const itemName = classitem.name;
     if (JS_SYMBOL_RE.test(itemName)) {
       // TODO: It seems our properties don't carry any type information,
@@ -219,7 +240,7 @@ function mod(args) {
 
       let decl;
       if (defaultValue) {
-        decl = `${itemName}: ${itemName}`;
+        decl = `${itemName}: p5.${itemName}`;
 
         literals[itemName] = wrapLiteral(defaultValue, typeIsString);
       } else {
@@ -228,13 +249,7 @@ function mod(args) {
 
       emit.description(classitem);
 
-      if (emit.getIndentLevel() === 0) {
-        const declarationType = classitem.final ? 'const ' : 'var ';
-        emit(`declare ${declarationType}${decl};`);
-      } else {
-        const modifier = classitem.final ? 'readonly ' : '';
-        emit(`${modifier}${decl};`);
-      }
+      emit(format.property(classitem.final, decl));
     } else {
       emit.sectionBreak();
       emit(
@@ -246,14 +261,14 @@ function mod(args) {
     }
   }
 
-  function generateClassProperties(className) {
+  function generateClassProperties(format, className) {
     getClassitems(className).forEach(function(classitem) {
       classitem.file = classitem.file.replace(/\\/g, '/');
       emit.setCurrentSourceFile(classitem.file);
       if (classitem.itemtype === 'method') {
-        generateClassMethod(className, classitem);
+        generateClassMethod(format, className, classitem);
       } else if (classitem.itemtype === 'property') {
-        generateClassProperty(className, classitem);
+        generateClassProperty(format, className, classitem);
       } else {
         emit(
           '// TODO: Annotate ' +
@@ -267,16 +282,16 @@ function mod(args) {
     });
   }
 
-  function generateP5Properties(className) {
+  function generateP5Properties(format, className) {
     emit.sectionBreak();
     emit('// Properties from ' + className);
     emit.sectionBreak();
 
-    generateClassConstructor(className);
-    generateClassProperties(className);
+    generateClassConstructor(format, className);
+    generateClassProperties(format, className);
   }
 
-  function generateP5Subclass(className) {
+  function generateP5Subclass(format, className) {
     const info = yuidocs.classes[className];
     const nestedClassName = className.match(P5_CLASS_RE)[1];
 
@@ -291,8 +306,8 @@ function mod(args) {
     );
     emit.indent();
 
-    generateClassConstructor(className);
-    generateClassProperties(className);
+    generateClassConstructor(format, className);
+    generateClassProperties(format, className);
 
     emit.dedent();
     emit('}');
@@ -303,7 +318,7 @@ function mod(args) {
   }
 
   function emitConstants() {
-    emit('// Constants ');
+    emit('// Constants');
     Object.keys(constants).forEach(function(key) {
       const values = constants[key];
 
@@ -320,9 +335,9 @@ function mod(args) {
   }
 
   function emitLiterals() {
-    emit('// Literals ');
+    emit('// Literals');
     Object.keys(literals).forEach(function(key) {
-      emit(`type ${key} = ${literals[key]}`);
+      emit(`type ${key} = ${literals[key]};`);
     });
   }
 
@@ -345,17 +360,28 @@ function mod(args) {
 
     logger(`Emitting local definitions to ${localFilename}`);
 
-    emit = createEmitter(localFilename, version);
+    emit = createEmitter(localFilename);
+
+    emit(`// Type definitions for p5 ${versionString}`);
+    emit('// Project: https://github.com/processing/p5.js');
+    // Would like to just say it's generated, but it seems like
+    // DT want a real name and a github profile.
+    emit('// Definitions by: p5-types <https://github.com/p5-types>');
+    emit('// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped');
+    emit('// TypeScript Version: 2.4');
+
+    emit('\n// This file was auto-generated. Please do not edit it.\n');
 
     emit('export = p5;');
-    emit('type UNKNOWN_P5_CONSTANT = any;');
 
     unknownClasses.forEach(generateUnknownClass);
 
     emit('declare class p5 {');
     emit.indent();
 
-    p5Aliases.forEach(generateP5Properties);
+    p5Aliases.forEach(className =>
+      generateP5Properties(formatLocals, className)
+    );
 
     emit.dedent();
     emit('}\n');
@@ -363,19 +389,29 @@ function mod(args) {
     emit('declare namespace p5 {');
     emit.indent();
 
-    p5Subclasses.forEach(generateP5Subclass);
+    p5Subclasses.forEach(className =>
+      generateP5Subclass(formatLocals, className)
+    );
 
-    emit.dedent();
-    emit('}');
-
+    // Emit globals for a while, then finish with emitting (shared) literals and constants
     logger(`Emitting global definitions to ${globalFilename}`);
 
     let localEmit = emit;
-    emit = createEmitter(globalFilename, version);
+    emit = createEmitter(globalFilename);
 
-    emit(referenceToOther(globalFilename, localFilename));
+    emit(`// Global mode type definitions for p5`);
 
-    p5Aliases.forEach(generateP5Properties);
+    emit('\n// This file was auto-generated. Please do not edit it.\n');
+
+    emit(`import * as p5 from './index';`);
+
+    emit('declare global {');
+    emit.indent();
+    p5Aliases.forEach(className =>
+      generateP5Properties(formatGlobals, className)
+    );
+    emit.dedent();
+    emit('}');
 
     emit.close();
     emit = localEmit;
@@ -384,6 +420,9 @@ function mod(args) {
     emitLiterals();
     emit.sectionBreak();
     emitConstants();
+    emit('type UNKNOWN_P5_CONSTANT = any;');
+    emit.dedent();
+    emit('}');
 
     emit.close();
 

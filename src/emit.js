@@ -2,7 +2,6 @@
 const fs = require('fs');
 const h2p = require('html2plaintext');
 const wrap = require('word-wrap');
-const semver = require('semver');
 
 function shortenDescription(desc) {
   return wrap(h2p(desc).replace(/[\r\n]+/, ''), {
@@ -10,21 +9,11 @@ function shortenDescription(desc) {
   });
 }
 
-function getVersionString(version) {
-  try {
-    return `${semver.major(version)}.${semver.minor(version)}`;
-  } catch (_) {
-    return '0.0';
-  }
-}
-
 function createEmitter(filename, version) {
   let indentLevel = 0;
   let lastText = '';
   let currentSourceFile;
   const fd = fs.openSync(filename, 'w');
-
-  const versionString = getVersionString(version);
 
   const emit = function(text) {
     const indentation = [];
@@ -126,15 +115,6 @@ function createEmitter(filename, version) {
   emit.close = function() {
     fs.closeSync(fd);
   };
-
-  emit(`// Type definitions for p5 ${versionString}`);
-  emit('// Project: https://github.com/processing/p5.js');
-  // Would like to just say it's generated, but it seems like
-  // DT want a real name and a github profile.
-  emit('// Definitions by: p5-types <https://github.com/p5-types>');
-  emit('// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped');
-
-  emit('\n// This file was auto-generated. Please do not edit it.\n');
 
   return emit;
 }

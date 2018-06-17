@@ -20,7 +20,7 @@ const EXTERNAL_TYPES = new Set([
 ]);
 
 const CONSTANT = 'Constant';
-const CONSTANT_OUT = 'UNKNOWN_P5_CONSTANT';
+const CONSTANT_OUT = 'p5.UNKNOWN_P5_CONSTANT';
 
 const YUIDOC_TO_TYPESCRIPT_PARAM_MAP = {
   Object: 'object',
@@ -107,7 +107,7 @@ function translateType(yuidocs, constants, missingTypes, type, defaultType) {
       }
 
       if (constants[part]) {
-        return part;
+        return `p5.${part}`;
       }
 
       missingTypes[part] = true;
