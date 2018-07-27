@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Generate TypeScript declarations for p5.js",
   "main": "index.js",
-  "repository": "github:Zalastax/p5.ts",
+  "repository": "github:p5-types/p5.ts",
   "scripts": {
     "dtslint": "dtslint DefinitelyTyped/types/p5",
     "dtslint:samples": "dtslint DefinitelyTyped/types/p5/samples",
