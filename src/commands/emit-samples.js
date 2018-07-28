@@ -1,13 +1,10 @@
 /// @ts-check
-const fs = require('fs');
+const fs = require('fs-extra');
 const gatherSamples = require('../gather-samples.js');
 const glob = require('glob');
-const makeDir = require('make-dir');
+const makeDir = fs.ensureDir;
 const path = require('upath');
-const nutil = require('util');
 const util = require('../util');
-
-const writeFile = nutil.promisify(fs.writeFile);
 
 exports.command = 'emit-samples [outdir] [sourcesbase] [sourcespattern]';
 exports.desc = 'Extract samples from p5 sources and write them as test files';
@@ -65,7 +62,7 @@ exports.handler = args => {
       return Promise.all(
         item.samples.map((sample, i) => {
           const newname = path.joinSafe(outdir, dir, `${basename}.${i}.ts`);
-          return writeFile(newname, sample);
+          return fs.writeFile(newname, sample);
         })
       );
     })

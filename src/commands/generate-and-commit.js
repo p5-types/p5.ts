@@ -3,10 +3,11 @@ const generate = require('../generate-typescript-annotations');
 const git = require('../git');
 const NodeGit = require('nodegit');
 const crypto = require('crypto');
-const fs = require('fs');
+const fs = require('fs-extra');
 const YError = require('yargs/lib/yerror');
 const path = require('upath');
 const util = require('../util');
+const glob = require('glob');
 
 exports.command = 'generate-and-commit [out-dir] [out-branch] [dir]';
 exports.desc =
@@ -36,10 +37,16 @@ exports.builder = {
     default: randomBranchName(),
     describe: 'Branch to commit definition files to'
   },
-  'out-dir': {
+  'repo-dir': {
     type: 'string',
     default: path.joinSafe(__dirname, '../../'),
     describe: 'Root directory of git repository to commit definition files to'
+  },
+  'out-dir': {
+    type: 'string',
+    default: 'generated',
+    describe:
+      'Directory in repo to put generated files in (destructively modified)'
   },
   npm: {
     type: 'string',
@@ -56,19 +63,9 @@ exports.builder = {
     describe: 'Suppress status messages',
     default: false
   },
-  localname: {
-    type: 'string',
-    default: 'index.d.ts',
-    describe: 'Relative path for generated index.d.ts'
-  },
-  globalname: {
-    type: 'string',
-    default: 'global.d.ts',
-    describe: 'Relative path for generated global.d.ts'
-  },
   logname: {
     type: 'string',
-    default: 'log.txt',
+    default: 'generated/log.txt',
     describe: 'Relative path for the definition generation logfile'
   }
 };
@@ -142,13 +139,11 @@ function createFileLogger(filename) {
 exports.handler = async args => {
   const log = !args.silent;
   const dir = args.dir;
-  const outDir = args['out-dir'];
-  const localRelative = args.localname;
-  const local = path.joinSafe(outDir, localRelative);
-  const globalRelative = args.globalname;
-  const global = path.joinSafe(outDir, globalRelative);
+  const repoDir = args['repo-dir'];
+  const outDirRelative = args['out-dir'];
+  const outDirFull = path.join(repoDir, args['out-dir']);
   const logRelative = args.logname;
-  const logFull = path.joinSafe(outDir, logRelative);
+  const logFull = path.joinSafe(repoDir, logRelative);
   const data = path.joinSafe(dir, 'docs/reference/data.json');
   const npm = args.npm;
   const npx = args.npx;
@@ -156,8 +151,8 @@ exports.handler = async args => {
   try {
     util.conditionalLog(log, `Opening p5-repo ${dir}`);
     const repo = await git.openRepository(dir);
-    util.conditionalLog(log, `Opening out-repo ${outDir}`);
-    const outRepo = await git.openRepository(outDir);
+    util.conditionalLog(log, `Opening out-repo ${repoDir}`);
+    const outRepo = await git.openRepository(repoDir);
     const commits = await getCommits(repo, args);
     const sig = git.defaultSignature(outRepo);
     util.conditionalLog(
@@ -179,6 +174,7 @@ exports.handler = async args => {
     const index = await outRepo.refreshIndex();
     const originalTreeId = await index.writeTree();
     const originalTree = await git.lookupTree(outRepo, originalTreeId);
+    await fs.ensureDir(outDirFull);
     for (let resolvedCommit of commits) {
       try {
         let logger;
@@ -196,8 +192,7 @@ exports.handler = async args => {
           util.conditionalLog(log, 'Generating definition files');
           logger = createFileLogger(logFull);
           generate({
-            local: local,
-            global: global,
+            outdir: outDirFull,
             data: data,
             logger: logger
           });
@@ -214,8 +209,10 @@ exports.handler = async args => {
         const baseTree = await latestCommit.getTree();
         index.readTree(baseTree);
         if (success) {
-          await index.addByPath(localRelative);
-          await index.addByPath(globalRelative);
+          const generatedFiles = await glob.sync(
+            path.joinSafe(outDirRelative, '**/*.d.ts')
+          );
+          await Promise.all(generatedFiles.map(file => index.addByPath(file)));
         }
         await index.addByPath(logRelative);
         await index.write();
@@ -235,15 +232,7 @@ exports.handler = async args => {
         errors.push(e);
       }
     }
-    try {
-      fs.unlinkSync(local);
-    } catch (_) {}
-    try {
-      fs.unlinkSync(global);
-    } catch (_) {}
-    try {
-      fs.unlinkSync(logFull);
-    } catch (_) {}
+    await fs.emptyDir(outDirFull);
     await index.readTree(originalTree);
     await index.write();
     util.conditionalLog(

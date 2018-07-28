@@ -14,9 +14,9 @@
         "noEmit": true,
         "forceConsistentCasingInFileNames": true
     },
-    "files": [
-        "global.d.ts",
-        "index.d.ts",
-        "p5-tests.ts"
+    "include": [
+        "./*.d.ts",
+        "p5-tests.ts",
+        "test-augmentation.ts"
     ]
 }

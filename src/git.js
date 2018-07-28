@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const NodeGit = require('nodegit');
 const gitRange = require('git-range');
 const semver = require('semver');
@@ -12,7 +12,6 @@ async function setBranchTo(repo, branch, source) {
     `setBranchTo: moving ${branch} to ${source}`
   );
 }
-
 
 /**
  *

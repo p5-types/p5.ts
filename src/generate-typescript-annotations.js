@@ -1,7 +1,8 @@
 /// @ts-check
-const createEmitter = require('./emit');
+const Emitter = require('./emitter');
 const types = require('./types');
-const fs = require('fs');
+const fs = require('fs-extra');
+const path = require('upath');
 const semver = require('semver');
 
 function position(file, line) {
@@ -14,6 +15,69 @@ function classitemPosition(classitem) {
 
 function overloadPosition(classitem, overload) {
   return position(classitem.file, overload.line);
+}
+
+function relativeSafe(from, to) {
+  const rel = path.relative(from, to);
+  if (rel.length > 0) {
+    return rel;
+  }
+  return './';
+}
+
+/**
+ *
+ * @param {string} baseDir
+ * @param {string} filename
+ * @returns {Emitter}
+ */
+function createAugmenter(baseDir, filename) {
+  const emitter = new Emitter(path.joinSafe(baseDir, filename));
+  const augmenterPath = path.joinSafe(baseDir, filename);
+
+  const baseRel = relativeSafe(path.dirname(augmenterPath), baseDir);
+  const indexRel = path.joinSafe(baseRel, 'index');
+
+  emitter.emit(`import * as p5 from '${indexRel}'`);
+  emitter.emit('');
+  emitter.emit(`declare module '${indexRel}' {`);
+
+  emitter.indent();
+
+  return emitter;
+}
+
+function closeAugmenter(emitter) {
+  emitter.dedent();
+  emitter.emit('}');
+  emitter.close();
+}
+
+function openP5Augmentation(emitter) {
+  emitter.indent();
+  emitter.emit('interface p5InstanceExtensions {');
+}
+
+function closeP5Augmentation(emitter) {
+  emitter.dedent();
+  emitter.emit('}');
+}
+
+/**
+ *
+ * @param {*} classitem
+ */
+function patchClassitemFile(classitem) {
+  classitem.file = classitem.file.replace(/\\/g, '/');
+}
+
+/**
+ *
+ * @param {*} classitem
+ * @returns {string}
+ */
+function classitemFilename(classitem) {
+  return definitionFilename(classitem.file);
 }
 
 const formatLocals = {
@@ -42,16 +106,79 @@ function getVersionString(version) {
   }
 }
 
+function definitionFilename(filename) {
+  const dirname = path.dirname(filename);
+  const name = path.basename(filename, '.js');
+  return path.joinSafe(dirname, `${name}.d.ts`);
+}
+
+/**
+ *
+ * @param {Emitter} emitter
+ * @param {AugmentersCache} augmentersCache
+ */
+function generateAugmenterReferences(emitter, augmentersCache) {
+  emitter.referencePath('./constants.d.ts');
+  emitter.referencePath('./literals.d.ts');
+
+  for (const key in augmentersCache.augmenters) {
+    if (augmentersCache.augmenters.hasOwnProperty(key)) {
+      closeAugmenter(augmentersCache.augmenters[key]);
+      // augmenters from src should be referenced (they are included by app.js)
+      // augmenters from lib should not be referenced
+      if (key.startsWith('src/')) {
+        const relname = path.joinSafe('./', key);
+        emitter.referencePath(relname);
+      }
+    }
+  }
+}
+
+class AugmentersCache {
+  constructor(factory) {
+    /**
+     * @type {Object.<string, Emitter>}
+     */
+    this.augmenters = {};
+    this.factory = factory;
+  }
+
+  /**
+   *
+   * @param {string} name
+   */
+  get(name) {
+    if (!this.augmenters[name]) {
+      this.augmenters[name] = this.factory(name);
+    }
+    return this.augmenters[name];
+  }
+}
+
+/**
+ *
+ * @param {Emitter} emitter
+ */
+function generateGlobalsHeader(emitter) {
+  emitter.emit(`// Global mode type definitions for p5`);
+
+  emitter.emit('\n// This file was auto-generated. Please do not edit it.\n');
+
+  emitter.emit(`import * as p5 from './index';`);
+  emitter.referencePath('./lib/addons/p5.dom.d.ts');
+  emitter.referencePath('./lib/addons/p5.sound.d.ts');
+}
+
 // mod is used to make yuidocs "global". It actually just calls generate()
 // This design was selected to avoid rewriting the whole file from
 // https://github.com/toolness/friendly-error-fellowship/blob/2093aee2acc53f0885fcad252a170e17af19682a/experiments/typescript/generate-typescript-annotations.js
 function mod(args) {
   const yuidocs = JSON.parse(fs.readFileSync(args.data, 'utf8'));
-  const localFilename = args.local;
-  const globalFilename = args.global;
+  const outdir = args.outdir;
+  const localFilename = path.joinSafe(outdir, 'index.d.ts');
+  const globalFilename = path.joinSafe(outdir, 'global.d.ts');
   const logger = args.logger || console.log;
-  // TODO: Turn emit into a parameter
-  let emit;
+
   const constants = {};
   const literals = {};
   const missingTypes = {};
@@ -146,17 +273,45 @@ function mod(args) {
     return `${name}: ${translated.join('|')}`;
   }
 
-  function generateClassMethod(format, className, classitem) {
+  /**
+   *
+   * @param {Emitter} emitter
+   * @param {*} format
+   * @param {string} className
+   * @param {*} classitem
+   */
+  function generateClassMethod(emitter, format, className, classitem) {
     if (classitem.overloads) {
       classitem.overloads.forEach(function(overload) {
-        generateClassMethodWithParams(format, className, classitem, overload);
+        generateClassMethodWithParams(
+          emitter,
+          format,
+          className,
+          classitem,
+          overload
+        );
       });
     } else {
-      generateClassMethodWithParams(format, className, classitem, classitem);
+      generateClassMethodWithParams(
+        emitter,
+        format,
+        className,
+        classitem,
+        classitem
+      );
     }
   }
 
+  /**
+   *
+   * @param {Emitter} emitter
+   * @param {*} format
+   * @param {string} className
+   * @param {*} classitem
+   * @param {*} overload
+   */
   function generateClassMethodWithParams(
+    emitter,
     format,
     className,
     classitem,
@@ -181,15 +336,14 @@ function mod(args) {
     }
 
     if (errors.length) {
-      emit.sectionBreak();
-      emit(
-        '// TODO: Fix ' +
-          classitem.name +
-          '() errors in ' +
-          overloadPosition(classitem, overload) +
-          ':'
+      emitter.sectionBreak();
+      emitter.lineComment(
+        ` TODO: Fix ${classitem.name}() errors in ${overloadPosition(
+          classitem,
+          overload
+        )}:`
       );
-      emit('//');
+      emitter.lineComment();
       errors.forEach(function(error) {
         logger(
           `${classitem.name}() ${overloadPosition(
@@ -197,21 +351,27 @@ function mod(args) {
             overload
           )}, ${error}`
         );
-        emit('//   ' + error);
+        emitter.lineComment(`   ${error}`);
       });
-      emit('//');
-      emit('// ' + decl);
-      emit('');
+      emitter.lineComment();
+      emitter.lineComment(` ${decl}`);
+      emitter.emptyLine();
     } else {
-      emit.description(classitem, overload);
-      emit(format.method(decl));
+      emitter.itemDescription(classitem, overload);
+      emitter.emit(format.method(decl));
     }
   }
 
-  function generateClassConstructor(format, className) {
+  /**
+   *
+   * @param {Emitter} emitter
+   * @param {*} format
+   * @param {string} className
+   */
+  function generateClassConstructor(emitter, format, className) {
     const classitem = yuidocs.classes[className];
     if (classitem.is_constructor) {
-      generateClassMethod(format, className, classitem);
+      generateClassMethod(emitter, format, className, classitem);
     }
   }
 
@@ -222,7 +382,14 @@ function mod(args) {
     return literal;
   }
 
-  function generateClassProperty(format, className, classitem) {
+  /**
+   *
+   * @param {Emitter} emitter
+   * @param {*} format
+   * @param {string} className
+   * @param {*} classitem
+   */
+  function generateClassProperty(emitter, format, className, classitem) {
     const itemName = classitem.name;
     if (JS_SYMBOL_RE.test(itemName)) {
       // TODO: It seems our properties don't carry any type information,
@@ -247,30 +414,36 @@ function mod(args) {
         decl = itemName + ': ' + translatedType.join('|');
       }
 
-      emit.description(classitem);
+      emitter.itemDescription(classitem);
 
-      emit(format.property(classitem.final, decl));
+      emitter.emit(format.property(classitem.final, decl));
     } else {
-      emit.sectionBreak();
-      emit(
+      emitter.sectionBreak();
+      emitter.emit(
         `// TODO: Property "${itemName}", defined in ${classitemPosition(
           classitem
         )}, is not a valid JS symbol name`
       );
-      emit.sectionBreak();
+      emitter.sectionBreak();
     }
   }
 
-  function generateClassProperties(format, className) {
+  /**
+   *
+   * @param {AugmentersCache} augmentersCache
+   * @param {*} format
+   * @param {string} className
+   */
+  function generateClassProperties(augmentersCache, format, className) {
     getClassitems(className).forEach(function(classitem) {
-      classitem.file = classitem.file.replace(/\\/g, '/');
-      emit.setCurrentSourceFile(classitem.file);
+      patchClassitemFile(classitem);
+      const augmenter = augmentersCache.get(classitemFilename(classitem));
       if (classitem.itemtype === 'method') {
-        generateClassMethod(format, className, classitem);
+        generateClassMethod(augmenter, format, className, classitem);
       } else if (classitem.itemtype === 'property') {
-        generateClassProperty(format, className, classitem);
+        generateClassProperty(augmenter, format, className, classitem);
       } else {
-        emit(
+        augmenter.emit(
           '// TODO: Annotate ' +
             classitem.itemtype +
             ' "' +
@@ -282,69 +455,202 @@ function mod(args) {
     });
   }
 
-  function generateP5Properties(format, className) {
-    emit.sectionBreak();
-    emit('// Properties from ' + className);
-    emit.sectionBreak();
-
-    generateClassConstructor(format, className);
-    generateClassProperties(format, className);
-  }
-
-  function generateP5Subclass(format, className) {
+  /**
+   *
+   * @param {AugmentersCache} augmentersCache
+   * @param {*} format
+   * @param {string} className
+   */
+  function generateP5Subclass(augmentersCache, format, className) {
     const info = yuidocs.classes[className];
     const nestedClassName = className.match(P5_CLASS_RE)[1];
 
-    info.file = info.file.replace(/\\/g, '/');
-    emit.setCurrentSourceFile(info.file);
+    patchClassitemFile(info);
 
-    emit(
-      'class ' +
-        nestedClassName +
-        (info.extends ? ' extends ' + info.extends : '') +
-        ' {'
-    );
-    emit.indent();
+    const subclassAugmentersCache = new AugmentersCache(name => {
+      const augmenter = augmentersCache.get(name);
+      augmenter.emit(`interface ${nestedClassName}InstanceExtensions {`);
+      augmenter.indent();
+      return augmenter;
+    });
 
-    generateClassConstructor(format, className);
-    generateClassProperties(format, className);
+    generateClassProperties(subclassAugmentersCache, format, className);
 
-    emit.dedent();
-    emit('}');
+    for (const key in subclassAugmentersCache.augmenters) {
+      if (subclassAugmentersCache.augmenters.hasOwnProperty(key)) {
+        closeP5Augmentation(subclassAugmentersCache.augmenters[key]);
+      }
+    }
   }
 
-  function generateUnknownClass(classname) {
-    emit(`type ${classname} = any;`);
+  function generateUnknownClass(emitter, classname) {
+    emitter.emit(`type ${classname} = any;`);
   }
 
   function emitConstants() {
-    emit('// Constants');
+    const emitter = new Emitter(path.joinSafe(outdir, 'constants.d.ts'));
+    emitter.emit(`import * as p5 from './index'`);
+    emitter.emit('');
+    emitter.emit(`declare module './index' {`);
+    emitter.indent();
+
     Object.keys(constants).forEach(function(key) {
       const values = constants[key];
 
-      emit.sectionBreak();
-      emit(`type ${key} =`);
+      emitter.sectionBreak();
+      emitter.emit(`type ${key} =`);
       values.forEach(function(v, i) {
         let str = `${i ? '|' : ' '} ${v}`;
         if (i === values.length - 1) {
           str += ';';
         }
-        emit(`    ${str}`);
+        emitter.emit(`    ${str}`);
       });
     });
+
+    emitter.dedent();
+    emitter.emit('}');
+    emitter.close();
   }
 
   function emitLiterals() {
-    emit('// Literals');
+    const emitter = new Emitter(path.joinSafe(outdir, 'literals.d.ts'));
+    emitter.emit(`import * as p5 from './index'`);
+    emitter.emit('');
+    emitter.emit(`declare module './index' {`);
+    emitter.indent();
     Object.keys(literals).forEach(function(key) {
-      emit(`type ${key} = ${literals[key]};`);
+      emitter.emit(`type ${key} = ${literals[key]};`);
     });
+    emitter.dedent();
+    emitter.emit('}');
+    emitter.close();
+  }
+
+  function generateLocalsHeader(emitter) {
+    emitter.emit(`// Type definitions for p5 ${versionString}`);
+    emitter.emit('// Project: https://github.com/processing/p5.js');
+    emitter.emit('// Definitions by: p5-types <https://github.com/p5-types>');
+    emitter.emit(
+      '// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped'
+    );
+    emitter.emit('// TypeScript Version: 2.4');
+
+    emitter.emit('\n// This file was auto-generated. Please do not edit it.\n');
+  }
+
+  function generateClassHeader(emitter, prettyClassname, declare) {
+    emitter.emit(`${declare ? 'declare ' : ''}class ${prettyClassname} {`);
+    emitter.indent();
+  }
+
+  /**
+   *
+   * @param {Emitter} emitter
+   * @param {string} prettyClassname
+   * @param {boolean} declare
+   */
+  function generateClassFooter(emitter, prettyClassname, declare) {
+    emitter.dedent();
+    emitter.emit('}');
+    emitter.emit(
+      `${
+        declare ? 'declare ' : ''
+      }interface ${prettyClassname} extends p5.${prettyClassname}InstanceExtensions {}\n`
+    );
+  }
+
+  function generateClassBody(emitter, format, className) {
+    const nestedClassName = className.match(P5_CLASS_RE)[1];
+    generateClassHeader(emitter, nestedClassName);
+    generateClassConstructor(emitter, format, className);
+    generateClassFooter(emitter, nestedClassName, false);
+  }
+
+  function generateExtensionsInterface(emitter, prettyClassname, classitem) {
+    patchClassitemFile(classitem);
+    emitter.emit(
+      `interface ${prettyClassname}InstanceExtensions ${
+        classitem.extends ? `extends ${classitem.extends}` : ''
+      } {}`
+    );
+  }
+
+  /**
+   *
+   * @param {*} unknownClasses
+   * @param {*} emitter
+   * @param {*} p5Aliases
+   * @param {*} p5Subclasses
+   */
+  function generateLocalsBody(
+    unknownClasses,
+    emitter,
+    p5Aliases,
+    p5Subclasses
+  ) {
+    emitter.emit('export = p5;');
+    unknownClasses.forEach(classname =>
+      generateUnknownClass(emitter, classname)
+    );
+
+    generateClassHeader(emitter, 'p5', true);
+    p5Aliases.forEach(className =>
+      generateClassConstructor(emitter, formatLocals, className)
+    );
+    generateClassFooter(emitter, 'p5', true);
+
+    emitter.emit('declare namespace p5 {');
+    emitter.indent();
+
+    emitter.emit('type UNKNOWN_P5_CONSTANT = any;');
+    generateExtensionsInterface(emitter, 'p5', yuidocs.classes['p5']);
+
+    p5Subclasses.forEach(className =>
+      generateClassBody(emitter, formatLocals, className)
+    );
+
+    p5Subclasses.forEach(className =>
+      generateExtensionsInterface(
+        emitter,
+        className.match(P5_CLASS_RE)[1],
+        yuidocs.classes[className]
+      )
+    );
+    emitter.dedent();
+    emitter.emit('}');
+  }
+
+  /**
+   *
+   * @param {AugmentersCache} augmentersCache
+   * @param {*} p5Aliases
+   */
+  function generatep5Augmenters(augmentersCache, p5Aliases) {
+    const p5Augmenters = new AugmentersCache(name => {
+      const augmenter = augmentersCache.get(name);
+      openP5Augmentation(augmenter);
+      return augmenter;
+    });
+
+    p5Aliases.forEach(className =>
+      generateClassProperties(p5Augmenters, formatLocals, className)
+    );
+
+    for (const key in p5Augmenters.augmenters) {
+      if (p5Augmenters.augmenters.hasOwnProperty(key)) {
+        closeP5Augmentation(p5Augmenters.augmenters[key]);
+      }
+    }
   }
 
   function generate() {
     const p5Aliases = [];
     const p5Subclasses = [];
     const unknownClasses = [];
+    const augmentersCache = new AugmentersCache(name =>
+      createAugmenter(outdir, name)
+    );
 
     logger('Generating definitions...');
 
@@ -358,73 +664,44 @@ function mod(args) {
       }
     });
 
-    logger(`Emitting local definitions to ${localFilename}`);
+    logger(`Emitting local definitions...`);
 
-    emit = createEmitter(localFilename);
+    const localEmitter = new Emitter(localFilename);
 
-    emit(`// Type definitions for p5 ${versionString}`);
-    emit('// Project: https://github.com/processing/p5.js');
-    // Would like to just say it's generated, but it seems like
-    // DT want a real name and a github profile.
-    emit('// Definitions by: p5-types <https://github.com/p5-types>');
-    emit('// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped');
-    emit('// TypeScript Version: 2.4');
+    generateLocalsHeader(localEmitter);
 
-    emit('\n// This file was auto-generated. Please do not edit it.\n');
-
-    emit('export = p5;');
-
-    unknownClasses.forEach(generateUnknownClass);
-
-    emit('declare class p5 {');
-    emit.indent();
-
-    p5Aliases.forEach(className =>
-      generateP5Properties(formatLocals, className)
-    );
-
-    emit.dedent();
-    emit('}\n');
-
-    emit('declare namespace p5 {');
-    emit.indent();
+    generatep5Augmenters(augmentersCache, p5Aliases);
 
     p5Subclasses.forEach(className =>
-      generateP5Subclass(formatLocals, className)
+      generateP5Subclass(augmentersCache, formatLocals, className)
     );
 
     // Emit globals for a while, then finish with emitting (shared) literals and constants
-    logger(`Emitting global definitions to ${globalFilename}`);
+    logger(`Emitting global definitions...`);
 
-    let localEmit = emit;
-    emit = createEmitter(globalFilename);
+    const globalEmitter = new Emitter(globalFilename);
 
-    emit(`// Global mode type definitions for p5`);
+    generateGlobalsHeader(globalEmitter);
 
-    emit('\n// This file was auto-generated. Please do not edit it.\n');
+    globalEmitter.emit('declare global {');
+    globalEmitter.indent();
+    const globalCache = new AugmentersCache(_ => globalEmitter);
 
-    emit(`import * as p5 from './index';`);
+    p5Aliases.forEach(className => {
+      generateClassConstructor(globalEmitter, formatGlobals, className);
+      generateClassProperties(globalCache, formatGlobals, className);
+    });
+    globalEmitter.dedent();
+    globalEmitter.emit('}');
 
-    emit('declare global {');
-    emit.indent();
-    p5Aliases.forEach(className =>
-      generateP5Properties(formatGlobals, className)
-    );
-    emit.dedent();
-    emit('}');
-
-    emit.close();
-    emit = localEmit;
-    // Emit all literals and constants into the local definitions file
-    emit.sectionBreak();
+    globalEmitter.close();
     emitLiterals();
-    emit.sectionBreak();
     emitConstants();
-    emit('type UNKNOWN_P5_CONSTANT = any;');
-    emit.dedent();
-    emit('}');
 
-    emit.close();
+    generateAugmenterReferences(localEmitter, augmentersCache);
+    generateLocalsBody(unknownClasses, localEmitter, p5Aliases, p5Subclasses);
+
+    localEmitter.close();
 
     let missing = false;
     for (const t of unknownClasses) {

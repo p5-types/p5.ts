@@ -1,7 +1,7 @@
 /// @ts-check
 const generate = require('../generate-typescript-annotations');
 const path = require('upath');
-const fs = require('fs');
+const fs = require('fs-extra');
 const YError = require('yargs/lib/yerror');
 
 exports.command = 'generate [data] [outdir]';
@@ -18,14 +18,6 @@ exports.builder = {
     default: path.joinSafe(__dirname, '../../DefinitelyTyped/types/p5'),
     describe: 'Directory where generated definitions will be placed'
   },
-  local: {
-    type: 'string',
-    describe: 'Output file for index.d.ts'
-  },
-  global: {
-    type: 'string',
-    describe: 'Output file for global.d.ts'
-  },
   silent: {
     type: 'boolean',
     describe: 'Suppress status messages',
@@ -34,8 +26,6 @@ exports.builder = {
 };
 
 exports.handler = args => {
-  args.local = args.local || path.joinSafe(args.outdir, 'index.d.ts');
-  args.global = args.global || path.joinSafe(args.outdir, 'global.d.ts');
   validatePaths(args);
 
   if (args.silent) {
@@ -46,28 +36,12 @@ exports.handler = args => {
 };
 
 function validatePaths(args) {
-  const localDir = path.dirname(args.local);
-  const globalDir = path.dirname(args.global);
-
   if (!fs.existsSync(args.data) || !fs.lstatSync(args.data).isFile()) {
     throw new YError(`The data file ${args.data} is not a file that exists.`);
   }
-  if (localDir === globalDir) {
-    if (!fs.existsSync(localDir) || !fs.lstatSync(localDir).isDirectory()) {
-      throw new YError(
-        `The base directory ${localDir} is not a directory that exists.`
-      );
-    }
-  } else {
-    if (!fs.existsSync(localDir) || !fs.lstatSync(localDir).isDirectory()) {
-      throw new YError(
-        `The path for local definition output ${localDir} is not a directory that exists.`
-      );
-    }
-    if (!fs.existsSync(globalDir) || !fs.lstatSync(globalDir).isDirectory()) {
-      throw new YError(
-        `The path for global definition output ${globalDir} is not a directory that exists.`
-      );
-    }
+  if (!fs.existsSync(args.outdir) || !fs.lstatSync(args.outdir).isDirectory()) {
+    throw new YError(
+      `The output directory ${args.outdir} is not a directory that exists.`
+    );
   }
 }
