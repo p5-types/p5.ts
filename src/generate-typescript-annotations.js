@@ -469,7 +469,7 @@ function mod(args) {
 
     const subclassAugmentersCache = new AugmentersCache(name => {
       const augmenter = augmentersCache.get(name);
-      augmenter.emit(`interface ${nestedClassName}InstanceExtensions {`);
+      augmenter.emit(`interface ${nestedClassName} {`);
       augmenter.indent();
       return augmenter;
     });
@@ -539,41 +539,49 @@ function mod(args) {
     emitter.emit('\n// This file was auto-generated. Please do not edit it.\n');
   }
 
-  function generateClassHeader(emitter, prettyClassname, declare) {
-    emitter.emit(`${declare ? 'declare ' : ''}class ${prettyClassname} {`);
+  /**
+   *
+   * @param {Emitter} emitter
+   * @param {string} prettyClassname
+   * @param {*} classitem
+   */
+  function generateClassHeader(emitter, prettyClassname, classitem) {
+    emitter.emit(
+      `class ${prettyClassname}${
+        classitem.extends ? ` extends ${classitem.extends}` : ''
+      } {`
+    );
     emitter.indent();
   }
 
   /**
    *
    * @param {Emitter} emitter
-   * @param {string} prettyClassname
-   * @param {boolean} declare
    */
-  function generateClassFooter(emitter, prettyClassname, declare) {
+  function generateClassFooter(emitter) {
     emitter.dedent();
     emitter.emit('}');
-    emitter.emit(
-      `${
-        declare ? 'declare ' : ''
-      }interface ${prettyClassname} extends p5.${prettyClassname}InstanceExtensions {}\n`
-    );
   }
 
   function generateClassBody(emitter, format, className) {
     const nestedClassName = className.match(P5_CLASS_RE)[1];
-    generateClassHeader(emitter, nestedClassName);
+    const classitem = yuidocs.classes[className];
+    generateClassHeader(emitter, nestedClassName, classitem);
     generateClassConstructor(emitter, format, className);
-    generateClassFooter(emitter, nestedClassName, false);
+    generateClassFooter(emitter);
   }
 
-  function generateExtensionsInterface(emitter, prettyClassname, classitem) {
-    patchClassitemFile(classitem);
-    emitter.emit(
-      `interface ${prettyClassname}InstanceExtensions ${
-        classitem.extends ? `extends ${classitem.extends}` : ''
-      } {}`
-    );
+  function generatep5ExtensionsInterface(emitter) {
+    emitter.emit('interface p5InstanceExtensions {}');
+  }
+
+  function generatep5ClassHeader(emitter) {
+    emitter.emit('declare class p5 {');
+  }
+
+  function generatep5ClassFooter(emitter) {
+    emitter.emit('}');
+    emitter.emit('declare interface p5 extends p5.p5InstanceExtensions {}');
   }
 
   /**
@@ -594,29 +602,22 @@ function mod(args) {
       generateUnknownClass(emitter, classname)
     );
 
-    generateClassHeader(emitter, 'p5', true);
+    generatep5ClassHeader(emitter);
     p5Aliases.forEach(className =>
       generateClassConstructor(emitter, formatLocals, className)
     );
-    generateClassFooter(emitter, 'p5', true);
+    generatep5ClassFooter(emitter);
 
     emitter.emit('declare namespace p5 {');
     emitter.indent();
 
     emitter.emit('type UNKNOWN_P5_CONSTANT = any;');
-    generateExtensionsInterface(emitter, 'p5', yuidocs.classes['p5']);
+    generatep5ExtensionsInterface(emitter);
 
     p5Subclasses.forEach(className =>
       generateClassBody(emitter, formatLocals, className)
     );
 
-    p5Subclasses.forEach(className =>
-      generateExtensionsInterface(
-        emitter,
-        className.match(P5_CLASS_RE)[1],
-        yuidocs.classes[className]
-      )
-    );
     emitter.dedent();
     emitter.emit('}');
   }
