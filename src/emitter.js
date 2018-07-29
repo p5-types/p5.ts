@@ -4,6 +4,7 @@ const makeDirSync = fs.ensureDirSync;
 const path = require('upath');
 const h2p = require('html2plaintext');
 const wrap = require('word-wrap');
+const prettier = require('prettier');
 
 function shortenDescription(desc) {
   return wrap(h2p(desc).replace(/[\r\n]+/, ''), {
@@ -16,6 +17,7 @@ class Emitter {
     this.filename = filename;
     this.indentLevel = 0;
     this.lastText = '';
+    this.totalText = '';
     const outDir = path.dirname(filename);
     makeDirSync(outDir);
 
@@ -23,8 +25,8 @@ class Emitter {
   }
 
   emit(text) {
-    const indentation = [];
     let finalText;
+    const indentation = [];
 
     for (let i = 0; i < this.indentLevel; i++) {
       indentation.push('  ');
@@ -35,7 +37,8 @@ class Emitter {
     } else {
       finalText = '\n';
     }
-    fs.writeSync(this.fd, finalText);
+
+    this.totalText += finalText;
 
     this.lastText = text;
   }
@@ -49,6 +52,14 @@ class Emitter {
   }
 
   close() {
+    const prettierConfig = JSON.parse(
+      fs.readFileSync(
+        path.joinSafe(__dirname, '../DefinitelyTyped/types/.prettierrc'),
+        'utf8'
+      )
+    );
+    const formattedText = prettier.format(this.totalText, prettierConfig);
+    fs.writeSync(this.fd, formattedText);
     fs.closeSync(this.fd);
   }
 
