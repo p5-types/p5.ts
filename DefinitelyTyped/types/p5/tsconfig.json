@@ -15,8 +15,11 @@
         "forceConsistentCasingInFileNames": true
     },
     "include": [
-        "./*.d.ts",
-        "p5-tests.ts",
-        "test-augmentation.ts"
+        "./src/*.d.ts",
+        "./lib/*.d.ts",
+        "./index.d.ts",
+        "./literals.d.ts",
+        "./constants.d.ts",
+        "./test/*.ts"
     ]
 }
