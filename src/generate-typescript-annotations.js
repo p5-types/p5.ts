@@ -32,8 +32,8 @@ function relativeSafe(from, to) {
  * @returns {Emitter}
  */
 function createAugmenter(baseDir, filename) {
-  const emitter = new Emitter(path.joinSafe(baseDir, filename));
-  const augmenterPath = path.joinSafe(baseDir, filename);
+  const augmenterPath = path.joinSafe(baseDir, `${filename}.d.ts`);
+  const emitter = new Emitter(augmenterPath);
 
   const baseRel = relativeSafe(path.dirname(augmenterPath), baseDir);
   const indexRel = path.joinSafe(baseRel, 'index');
@@ -77,7 +77,7 @@ function patchClassitemFile(classitem) {
  * @returns {string}
  */
 function classitemFilename(classitem) {
-  return definitionFilename(classitem.file);
+  return definitionImportName(classitem.file);
 }
 
 const formatLocals = {
@@ -106,10 +106,10 @@ function getVersionString(version) {
   }
 }
 
-function definitionFilename(filename) {
+function definitionImportName(filename) {
   const dirname = path.dirname(filename);
   const name = path.basename(filename, '.js');
-  return path.joinSafe(dirname, `${name}.d.ts`);
+  return path.joinSafe(dirname, name);
 }
 
 /**
@@ -118,8 +118,8 @@ function definitionFilename(filename) {
  * @param {AugmentersCache} augmentersCache
  */
 function generateAugmenterReferences(emitter, augmentersCache) {
-  emitter.referencePath('./constants.d.ts');
-  emitter.referencePath('./literals.d.ts');
+  emitter.importAugmenter('./constants');
+  emitter.importAugmenter('./literals');
 
   for (const key in augmentersCache.augmenters) {
     if (augmentersCache.augmenters.hasOwnProperty(key)) {
@@ -128,7 +128,7 @@ function generateAugmenterReferences(emitter, augmentersCache) {
       // augmenters from lib should not be referenced
       if (key.startsWith('src/')) {
         const relname = path.joinSafe('./', key);
-        emitter.referencePath(relname);
+        emitter.importAugmenter(relname);
       }
     }
   }
@@ -165,8 +165,8 @@ function generateGlobalsHeader(emitter) {
   emitter.emit('\n// This file was auto-generated. Please do not edit it.\n');
 
   emitter.emit(`import * as p5 from './index';`);
-  emitter.referencePath('./lib/addons/p5.dom.d.ts');
-  emitter.referencePath('./lib/addons/p5.sound.d.ts');
+  emitter.importAugmenter('./lib/addons/p5.dom');
+  emitter.importAugmenter('./lib/addons/p5.sound');
 }
 
 // mod is used to make yuidocs "global". It actually just calls generate()
@@ -572,6 +572,7 @@ function mod(args) {
   }
 
   function generatep5ExtensionsInterface(emitter) {
+    emitter.emit('// tslint:disable-next-line:no-empty-interface');
     emitter.emit('interface p5InstanceExtensions {}');
   }
 
@@ -581,7 +582,8 @@ function mod(args) {
 
   function generatep5ClassFooter(emitter) {
     emitter.emit('}');
-    emitter.emit('declare interface p5 extends p5.p5InstanceExtensions {}');
+    emitter.emit('// tslint:disable-next-line:no-empty-interface');
+    emitter.emit('interface p5 extends p5.p5InstanceExtensions {}');
   }
 
   /**

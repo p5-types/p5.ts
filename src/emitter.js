@@ -119,6 +119,10 @@ class Emitter {
     this.emit(`/// <reference path="${path}" />`);
   }
 
+  importAugmenter(path) {
+    this.emit(`import "${path}";`);
+  }
+
   lineComment(text = '') {
     this.emit(`//${text}`);
   }

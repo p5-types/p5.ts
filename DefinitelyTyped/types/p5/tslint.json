@@ -11,6 +11,7 @@
             ]
         },
         "no-trailing-whitespace": [true, "ignore-jsdoc"],
+        "no-unnecessary-class": false,
         "no-unnecessary-qualifier": false,
         "unified-signatures": false
 

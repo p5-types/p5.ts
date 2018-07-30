@@ -1,6 +1,3 @@
-// tslint:disable-next-line:no-bad-reference
-/// <reference path="../global.d.ts" />
-
 const x = 100;
 const y = 100;
 
