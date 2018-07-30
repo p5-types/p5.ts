@@ -4,6 +4,18 @@
     "strict": true,
     "module": "es6",
     "target": "es5",
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "typeRoots": [
+      "node_modules/@types",
+      "../../DefinitelyTyped/types"
+    ],
+    "paths": {
+      "*": ["../../DefinitelyTyped/types/*"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
