@@ -20,10 +20,13 @@ class Emitter {
     this.totalText = '';
     const outDir = path.dirname(filename);
     makeDirSync(outDir);
-
-    this.fd = fs.openSync(filename, 'w');
+    this.filename = filename;
   }
 
+  /**
+   *
+   * @param {string} text
+   */
   emit(text) {
     let finalText;
     const indentation = [];
@@ -51,16 +54,36 @@ class Emitter {
     this.indentLevel--;
   }
 
+  tryToFormat() {
+    try {
+      const prettierConfig = JSON.parse(
+        fs.readFileSync(
+          path.joinSafe(__dirname, '../DefinitelyTyped/types/.prettierrc'),
+          'utf8'
+        )
+      );
+      return prettier.format(this.totalText, prettierConfig);
+    } catch (e) {
+      console.error(`Failed to format ${this.filename}`);
+      console.error(e);
+      return this.totalText;
+    }
+  }
+
   close() {
-    const prettierConfig = JSON.parse(
-      fs.readFileSync(
-        path.joinSafe(__dirname, '../DefinitelyTyped/types/.prettierrc'),
-        'utf8'
-      )
-    );
-    const formattedText = prettier.format(this.totalText, prettierConfig);
-    fs.writeSync(this.fd, formattedText);
-    fs.closeSync(this.fd);
+    fs.open(this.filename, 'w', (err, fd) => {
+      if (err) {
+        throw err;
+      } else {
+        fs.writeFile(fd, this.tryToFormat(), err => {
+          if (err) {
+            throw err;
+          } else {
+            fs.close(fd);
+          }
+        });
+      }
+    });
   }
 
   emitDescription(desc) {
@@ -124,7 +147,11 @@ class Emitter {
   }
 
   lineComment(text = '') {
-    this.emit(`//${text}`);
+    this.emit(`// ${text}`);
+  }
+
+  emptyLineComment() {
+    this.emit('//');
   }
 
   emptyLine() {

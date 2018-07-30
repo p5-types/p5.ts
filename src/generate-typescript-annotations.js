@@ -1,6 +1,8 @@
 /// @ts-check
+
 const Emitter = require('./emitter');
 const types = require('./types');
+const formatters = require('./formatters');
 const fs = require('fs-extra');
 const path = require('upath');
 const semver = require('semver');
@@ -53,11 +55,19 @@ function closeAugmenter(emitter) {
   emitter.close();
 }
 
+/**
+ *
+ * @param {Emitter} emitter
+ */
 function openP5Augmentation(emitter) {
   emitter.indent();
   emitter.emit('interface p5InstanceExtensions {');
 }
 
+/**
+ *
+ * @param {Emitter} emitter
+ */
 function closeP5Augmentation(emitter) {
   emitter.dedent();
   emitter.emit('}');
@@ -80,24 +90,6 @@ function classitemFilename(classitem) {
   return definitionImportName(classitem.file);
 }
 
-const formatLocals = {
-  constructor: params => `constructor(${params});`,
-  method: decl => decl,
-  property: (final, decl) => {
-    const modifier = final ? 'readonly ' : '';
-    return `${modifier}${decl};`;
-  }
-};
-
-const formatGlobals = {
-  constructor: params => `p5(${params}): p5;`,
-  method: decl => `function ${decl}`,
-  property: (final, decl) => {
-    const declarationType = final ? 'const' : 'let';
-    return `${declarationType} ${decl};`;
-  }
-};
-
 function getVersionString(version) {
   try {
     return `${semver.major(version)}.${semver.minor(version)}`;
@@ -115,15 +107,15 @@ function definitionImportName(filename) {
 /**
  *
  * @param {Emitter} emitter
- * @param {AugmentersCache} augmentersCache
+ * @param {ItemCache} augmentersCache
  */
 function generateAugmenterReferences(emitter, augmentersCache) {
   emitter.importAugmenter('./constants');
   emitter.importAugmenter('./literals');
 
-  for (const key in augmentersCache.augmenters) {
-    if (augmentersCache.augmenters.hasOwnProperty(key)) {
-      closeAugmenter(augmentersCache.augmenters[key]);
+  for (const key in augmentersCache.items) {
+    if (augmentersCache.items.hasOwnProperty(key)) {
+      closeAugmenter(augmentersCache.items[key]);
       // augmenters from src should be referenced (they are included by app.js)
       // augmenters from lib should not be referenced
       if (key.startsWith('src/')) {
@@ -134,12 +126,72 @@ function generateAugmenterReferences(emitter, augmentersCache) {
   }
 }
 
-class AugmentersCache {
+/**
+ *
+ * @param {string} outdir
+ * @param {*} literals
+ */
+function emitLiterals(outdir, literals) {
+  const emitter = new Emitter(path.joinSafe(outdir, 'literals.d.ts'));
+  emitter.emit(`import * as p5 from './index'`);
+  emitter.emit('');
+  emitter.emit(`declare module './index' {`);
+  emitter.indent();
+  Object.keys(literals).forEach(function(key) {
+    emitter.emit(`type ${key} = ${literals[key]};`);
+  });
+  emitter.dedent();
+  emitter.emit('}');
+  emitter.close();
+}
+
+/**
+ *
+ * @param {string} outdir
+ * @param {*} constants
+ */
+function emitConstants(outdir, constants) {
+  const emitter = new Emitter(path.joinSafe(outdir, 'constants.d.ts'));
+  emitter.emit(`import * as p5 from './index'`);
+  emitter.emit('');
+  emitter.emit(`declare module './index' {`);
+  emitter.indent();
+
+  Object.keys(constants).forEach(function(key) {
+    const values = constants[key];
+
+    emitter.sectionBreak();
+    emitter.emit(`type ${key} =`);
+    values.forEach(function(v, i) {
+      let str = `${i ? '|' : ' '} ${v}`;
+      if (i === values.length - 1) {
+        str += ';';
+      }
+      emitter.emit(`    ${str}`);
+    });
+  });
+
+  emitter.dedent();
+  emitter.emit('}');
+  emitter.close();
+}
+
+/**
+ *
+ * @template T item type in cache
+ */
+class ItemCache {
+  /**
+   *
+   * @param {Factory} factory
+   * @typedef {(name: string) => T} Factory
+   * @typedef {Object.<string, T>} Items
+   */
   constructor(factory) {
     /**
-     * @type {Object.<string, Emitter>}
+     * @type Items
      */
-    this.augmenters = {};
+    this.items = {};
     this.factory = factory;
   }
 
@@ -148,10 +200,19 @@ class AugmentersCache {
    * @param {string} name
    */
   get(name) {
-    if (!this.augmenters[name]) {
-      this.augmenters[name] = this.factory(name);
+    if (!this.items[name]) {
+      this.items[name] = this.factory(name);
     }
-    return this.augmenters[name];
+    return this.items[name];
+  }
+}
+
+class CategorizedClassitems {
+  constructor() {
+    this.instanceMethods = [];
+    this.staticMethods = [];
+    this.properties = [];
+    this.missing = [];
   }
 }
 
@@ -160,13 +221,78 @@ class AugmentersCache {
  * @param {Emitter} emitter
  */
 function generateGlobalsHeader(emitter) {
-  emitter.emit(`// Global mode type definitions for p5`);
-
-  emitter.emit('\n// This file was auto-generated. Please do not edit it.\n');
+  emitter.lineComment('Global mode type definitions for p5');
+  emitter.emptyLine();
+  emitter.lineComment('This file was auto-generated. Please do not edit it.');
+  emitter.emptyLine();
 
   emitter.emit(`import * as p5 from './index';`);
   emitter.importAugmenter('./lib/addons/p5.dom');
   emitter.importAugmenter('./lib/addons/p5.sound');
+}
+
+/**
+ *
+ * @param {Emitter} emitter
+ * @param {*} logger
+ * @param {*} classitem
+ * @param {*} overload
+ * @param {string} decl
+ * @param {string[]} errors
+ */
+function emitOverloadErrors(
+  emitter,
+  logger,
+  classitem,
+  overload,
+  decl,
+  errors
+) {
+  emitter.sectionBreak();
+  emitter.lineComment(
+    `TODO: Fix ${classitem.name}() errors in ${overloadPosition(
+      classitem,
+      overload
+    )}:`
+  );
+  emitter.emptyLineComment();
+  errors.forEach(function(error) {
+    logger(
+      `${classitem.name}() ${overloadPosition(classitem, overload)}, ${error}`
+    );
+    emitter.lineComment(`   ${error}`);
+  });
+  emitter.emptyLineComment();
+  emitter.lineComment(decl);
+  emitter.emptyLine();
+}
+
+function generateUnknownClass(emitter, classname) {
+  emitter.emit(`type ${classname} = any;`);
+}
+
+/**
+ *
+ * @param {Emitter} emitter
+ * @param {string} prettyClassname
+ * @param {*} classitem
+ */
+function generateClassHeader(emitter, prettyClassname, classitem) {
+  emitter.emit(
+    `class ${prettyClassname}${
+      classitem.extends ? ` extends ${classitem.extends}` : ''
+    } {`
+  );
+  emitter.indent();
+}
+
+/**
+ *
+ * @param {Emitter} emitter
+ */
+function generateClassFooter(emitter) {
+  emitter.dedent();
+  emitter.emit('}');
 }
 
 // mod is used to make yuidocs "global". It actually just calls generate()
@@ -276,102 +402,50 @@ function mod(args) {
   /**
    *
    * @param {Emitter} emitter
-   * @param {*} format
-   * @param {string} className
-   * @param {*} classitem
-   */
-  function generateClassMethod(emitter, format, className, classitem) {
-    if (classitem.overloads) {
-      classitem.overloads.forEach(function(overload) {
-        generateClassMethodWithParams(
-          emitter,
-          format,
-          className,
-          classitem,
-          overload
-        );
-      });
-    } else {
-      generateClassMethodWithParams(
-        emitter,
-        format,
-        className,
-        classitem,
-        classitem
-      );
-    }
-  }
-
-  /**
-   *
-   * @param {Emitter} emitter
-   * @param {*} format
-   * @param {string} className
+   * @param {Formatter} format
    * @param {*} classitem
    * @param {*} overload
    */
-  function generateClassMethodWithParams(
+  function generateClassConstructorOverload(
     emitter,
     format,
-    className,
     classitem,
     overload
   ) {
     types.populateConstantType(constants, classitem, overload);
-    const errors = validateMethod(classitem, overload);
     const params = (overload.params || []).map(translateParam);
-    const returnType = overload.chainable
-      ? className
-      : overload.return
-        ? translateType(overload.return.type, 'any').join('|')
-        : 'void';
-    let decl;
+    let decl = format.constructorOverload(params.join(', '));
 
-    if (classitem.is_constructor) {
-      decl = format.constructor(params.join(', '));
-    } else {
-      decl = `${overload.static ? 'static ' : ''}${
-        classitem.name
-      }(${params.join(', ')}): ${returnType};`;
-    }
-
+    const errors = validateMethod(classitem, overload);
     if (errors.length) {
-      emitter.sectionBreak();
-      emitter.lineComment(
-        ` TODO: Fix ${classitem.name}() errors in ${overloadPosition(
-          classitem,
-          overload
-        )}:`
-      );
-      emitter.lineComment();
-      errors.forEach(function(error) {
-        logger(
-          `${classitem.name}() ${overloadPosition(
-            classitem,
-            overload
-          )}, ${error}`
-        );
-        emitter.lineComment(`   ${error}`);
-      });
-      emitter.lineComment();
-      emitter.lineComment(` ${decl}`);
-      emitter.emptyLine();
+      emitOverloadErrors(emitter, logger, classitem, overload, decl, errors);
     } else {
       emitter.itemDescription(classitem, overload);
-      emitter.emit(format.method(decl));
+      emitter.emit(decl);
     }
   }
 
   /**
    *
    * @param {Emitter} emitter
-   * @param {*} format
+   * @param {Formatter} format
    * @param {string} className
    */
   function generateClassConstructor(emitter, format, className) {
     const classitem = yuidocs.classes[className];
     if (classitem.is_constructor) {
-      generateClassMethod(emitter, format, className, classitem);
+      if (classitem.overloads) {
+        classitem.overloads.forEach(function(overload) {
+          generateClassConstructorOverload(
+            emitter,
+            format,
+            classitem,
+            overload
+          );
+        });
+      } else {
+        generateClassConstructorOverload(emitter, format, classitem, classitem);
+      }
     }
   }
 
@@ -384,183 +458,186 @@ function mod(args) {
 
   /**
    *
-   * @param {Emitter} emitter
-   * @param {*} format
-   * @param {string} className
-   * @param {*} classitem
-   */
-  function generateClassProperty(emitter, format, className, classitem) {
-    const itemName = classitem.name;
-    if (JS_SYMBOL_RE.test(itemName)) {
-      // TODO: It seems our properties don't carry any type information,
-      // which is unfortunate. YUIDocs supports the @type tag on properties,
-      // and even encourages using it, but we don't seem to use it.
-      const translatedType = translateType(classitem.type, 'any');
-      let defaultValue = classitem.default;
-
-      const typeIsString =
-        translatedType.length === 1 && translatedType[0] === 'string';
-
-      if (classitem.final && typeIsString && !defaultValue) {
-        defaultValue = itemName.toLowerCase().replace(/_/g, '-');
-      }
-
-      let decl;
-      if (defaultValue) {
-        decl = `${itemName}: p5.${itemName}`;
-
-        literals[itemName] = wrapLiteral(defaultValue, typeIsString);
-      } else {
-        decl = itemName + ': ' + translatedType.join('|');
-      }
-
-      emitter.itemDescription(classitem);
-
-      emitter.emit(format.property(classitem.final, decl));
-    } else {
-      emitter.sectionBreak();
-      emitter.emit(
-        `// TODO: Property "${itemName}", defined in ${classitemPosition(
-          classitem
-        )}, is not a valid JS symbol name`
-      );
-      emitter.sectionBreak();
-    }
-  }
-
-  /**
-   *
-   * @param {AugmentersCache} augmentersCache
-   * @param {*} format
+   * @param {ItemCache<ItemCache<CategorizedClassitems>>} categoriesCache
    * @param {string} className
    */
-  function generateClassProperties(augmentersCache, format, className) {
+  function categorizeClassitems(categoriesCache, className) {
     getClassitems(className).forEach(function(classitem) {
       patchClassitemFile(classitem);
-      const augmenter = augmentersCache.get(classitemFilename(classitem));
+      const forFile = categoriesCache.get(classitemFilename(classitem));
+      const categories = forFile.get(className);
       if (classitem.itemtype === 'method') {
-        generateClassMethod(augmenter, format, className, classitem);
+        const overloads = classitem.overloads || [classitem];
+        for (const overload of overloads) {
+          types.populateConstantType(constants, classitem, overload);
+
+          if (overload.static) {
+            categories.staticMethods.push({
+              classitem: classitem,
+              overload: overload
+            });
+          } else {
+            categories.instanceMethods.push({
+              classitem: classitem,
+              overload: overload
+            });
+          }
+        }
       } else if (classitem.itemtype === 'property') {
-        generateClassProperty(augmenter, format, className, classitem);
+        categories.properties.push(classitem);
       } else {
-        augmenter.emit(
-          '// TODO: Annotate ' +
-            classitem.itemtype +
-            ' "' +
-            classitem.name +
-            '", defined in ' +
-            classitemPosition(classitem)
-        );
+        categories.properties.push(classitem);
       }
     });
   }
 
   /**
    *
-   * @param {AugmentersCache} augmentersCache
-   * @param {*} format
    * @param {string} className
+   * @param {*} overload
    */
-  function generateP5Subclass(augmentersCache, format, className) {
-    const info = yuidocs.classes[className];
-    const nestedClassName = className.match(P5_CLASS_RE)[1];
+  function overloadReturnType(className, overload) {
+    if (overload.chainable) {
+      return className;
+    }
+    if (overload.return) {
+      return translateType(overload.return.type, 'any').join('|');
+    }
+    return 'void';
+  }
 
-    patchClassitemFile(info);
+  /**
+   * @param {Emitter} emitter
+   * @param {string} className
+   * @param {CategorizedClassitems} categories
+   * @param {Formatter} format
+   */
+  function printClassitems(emitter, className, categories, format) {
+    if (categories.staticMethods.length > 0) {
+      emitter.emit(format.openStatic(className));
 
-    const subclassAugmentersCache = new AugmentersCache(name => {
-      const augmenter = augmentersCache.get(name);
-      augmenter.emit(`interface ${nestedClassName} {`);
-      augmenter.indent();
-      return augmenter;
-    });
+      for (const sm of categories.staticMethods) {
+        const overload = sm.overload;
+        const params = (overload.params || []).map(translateParam);
+        const classitem = sm.classitem;
+        const itemname = classitem.name;
 
-    generateClassProperties(subclassAugmentersCache, format, className);
+        const decl = format.staticMethod(
+          itemname,
+          params,
+          overloadReturnType(className, overload)
+        );
 
-    for (const key in subclassAugmentersCache.augmenters) {
-      if (subclassAugmentersCache.augmenters.hasOwnProperty(key)) {
-        closeP5Augmentation(subclassAugmentersCache.augmenters[key]);
+        const errors = validateMethod(classitem, overload);
+        if (errors.length) {
+          emitOverloadErrors(
+            emitter,
+            logger,
+            classitem,
+            overload,
+            decl,
+            errors
+          );
+        } else {
+          emitter.itemDescription(classitem, overload);
+          emitter.emit(decl);
+        }
+      }
+
+      emitter.emit(format.closeStatic(className));
+    }
+    const instanceItems =
+      categories.instanceMethods.length + categories.properties.length;
+    if (instanceItems > 0) {
+      emitter.emit(format.openInstance(className));
+    }
+
+    for (const im of categories.instanceMethods) {
+      const overload = im.overload;
+      const params = (overload.params || []).map(translateParam);
+      const classitem = im.classitem;
+      const itemname = classitem.name;
+
+      const decl = format.instanceMethod(
+        itemname,
+        params,
+        overloadReturnType(className, overload)
+      );
+
+      const errors = validateMethod(classitem, overload);
+      if (errors.length) {
+        emitOverloadErrors(emitter, logger, classitem, overload, decl, errors);
+      } else {
+        emitter.itemDescription(classitem, overload);
+        emitter.emit(decl);
       }
     }
-  }
 
-  function generateUnknownClass(emitter, classname) {
-    emitter.emit(`type ${classname} = any;`);
-  }
+    for (const classitem of categories.properties) {
+      const itemName = classitem.name;
+      if (JS_SYMBOL_RE.test(itemName)) {
+        // TODO: It seems our properties don't carry any type information,
+        // which is unfortunate. YUIDocs supports the @type tag on properties,
+        // and even encourages using it, but we don't seem to use it.
+        const translatedType = translateType(classitem.type, 'any');
+        let defaultValue = classitem.default;
 
-  function emitConstants() {
-    const emitter = new Emitter(path.joinSafe(outdir, 'constants.d.ts'));
-    emitter.emit(`import * as p5 from './index'`);
-    emitter.emit('');
-    emitter.emit(`declare module './index' {`);
-    emitter.indent();
+        const typeIsString =
+          translatedType.length === 1 && translatedType[0] === 'string';
 
-    Object.keys(constants).forEach(function(key) {
-      const values = constants[key];
-
-      emitter.sectionBreak();
-      emitter.emit(`type ${key} =`);
-      values.forEach(function(v, i) {
-        let str = `${i ? '|' : ' '} ${v}`;
-        if (i === values.length - 1) {
-          str += ';';
+        if (classitem.final && typeIsString && !defaultValue) {
+          defaultValue = itemName.toLowerCase().replace(/_/g, '-');
         }
-        emitter.emit(`    ${str}`);
-      });
-    });
 
-    emitter.dedent();
-    emitter.emit('}');
-    emitter.close();
-  }
+        let decl;
+        if (defaultValue) {
+          decl = `${itemName}: p5.${itemName}`;
 
-  function emitLiterals() {
-    const emitter = new Emitter(path.joinSafe(outdir, 'literals.d.ts'));
-    emitter.emit(`import * as p5 from './index'`);
-    emitter.emit('');
-    emitter.emit(`declare module './index' {`);
-    emitter.indent();
-    Object.keys(literals).forEach(function(key) {
-      emitter.emit(`type ${key} = ${literals[key]};`);
-    });
-    emitter.dedent();
-    emitter.emit('}');
-    emitter.close();
+          literals[itemName] = wrapLiteral(defaultValue, typeIsString);
+        } else {
+          decl = itemName + ': ' + translatedType.join('|');
+        }
+
+        emitter.itemDescription(classitem);
+
+        emitter.emit(format.property(classitem.final, decl));
+      } else {
+        emitter.sectionBreak();
+        emitter.lineComment(
+          `TODO: Property "${itemName}", defined in ${classitemPosition(
+            classitem
+          )}, is not a valid JS symbol name`
+        );
+        emitter.sectionBreak();
+      }
+    }
+
+    if (instanceItems > 0) {
+      emitter.emit(format.closeInstance(className));
+    }
+
+    for (const classitem of categories.missing) {
+      emitter.lineComment(
+        `TODO: Annotate ${classitem.itemtype} "${
+          classitem.name
+        }", defined in ${classitemPosition(classitem)}`
+      );
+    }
   }
 
   function generateLocalsHeader(emitter) {
-    emitter.emit(`// Type definitions for p5 ${versionString}`);
-    emitter.emit('// Project: https://github.com/processing/p5.js');
-    emitter.emit('// Definitions by: p5-types <https://github.com/p5-types>');
-    emitter.emit(
-      '// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped'
+    emitter.lineComment(`Type definitions for p5 ${versionString}`);
+    emitter.lineComment('Project: https://github.com/processing/p5.js');
+    emitter.lineComment(
+      'Definitions by: p5-types <https://github.com/p5-types>'
     );
-    emitter.emit('// TypeScript Version: 2.4');
-
-    emitter.emit('\n// This file was auto-generated. Please do not edit it.\n');
-  }
-
-  /**
-   *
-   * @param {Emitter} emitter
-   * @param {string} prettyClassname
-   * @param {*} classitem
-   */
-  function generateClassHeader(emitter, prettyClassname, classitem) {
-    emitter.emit(
-      `class ${prettyClassname}${
-        classitem.extends ? ` extends ${classitem.extends}` : ''
-      } {`
+    emitter.lineComment(
+      'Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped'
     );
-    emitter.indent();
-  }
-
-  /**
-   *
-   * @param {Emitter} emitter
-   */
-  function generateClassFooter(emitter) {
-    emitter.dedent();
-    emitter.emit('}');
+    emitter.lineComment('TypeScript Version: 2.4');
+    emitter.emptyLine();
+    emitter.lineComment('This file was auto-generated. Please do not edit it.');
+    emitter.emptyLine();
   }
 
   function generateClassBody(emitter, format, className) {
@@ -572,7 +649,7 @@ function mod(args) {
   }
 
   function generatep5ExtensionsInterface(emitter) {
-    emitter.emit('// tslint:disable-next-line:no-empty-interface');
+    emitter.lineComment('tslint:disable-next-line:no-empty-interface');
     emitter.emit('interface p5InstanceExtensions {}');
   }
 
@@ -582,7 +659,7 @@ function mod(args) {
 
   function generatep5ClassFooter(emitter) {
     emitter.emit('}');
-    emitter.emit('// tslint:disable-next-line:no-empty-interface');
+    emitter.lineComment('tslint:disable-next-line:no-empty-interface');
     emitter.emit('interface p5 extends p5.p5InstanceExtensions {}');
   }
 
@@ -606,7 +683,7 @@ function mod(args) {
 
     generatep5ClassHeader(emitter);
     p5Aliases.forEach(className =>
-      generateClassConstructor(emitter, formatLocals, className)
+      generateClassConstructor(emitter, formatters.locals, className)
     );
     generatep5ClassFooter(emitter);
 
@@ -617,7 +694,7 @@ function mod(args) {
     generatep5ExtensionsInterface(emitter);
 
     p5Subclasses.forEach(className =>
-      generateClassBody(emitter, formatLocals, className)
+      generateClassBody(emitter, formatters.locals, className)
     );
 
     emitter.dedent();
@@ -625,24 +702,62 @@ function mod(args) {
   }
 
   /**
-   *
-   * @param {AugmentersCache} augmentersCache
-   * @param {*} p5Aliases
+   * @param {Emitter} emitter
+   * @param {ItemCache<CategorizedClassitems>} categoriesCache
    */
-  function generatep5Augmenters(augmentersCache, p5Aliases) {
-    const p5Augmenters = new AugmentersCache(name => {
-      const augmenter = augmentersCache.get(name);
-      openP5Augmentation(augmenter);
-      return augmenter;
-    });
+  function printP5Augmentation(emitter, categoriesCache) {
+    openP5Augmentation(emitter);
+    for (const className in categoriesCache.items) {
+      if (categoriesCache.items.hasOwnProperty(className)) {
+        /**
+         * @type {*}
+         */
+        const categories = categoriesCache.items[className];
+        const formatter = Object.assign({}, formatters.locals, {
+          openInstance: () => '',
+          closeInstance: () => ''
+        });
 
-    p5Aliases.forEach(className =>
-      generateClassProperties(p5Augmenters, formatLocals, className)
-    );
+        printClassitems(emitter, className, categories, formatter);
+      }
+    }
+    closeP5Augmentation(emitter);
+  }
 
-    for (const key in p5Augmenters.augmenters) {
-      if (p5Augmenters.augmenters.hasOwnProperty(key)) {
-        closeP5Augmentation(p5Augmenters.augmenters[key]);
+  /**
+   * @param {Emitter} emitter
+   * @param {ItemCache<CategorizedClassitems>} categoriesCache
+   */
+  function printClassAugmentation(emitter, categoriesCache) {
+    for (const className in categoriesCache.items) {
+      if (categoriesCache.items.hasOwnProperty(className)) {
+        /**
+         * @type {*}
+         */
+        const categories = categoriesCache.items[className];
+        const formatter = Object.assign({}, formatters.locals, {
+          openInstance: className =>
+            formatters.locals.openInstance(className.match(P5_CLASS_RE)[1]),
+          openStatic: className =>
+            formatters.locals.openStatic(className.match(P5_CLASS_RE)[1])
+        });
+        printClassitems(emitter, className, categories, formatter);
+      }
+    }
+  }
+
+  /**
+   * @param {Emitter} emitter
+   * @param {ItemCache<CategorizedClassitems>} categoriesCache
+   */
+  function printP5GlobalProperties(emitter, categoriesCache) {
+    for (const className in categoriesCache.items) {
+      if (categoriesCache.items.hasOwnProperty(className)) {
+        /**
+         * @type {*}
+         */
+        const categories = categoriesCache.items[className];
+        printClassitems(emitter, className, categories, formatters.globals);
       }
     }
   }
@@ -651,9 +766,6 @@ function mod(args) {
     const p5Aliases = [];
     const p5Subclasses = [];
     const unknownClasses = [];
-    const augmentersCache = new AugmentersCache(name =>
-      createAugmenter(outdir, name)
-    );
 
     logger('Generating definitions...');
 
@@ -673,11 +785,49 @@ function mod(args) {
 
     generateLocalsHeader(localEmitter);
 
-    generatep5Augmenters(augmentersCache, p5Aliases);
-
-    p5Subclasses.forEach(className =>
-      generateP5Subclass(augmentersCache, formatLocals, className)
+    const p5AliasCategories = new ItemCache(
+      filename => new ItemCache(className => new CategorizedClassitems())
     );
+
+    for (const className of p5Aliases) {
+      categorizeClassitems(p5AliasCategories, className);
+    }
+
+    const subclassCategories = new ItemCache(
+      filename => new ItemCache(className => new CategorizedClassitems())
+    );
+
+    for (const className of p5Subclasses) {
+      categorizeClassitems(subclassCategories, className);
+    }
+
+    const augmentersCache = new ItemCache(name =>
+      createAugmenter(outdir, name)
+    );
+
+    for (const filename in p5AliasCategories.items) {
+      if (p5AliasCategories.items.hasOwnProperty(filename)) {
+        const augmenter = augmentersCache.get(filename);
+
+        /**
+         * @type {*}
+         */
+        const categoriesCache = p5AliasCategories.items[filename];
+        printP5Augmentation(augmenter, categoriesCache);
+      }
+    }
+
+    for (const filename in subclassCategories.items) {
+      if (subclassCategories.items.hasOwnProperty(filename)) {
+        const augmenter = augmentersCache.get(filename);
+
+        /**
+         * @type {*}
+         */
+        const categoriesCache = subclassCategories.items[filename];
+        printClassAugmentation(augmenter, categoriesCache);
+      }
+    }
 
     // Emit globals for a while, then finish with emitting (shared) literals and constants
     logger(`Emitting global definitions...`);
@@ -688,23 +838,32 @@ function mod(args) {
 
     globalEmitter.emit('declare global {');
     globalEmitter.indent();
-    const globalCache = new AugmentersCache(_ => globalEmitter);
 
     p5Aliases.forEach(className => {
-      generateClassConstructor(globalEmitter, formatGlobals, className);
-      generateClassProperties(globalCache, formatGlobals, className);
+      generateClassConstructor(globalEmitter, formatters.globals, className);
+      for (const filename in p5AliasCategories.items) {
+        if (p5AliasCategories.items.hasOwnProperty(filename)) {
+          /**
+           * @type {*}
+           */
+          const categoriesCache = p5AliasCategories.items[filename];
+          globalEmitter.lineComment(filename);
+          printP5GlobalProperties(globalEmitter, categoriesCache);
+        }
+      }
     });
     globalEmitter.dedent();
     globalEmitter.emit('}');
 
     globalEmitter.close();
-    emitLiterals();
-    emitConstants();
 
     generateAugmenterReferences(localEmitter, augmentersCache);
     generateLocalsBody(unknownClasses, localEmitter, p5Aliases, p5Subclasses);
 
     localEmitter.close();
+
+    emitLiterals(outdir, literals);
+    emitConstants(outdir, constants);
 
     let missing = false;
     for (const t of unknownClasses) {
