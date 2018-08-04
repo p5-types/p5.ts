@@ -1,5 +1,7 @@
 /// @ts-check
 
+/// <reference path="./types_.d.ts" />
+
 const flatten = require('./util').flatten;
 const parser = require('./parser');
 
@@ -22,100 +24,150 @@ const EXTERNAL_TYPES = new Set([
 const CONSTANT = 'Constant';
 const CONSTANT_OUT = 'p5.UNKNOWN_P5_CONSTANT';
 
+/**
+ *
+ * @param {string} value
+ * @returns {TranslatedBasic}
+ */
+function basic(value) {
+  return {
+    type: 'basic',
+    value: value
+  };
+}
+
+/**
+ *
+ * @param {TranslatedFunctionParam[]} params
+ * @returns {TranslatedFunction}
+ */
+function func(params) {
+  return {
+    type: 'function',
+    params: params
+  };
+}
+
+/**
+ *
+ * @param {TranslatedType[]} value
+ * @returns {TranslatedArray}
+ */
+function arr(value) {
+  return {
+    type: 'array',
+    value: value
+  };
+}
+
+/**
+ * @type {Object.<string, TranslatedType>}
+ */
 const YUIDOC_TO_TYPESCRIPT_PARAM_MAP = {
-  Object: 'object',
-  Any: 'any',
-  Number: 'number',
-  Integer: 'number',
-  String: 'string',
-  Constant: CONSTANT_OUT,
-  undefined: 'undefined',
-  Null: 'null',
-  Array: 'any[]',
-  Boolean: 'boolean',
-  '*': 'any',
-  Void: 'void',
-  P5: 'p5',
-  Promise: 'Promise<any>',
+  Object: basic('object'),
+  Any: basic('any'),
+  Number: basic('number'),
+  Integer: basic('number'),
+  String: basic('string'),
+  Constant: basic(CONSTANT_OUT),
+  undefined: basic('undefined'),
+  Null: basic('null'),
+  Array: basic('any[]'),
+  Boolean: basic('boolean'),
+  '*': basic('any'),
+  Void: basic('void'),
+  P5: basic('p5'),
+  Promise: basic('Promise<any>'),
   // When the docs don't specify what kind of function we expect,
   // then we need to use the global type `Function`
-  Function: 'Function',
+  Function: basic('Function'),
   // Special ignore for hard to fix YUIDoc from p5.sound
-  'Tone.Signal': 'any',
-  SoundObject: 'any'
+  'Tone.Signal': basic('any'),
+  SoundObject: basic('any')
 };
 
 const P5_CLASS_RE = /^p5\.([^.]+)$/;
 
 /**
  *
- * @param {string} type
- * @param {string} [defaultType]
+ * @param {YUIDocsData} yuidocs
+ * @param {Map<string, RegExpExecArray[]>} constants
+ * @param {Set<string>} missingTypes
+ * @param {string|undefined} type
+ * @param {TranslatedType[]} defaultType
  *
- * @returns {string[]}
+ * @returns {TranslatedType[]}
  */
 function translateType(yuidocs, constants, missingTypes, type, defaultType) {
-  if (type === void 0) {
-    return [defaultType];
+  if (type === undefined) {
+    return defaultType;
   }
 
   type = type.trim();
 
-  return flatten(
-    parser.splitType(type).map(part => {
-      if (part === '') {
-        return [];
-      }
-
-      if (part.length > 2 && part.substring(part.length - 2) === '[]') {
-        return translateType(
-          yuidocs,
-          constants,
-          missingTypes,
-          part.substr(0, part.length - 2),
-          defaultType
-        ).map(translated => translated + '[]');
-      }
-
-      const matchFunction = part.match(/Function\(([^)]*)\)/i);
-      if (matchFunction) {
-        const paramTypes = matchFunction[1].split(',');
-        const mappedParamTypes = paramTypes.map((t, i) => {
-          const paramName = 'p' + (i + 1);
-          const paramType = translateType(
+  /**
+   * @type TranslatedType[][]
+   */
+  const parsed = parser.splitType(type).map(part => {
+    if (part.length > 2 && part.substring(part.length - 2) === '[]') {
+      return [
+        arr(
+          translateType(
             yuidocs,
             constants,
             missingTypes,
-            t,
-            'any'
-          );
-          return paramName + ': ' + paramType.join('|');
-        });
-        return ['(' + mappedParamTypes.join(',') + ') => any'];
-      }
+            part.substr(0, part.length - 2),
+            defaultType
+          )
+        )
+      ];
+    }
 
-      const staticallyMappedType = YUIDOC_TO_TYPESCRIPT_PARAM_MAP[part];
-      if (staticallyMappedType != null) {
-        return staticallyMappedType;
-      }
+    const matchFunction = part.match(/Function\(([^)]*)\)/i);
+    if (matchFunction) {
+      const paramTypes = matchFunction[1].split(',');
+      const mappedParamTypes = paramTypes.map((t, i) => {
+        const paramName = 'p' + (i + 1);
+        const paramType = translateType(yuidocs, constants, missingTypes, t, [
+          YUIDOC_TO_TYPESCRIPT_PARAM_MAP.Any
+        ]);
+        return {
+          name: paramName,
+          paramType: paramType
+        };
+      });
+      return [func(mappedParamTypes)];
+    }
 
-      if (EXTERNAL_TYPES.has(part)) {
-        return part;
-      }
-      if (isValidP5ClassName(yuidocs, part)) {
-        return part;
-      }
+    const staticallyMappedType = YUIDOC_TO_TYPESCRIPT_PARAM_MAP[part];
+    if (staticallyMappedType != null) {
+      return [staticallyMappedType];
+    }
 
-      if (constants[part]) {
-        return `p5.${part}`;
-      }
+    if (EXTERNAL_TYPES.has(part)) {
+      return [basic(part)];
+    }
+    if (isValidP5ClassName(yuidocs, part)) {
+      return [basic(part)];
+    }
 
-      missingTypes[part] = true;
-      return defaultType;
-    })
-  );
+    if (constants.has(part)) {
+      return [basic(`p5.${part}`)];
+    }
+
+    missingTypes.add(part);
+    return defaultType;
+  });
+
+  return flatten(parsed);
 }
 
+/**
+ *
+ * @param {Map<string, RegExpExecArray[]>} constants
+ * @param {NamedYUIDocsClassitemish} classitem
+ * @param {Overloadish} overload
+ */
 function populateConstantType(constants, classitem, overload) {
   for (const param of overload.params || []) {
     const types = parser.splitType(param.type);
@@ -127,7 +179,7 @@ function populateConstantType(constants, classitem, overload) {
         param.description
       );
       if (extracted) {
-        constants[extracted.constName] = extracted.values;
+        constants.set(extracted.constName, extracted.values);
 
         types[index] = extracted.constName;
         param.type = types.join('|');
@@ -137,6 +189,7 @@ function populateConstantType(constants, classitem, overload) {
 }
 
 /**
+ * @param {YUIDocsData} yuidocs
  * @param {string} className
  */
 
@@ -149,18 +202,22 @@ function isValidP5ClassName(yuidocs, className) {
 }
 
 /**
+ * @param {YUIDocsData} yuidocs
+ * @param {Map<string, RegExpExecArray[]>} constants
+ * @param {Set<string>} missingTypes
  * @param {string} type
  *
- * @returns boolean
+ * @returns {boolean}
  */
 function validateType(yuidocs, constants, missingTypes, type) {
-  const translated = translateType(yuidocs, constants, missingTypes, type);
-  return !(translated.length === 1 && translated[0] === undefined);
+  const translated = translateType(yuidocs, constants, missingTypes, type, []);
+  return translated.length > 0;
 }
 
 module.exports = {
   CONSTANT_OUT: CONSTANT_OUT,
   populateConstantType: populateConstantType,
   translateType: translateType,
-  validateType: validateType
+  validateType: validateType,
+  basic: basic
 };

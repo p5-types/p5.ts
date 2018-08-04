@@ -13,6 +13,10 @@ function shortenDescription(desc) {
 }
 
 class Emitter {
+  /**
+   *
+   * @param {string} filename
+   */
   constructor(filename) {
     this.filename = filename;
     this.indentLevel = 0;
@@ -44,6 +48,16 @@ class Emitter {
     this.totalText += finalText;
 
     this.lastText = text;
+  }
+
+  /**
+   *
+   * @param {string} text
+   */
+  emitNonEmpty(text) {
+    if (text.trim().length > 0) {
+      this.emit(text);
+    }
   }
 
   indent() {
@@ -86,6 +100,10 @@ class Emitter {
     });
   }
 
+  /**
+   *
+   * @param {string} desc
+   */
   emitDescription(desc) {
     shortenDescription(desc)
       .split('\n')

@@ -1,25 +1,28 @@
 import * as p5 from "p5";
 
 function s(sketch: p5) {
+  // $ExpectError
   let fft: p5.FFT;
+  // $ExpectError
   let noise: p5.Noise;
+  // $ExpectError
   let filter: p5.BandPass;
 
   sketch.setup = function setup() {
     sketch.fill(255, 40, 255);
 
+    // $ExpectError
     filter = new p5.BandPass();
 
+    // $ExpectError
     noise = new p5.Noise('white');
     // disconnect unfiltered noise,
     // and connect to filter
-    // $ExpectError
     noise.disconnect();
-    // $ExpectError
     noise.connect(filter);
-    // $ExpectError
     noise.start();
 
+    // $ExpectError
     fft = new p5.FFT();
 
     // $ExpectError
@@ -31,14 +34,11 @@ function s(sketch: p5) {
 
     // set the BandPass frequency based on mouseX
     const freq = sketch.map(sketch.mouseX, 0, sketch.width, 20, 10000);
-    // $ExpectError
     filter.freq(freq);
     // give the filter a narrow band (lower res = wider bandpass)
-    // $ExpectError
     filter.res(50);
 
     // draw filtered spectrum
-    // $ExpectError
     const spectrum = fft.analyze();
     sketch.noStroke();
     for (let i = 0; i < spectrum.length; i++) {
@@ -54,10 +54,8 @@ function s(sketch: p5) {
     const mX = sketch.mouseX;
     const mY = sketch.mouseY;
     if (mX > 0 && mX < sketch.width && mY < sketch.height && mY > 0) {
-      // $ExpectError
       noise.amp(0.5, 0.2);
     } else {
-      // $ExpectError
       noise.amp(0, 0.2);
     }
   }

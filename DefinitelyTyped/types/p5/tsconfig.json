@@ -14,8 +14,9 @@
         "noEmit": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": [
-        "./index.d.ts",
-        "./test/*.ts"
+    "files": [
+        "index.d.ts",
+        "test/index.ts",
+        "test/unaugmented.ts"
     ]
 }
