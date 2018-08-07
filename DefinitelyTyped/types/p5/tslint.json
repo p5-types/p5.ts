@@ -10,11 +10,8 @@
                 ["Symbol", "Avoid using the `Symbol` type. Did you mean `symbol`?"]
             ]
         },
-        "no-trailing-whitespace": [true, "ignore-jsdoc"],
-        "no-unnecessary-class": false,
-        "no-unnecessary-qualifier": false,
-        "unified-signatures": false
-
+        "unified-signatures": false,
+        "file-name-casing": false
     },
     "cliOptions": {
       "exclude": [

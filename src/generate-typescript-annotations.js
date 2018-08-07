@@ -98,7 +98,9 @@ function indexRelative(baseDir, fileName) {
 function printClassHeader(emitter, prettyClassname, definition) {
   emitter.emit(
     `class ${prettyClassname}${
-      definition.extends ? ` extends ${definition.extends}` : ''
+      definition.extends
+        ? ` extends ${formatters.basicUnqualifiedP5(definition.extends)}`
+        : ''
     } {`
   );
   emitter.indent();
@@ -136,38 +138,11 @@ function overloadPosition(classitem, overload) {
 
 /**
  *
- * @param {TranslatedFunctionParam} param
- */
-function formatFunctionParam(param) {
-  return `${param.name}: ${formatType(param.paramType)}`;
-}
-
-/**
- *
- * @param {TranslatedType[]} types
- */
-function formatType(types) {
-  return types
-    .map(type => {
-      if (type.type === 'basic') {
-        return type.value;
-      }
-      if (type.type === 'function') {
-        return `(${type.params.map(formatFunctionParam).join(', ')}) => any`;
-      }
-      if (type.type === 'array') {
-        return `${formatType(type.value)}[]`;
-      }
-    })
-    .join('|');
-}
-
-/**
- *
  * @param {YUIDocsParam[]} params
  * @param {Map<string, TranslatedType[]>} typedParams
+ * @param {TypeFormatter} formatType
  */
-function formatTypedParams(params, typedParams) {
+function formatTypedParams(params, typedParams, formatType) {
   return params
     .map(param => {
       let name = param.name;
@@ -232,15 +207,22 @@ function printOverloadErrors(
  *
  * @param {Emitter} emitter
  * @param {Logger} logger
+ * @param {TypeFormatter} formatType
  * @param {analyze.DefinitionAST} definition
  * @param {(formattedParams: string) => string} formatDecl
  */
-function printClassConstructor(emitter, logger, definition, formatDecl) {
+function printClassConstructor(
+  emitter,
+  logger,
+  formatType,
+  definition,
+  formatDecl
+) {
   const theConstructor = definition.constructor;
   if (theConstructor) {
     const params = theConstructor.overload.params || [];
     const typedParams = theConstructor.typedParams;
-    const decl = formatDecl(formatTypedParams(params, typedParams));
+    const decl = formatDecl(formatTypedParams(params, typedParams, formatType));
     if (theConstructor.errors.length > 0) {
       printOverloadErrors(
         emitter,
@@ -308,17 +290,22 @@ function printMethodDescription(emitter, methodDescription) {
  *
  * @param {Emitter} emitter
  * @param {Logger} logger
- * @param {MethodFormatter} formatter
+ * @param {MethodFormatter} formatMethod
+ * @param {TypeFormatter} formatType
  * @param {ProcessedCategorizedMethod} method
  */
-function printMethod(emitter, logger, formatter, method) {
+function printMethod(emitter, logger, formatMethod, formatType, method) {
   const name = method.name;
   const description = method.description;
   const checked = method.checked;
-  const formattedParams = formatTypedParams(method.params, checked.typedParams);
+  const formattedParams = formatTypedParams(
+    method.params,
+    checked.typedParams,
+    formatType
+  );
   const formattedReturn = formatType(checked.returnType);
   const errors = checked.errors;
-  const decl = formatter(name, formattedParams, formattedReturn);
+  const decl = formatMethod(name, formattedParams, formattedReturn);
   if (errors.length > 0) {
     printOverloadErrors(
       emitter,
@@ -337,15 +324,16 @@ function printMethod(emitter, logger, formatter, method) {
 /**
  *
  * @param {Emitter} emitter
- * @param {PropertyFormatter} formatter
+ * @param {PropertyFormatter} formatProperty
+ * @param {TypeFormatter} formatType
  * @param {ProcessedCategorizedProperty} property
  */
-function printProperty(emitter, formatter, property) {
+function printProperty(emitter, formatProperty, formatType, property) {
   if (property.description) {
     printDescription(emitter, [property.description]);
   }
   const decl = `${property.name}: ${formatType(property.type)}`;
-  emitter.emit(formatter(!!property.final, decl));
+  emitter.emit(formatProperty(!!property.final, decl));
 }
 
 /**
@@ -359,7 +347,13 @@ function printClassitems(emitter, logger, formatter, items) {
   if (items.staticMethods.length > 0) {
     formatter.beginStatic();
     for (const sm of items.staticMethods) {
-      printMethod(emitter, logger, formatter.formatStaticMethod, sm);
+      printMethod(
+        emitter,
+        logger,
+        formatter.formatStaticMethod,
+        formatter.formatType,
+        sm
+      );
     }
     formatter.endStatic();
   }
@@ -370,10 +364,21 @@ function printClassitems(emitter, logger, formatter, items) {
   if (instanceItems > 0) {
     formatter.beginInstance();
     for (const im of items.instanceMethods) {
-      printMethod(emitter, logger, formatter.formatInstanceMethod, im);
+      printMethod(
+        emitter,
+        logger,
+        formatter.formatInstanceMethod,
+        formatter.formatType,
+        im
+      );
     }
     for (const p of items.properties) {
-      printProperty(emitter, formatter.formatInstanceProperty, p);
+      printProperty(
+        emitter,
+        formatter.formatInstanceProperty,
+        formatter.formatType,
+        p
+      );
     }
     for (const p of items.invalidProperties) {
       emitter.sectionBreak();
@@ -410,9 +415,10 @@ function declBody(name, params, returns) {
  *
  * @param {Emitter} emitter
  * @param {Logger} logger
+ * @param {TypeFormatter} formatType
  * @param {analyze.FileAST} file
  */
-function printFileBody(emitter, logger, file) {
+function printFileBody(emitter, logger, formatType, file) {
   for (const item of file.definitions.items) {
     const prettyClassname = item[0].match(P5.CLASS_RE)[1];
     const definition = item[1];
@@ -420,6 +426,7 @@ function printFileBody(emitter, logger, file) {
     printClassConstructor(
       emitter,
       logger,
+      formatType,
       definition,
       params => `constructor(${params});`
     );
@@ -467,7 +474,8 @@ function printFileBody(emitter, logger, file) {
           emitter.dedent();
         },
         formatStaticMethod: (name, params, returns) =>
-          `function ${declBody(name, params, returns)}`
+          `function ${declBody(name, params, returns)}`,
+        formatType: formatters.definitions.formatType
       },
       augmentation.processed
     );
@@ -482,12 +490,14 @@ function printFileBody(emitter, logger, file) {
  * @param {string} indexRel
  */
 function printFile(emitter, logger, file, indexRel) {
+  emitter.lineComment('This file was auto-generated. Please do not edit it.');
+  emitter.emptyLine();
   emitter.emit(`import * as p5 from '${indexRel}'`);
   emitter.emptyLine();
   emitter.emit(`declare module '${indexRel}' {`);
   emitter.indent();
 
-  printFileBody(emitter, logger, file);
+  printFileBody(emitter, logger, formatters.definitions.formatType, file);
 
   emitter.dedent();
   emitter.emit('}');
@@ -505,9 +515,11 @@ function printCore(emitter, logger, file) {
   emitter.indent();
   const definitions = file.definitions.items;
   const p5 = definitions.get('p5');
+  const formatType = formatters.definitions.formatType;
   printClassConstructor(
     emitter,
     logger,
+    formatType,
     p5,
     params => `constructor(${params});`
   );
@@ -526,7 +538,7 @@ function printCore(emitter, logger, file) {
   emitter.emit('type UNKNOWN_P5_CONSTANT = any;');
   emitter.lineComment('tslint:disable-next-line:no-empty-interface');
   emitter.emit('interface p5InstanceExtensions {}');
-  printFileBody(emitter, logger, file);
+  printFileBody(emitter, logger, formatType, file);
   emitter.dedent();
   emitter.emit('}');
 }

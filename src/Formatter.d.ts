@@ -1,10 +1,10 @@
-interface Formatter {
-  openStatic: (className: string) => string
-  closeStatic: (className: string) => string
-  staticMethod: (itemName: string, params: string, returnType: string) => string
-  openInstance: (className: string) => string
-  closeInstance: (className: string) => string
-  instanceMethod: (itemName: string, params: string, returnType: string) => string
-  property: (final: boolean, decl: string) => string,
-  constructorOverload: (params: string) => string
+interface ClassitemFormatter {
+  beginInstance: () => void
+  formatInstanceMethod: MethodFormatter
+  formatInstanceProperty: PropertyFormatter
+  endInstance: () => void
+  beginStatic: () => void
+  formatStaticMethod: MethodFormatter
+  endStatic: () => void
+  formatType: TypeFormatter
 }

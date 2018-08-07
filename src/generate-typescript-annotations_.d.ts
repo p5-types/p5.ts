@@ -64,16 +64,7 @@ interface CheckedMethod {
 
 type MethodFormatter = (name: string, params: string, returns: string) => string
 type PropertyFormatter = (final: boolean, decl: string) => string
-
-interface ClassitemFormatter {
-  beginInstance: () => void
-  formatInstanceMethod: MethodFormatter
-  formatInstanceProperty: PropertyFormatter
-  endInstance: () => void
-  beginStatic: () => void
-  formatStaticMethod: MethodFormatter
-  endStatic: () => void
-}
+type TypeFormatter = (types: TranslatedType[]) => string
 
 type InvalidProperty = {
   type: "invalid-name",

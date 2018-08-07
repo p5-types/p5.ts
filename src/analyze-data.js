@@ -176,7 +176,7 @@ function chainName(item) {
    */
   const className = item['class'];
   if (className) {
-    const match = className.match(P5.CLASS_RE)
+    const match = className.match(P5.CLASS_RE);
     if (match && match[1]) {
       return match[1];
     }

@@ -4,6 +4,7 @@
 
 const flatten = require('./util').flatten;
 const parser = require('./parser');
+const P5 = require('./p5_classes');
 
 const EXTERNAL_TYPES = new Set([
   'HTMLCanvasElement',
@@ -85,8 +86,6 @@ const YUIDOC_TO_TYPESCRIPT_PARAM_MAP = {
   'Tone.Signal': basic('any'),
   SoundObject: basic('any')
 };
-
-const P5_CLASS_RE = /^p5\.([^.]+)$/;
 
 /**
  *
@@ -195,8 +194,8 @@ function populateConstantType(constants, classitem, overload) {
 
 function isValidP5ClassName(yuidocs, className) {
   return (
-    (P5_CLASS_RE.test(className) && className in yuidocs.classes) ||
-    (P5_CLASS_RE.test('p5.' + className) &&
+    (P5.CLASS_RE.test(className) && className in yuidocs.classes) ||
+    (P5.CLASS_RE.test('p5.' + className) &&
       'p5.' + className in yuidocs.classes)
   );
 }
