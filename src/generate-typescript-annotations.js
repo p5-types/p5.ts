@@ -637,7 +637,11 @@ function printLiterals(emitter, literals) {
   emitter.emptyLine();
   emitter.emit(`declare module './index' {`);
   emitter.indent();
-  for (const item of literals) {
+  const sortedLiterals = Array.from(literals).sort((a, b) =>
+    a[0].localeCompare(b[0])
+  );
+
+  for (const item of sortedLiterals) {
     const name = item[0];
     const value = item[1];
     emitter.emit(`type ${name} = ${value};`);
@@ -658,7 +662,11 @@ function printConstants(emitter, constants) {
   emitter.emit(`declare module './index' {`);
   emitter.indent();
 
-  for (const item of constants) {
+  const sortedConstants = Array.from(constants).sort((a, b) =>
+    a[0].localeCompare(b[0])
+  );
+
+  for (const item of sortedConstants) {
     const name = item[0];
     const values = item[1];
     emitter.sectionBreak();
