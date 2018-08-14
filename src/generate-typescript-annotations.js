@@ -547,10 +547,11 @@ function printCore(emitter, logger, file) {
  *
  * @param {Emitter} emitter
  * @param {ItemCache<analyze.FileAST>} files
+ * @param {string} mainFile
  */
-function printAugmentationReferences(emitter, files) {
+function printAugmentationReferences(emitter, files, mainFile) {
   for (const fileName of files.items.keys()) {
-    if (fileName.startsWith('src/') && fileName !== 'src/core/core') {
+    if (fileName.startsWith('src/') && fileName !== mainFile) {
       const relname = path.joinSafe('./', fileName);
       emitter.referencePath(`${relname}.d.ts`);
     }
@@ -697,15 +698,15 @@ function emit(outdir, logger, ast) {
 
   printLocalsHeader(localEmitter, ast.versionString);
   const files = ast.classes.files;
-  printAugmentationReferences(localEmitter, files);
+  printAugmentationReferences(localEmitter, files, ast.mainFile);
   localEmitter.referencePath('./literals.d.ts');
   localEmitter.referencePath('./constants.d.ts');
 
-  printCore(localEmitter, logger, files.items.get('src/core/core'));
+  printCore(localEmitter, logger, files.items.get(ast.mainFile));
 
   for (const item of files.items) {
     const fileName = item[0];
-    if (fileName !== 'src/core/core') {
+    if (fileName !== ast.mainFile) {
       const file = item[1];
       const emitter = new Emitter(path.joinSafe(outdir, `${fileName}.d.ts`));
       printFile(emitter, logger, file, indexRelative(outdir, fileName));

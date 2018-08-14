@@ -672,5 +672,6 @@ module.exports.DefinitionsAST = class DefinitionsAST {
 
     this.classes = new Classes(yuidocs, this.constants);
     this.literals = populateLiterals(this.classes.files.items);
+    this.mainFile = classitemFilename(yuidocs.classes['p5']);
   }
 };
