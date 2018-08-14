@@ -1,6 +1,8 @@
 /// @ts-check
 
 /// <reference path="./types_.d.ts" />
+/// <reference path="./data.d.ts" />
+/// <reference path="./generate-typescript-annotations_.d.ts" />
 
 const flatten = require('./util').flatten;
 const parser = require('./parser');
@@ -81,7 +83,12 @@ const YUIDOC_TO_TYPESCRIPT_PARAM_MAP = {
   Promise: basic('Promise<any>'),
   // When the docs don't specify what kind of function we expect,
   // then we need to use the global type `Function`
-  Function: basic('Function'),
+  Function: func([
+    {
+      name: '...args',
+      paramType: [arr([basic('any')])]
+    }
+  ]),
   // Special ignore for hard to fix YUIDoc from p5.sound
   'Tone.Signal': basic('any'),
   SoundObject: basic('any')

@@ -39,15 +39,20 @@ module.exports.basicUnqualifiedP5 = basicUnqualifiedP5;
  * @param {TranslatedType[]} types
  */
 function definitionsFormatType(types) {
+  const needsParens = types.length > 1;
   return types
     .map(type => {
       if (type.type === 'basic') {
         return basicUnqualifiedP5(type.value);
       }
       if (type.type === 'function') {
-        return `(${type.params
+        const f = `(${type.params
           .map(definitionsFormatFunctionParam)
           .join(', ')}) => any`;
+        if (needsParens) {
+          return `(${f})`;
+        }
+        return f;
       }
       if (type.type === 'array') {
         return `${definitionsFormatType(type.value)}[]`;
@@ -64,18 +69,23 @@ const globalsFormatFunctionParam = param =>
  * @param {TranslatedType[]} types
  */
 function globalsFormatType(types) {
+  const needsParens = types.length > 1;
   return types
     .map(type => {
       if (type.type === 'basic') {
         return type.value;
       }
       if (type.type === 'function') {
-        return `(${type.params
+        const f = `(${type.params
           .map(globalsFormatFunctionParam)
           .join(', ')}) => any`;
+        if (needsParens) {
+          return `(${f})`;
+        }
+        return f;
       }
       if (type.type === 'array') {
-        return `${definitionsFormatType(type.value)}[]`;
+        return `${globalsFormatType(type.value)}[]`;
       }
     })
     .join('|');
