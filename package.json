@@ -1,8 +1,7 @@
 {
-  "name": "p5.ts",
+  "name": "@types/p5",
   "version": "1.0.0",
   "description": "Generate TypeScript declarations for p5.js",
-  "main": "index.js",
   "repository": "github:p5-types/p5.ts",
   "scripts": {
     "dtslint": "dtslint DefinitelyTyped/types/p5",
@@ -19,18 +18,7 @@
     "start": "node src/cli.js"
   },
   "license": "LGPL-2.1",
-  "dependencies": {
-    "fs-extra": "^7.0.0",
-    "git-range": "^0.2.0",
-    "glob": "^7.1.2",
-    "html2plaintext": "^2.0.1",
-    "nodegit": "^0.22.1",
-    "prettier": "^1.13.3",
-    "semver": "^5.5.0",
-    "upath": "^1.1.0",
-    "word-wrap": "^1.2.3",
-    "yargs": "^11.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^10.3.0",
     "ava": "1.0.0-beta.5.1",
@@ -38,7 +26,17 @@
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
-    "tslint": "^5.10.0"
+    "fs-extra": "^7.0.0",
+    "git-range": "^0.2.0",
+    "glob": "^7.1.2",
+    "html2plaintext": "^2.0.1",
+    "nodegit": "^0.22.1",
+    "prettier": "^1.13.3",
+    "semver": "^5.5.0",
+    "tslint": "^5.10.0",
+    "upath": "^1.1.0",
+    "word-wrap": "^1.2.3",
+    "yargs": "^11.0.0"
   },
   "ava": {
     "files": [
