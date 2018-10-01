@@ -535,9 +535,21 @@ class Classes {
    * @param {Map<string, RegExpExecArray[]>} constants
    */
   constructor(yuidocs, constants) {
+    /**
+     * @type {string[]}
+     */
     this.p5Aliases = [];
+    /**
+     * @type {string[]}
+     */
     this.p5Subclasses = [];
+    /**
+     * @type {string[]}
+     */
     this.unknownClasses = [];
+    /**
+     * @type {Set<string>}
+     */
     this.missingTypes = new Set();
 
     for (const className of Object.keys(yuidocs.classes)) {
@@ -656,10 +668,6 @@ module.exports.DefinitionsAST = class DefinitionsAST {
      * @type {Map<string, RegExpExecArray[]>}
      */
     this.constants = new Map();
-    /**
-     * @type {Set<string>}
-     */
-    this.missingTypes = new Set();
 
     /**
      * @type {string}

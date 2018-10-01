@@ -21,7 +21,9 @@ const EXTERNAL_TYPES = new Set([
   'Blob',
   'null',
   'Node',
-  'RegExp'
+  'RegExp',
+  'MediaStream',
+  'MediaStreamAudioSourceNode'
 ]);
 
 const CONSTANT = 'Constant';

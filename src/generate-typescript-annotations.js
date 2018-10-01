@@ -730,6 +730,15 @@ function emit(outdir, logger, ast) {
   globalEmitter.close();
   literalsEmitter.close();
   constantsEmitter.close();
+
+  const allMissing = new Set();
+  for (const t of ast.classes.unknownClasses) {
+    logger(`UNKNOWN CLASS: ${t}`);
+  }
+
+  for (const t of ast.classes.missingTypes) {
+    logger(`MISSING: ${t}`);
+  }
 }
 
 /**
