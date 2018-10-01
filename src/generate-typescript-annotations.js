@@ -162,7 +162,7 @@ function formatTypedParams(params, typedParams, formatType) {
         return `${name}?: ${formatType(noUndefined)}`;
       }
 
-      return `${name}?: ${formatType(types)}`;
+      return `${name}: ${formatType(types)}`;
     })
     .join(', ');
 }
