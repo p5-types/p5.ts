@@ -63,6 +63,7 @@ function printLocalsHeader(emitter, versionString) {
   emitter.emptyLine();
   emitter.lineComment('This file was auto-generated. Please do not edit it.');
   emitter.emptyLine();
+  emitter.referencePath('./lib/addons/p5.dom.d.ts');
 }
 
 /**
