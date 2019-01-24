@@ -84,8 +84,7 @@ function resolveIdentifierByName(repo, identifier) {
   return repo
     .getReference(identifier)
     .then(async reference => {
-      const target = reference.target();
-      const commit = await repo.getCommit(target);
+      const commit = await reference.peel(NodeGit.Object.TYPE.COMMIT)
       const name = reference.name();
 
       return {
@@ -117,8 +116,9 @@ function resolveIdentifierByName(repo, identifier) {
     .catch(err => {
       errors.push(err);
       console.error(
-        `${identifier} doesn't seem to be a branch, tag, nor commit`
+        `${identifier} doesn't seem to be a branch, tag, nor commit.`
       );
+      console.error('We collected these errors while trying different alternatives:')
       console.error(errors.map(e => e.message));
       throw new Error('Failed to resolve identifier ' + identifier);
     });
