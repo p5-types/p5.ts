@@ -59,7 +59,7 @@ function printLocalsHeader(emitter, versionString) {
   emitter.lineComment(
     'Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped'
   );
-  emitter.lineComment('TypeScript Version: 2.4');
+  emitter.lineComment('TypeScript Version: 2.9');
   emitter.emptyLine();
   emitter.lineComment('This file was auto-generated. Please do not edit it.');
   emitter.emptyLine();
