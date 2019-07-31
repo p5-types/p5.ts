@@ -12,6 +12,7 @@ const ItemCache = require('./itemcache');
 const analyze = require('./analyze-data');
 const P5 = require('./p5_classes');
 const formatters = require('./formatters');
+const GRAPHICS_WORKAROUND_NAME = '__Graphics__';
 
 /**
  *
@@ -421,7 +422,13 @@ function declBody(name, params, returns) {
  */
 function printFileBody(emitter, logger, formatType, file) {
   for (const item of file.definitions.items) {
-    const prettyClassname = item[0].match(P5.CLASS_RE)[1];
+    let prettyClassname = item[0].match(P5.CLASS_RE)[1];
+    if (prettyClassname === 'Graphics') {
+      prettyClassname = GRAPHICS_WORKAROUND_NAME;
+      emitter.lineComment(
+        'Work-around for p5.Graphics inheriting from both p5 and p5.Element'
+      );
+    }
     const definition = item[1];
     printClassHeader(emitter, prettyClassname, definition);
     printClassConstructor(
@@ -438,6 +445,12 @@ function printFileBody(emitter, logger, formatType, file) {
       definition.processed
     );
     printClassFooter(emitter);
+    if (prettyClassname === GRAPHICS_WORKAROUND_NAME) {
+      emitter.lineComment(
+        'Work-around for p5.Graphics inheriting from both p5 and p5.Element'
+      );
+      emitter.emit(`type Graphics = ${GRAPHICS_WORKAROUND_NAME} & p5;`);
+    }
   }
 
   for (const item of file.augmentations.items) {
@@ -732,7 +745,6 @@ function emit(outdir, logger, ast) {
   literalsEmitter.close();
   constantsEmitter.close();
 
-  const allMissing = new Set();
   for (const t of ast.classes.unknownClasses) {
     logger(`UNKNOWN CLASS: ${t}`);
   }
