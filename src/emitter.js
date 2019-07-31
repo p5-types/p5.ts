@@ -36,7 +36,7 @@ class Emitter {
     const indentation = [];
 
     for (let i = 0; i < this.indentLevel; i++) {
-      indentation.push('  ');
+      indentation.push('    ');
     }
 
     if (text.trim()) {
