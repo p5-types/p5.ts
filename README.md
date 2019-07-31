@@ -1,8 +1,10 @@
 # p5.ts
 
 Generates TypeScript definitions for [p5.js](http://p5js.org).  
-The [releases](https://github.com/p5-types/p5.ts/tree/releases) branch
-contains generated typings for published releases.
+The generated typings are published to [@types/p5](https://www.npmjs.com/package/@types/p5).
+To install the typings, run `npm install --save @types/p5`.
+Then, look in the [examples directory](./examples) for inspiration.
+
 
 `index.d.ts` is for p5 used in instance mode and `global.d.ts` is for p5 in global mode. 
 `global.d.ts` references `index.d.ts`, so you must include both if global mode is used.
