@@ -19,7 +19,9 @@ const GRAPHICS_WORKAROUND_NAME = '__Graphics__';
  * @param {HasFile} classitem
  */
 function patchItemFile(classitem) {
-  classitem.file = classitem.file.replace(/\\/g, '/');
+  if (classitem.file !== undefined) {
+    classitem.file = classitem.file.replace(/\\/g, '/');
+  }
 }
 
 /**
@@ -28,6 +30,9 @@ function patchItemFile(classitem) {
  */
 function patchYUIDocs(yuidocs) {
   delete yuidocs.classes['p5.sound'];
+  delete yuidocs.modules['Foundation'];
+  delete yuidocs.files['src/core/reference.js'];
+
   const modules = yuidocs.modules;
   const classes = yuidocs.classes;
   const classitems = yuidocs.classitems;
@@ -720,6 +725,7 @@ function emit(outdir, logger, ast) {
 
   printLocalsHeader(localEmitter, ast.versionString);
   const files = ast.classes.files;
+  files.items.delete('src/core/reference')
   printAugmentationReferences(localEmitter, files, ast.mainFile);
   localEmitter.referencePath('./literals.d.ts');
   localEmitter.referencePath('./constants.d.ts');
