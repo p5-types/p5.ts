@@ -19,7 +19,7 @@ exports.builder = {
   },
   branch: {
     type: 'string',
-    default: 'master',
+    default: 'main',
     describe: 'branch to check out and update from'
   },
   silent: {

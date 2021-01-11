@@ -66,7 +66,7 @@ function _getRepositoryLatest(url, opts) {
  */
 function getRepositoryLatest(url, opts) {
   if (typeof opts === 'string') opts = { path: opts };
-  if (!opts.branch) opts.branch = 'master';
+  if (!opts.branch) opts.branch = 'main';
 
   return _getRepositoryLatest(url, opts);
 }
