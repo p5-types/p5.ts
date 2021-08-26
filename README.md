@@ -16,3 +16,8 @@ npm run download-p5
 npm run generate-data
 npm run generate
 ```
+
+# Repository is no longer maintained
+This repository has been archived to signal that it is no longer maintained.
+Please reach out to https://github.com/Zalastax if you wish to maintain the repository.
+Primary maintenance blocker right now are the types of issues found in https://github.com/p5-types/p5.ts/issues/24.
