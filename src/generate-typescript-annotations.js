@@ -585,7 +585,6 @@ function printGlobalsHeader(emitter) {
   emitter.lineComment('This file was auto-generated. Please do not edit it.');
   emitter.emptyLine();
 
-  // emitter.referencePath('./lib/addons/p5.dom.d.ts');
   emitter.referencePath('./lib/addons/p5.sound.d.ts');
   emitter.emit(`import * as p5 from './index'`);
   emitter.emit('declare global {');
