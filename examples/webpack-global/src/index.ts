@@ -1,5 +1,4 @@
 import 'script-loader!p5/lib/p5.min.js'
-import 'script-loader!p5/lib/addons/p5.dom.min.js'
 
 const x = 100;
 const y = 100;
