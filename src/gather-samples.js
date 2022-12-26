@@ -1,5 +1,8 @@
 /// @ts-check
 
+/**
+ * @param {string} text
+ */
 function splitLines(text) {
   const lines = [];
 
@@ -24,6 +27,9 @@ const prologue = `import "p5/global";
 
 `;
 
+/**
+ * @param {string} text
+ */
 function processFile(text) {
   this.lines = splitLines(text);
 
@@ -39,6 +45,9 @@ function processFile(text) {
     });
   }
 
+  /**
+   * @type {{ comment: { value: string; range: number[]; }; index: number; code: string; }[]}
+   */
   const samples = (this.samples = []);
 
   for (let i = 0; i < comments.length; i++) {

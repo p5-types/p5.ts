@@ -757,18 +757,14 @@ function emit(outdir, logger, ast) {
   }
 }
 
-/**
- *
- * @param {GtaArgs} args
- */
-function gta(args) {
+function gta(path, outdir) {
   /**
    * @type{YUIDocsData}
    */
-  const yuidocs = JSON.parse(fs.readFileSync(args.data, 'utf8'));
-  const outdir = args.outdir;
+  const yuidocs = JSON.parse(fs.readFileSync(path, 'utf8'));
 
-  const logger = args.logger || console.log;
+
+  const logger = console.log;
 
   patchYUIDocs(yuidocs);
 

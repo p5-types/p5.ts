@@ -8,38 +8,35 @@
     "dtslint": "dtslint DefinitelyTyped/types/p5",
     "dtslint:samples": "dtslint DefinitelyTyped/types/p5/samples",
     "cli": "node src/cli.js",
-    "checkout": "node src/cli.js checkout",
-    "download-p5": "node src/cli.js download-p5",
+    "download-p5": "node src/commands/download-p5.cjs",
     "emit-samples": "node src/cli.js emit-samples",
     "generate-and-commit": "node src/cli.js generate-and-commit",
     "generate-data": "node src/cli.js generate-data",
-    "generate": "node src/cli.js generate",
+    "generate": "node src/commands/generate.cjs",
     "test": "ava",
     "watch:test": "ava --watch",
     "start": "node src/cli.js"
   },
   "license": "LGPL-2.1",
   "dependencies": {
-    "fs-extra": "^7.0.1",
-    "git-range": "^0.2.0",
+    "fs-extra": "^11.1.0",
     "glob": "^7.1.6",
     "html2plaintext": "^2.1.2",
-    "nodegit": "^0.27.0",
-    "prettier": "^1.17.1",
     "semver": "^5.7.1",
-    "typescript": "^3.9.7",
-    "upath": "^1.2.0",
+    "typescript": "^4.9.4",
+    "upath": "^2.0.1",
     "word-wrap": "^1.2.3",
-    "yargs": "^11.1.1"
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
-    "@types/node": "^10.17.28",
-    "ava": "1.0.0-beta.5.1",
-    "dtslint": "^0.3.0",
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.10.0",
-    "eslint-plugin-prettier": "^2.7.0",
-    "tslint": "^5.20.1"
+    "@definitelytyped/dtslint": "^0.0.141",
+    "@types/node": "^18.11.17",
+    "@types/yargs": "^17.0.17",
+    "ava": "^5.1.0",
+    "eslint": "^8.30.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.1"
   },
   "ava": {
     "files": [
