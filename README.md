@@ -12,8 +12,6 @@ Then, look in the [examples directory](./examples) for inspiration.
 To generate typings yourself, try out:
 ```sh
 npm run download-p5
-# npm run checkout <released-tag>
-npm run generate-data
 npm run generate
 ```
 
