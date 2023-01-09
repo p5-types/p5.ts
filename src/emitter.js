@@ -72,7 +72,7 @@ class Emitter {
     try {
       const prettierConfig = JSON.parse(
         fs.readFileSync(
-          path.joinSafe(__dirname, '../DefinitelyTyped/types/.prettierrc'),
+          path.joinSafe(__dirname, '../types/.prettierrc'),
           'utf8'
         )
       );
