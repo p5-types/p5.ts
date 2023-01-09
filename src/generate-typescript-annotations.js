@@ -756,12 +756,16 @@ function emit(outdir, logger, ast) {
     logger(`MISSING: ${t}`);
   }
 }
-
-function gta(path, outdir) {
+/**
+ * 
+ * @param {string} datajson 
+ * @param {string} outdir 
+ */*
+function gta(datajson, outdir) {
   /**
    * @type{YUIDocsData}
    */
-  const yuidocs = JSON.parse(fs.readFileSync(path, 'utf8'));
+  const yuidocs = JSON.parse(fs.readFileSync(datajson, 'utf8'));
 
 
   const logger = console.log;
