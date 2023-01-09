@@ -1,17 +1,14 @@
 /// @ts-check
-const https = require('https');
-const fs  = require('fs')
-const upath = require('upath');
-
+const https = require("https");
+const fs = require("fs");
+const { datajson, datajsonfolder } = require("../filepath");
 
 // https://stackoverflow.com/a/13544465
-fs.mkdirSync(upath.joinSafe(__dirname, "../../p5/docs/reference/"), {
-	recursive: true,
-});
+fs.mkdirSync(datajsonfolder, { recursive: true });
+
 // https://stackoverflow.com/a/11944984
-const file = fs.createWriteStream(
-	upath.joinSafe(__dirname, "../../p5/docs/reference/data.json"),
-);
+
+const file = fs.createWriteStream(datajson);
 https.get(
 	"https://raw.githubusercontent.com/processing/p5.js-website/main/src/templates/pages/reference/data.json",
 	(response) => {
@@ -23,4 +20,4 @@ https.get(
 			console.log("Download Completed");
 		});
 	},
-)
+);

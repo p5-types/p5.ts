@@ -760,7 +760,7 @@ function emit(outdir, logger, ast) {
  * 
  * @param {string} datajson 
  * @param {string} outdir 
- */*
+ */
 function gta(datajson, outdir) {
   /**
    * @type{YUIDocsData}
