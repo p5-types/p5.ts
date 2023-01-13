@@ -1,5 +1,10 @@
 /// @ts-check
 
+/**
+ * @param {string} s
+ * @param {number} start
+ * @param {number} end
+ */
 function countParentheses(s, start, end) {
   let pos = start;
   while (pos < end) {
@@ -11,6 +16,11 @@ function countParentheses(s, start, end) {
   return pos;
 }
 
+/**
+ * @param {string} s
+ * @param {number} start
+ * @param {number} end
+ */
 function eatSplitGroup(s, start, end) {
   if (s.charAt(start) === '(') {
     let pos = start + 1;
@@ -92,6 +102,12 @@ function eatSplitGroup(s, start, end) {
   }
 }
 
+/**
+ * @param {string} s
+ * @param {number} start
+ * @param {number} end
+ * @param {any[]} result
+ */
 function _splitType(s, start, end, result) {
   let pos = start;
   while (pos < end) {
