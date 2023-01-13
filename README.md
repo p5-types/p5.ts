@@ -14,7 +14,15 @@ npm run download-p5
 npm run generate
 ```
 
-the generated typings are put at types/p5 directory. For single file usage, see examples/sketch.js as an exmaple.
+the generated typings are put at [p5](./types/p5) directory.
+
+---
+
+### Global mode instruction
+
+p5js has official playground https://editor.p5js.org/, but it misses the typing hint. Here is a solution.
+
+See [sketch.js](./examples/sketch.js) as an exmaple. After generating the types.
 
 ```ts
 //@ts-check
@@ -25,7 +33,9 @@ const p5 = require("../types/p5");
 // here comes the code.
 ```
 
-the browser will complain that
+use [VS Code](https://code.visualstudio.com/) and  [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) plugin to auto reload your graph when code changes.
+
+the browser will complain in the console that
 
 ```js
 sketch.js:5 Uncaught ReferenceError: require is not defined
