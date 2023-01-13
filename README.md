@@ -15,7 +15,32 @@ npm run download-p5
 npm run generate
 ```
 
-# Repository is no longer maintained
-This repository has been archived to signal that it is no longer maintained.
-Please reach out to https://github.com/Zalastax if you wish to maintain the repository.
-Primary maintenance blocker right now are the types of issues found in https://github.com/p5-types/p5.ts/issues/24.
+the generated typings are put at [p5](./types/p5) directory.
+
+---
+
+### Global mode instruction
+
+p5js has official playground https://editor.p5js.org/, but it misses the typing hint. Here is a solution.
+
+See [sketch.js](./examples/script/sketch.js) as an exmaple. After generating the types.
+
+```ts
+/// @ts-check
+/// <reference path="../../types/p5/global.d.ts" />
+
+const p5 = require("../../types/p5");
+
+// here comes the code.
+```
+
+use [VS Code](https://code.visualstudio.com/) and  [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) plugin to auto reload your graph when code changes.
+
+the browser will complain in the console that
+
+```js
+sketch.js:5 Uncaught ReferenceError: require is not defined
+    at sketch.js:5:12
+```
+
+but it works.
