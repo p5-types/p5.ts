@@ -3,6 +3,11 @@
 
 const P5 = require('./p5_classes');
 
+/**
+ * @param {any} itemName
+ * @param {any} params
+ * @param {any} returnType
+ */
 function declBody(itemName, params, returnType) {
   return `${itemName}(${params}): ${returnType}`;
 }
@@ -16,7 +21,7 @@ function formatFunctionParam(formatter, param) {
   return `${param.name}: ${formatter(param.paramType)}`;
 }
 
-const definitionsFormatFunctionParam = param =>
+const definitionsFormatFunctionParam = (/** @type {any} */ param) =>
   formatFunctionParam(definitionsFormatType, param);
 
 /**
@@ -61,7 +66,7 @@ function definitionsFormatType(types) {
     .join('|');
 }
 
-const globalsFormatFunctionParam = param =>
+const globalsFormatFunctionParam = (/** @type {any} */ param) =>
   formatFunctionParam(globalsFormatType, param);
 
 /**
@@ -96,29 +101,29 @@ module.exports.globalsFormatType = globalsFormatType;
 module.exports.definitions = {
   beginInstance: () => {},
   formatInstanceMethod: declBody,
-  formatInstanceProperty: (final, decl) => {
+  formatInstanceProperty: (/** @type {any} */ final, /** @type {any} */ decl) => {
     const modifier = final ? 'readonly ' : '';
     return `${modifier}${decl}`;
   },
   endInstance: () => {},
   beginStatic: () => {},
   endStatic: () => {},
-  formatStaticMethod: (name, params, returns) =>
+  formatStaticMethod: (/** @type {any} */ name, /** @type {any} */ params, /** @type {any} */ returns) =>
     `static ${declBody(name, params, returns)}`,
   formatType: definitionsFormatType
 };
 
 module.exports.globals = {
   beginInstance: () => {},
-  formatInstanceMethod: (name, params, returns) =>
+  formatInstanceMethod: (/** @type {any} */ name, /** @type {any} */ params, /** @type {any} */ returns) =>
     `function ${declBody(name, params, returns)}`,
-  formatInstanceProperty: (final, decl) => {
+  formatInstanceProperty: (/** @type {any} */ final, /** @type {any} */ decl) => {
     const declarationType = final ? 'const' : 'let';
     return `${declarationType} ${decl};`;
   },
   endInstance: () => {},
   beginStatic: () => {},
-  formatStaticMethod: (name, params, returns) =>
+  formatStaticMethod: (/** @type {any} */ name, /** @type {any} */ params, /** @type {any} */ returns) =>
     `// TODO: Report issue about ignored static method ${declBody(
       name,
       params,
