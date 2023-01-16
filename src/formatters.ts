@@ -1,34 +1,29 @@
-/// @ts-check
-/// <reference path="./Formatter.d.ts" />
+interface ClassitemFormatter {
+  beginInstance: () => void
+  formatInstanceMethod: MethodFormatter
+  formatInstanceProperty: PropertyFormatter
+  endInstance: () => void
+  beginStatic: () => void
+  formatStaticMethod: MethodFormatter
+  endStatic: () => void
+  formatType: TypeFormatter
+}
 
-const P5 = require('./p5_classes');
+import * as P5 from './p5_classes'
 
-/**
- * @param {any} itemName
- * @param {any} params
- * @param {any} returnType
- */
-function declBody(itemName, params, returnType) {
+function declBody(itemName: any, params: any, returnType: any) {
   return `${itemName}(${params}): ${returnType}`;
 }
 
-/**
- *
- * @param {TypeFormatter} formatter
- * @param {TranslatedFunctionParam} param
- */
-function formatFunctionParam(formatter, param) {
+
+function formatFunctionParam(formatter: { (types: any): any; (types: any): any; (arg0: any): any }, param: { name: any; paramType: any }) {
   return `${param.name}: ${formatter(param.paramType)}`;
 }
 
-const definitionsFormatFunctionParam = (/** @type {any} */ param) =>
+const definitionsFormatFunctionParam = (param: any) =>
   formatFunctionParam(definitionsFormatType, param);
 
-/**
- *
- * @param {string} type
- */
-function basicUnqualifiedP5(type) {
+export function basicUnqualifiedP5(type: string) {
   const match = type.match(P5.CLASS_RE);
   if (match) {
     // return type with p5. removed
@@ -37,16 +32,11 @@ function basicUnqualifiedP5(type) {
 
   return type;
 }
-module.exports.basicUnqualifiedP5 = basicUnqualifiedP5;
 
-/**
- *
- * @param {TranslatedType[]} types
- */
-function definitionsFormatType(types) {
+function definitionsFormatType(types: TranslatedType[]) {
   const needsParens = types.length > 1;
   return types
-    .map(type => {
+    .map((type: { type: string; value: any; params: any[] }) => {
       if (type.type === 'basic') {
         return basicUnqualifiedP5(type.value);
       }
@@ -66,17 +56,13 @@ function definitionsFormatType(types) {
     .join('|');
 }
 
-const globalsFormatFunctionParam = (/** @type {any} */ param) =>
+const globalsFormatFunctionParam = (param: any) =>
   formatFunctionParam(globalsFormatType, param);
 
-/**
- *
- * @param {TranslatedType[]} types
- */
-function globalsFormatType(types) {
+export function globalsFormatType(types: TranslatedType[]) {
   const needsParens = types.length > 1;
   return types
-    .map(type => {
+    .map((type: { type: string; value: any; params: any[] }) => {
       if (type.type === 'basic') {
         return type.value;
       }
@@ -96,34 +82,33 @@ function globalsFormatType(types) {
     .join('|');
 }
 
-module.exports.globalsFormatType = globalsFormatType;
 
-module.exports.definitions = {
+export const definitions = {
   beginInstance: () => {},
   formatInstanceMethod: declBody,
-  formatInstanceProperty: (/** @type {any} */ final, /** @type {any} */ decl) => {
+  formatInstanceProperty: (final: any, decl: any) => {
     const modifier = final ? 'readonly ' : '';
     return `${modifier}${decl}`;
   },
   endInstance: () => {},
   beginStatic: () => {},
   endStatic: () => {},
-  formatStaticMethod: (/** @type {any} */ name, /** @type {any} */ params, /** @type {any} */ returns) =>
+  formatStaticMethod: (name: any, params: any, returns: any) =>
     `static ${declBody(name, params, returns)}`,
   formatType: definitionsFormatType
 };
 
-module.exports.globals = {
+export const globals = {
   beginInstance: () => {},
-  formatInstanceMethod: (/** @type {any} */ name, /** @type {any} */ params, /** @type {any} */ returns) =>
+  formatInstanceMethod: (name: any, params: any, returns: any) =>
     `function ${declBody(name, params, returns)}`,
-  formatInstanceProperty: (/** @type {any} */ final, /** @type {any} */ decl) => {
+  formatInstanceProperty: (final: any, decl: any) => {
     const declarationType = final ? 'const' : 'let';
     return `${declarationType} ${decl};`;
   },
   endInstance: () => {},
   beginStatic: () => {},
-  formatStaticMethod: (/** @type {any} */ name, /** @type {any} */ params, /** @type {any} */ returns) =>
+  formatStaticMethod: (name: any, params: any, returns: any) =>
     `// TODO: Report issue about ignored static method ${declBody(
       name,
       params,

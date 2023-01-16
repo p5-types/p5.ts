@@ -1,12 +1,7 @@
-/// @ts-check
-
-/**
- * @param {string} text
- */
-function splitLines(text) {
+function splitLines(text: string) {
   const lines = [];
 
-  let m;
+  let m: (string | any[])[];
   const reSplit = /(( *\* ?)?.*)(?:\r\n|\r|\n)/g;
   while ((m = reSplit.exec(text)) != null) {
     if (m.index === reSplit.lastIndex) {
@@ -27,13 +22,10 @@ const prologue = `import "p5/global";
 
 `;
 
-/**
- * @param {string} text
- */
-function processFile(text) {
+export function processFile(text: string) {
   this.lines = splitLines(text);
 
-  let m;
+  let m: (string | any[])[];
   const comments = [];
 
   const reComment = /\/\*\*(?:.|\r|\n)*?\*\//g;
@@ -45,10 +37,7 @@ function processFile(text) {
     });
   }
 
-  /**
-   * @type {{ comment: { value: string; range: number[]; }; index: number; code: string; }[]}
-   */
-  const samples = (this.samples = []);
+  const samples:{ comment: { value: string; range: number[]; }; index: number; code: string; }[] = (this.samples = []);
 
   for (let i = 0; i < comments.length; i++) {
     const comment = comments[i];
@@ -63,12 +52,10 @@ function processFile(text) {
       samples.push({
         comment: comment,
         index: m.index + m[1].length,
-        code: code
+        code
       });
     }
   }
 
   return samples.map(s => `${prologue}${s.code}`);
 }
-
-module.exports = processFile;

@@ -5,12 +5,12 @@
   "main": "index.js",
   "repository": "github:p5-types/p5.ts",
   "scripts": {
-    "dtslint": "dtslint DefinitelyTyped/types/p5",
-    "dtslint:samples": "dtslint DefinitelyTyped/types/p5/samples",
-    "download-p5": "node src/commands/download-p5.cjs",
-    "generate": "node src/commands/generate.cjs",
-    "test": "ava",
-    "watch:test": "ava --watch"
+    "dtslint": "dtslint types/p5",
+    "dtslint:samples": "dtslint types/p5/samples",
+    "download-p5": "tsx src/commands/download-p5.ts",
+    "generate": "tsx src/commands/generate.ts",
+    "test": "jest",
+    "watch:test": "jest --watch"
   },
   "license": "LGPL-2.1",
   "dependencies": {
@@ -24,17 +24,17 @@
   },
   "devDependencies": {
     "@definitelytyped/dtslint": "^0.0.141",
+    "@types/jest": "^29.2.5",
     "@types/node": "^18.11.17",
-    "@types/yargs": "^17.0.17",
-    "ava": "^5.1.0",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.1"
+    "jest": "^29.3.1",
+    "prettier": "^2.8.1",
+    "tsx": "^3.12.2"
   },
-  "ava": {
-    "files": [
-      "test/**/*.js"
-    ]
-  }
+  "files": [
+    "test/**/*.js"
+  ]
 }

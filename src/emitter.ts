@@ -1,10 +1,10 @@
 /// @ts-check
-const fs = require('fs-extra');
+import fs from 'fs-extra';
 const makeDirSync = fs.ensureDirSync;
-const path = require('upath');
-const h2p = require('html2plaintext');
-const wrap = require('word-wrap');
-const prettier = require('prettier');
+import path from 'upath';
+import h2p from 'html2plaintext';
+import wrap from 'word-wrap';
+import prettier from 'prettier';
 
 function shortenDescription(desc) {
   return wrap(h2p(desc).replace(/[\r\n]+/, ''), {
@@ -12,12 +12,13 @@ function shortenDescription(desc) {
   });
 }
 
-class Emitter {
-  /**
-   *
-   * @param {string} filename
-   */
-  constructor(filename) {
+export class Emitter {
+  filename: string;
+  indentLevel: number;
+  lastText: string;
+  totalText: string;
+
+  constructor(filename: string) {
     this.filename = filename;
     this.indentLevel = 0;
     this.lastText = '';
@@ -31,9 +32,9 @@ class Emitter {
    *
    * @param {string} text
    */
-  emit(text) {
-    let finalText;
-    const indentation = [];
+  emit(text: string) {
+    let finalText: string;
+    const indentation: string[] = [];
 
     for (let i = 0; i < this.indentLevel; i++) {
       indentation.push('    ');
@@ -54,7 +55,7 @@ class Emitter {
    *
    * @param {string} text
    */
-  emitNonEmpty(text) {
+  emitNonEmpty(text: string) {
     if (text.trim().length > 0) {
       this.emit(text);
     }
@@ -104,11 +105,11 @@ class Emitter {
    *
    * @param {string} desc
    */
-  emitDescription(desc) {
+  emitDescription(desc: string) {
     shortenDescription(desc)
       .split('\n')
       .forEach(line => {
-        this.emit(' * ' + line);
+        this.emit(` * ${line}`);
       });
   }
 
@@ -138,9 +139,9 @@ class Emitter {
               );
               if (p2) {
                 if (p.optional) {
-                  arg = '[' + arg + ']';
+                  arg = `[${arg}]`;
                 }
-                this.emitDescription('@param ' + arg + ' ' + p2.description);
+                this.emitDescription(`@param ${arg} ${p2.description}`);
                 break;
               }
             }
@@ -149,8 +150,8 @@ class Emitter {
       }
       if (overload.chainable) {
         this.emitDescription('@chainable');
-      } else if (overload.return && overload.return.description) {
-        this.emitDescription('@return ' + overload.return.description);
+      } else if (overload.return?.description) {
+        this.emitDescription(`@return ${overload.return.description}`);
       }
     }
     this.emit(' */');
@@ -182,5 +183,3 @@ class Emitter {
     }
   }
 }
-
-module.exports = Emitter;

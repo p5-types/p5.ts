@@ -1,20 +1,17 @@
 /// @ts-check
 
-/// <reference path="./generate-typescript-annotations_.d.ts" />
+/// <reference path="./generate-typescript-annotations.d.ts" />
 /// <reference path="./data.d.ts" />
 
-const path = require('upath');
-const semver = require('semver');
+import path from 'upath';
+import semver from 'semver';
 
-const types = require('./types');
-const P5 = require('./p5_classes');
-const ItemCache = require('./itemcache');
+import * as types from './types';
+import * as P5 from './p5_classes';
+import ItemCache from './itemcache';
 
-/**
- *
- * @param {string} version
- */
-function getVersionString(version) {
+
+function getVersionString(version: string) {
   try {
     return `${semver.major(version)}.${semver.minor(version)}`;
   } catch (_) {
@@ -22,30 +19,16 @@ function getVersionString(version) {
   }
 }
 
-/**
- *
- * @param {Map<string, RegExpExecArray[]>} constants
- * @param {YUIDocsClass} classitem
- */
-function populateClassConstants(constants, classitem) {
+function populateClassConstants(constants: Map<string, RegExpExecArray[]>, classitem: YUIDocsClass) {
   types.populateConstantType(constants, classitem, classitem);
 }
 
-/**
- *
- * @param {Map<string, RegExpExecArray[]>} constants
- * @param {CategorizedMethod} method
- */
-function populateMethodConstants(constants, method) {
+function populateMethodConstants(constants: Map<string, RegExpExecArray[]>, method: CategorizedMethod) {
   types.populateConstantType(constants, method.classitem, method.overload);
 }
 
-/**
- *
- * @param {Map<string, RegExpExecArray[]>} constants
- * @param {CategorizedClassitems} categorized
- */
-function populateCategorizedConstants(constants, categorized) {
+
+function populateCategorizedConstants(constants: Map<string, RegExpExecArray[]>, categorized: CategorizedClassitems) {
   for (const im of categorized.instanceMethods) {
     populateMethodConstants(constants, im);
   }
@@ -55,59 +38,39 @@ function populateCategorizedConstants(constants, categorized) {
 }
 
 class CategorizedClassitems {
+  instanceMethods: CategorizedMethod[];
+  staticMethods: CategorizedMethod[];
+  properties: YUIDocsClassitemProperty[];
+  missing: YUIDocsClassitem[];
   constructor() {
-    /**
-     * @type {CategorizedMethod[]}
-     */
     this.instanceMethods = [];
-    /**
-     * @type {CategorizedMethod[]}
-     */
     this.staticMethods = [];
-    /**
-     * @type {YUIDocsClassitemProperty[]}
-     */
     this.properties = [];
-    /**
-     * @type {YUIDocsClassitem[]}
-     */
     this.missing = [];
   }
 }
 
-class ProcessedCategorizedClassitems {
+export class ProcessedCategorizedClassitems {
+  instanceMethods: ProcessedCategorizedMethod[];
+  staticMethods: ProcessedCategorizedMethod[];
+  properties: ProcessedCategorizedMethod[];
+  invalidProperties: InvalidProperty[];
+  literals: Map<string, string>;
   constructor() {
-    /**
-     * @type {ProcessedCategorizedMethod[]}
-     */
     this.instanceMethods = [];
-    /**
-     * @type {ProcessedCategorizedMethod[]}
-     */
-    this.staticMethods = [];
-    /**
-     * @type {ProcessedCategorizedProperty[]}
-     */
     this.properties = [];
-    /**
-     * @type {InvalidProperty[]}
-     */
     this.invalidProperties = [];
-    /**
-     * @type {Map<string, string>}
-     */
     this.literals = new Map();
   }
 }
-module.exports.ProcessedCategorizedClassitems = ProcessedCategorizedClassitems;
 
-class DefinitionAST {
+export class DefinitionAST {
+  categorized: CategorizedClassitems;
+  processed: ProcessedCategorizedClassitems;
+  extends: string | undefined;
   constructor() {
     this.categorized = new CategorizedClassitems();
     this.processed = new ProcessedCategorizedClassitems();
-    /**
-     * @type {string | undefined}
-     */
     this.extends = undefined;
     /**
      * @type {CheckedMethod | undefined}
@@ -115,49 +78,37 @@ class DefinitionAST {
     this.constructor = undefined;
   }
 }
-module.exports.DefinitionAST = DefinitionAST;
 
 class AugmentationAST {
+  categorized: CategorizedClassitems;
+  processed: ProcessedCategorizedClassitems;
   constructor() {
     this.categorized = new CategorizedClassitems();
     this.processed = new ProcessedCategorizedClassitems();
   }
 }
 
-class FileAST {
+export class FileAST {
+  definitions: ItemCache;
+  augmentations: ItemCache;
   constructor() {
-    this.definitions = new ItemCache(_ => new DefinitionAST());
-    this.augmentations = new ItemCache(_ => new AugmentationAST());
+    this.definitions = new ItemCache((_: any) => new DefinitionAST());
+    this.augmentations = new ItemCache((_: any) => new AugmentationAST());
   }
 }
-module.exports.FileAST = FileAST;
 
-/**
- *
- * @type {IsNamedYUIDocsClassitem}
- */
-function isNamedClassitem(arg) {
+function isNamedClassitem(arg: IsNamedYUIDocsClassitem) {
   return arg['name'] !== undefined;
 }
 
-/**
- *
- * @param {YUIDocsClassitem[]} classitems
- * @returns {ItemCache<NamedYUIDocsClassitem[]>}
- */
-function groupClassitems(classitems) {
-  /**
-   * @type {*}
-   */
+
+function groupClassitems(classitems: YUIDocsClassitem[]): ItemCache<NamedYUIDocsClassitem[]> {
+
   const hasNameHack = classitems.filter(isNamedClassitem);
-  /**
-   * @type {NamedYUIDocsClassitem[]}
-   */
+
   const hasName = hasNameHack;
-  /**
-   * @type {ItemCache<NamedYUIDocsClassitem[]>}
-   */
-  const grouped = new ItemCache(_ => []);
+
+  const grouped = new ItemCache((_: any) => []);
 
   for (const classitem of hasName) {
     grouped.get(classitem.class).push(classitem);
@@ -166,18 +117,11 @@ function groupClassitems(classitems) {
   return grouped;
 }
 
-/**
- *
- * @param {Methodish} item
- */
-function chainName(item) {
-  /**
-   * @type {string | undefined}
-   */
-  const className = item['class'];
+function chainName(item: Methodish) {
+  const className: string | undefined = item['class'];
   if (className) {
     const match = className.match(P5.CLASS_RE);
-    if (match && match[1]) {
+    if (match?.[1]) {
       return match[1];
     }
     return className;
@@ -185,13 +129,8 @@ function chainName(item) {
   return item.name;
 }
 
-/**
- *
- * @param {ItemCache<FileAST>} filesCache
- * @param {TypeTranslator} translateType
- * @param {YUIDocsClass} theClass
- */
-function populateDefinitions(filesCache, translateType, theClass) {
+
+function populateDefinitions(filesCache: ItemCache<FileAST>, translateType: TypeTranslator, theClass: YUIDocsClass) {
   const file = filesCache.get(classitemFilename(theClass));
   const classAST = file.definitions.get(theClass.name);
   if (theClass.is_constructor) {
@@ -200,23 +139,12 @@ function populateDefinitions(filesCache, translateType, theClass) {
   classAST.extends = theClass.extends;
 }
 
-/**
- *
- * @param {YUIDocsClasses} classes
- * @param {YUIDocsClassitem} classitem
- */
-function isDefiningFile(classes, classitem) {
+function isDefiningFile(classes: YUIDocsClasses, classitem: YUIDocsClassitem) {
   return classes[classitem.class].file === classitem.file;
 }
 
-/**
- *
- * @param {YUIDocsClasses} classes
- * @param {FileAST} file
- * @param {NamedYUIDocsClassitem} classitem
- * @param {string} className
- */
-function getClassitemAST(classes, file, classitem, className) {
+
+function getClassitemAST(classes: YUIDocsClasses, file: FileAST, classitem: NamedYUIDocsClassitem, className: string) {
   const defining = isDefiningFile(classes, classitem);
   if (defining) {
     return file.definitions.get(className).categorized;
@@ -225,34 +153,21 @@ function getClassitemAST(classes, file, classitem, className) {
   }
 }
 
-/**
- *
- * @param {string} filename
- */
-function definitionImportName(filename) {
+
+function definitionImportName(filename: string) {
   const dirname = path.dirname(filename);
   const name = path.basename(filename, '.js');
   return path.joinSafe(dirname, name);
 }
 
-/**
- *
- * @param {HasFile} classitem
- * @returns {string}
- */
-function classitemFilename(classitem) {
+
+function classitemFilename(classitem: HasFile): string {
   return definitionImportName(classitem.file);
 }
 
-/**
- *
- * @param {ItemCache<FileAST>} filesCache
- * @param {YUIDocsClasses} classes
- * @param {ItemCache<NamedYUIDocsClassitem[]>} groupedItems
- * @param {string} className
- */
-function categorizeClassitems(filesCache, classes, groupedItems, className) {
-  const classitems = groupedItems.get(className);
+
+function categorizeClassitems(filesCache: ItemCache<FileAST>, classes: YUIDocsClasses, groupedItems: ItemCache<NamedYUIDocsClassitem[]>, className: string) {
+  const classitems = groupedItems.get(className) || [];
 
   for (const classitem of classitems) {
     const file = filesCache.get(classitemFilename(classitem));
@@ -284,22 +199,15 @@ function categorizeClassitems(filesCache, classes, groupedItems, className) {
 // http://stackoverflow.com/a/2008353/2422398
 const JS_SYMBOL_RE = /^[$A-Z_][0-9A-Z_$]*$/i;
 
-/**
- *
- * @param {TypeTranslator} translateType
- * @param {Methodish} classitem
- * @param {Overloadish} overload
- * @returns {CheckedMethod}
- */
-function checkMethod(translateType, classitem, overload) {
+function checkMethod(translateType: TypeTranslator, classitem: Methodish, overload: Overloadish): CheckedMethod {
   /**
    * @type {string[]}
    */
-  const errors = [];
+  const errors: string[] = [];
   /**
    * @type {Map<string, TranslatedType[]>}
    */
-  const typedParams = new Map();
+  const typedParams: Map<string, TranslatedType[]> = new Map();
   let optionalParamFound = false;
   const itemName = classitem.name;
 
@@ -307,44 +215,41 @@ function checkMethod(translateType, classitem, overload) {
     errors.push('"' + itemName + '" is not a valid JS symbol name');
   }
 
-  (overload.params || []).forEach(function(param) {
+  (overload.params || []).forEach(function (param) {
     if (param.optional) {
       optionalParamFound = true;
     } else if (optionalParamFound) {
       errors.push(
-        'required param "' + param.name + '" follows an ' + 'optional param'
+        `required param "${param.name}" follows an optional param`
       );
     }
 
     if (typedParams.has(param.name)) {
-      errors.push('param "' + param.name + '" is defined multiple times');
+      errors.push(`param "${param.name}" is defined multiple times`);
     }
 
     if (!JS_SYMBOL_RE.test(param.name)) {
-      errors.push('param "' + param.name + '" is not a valid JS symbol name');
+      errors.push(`param "${param.name}" is not a valid JS symbol name`);
     }
 
     const paramType = translateType(param.type, []);
 
     if (paramType.length === 0) {
-      errors.push('param "' + param.name + '" has invalid type: ' + param.type);
+      errors.push(`param "${param.name}" has invalid type: ${param.type}`);
       typedParams.set(param.name, [types.basic(param.type)]);
     } else {
       typedParams.set(param.name, paramType);
     }
   });
 
-  /**
-   * @type {TranslatedType[]}
-   */
-  let returnType;
+  let returnType: TranslatedType[];
 
   if (overload['chainable']) {
     returnType = [types.basic(chainName(classitem))];
   } else if (overload.return) {
     const translatedReturnType = translateType(overload.return.type, []);
     if (translatedReturnType.length === 0) {
-      errors.push('return has invalid type: ' + overload.return.type);
+      errors.push(`return has invalid type: ${overload.return.type}`);
     } else {
       returnType = translatedReturnType;
     }
@@ -361,15 +266,8 @@ function checkMethod(translateType, classitem, overload) {
   };
 }
 
-/**
- *
- * @param {Overloadish[]} overloads
- */
-function overloadsParameterDescription(overloads) {
-  /**
-   * @type {Map<string, string>}
-   */
-  const descriptions = new Map();
+function overloadsParameterDescription(overloads: Overloadish[]) {
+  const descriptions: Map<string, string> = new Map();
   for (const overload of overloads) {
     for (const param of overload.params || []) {
       if (param.description && !descriptions.has(param.name)) {
@@ -380,28 +278,16 @@ function overloadsParameterDescription(overloads) {
   return descriptions;
 }
 
-/**
- *
- * @param {YUIDocsClassitemMethod} classitem
- * @param {Overloadish} overload
- * @returns {MethodDescription | undefined}
- */
-function methodDescription(classitem, overload) {
+
+function methodDescription(classitem: YUIDocsClassitemMethod, overload: Overloadish): MethodDescription | undefined {
   const description = classitem.description;
   if (!description) {
     return;
   }
-
-  /**
-   * @type {DescriptionParam[]}
-   */
-  const params = [];
+  const params: DescriptionParam[] = [];
 
   if (overload.params) {
-    /**
-     * @type {Overloadish[]}
-     */
-    let allOverloads = [classitem];
+    let allOverloads: Overloadish[] = [classitem];
     if (classitem.overloads) {
       allOverloads.push(...classitem.overloads);
     }
@@ -423,15 +309,11 @@ function methodDescription(classitem, overload) {
     description: description,
     params: params,
     chainable: overload['chainable'],
-    returns: overload.return && overload.return.description
+    returns: overload.return?.description
   };
 }
 
-/**
- *
- * @param {TranslatedType[]} type
- */
-function isStringType(type) {
+function isStringType(type: TranslatedType[]) {
   if (type.length === 1) {
     const v = type[0];
     if (v.type === 'basic') {
@@ -441,31 +323,22 @@ function isStringType(type) {
   return false;
 }
 
-/**
- *
- * @param {string} literal
- * @param {boolean} isString
- */
-function wrapLiteral(literal, isString) {
+function wrapLiteral(literal: string, isString: boolean) {
   if (isString) {
-    return "'" + literal.replace(/'/g, "\\'") + "'";
+    return `'${literal.replace(/'/g, "\\'")}'`;
   }
   return literal;
 }
 
-/**
- *
- * @param {TypeTranslator} translateType
- * @param {CategorizedClassitems} categorized
- */
-function processCategorized(translateType, categorized) {
+
+function processCategorized(translateType: TypeTranslator, categorized: CategorizedClassitems) {
   const processed = new ProcessedCategorizedClassitems();
   for (const sm of categorized.staticMethods) {
     const overload = sm.overload;
     const classitem = sm.classitem;
     const itemname = classitem.name;
     const checked = checkMethod(translateType, classitem, overload);
-    processed.staticMethods.push({
+    processed?.staticMethods?.push({
       description: methodDescription(classitem, overload),
       params: overload.params || [],
       name: itemname,
@@ -529,31 +402,24 @@ function processCategorized(translateType, categorized) {
 }
 
 class Classes {
+  p5Aliases: string[];
+  p5Subclasses: string[];
+  unknownClasses: string[];
+  missingTypes: Set<string>;
+  files: ItemCache;
   /**
    *
    * @param {YUIDocsData} yuidocs
    * @param {Map<string, RegExpExecArray[]>} constants
    */
-  constructor(yuidocs, constants) {
-    /**
-     * @type {string[]}
-     */
+  constructor(yuidocs: YUIDocsData, constants: Map<string, RegExpExecArray[]>) {
     this.p5Aliases = [];
-    /**
-     * @type {string[]}
-     */
     this.p5Subclasses = [];
-    /**
-     * @type {string[]}
-     */
     this.unknownClasses = [];
-    /**
-     * @type {Set<string>}
-     */
     this.missingTypes = new Set();
 
     for (const className of Object.keys(yuidocs.classes)) {
-      if (P5.ALIASES.indexOf(className) !== -1) {
+      if ((P5?.ALIASES as string[]).includes(className)) {
         this.p5Aliases.push(className);
       } else if (P5.CLASS_RE.test(className)) {
         this.p5Subclasses.push(className);
@@ -563,14 +429,9 @@ class Classes {
     }
 
     const knownClassnames = this.p5Aliases.concat(this.p5Subclasses);
-    this.files = new ItemCache(filename => new FileAST());
+    this.files = new ItemCache((filename: any) => new FileAST());
     const groupedItems = groupClassitems(yuidocs.classitems);
-
-    /**
-     *
-     * @type {TypeTranslator}
-     */
-    const typeTranslator = (type, defaultType) =>
+    const typeTranslator: TypeTranslator = (type, defaultType) =>
       types.translateType(
         yuidocs,
         constants,
@@ -626,26 +487,14 @@ class Classes {
   }
 }
 
-/**
- *
- * @param {Map<string, string>} literals
- * @param {ProcessedCategorizedClassitems} classitems
- */
-function addLiterals(literals, classitems) {
+function addLiterals(literals: Map<string, string>, classitems: ProcessedCategorizedClassitems) {
   for (const item of classitems.literals) {
     literals.set(item[0], item[1]);
   }
 }
 
-/**
- *
- * @param {Map<string, FileAST>} files
- */
-function populateLiterals(files) {
-  /**
-   * @type {Map<string, string>}
-   */
-  const literals = new Map();
+function populateLiterals(files: Map<string, FileAST>) {
+  const literals: Map<string, string> = new Map();
   for (const file of files.values()) {
     for (const definition of file.definitions.items.values()) {
       addLiterals(literals, definition.processed);
@@ -658,12 +507,18 @@ function populateLiterals(files) {
   return literals;
 }
 
-module.exports.DefinitionsAST = class DefinitionsAST {
+export class DefinitionsAST {
+  constants: Map<any, any>;
+  version: string;
+  versionString: string;
+  classes: Classes;
+  literals: Map<string, string>;
+  mainFile: string;
   /**
    *
    * @param {YUIDocsData} yuidocs
    */
-  constructor(yuidocs) {
+  constructor(yuidocs: YUIDocsData) {
     /**
      * @type {Map<string, RegExpExecArray[]>}
      */

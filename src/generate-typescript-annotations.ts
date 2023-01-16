@@ -1,34 +1,33 @@
 /// @ts-check
 
-/// <reference path="./generate-typescript-annotations_.d.ts" />
+/// <reference path="./generate-typescript-annotations.d.ts" />
 /// <reference path="./data.d.ts" />
 
-const fs = require('fs-extra');
-const path = require('upath');
 
-const Emitter = require('./emitter');
+
+import fs from 'fs-extra';
+import path from 'upath';
+
+import {Emitter} from './emitter';
 // eslint-disable-next-line no-unused-vars
-const ItemCache = require('./itemcache');
-const analyze = require('./analyze-data');
-const P5 = require('./p5_classes');
-const formatters = require('./formatters');
+import ItemCache from './itemcache';
+import * as analyze from './analyze-data';
+import * as P5 from './p5_classes';
+import * as formatters from './formatters';
 const GRAPHICS_WORKAROUND_NAME = '__Graphics__';
 
 /**
  *
  * @param {HasFile} classitem
  */
-function patchItemFile(classitem) {
+function patchItemFile(classitem: HasFile) {
   if (classitem.file !== undefined) {
     classitem.file = classitem.file.replace(/\\/g, '/');
   }
 }
 
-/**
- *
- * @param {YUIDocsData} yuidocs
- */
-function patchYUIDocs(yuidocs) {
+
+function patchYUIDocs(yuidocs: YUIDocsData) {
   delete yuidocs.classes['p5.sound'];
   delete yuidocs.modules['Foundation'];
   delete yuidocs.files['src/core/reference.js'];
@@ -53,12 +52,8 @@ function patchYUIDocs(yuidocs) {
   classitems.forEach(patchItemFile);
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {string} versionString
- */
-function printLocalsHeader(emitter, versionString) {
+
+function printLocalsHeader(emitter: Emitter, versionString: string) {
   emitter.lineComment(`Type definitions for p5 ${versionString}`);
   emitter.lineComment('Project: https://github.com/processing/p5.js');
   emitter.lineComment('Definitions by: p5-types <https://github.com/p5-types>');
@@ -70,12 +65,7 @@ function printLocalsHeader(emitter, versionString) {
   emitter.lineComment('This file was auto-generated. Please do not edit it.');
 }
 
-/**
- *
- * @param {string} from
- * @param {string} to
- */
-function relativeSafe(from, to) {
+function relativeSafe(from: string, to: string) {
   const rel = path.relative(from, to);
   if (rel.length > 0) {
     return rel;
@@ -88,7 +78,7 @@ function relativeSafe(from, to) {
  * @param {string} baseDir
  * @param {string} fileName
  */
-function indexRelative(baseDir, fileName) {
+function indexRelative(baseDir: string, fileName: string) {
   const augmenterPath = path.joinSafe(baseDir, fileName);
   const baseRel = relativeSafe(path.dirname(augmenterPath), baseDir);
   return path.joinSafe(baseRel, 'index');
@@ -100,7 +90,7 @@ function indexRelative(baseDir, fileName) {
  * @param {string} prettyClassname
  * @param {analyze.DefinitionAST} definition
  */
-function printClassHeader(emitter, prettyClassname, definition) {
+function printClassHeader(emitter: Emitter, prettyClassname: string, definition: analyze.DefinitionAST) {
   emitter.emit(
     `class ${prettyClassname}${
       definition.extends
@@ -111,11 +101,7 @@ function printClassHeader(emitter, prettyClassname, definition) {
   emitter.indent();
 }
 
-/**
- *
- * @param {Emitter} emitter
- */
-function printClassFooter(emitter) {
+function printClassFooter(emitter: Emitter) {
   emitter.dedent();
   emitter.emit('}');
 }
@@ -124,30 +110,17 @@ function position(file, line) {
   return file + ', line ' + line;
 }
 
-/**
- *
- * @param {YUIDocsClassitem} classitem
- */
-function classitemPosition(classitem) {
+function classitemPosition(classitem: YUIDocsClassitem) {
   return position(classitem.file, classitem.line);
 }
 
-/**
- *
- * @param {HasFile} classitem
- * @param {Overloadish} overload
- */
-function overloadPosition(classitem, overload) {
+
+function overloadPosition(classitem: HasFile, overload: Overloadish) {
   return position(classitem.file, overload.line);
 }
 
-/**
- *
- * @param {YUIDocsParam[]} params
- * @param {Map<string, TranslatedType[]>} typedParams
- * @param {TypeFormatter} formatType
- */
-function formatTypedParams(params, typedParams, formatType) {
+
+function formatTypedParams(params: YUIDocsParam[], typedParams: Map<string, TranslatedType[]>, formatType: TypeFormatter) {
   return params
     .map(param => {
       let name = param.name;
@@ -172,22 +145,14 @@ function formatTypedParams(params, typedParams, formatType) {
     .join(', ');
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {Methodish} classitem
- * @param {Overloadish} overload
- * @param {string} decl
- * @param {string[]} errors
- */
+
 function printOverloadErrors(
-  emitter,
-  logger,
-  classitem,
-  overload,
-  decl,
-  errors
+  emitter: Emitter,
+  logger: Logger,
+  classitem: Methodish,
+  overload: Overloadish,
+  decl: string,
+  errors: string[]
 ) {
   emitter.sectionBreak();
   emitter.lineComment(
@@ -208,20 +173,13 @@ function printOverloadErrors(
   emitter.emptyLine();
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {TypeFormatter} formatType
- * @param {analyze.DefinitionAST} definition
- * @param {(formattedParams: string) => string} formatDecl
- */
+
 function printClassConstructor(
-  emitter,
-  logger,
-  formatType,
-  definition,
-  formatDecl
+  emitter: Emitter,
+  logger: Logger,
+  formatType: TypeFormatter,
+  definition: analyze.DefinitionAST,
+  formatDecl: (formattedParams: string) => string
 ) {
   const theConstructor = definition.constructor;
   if (theConstructor) {
@@ -247,12 +205,8 @@ function printClassConstructor(
   }
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {string[]} lines
- */
-function printDescription(emitter, lines) {
+
+function printDescription(emitter: Emitter, lines: string[]) {
   if (lines.length === 0) {
     return;
   }
@@ -264,12 +218,8 @@ function printDescription(emitter, lines) {
   emitter.emit(' */');
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {MethodDescription | undefined} methodDescription
- */
-function printMethodDescription(emitter, methodDescription) {
+
+function printMethodDescription(emitter: Emitter, methodDescription: MethodDescription | undefined) {
   if (!methodDescription) {
     return;
   }
@@ -291,15 +241,7 @@ function printMethodDescription(emitter, methodDescription) {
   printDescription(emitter, lines);
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {MethodFormatter} formatMethod
- * @param {TypeFormatter} formatType
- * @param {ProcessedCategorizedMethod} method
- */
-function printMethod(emitter, logger, formatMethod, formatType, method) {
+function printMethod(emitter: Emitter, logger: Logger, formatMethod: MethodFormatter, formatType: TypeFormatter, method: ProcessedCategorizedMethod) {
   const name = method.name;
   const description = method.description;
   const checked = method.checked;
@@ -326,14 +268,8 @@ function printMethod(emitter, logger, formatMethod, formatType, method) {
   }
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {PropertyFormatter} formatProperty
- * @param {TypeFormatter} formatType
- * @param {ProcessedCategorizedProperty} property
- */
-function printProperty(emitter, formatProperty, formatType, property) {
+
+function printProperty(emitter: Emitter, formatProperty: PropertyFormatter, formatType: TypeFormatter, property: ProcessedCategorizedProperty) {
   if (property.description) {
     printDescription(emitter, [property.description]);
   }
@@ -341,15 +277,9 @@ function printProperty(emitter, formatProperty, formatType, property) {
   emitter.emit(formatProperty(!!property.final, decl));
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {ClassitemFormatter} formatter
- * @param {analyze.ProcessedCategorizedClassitems} items
- */
-function printClassitems(emitter, logger, formatter, items) {
-  if (items.staticMethods.length > 0) {
+
+function printClassitems(emitter: Emitter, logger: Logger, formatter: ClassitemFormatter, items: analyze.ProcessedCategorizedClassitems) {
+  if (items.staticMethods?.length > 0) {
     formatter.beginStatic();
     for (const sm of items.staticMethods) {
       printMethod(
@@ -406,24 +336,13 @@ function printClassitems(emitter, logger, formatter, items) {
   }
 }
 
-/**
- *
- * @param {string} name
- * @param {string} params
- * @param {string} returns
- */
-function declBody(name, params, returns) {
+
+function declBody(name: string, params: string, returns: string) {
   return `${name}(${params}): ${returns}`;
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {TypeFormatter} formatType
- * @param {analyze.FileAST} file
- */
-function printFileBody(emitter, logger, formatType, file) {
+
+function printFileBody(emitter: Emitter, logger: Logger, formatType: TypeFormatter, file: analyze.FileAST) {
   for (const item of file.definitions.items) {
     let prettyClassname = item[0].match(P5.CLASS_RE)[1];
     if (prettyClassname === 'Graphics') {
@@ -499,14 +418,8 @@ function printFileBody(emitter, logger, formatType, file) {
   }
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {analyze.FileAST} file
- * @param {string} indexRel
- */
-function printFile(emitter, logger, file, indexRel) {
+
+function printFile(emitter: Emitter, logger: Logger, file: analyze.FileAST, indexRel: string) {
   emitter.lineComment('This file was auto-generated. Please do not edit it.');
   emitter.emptyLine();
   emitter.emit(`import * as p5 from '${indexRel}'`);
@@ -520,13 +433,8 @@ function printFile(emitter, logger, file, indexRel) {
   emitter.emit('}');
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {analyze.FileAST} file
- */
-function printCore(emitter, logger, file) {
+
+function printCore(emitter: Emitter, logger: Logger, file: analyze.FileAST) {
   emitter.emit('export = p5;');
   emitter.emit('declare class p5 {');
   emitter.indent();
@@ -560,13 +468,8 @@ function printCore(emitter, logger, file) {
   emitter.emit('}');
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {ItemCache<analyze.FileAST>} files
- * @param {string} mainFile
- */
-function printAugmentationReferences(emitter, files, mainFile) {
+
+function printAugmentationReferences(emitter: Emitter, files: ItemCache<analyze.FileAST>, mainFile: string) {
   for (const fileName of files.items.keys()) {
     if (fileName.startsWith('src/') && fileName !== mainFile) {
       const relname = path.joinSafe('./', fileName);
@@ -575,11 +478,8 @@ function printAugmentationReferences(emitter, files, mainFile) {
   }
 }
 
-/**
- *
- * @param {Emitter} emitter
- */
-function printGlobalsHeader(emitter) {
+
+function printGlobalsHeader(emitter: Emitter) {
   emitter.lineComment('Global mode type definitions for p5');
   emitter.emptyLine();
   emitter.lineComment('This file was auto-generated. Please do not edit it.');
@@ -591,13 +491,8 @@ function printGlobalsHeader(emitter) {
   emitter.indent();
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {ItemCache<analyze.FileAST>} files
- */
-function printGlobalsBody(emitter, logger, files) {
+
+function printGlobalsBody(emitter: Emitter, logger: Logger, files: ItemCache<analyze.FileAST>) {
   for (const file of files.items.values()) {
     for (const className of P5.ALIASES) {
       const definition = file.definitions.get(className);
@@ -622,33 +517,20 @@ function printGlobalsBody(emitter, logger, files) {
   }
 }
 
-/**
- *
- * @param {Emitter} emitter
- */
-function printGlobalsFooter(emitter) {
+
+function printGlobalsFooter(emitter: Emitter) {
   emitter.dedent();
   emitter.emit('}');
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Logger} logger
- * @param {ItemCache<analyze.FileAST>} files
- */
-function printGlobals(emitter, logger, files) {
+
+function printGlobals(emitter: Emitter, logger: Logger, files: ItemCache<analyze.FileAST>) {
   printGlobalsHeader(emitter);
   printGlobalsBody(emitter, logger, files);
   printGlobalsFooter(emitter);
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Map<string, string>} literals
- */
-function printLiterals(emitter, literals) {
+function printLiterals(emitter: Emitter, literals: Map<string, string>) {
   emitter.emit(`import * as p5 from './index'`);
   emitter.emptyLine();
   emitter.emit(`declare module './index' {`);
@@ -667,12 +549,8 @@ function printLiterals(emitter, literals) {
   emitter.close();
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {Map<string, RegExpExecArray[]>} constants
- */
-function printConstants(emitter, constants) {
+
+function printConstants(emitter: Emitter, constants: Map<string, RegExpExecArray[]>) {
   emitter.emit(`import * as p5 from './index'`);
   emitter.emptyLine();
   emitter.emit(`declare module './index' {`);
@@ -703,13 +581,8 @@ function printConstants(emitter, constants) {
   emitter.close();
 }
 
-/**
- *
- * @param {string} outdir
- * @param {Logger} logger
- * @param {analyze.DefinitionsAST} ast
- */
-function emit(outdir, logger, ast) {
+
+function emit(outdir: string, logger: Logger, ast: analyze.DefinitionsAST) {
   const localFilename = path.joinSafe(outdir, 'index.d.ts');
   const globalFilename = path.joinSafe(outdir, 'global.d.ts');
   const literalsFilename = path.joinSafe(outdir, 'literals.d.ts');
@@ -756,17 +629,9 @@ function emit(outdir, logger, ast) {
     logger(`MISSING: ${t}`);
   }
 }
-/**
- * 
- * @param {string} datajson 
- * @param {string} outdir 
- */
-function gta(datajson, outdir) {
-  /**
-   * @type{YUIDocsData}
-   */
-  const yuidocs = JSON.parse(fs.readFileSync(datajson, 'utf8'));
 
+export const gta = (datajson: string, outdir: string) => {
+  const yuidocs: YUIDocsData = JSON.parse(fs.readFileSync(datajson, 'utf8'));
 
   const logger = console.log;
 
@@ -775,5 +640,3 @@ function gta(datajson, outdir) {
   const ast = new analyze.DefinitionsAST(yuidocs);
   emit(outdir, logger, ast);
 }
-
-module.exports = gta;
