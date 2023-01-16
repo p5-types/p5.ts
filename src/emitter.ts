@@ -1,16 +1,11 @@
-/// @ts-check
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 const makeDirSync = fs.ensureDirSync;
-import path from 'upath';
+import * as path from 'upath';
 import h2p from 'html2plaintext';
 import wrap from 'word-wrap';
-import prettier from 'prettier';
+import * as prettier from 'prettier';
 
-function shortenDescription(desc) {
-  return wrap(h2p(desc).replace(/[\r\n]+/, ''), {
-    width: 50
-  });
-}
+const shortenDescription = (desc: string) => wrap(h2p(desc).replace(/[\r\n]+/, ''), { width: 50 })
 
 export class Emitter {
   filename: string;
@@ -28,10 +23,6 @@ export class Emitter {
     this.filename = filename;
   }
 
-  /**
-   *
-   * @param {string} text
-   */
   emit(text: string) {
     let finalText: string;
     const indentation: string[] = [];
@@ -51,10 +42,6 @@ export class Emitter {
     this.lastText = text;
   }
 
-  /**
-   *
-   * @param {string} text
-   */
   emitNonEmpty(text: string) {
     if (text.trim().length > 0) {
       this.emit(text);
@@ -108,9 +95,7 @@ export class Emitter {
   emitDescription(desc: string) {
     shortenDescription(desc)
       .split('\n')
-      .forEach(line => {
-        this.emit(` * ${line}`);
-      });
+      .forEach(line => this.emit(` * ${line}`));
   }
 
   itemDescription(classitem, overload) {

@@ -9,7 +9,7 @@
     "dtslint:samples": "dtslint types/p5/samples",
     "download-p5": "tsx src/commands/download-p5.ts",
     "generate": "tsx src/commands/generate.ts",
-    "test": "jest",
+    "test": "jest --coverage",
     "watch:test": "jest --watch"
   },
   "license": "LGPL-2.1",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@definitelytyped/dtslint": "^0.0.141",
+    "@types/fs-extra": "^11.0.1",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.17",
     "esbuild-jest": "^0.5.0",

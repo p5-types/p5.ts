@@ -10,3 +10,4 @@ types/p5/samples/*/
 /p5
 /generated/*
 datajson
+coverage/

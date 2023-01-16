@@ -1,4 +1,4 @@
-import {gta} from "../generate-typescript-annotations";
+import { gta } from "../generate-typescript-annotations";
 import { datajson, outdir } from "../filepath";
 
 

@@ -5,10 +5,10 @@
 
 
 
-import fs from 'fs-extra';
-import path from 'upath';
+import * as fs from 'fs-extra';
+import * as path from 'upath';
 
-import {Emitter} from './emitter';
+import { Emitter } from './emitter';
 // eslint-disable-next-line no-unused-vars
 import ItemCache from './itemcache';
 import * as analyze from './analyze-data';
@@ -40,7 +40,7 @@ function patchYUIDocs(yuidocs: YUIDocsData) {
       const value = modules[key];
       if (value.file !== undefined) {
         // inlined patchItemFile to avoid type errors...
-        value.file = value.file.replace(/\\/g, '/');
+        value.file = value.file?.replace(/\\/g, '/');
       }
     }
   }
@@ -73,29 +73,19 @@ function relativeSafe(from: string, to: string) {
   return './';
 }
 
-/**
- *
- * @param {string} baseDir
- * @param {string} fileName
- */
+
 function indexRelative(baseDir: string, fileName: string) {
   const augmenterPath = path.joinSafe(baseDir, fileName);
   const baseRel = relativeSafe(path.dirname(augmenterPath), baseDir);
   return path.joinSafe(baseRel, 'index');
 }
 
-/**
- *
- * @param {Emitter} emitter
- * @param {string} prettyClassname
- * @param {analyze.DefinitionAST} definition
- */
+
 function printClassHeader(emitter: Emitter, prettyClassname: string, definition: analyze.DefinitionAST) {
   emitter.emit(
-    `class ${prettyClassname}${
-      definition.extends
-        ? ` extends ${formatters.basicUnqualifiedP5(definition.extends)}`
-        : ''
+    `class ${prettyClassname}${definition.extends
+      ? ` extends ${formatters.basicUnqualifiedP5(definition.extends)}`
+      : ''
     } {`
   );
   emitter.indent();
@@ -162,7 +152,7 @@ function printOverloadErrors(
     )}:`
   );
   emitter.emptyLineComment();
-  errors.forEach(function(error) {
+  errors.forEach(function (error) {
     logger(
       `${classitem.name}() ${overloadPosition(classitem, overload)}, ${error}`
     );
@@ -566,7 +556,7 @@ function printConstants(emitter: Emitter, constants: Map<string, RegExpExecArray
     emitter.sectionBreak();
     emitter.emit(`type ${name} =`);
     emitter.indent();
-    values.forEach(function(v, i) {
+    values.forEach(function (v, i) {
       let str = `${i ? '|' : ' '} ${v}`;
       if (i === values.length - 1) {
         str += ';';

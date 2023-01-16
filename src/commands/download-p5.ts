@@ -1,5 +1,5 @@
-import https from "https";
-import fs from "fs";
+import * as https from "https";
+import * as fs from "fs";
 import { datajson, datajsonfolder } from "../filepath";
 
 // https://stackoverflow.com/a/13544465

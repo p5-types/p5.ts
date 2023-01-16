@@ -1,10 +1,8 @@
-/// @ts-check
-
 /// <reference path="./generate-typescript-annotations.d.ts" />
 /// <reference path="./data.d.ts" />
 
-import path from 'upath';
-import semver from 'semver';
+import * as path from 'upath';
+import * as semver from 'semver';
 
 import * as types from './types';
 import * as P5 from './p5_classes';
@@ -212,7 +210,7 @@ function checkMethod(translateType: TypeTranslator, classitem: Methodish, overlo
   const itemName = classitem.name;
 
   if (!(JS_SYMBOL_RE.test(itemName) || classitem['is_constructor'])) {
-    errors.push('"' + itemName + '" is not a valid JS symbol name');
+    errors.push(`"${itemName}" is not a valid JS symbol name`);
   }
 
   (overload.params || []).forEach(function (param) {
@@ -306,8 +304,8 @@ function methodDescription(classitem: YUIDocsClassitemMethod, overload: Overload
   }
 
   return {
-    description: description,
-    params: params,
+    description,
+    params,
     chainable: overload['chainable'],
     returns: overload.return?.description
   };
@@ -488,8 +486,8 @@ class Classes {
 }
 
 function addLiterals(literals: Map<string, string>, classitems: ProcessedCategorizedClassitems) {
-  for (const item of classitems.literals) {
-    literals.set(item[0], item[1]);
+  for (const [key, value] of classitems.literals) {
+    literals.set(key, value);
   }
 }
 
@@ -508,31 +506,16 @@ function populateLiterals(files: Map<string, FileAST>) {
 }
 
 export class DefinitionsAST {
-  constants: Map<any, any>;
+  constants: Map<string, RegExpExecArray[]>;
   version: string;
   versionString: string;
   classes: Classes;
   literals: Map<string, string>;
   mainFile: string;
-  /**
-   *
-   * @param {YUIDocsData} yuidocs
-   */
   constructor(yuidocs: YUIDocsData) {
-    /**
-     * @type {Map<string, RegExpExecArray[]>}
-     */
     this.constants = new Map();
-
-    /**
-     * @type {string}
-     */
     this.version = yuidocs.project.version;
-    /**
-     * @type {string}
-     */
     this.versionString = getVersionString(this.version);
-
     this.classes = new Classes(yuidocs, this.constants);
     this.literals = populateLiterals(this.classes.files.items);
     this.mainFile = classitemFilename(yuidocs.classes['p5']);

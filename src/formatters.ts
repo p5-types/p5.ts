@@ -36,7 +36,7 @@ export function basicUnqualifiedP5(type: string) {
 function definitionsFormatType(types: TranslatedType[]) {
   const needsParens = types.length > 1;
   return types
-    .map((type: { type: string; value: any; params: any[] }) => {
+    .map((type) => {
       if (type.type === 'basic') {
         return basicUnqualifiedP5(type.value);
       }
@@ -56,13 +56,13 @@ function definitionsFormatType(types: TranslatedType[]) {
     .join('|');
 }
 
-const globalsFormatFunctionParam = (param: any) =>
+const globalsFormatFunctionParam = (param) =>
   formatFunctionParam(globalsFormatType, param);
 
 export function globalsFormatType(types: TranslatedType[]) {
   const needsParens = types.length > 1;
   return types
-    .map((type: { type: string; value: any; params: any[] }) => {
+    .map((type) => {
       if (type.type === 'basic') {
         return type.value;
       }
@@ -86,7 +86,7 @@ export function globalsFormatType(types: TranslatedType[]) {
 export const definitions = {
   beginInstance: () => {},
   formatInstanceMethod: declBody,
-  formatInstanceProperty: (final: any, decl: any) => {
+  formatInstanceProperty: (final, decl: any) => {
     const modifier = final ? 'readonly ' : '';
     return `${modifier}${decl}`;
   },
