@@ -44,3 +44,10 @@ sketch.js:5 Uncaught ReferenceError: require is not defined
 ```
 
 but it works.
+
+---
+
+### How to contribute
+
+1. since this is a tool to generate ts type definition from yui doc, so help improve p5js's yui doc is a big deal. see [require upstream](https://github.com/p5-types/p5.ts/issues?q=is%3Aopen+label%3A%22require+upstream%22+sort%3Aupdated-desc)
+2. when a new version of p5js is released, generate the new type files, then make a pr to https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/p5
