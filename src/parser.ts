@@ -1,11 +1,4 @@
-/// @ts-check
-
-/**
- * @param {string} s
- * @param {number} start
- * @param {number} end
- */
-function countParentheses(s, start, end) {
+export const countParentheses = (s: string, start: number, end: number) => {
   let pos = start;
   while (pos < end) {
     if (s.charAt(pos) !== '(' || s.charAt(end - 1 - pos) !== ')') {
@@ -16,12 +9,8 @@ function countParentheses(s, start, end) {
   return pos;
 }
 
-/**
- * @param {string} s
- * @param {number} start
- * @param {number} end
- */
-function eatSplitGroup(s, start, end) {
+
+function eatSplitGroup(s: string, start: number, end: number) {
   if (s.charAt(start) === '(') {
     let pos = start + 1;
     let parens = 1;
@@ -84,8 +73,8 @@ function eatSplitGroup(s, start, end) {
         if (hasParens) {
           throw new Error(
             `Trailing characters at position ${pos -
-              start -
-              1} in "${s.substring(start, end)}"`
+            start -
+            1} in "${s.substring(start, end)}"`
           );
         }
       }
@@ -102,13 +91,8 @@ function eatSplitGroup(s, start, end) {
   }
 }
 
-/**
- * @param {string} s
- * @param {number} start
- * @param {number} end
- * @param {any[]} result
- */
-function _splitType(s, start, end, result) {
+
+function _splitType(s: string, start: number, end: number, result: any[]) {
   let pos = start;
   while (pos < end) {
     const group = eatSplitGroup(s, pos, end);
@@ -123,33 +107,18 @@ function _splitType(s, start, end, result) {
   }
 }
 
-/**
- *
- * Hand-written parser that splits sum types
- * It splits on | and balances parentheses
- *
- * @param {string} type
- *
- * @returns {string[]}
- */
-function splitType(type) {
+
+export const splitType = (type: string): string[] => {
   const result = [];
   _splitType(type, 0, type.length, result);
   return result;
 }
 
-/**
- *
- * @param {string} classname
- * @param {string} paramname
- * @param {string} description
- *
- * @returns {{ values: RegExpExecArray[]; constName: string; }}
- */
-function extractConstantsFromDescription(classname, paramname, description) {
+
+export const extractConstantsFromDescription = (classname: string, paramname: string, description: string): { values: RegExpExecArray[]; constName: string; } => {
   const constantRe = /either\s+(?:[A-Z0-9_]+\s*,?\s*)+((?:or)?\s*(?:[A-Z0-9_]+\s*))/g;
   const execResult = constantRe.exec(description);
-  const values = [];
+  const values: RegExpExecArray[] = [];
   let match;
   if (execResult) {
     match = execResult[0];
@@ -159,7 +128,7 @@ function extractConstantsFromDescription(classname, paramname, description) {
   }
   if (match) {
     const reConst = /[A-Z0-9_]+/g;
-    let matchConst;
+    let matchConst: RegExpExecArray | null;
     while ((matchConst = reConst.exec(match)) !== null) {
       values.push(matchConst);
     }
@@ -199,9 +168,3 @@ function extractConstantsFromDescription(classname, paramname, description) {
 
   return undefined;
 }
-
-module.exports = {
-  countParentheses: countParentheses,
-  extractConstantsFromDescription: extractConstantsFromDescription,
-  splitType: splitType
-};

@@ -1,7 +1,6 @@
-/// @ts-check
-const https = require("https");
-const fs = require("fs");
-const { datajson, datajsonfolder } = require("../filepath");
+import https from "https";
+import fs from "fs";
+import { datajson, datajsonfolder } from "../filepath";
 
 // https://stackoverflow.com/a/13544465
 fs.mkdirSync(datajsonfolder, { recursive: true });

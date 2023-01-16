@@ -1,0 +1,8 @@
+{
+    "transform": {
+      "^.+\\.tsx?$": "esbuild-jest"
+    },
+    "roots": [
+      "./test"
+    ]
+}

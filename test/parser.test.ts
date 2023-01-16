@@ -1,8 +1,4 @@
-// @ts-check
-
-const test = require('ava').default;
-
-const parser = require('../src/parser');
+import { splitType } from '../src/parser';
 
 const splitTypesMap = [
   { from: '', to: [] },
@@ -15,9 +11,10 @@ const splitTypesMap = [
   { from: '((A|B))|Function(A|B)', to: ['A', 'B', 'Function(A|B)'] }
 ];
 
-test('split types', t => {
-  for (let testCase of splitTypesMap) {
-    const result = parser.splitType(testCase.from);
-    t.deepEqual(result, testCase.to, testCase.from);
-  }
+describe('split types', () => {
+  test("split types", () => {
+    for (const testCase of splitTypesMap) {
+      expect(splitType(testCase.from)).toStrictEqual(testCase.to);
+    }
+  })
 });
