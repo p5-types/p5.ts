@@ -92,7 +92,7 @@ function eatSplitGroup(s: string, start: number, end: number) {
 }
 
 
-function _splitType(s: string, start: number, end: number, result: any[]) {
+function _splitType(s: string, start: number, end: number, result: string[]) {
   let pos = start;
   while (pos < end) {
     const group = eatSplitGroup(s, pos, end);
@@ -155,14 +155,14 @@ export const extractConstantsFromDescription = (classname: string, paramname: st
     ) {
       constName = propWords.join('_');
     } else {
-      constName = propWords[0] + '_' + paramWords[paramWords.length - 1];
+      constName = `${propWords[0]}_${paramWords[paramWords.length - 1]}`;
     }
 
     constName = constName.toUpperCase();
 
     return {
-      values: values,
-      constName: constName
+      values,
+      constName
     };
   }
 

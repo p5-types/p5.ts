@@ -43,7 +43,7 @@ type IsNamedYUIDocsClassitem = (arg: YUIDocsClassitem) => arg is NamedYUIDocsCla
 interface YUIDocsClassitemCommon {
   file: string;
   line: number;
-  description?: string;
+  description?: MethodDescription;
   'class': string;
   module: string;
   submodule?: string;
@@ -148,6 +148,7 @@ interface YUIDocsModule {
 }
 
 interface YUIDocsClass {
+  // TODO: fix type error
   name: string
   shortname: string
   classitems: YUIDocsClassitem[]

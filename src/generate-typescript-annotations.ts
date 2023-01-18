@@ -4,7 +4,6 @@
 /// <reference path="./data.d.ts" />
 
 
-
 import * as fs from 'fs-extra';
 import * as path from 'upath';
 
@@ -40,7 +39,7 @@ function patchYUIDocs(yuidocs: YUIDocsData) {
       const value = modules[key];
       if (value.file !== undefined) {
         // inlined patchItemFile to avoid type errors...
-        value.file = value.file?.replace(/\\/g, '/');
+        value.file = value.file.replace(/\\/g, '/');
       }
     }
   }
@@ -60,7 +59,7 @@ function printLocalsHeader(emitter: Emitter, versionString: string) {
   emitter.lineComment(
     'Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped'
   );
-  emitter.lineComment('TypeScript Version: 2.9');
+  emitter.lineComment('TypeScript Version: 4.9');
   emitter.emptyLine();
   emitter.lineComment('This file was auto-generated. Please do not edit it.');
 }
@@ -97,7 +96,7 @@ function printClassFooter(emitter: Emitter) {
 }
 
 function position(file, line) {
-  return file + ', line ' + line;
+  return `${file}, line ${line}`;
 }
 
 function classitemPosition(classitem: YUIDocsClassitem) {
@@ -171,7 +170,7 @@ function printClassConstructor(
   definition: analyze.DefinitionAST,
   formatDecl: (formattedParams: string) => string
 ) {
-  const theConstructor = definition.constructor;
+  const theConstructor = definition._constructor;
   if (theConstructor) {
     const params = theConstructor.overload.params || [];
     const typedParams = theConstructor.typedParams;
@@ -269,6 +268,7 @@ function printProperty(emitter: Emitter, formatProperty: PropertyFormatter, form
 
 
 function printClassitems(emitter: Emitter, logger: Logger, formatter: ClassitemFormatter, items: analyze.ProcessedCategorizedClassitems) {
+  // TODO: There should not be ?. but I don't know how to fix this.
   if (items.staticMethods?.length > 0) {
     formatter.beginStatic();
     for (const sm of items.staticMethods) {
@@ -368,7 +368,7 @@ function printFileBody(emitter: Emitter, logger: Logger, formatType: TypeFormatt
   for (const item of file.augmentations.items) {
     const className = item[0];
     let prettyClassname;
-    if (P5.ALIASES.indexOf(className) !== -1) {
+    if (P5.ALIASES.includes(className)) {
       prettyClassname = 'p5InstanceExtensions';
     } else {
       prettyClassname = className.match(P5.CLASS_RE)[1];

@@ -8,7 +8,6 @@ import * as types from './types';
 import * as P5 from './p5_classes';
 import ItemCache from './itemcache';
 
-
 function getVersionString(version: string) {
   try {
     return `${semver.major(version)}.${semver.minor(version)}`;
@@ -66,17 +65,15 @@ export class DefinitionAST {
   categorized: CategorizedClassitems;
   processed: ProcessedCategorizedClassitems;
   extends: string | undefined;
+  _constructor: CheckedMethod;
   constructor() {
     this.categorized = new CategorizedClassitems();
     this.processed = new ProcessedCategorizedClassitems();
     this.extends = undefined;
-    /**
-     * @type {CheckedMethod | undefined}
-     */
-    this.constructor = undefined;
+    this._constructor;
   }
 }
-
+undefined
 class AugmentationAST {
   categorized: CategorizedClassitems;
   processed: ProcessedCategorizedClassitems;
@@ -87,26 +84,22 @@ class AugmentationAST {
 }
 
 export class FileAST {
-  definitions: ItemCache;
-  augmentations: ItemCache;
+  definitions : ItemCache<DefinitionAST>;
+  augmentations: ItemCache<AugmentationAST>;
   constructor() {
-    this.definitions = new ItemCache((_: any) => new DefinitionAST());
-    this.augmentations = new ItemCache((_: any) => new AugmentationAST());
+    this.definitions = new ItemCache((_) => new DefinitionAST());
+    this.augmentations = new ItemCache((_) => new AugmentationAST());
   }
-}
-
-function isNamedClassitem(arg: IsNamedYUIDocsClassitem) {
-  return arg['name'] !== undefined;
 }
 
 
 function groupClassitems(classitems: YUIDocsClassitem[]): ItemCache<NamedYUIDocsClassitem[]> {
 
-  const hasNameHack = classitems.filter(isNamedClassitem);
+  const hasNameHack = classitems.filter(arg => arg['name'] !== undefined);
 
   const hasName = hasNameHack;
 
-  const grouped = new ItemCache((_: any) => []);
+  const grouped = new ItemCache((_) => []);
 
   for (const classitem of hasName) {
     grouped.get(classitem.class).push(classitem);
@@ -132,7 +125,7 @@ function populateDefinitions(filesCache: ItemCache<FileAST>, translateType: Type
   const file = filesCache.get(classitemFilename(theClass));
   const classAST = file.definitions.get(theClass.name);
   if (theClass.is_constructor) {
-    classAST.constructor = checkMethod(translateType, theClass, theClass);
+    classAST._constructor = checkMethod(translateType, theClass, theClass);
   }
   classAST.extends = theClass.extends;
 }
@@ -176,13 +169,13 @@ function categorizeClassitems(filesCache: ItemCache<FileAST>, classes: YUIDocsCl
       for (const overload of overloads) {
         if (overload.static === 1) {
           classitemAST.staticMethods.push({
-            classitem: classitem,
-            overload: overload
+            classitem,
+            overload
           });
         } else {
           classitemAST.instanceMethods.push({
-            classitem: classitem,
-            overload: overload
+            classitem,
+            overload
           });
         }
       }
@@ -198,13 +191,7 @@ function categorizeClassitems(filesCache: ItemCache<FileAST>, classes: YUIDocsCl
 const JS_SYMBOL_RE = /^[$A-Z_][0-9A-Z_$]*$/i;
 
 function checkMethod(translateType: TypeTranslator, classitem: Methodish, overload: Overloadish): CheckedMethod {
-  /**
-   * @type {string[]}
-   */
   const errors: string[] = [];
-  /**
-   * @type {Map<string, TranslatedType[]>}
-   */
   const typedParams: Map<string, TranslatedType[]> = new Map();
   let optionalParamFound = false;
   const itemName = classitem.name;
@@ -256,11 +243,11 @@ function checkMethod(translateType: TypeTranslator, classitem: Methodish, overlo
   }
 
   return {
-    errors: errors,
-    typedParams: typedParams,
-    returnType: returnType,
-    classitem: classitem,
-    overload: overload
+    errors,
+    typedParams,
+    returnType,
+    classitem,
+    overload
   };
 }
 
@@ -295,7 +282,7 @@ function methodDescription(classitem: YUIDocsClassitemMethod, overload: Overload
       const description = descriptions.get(param.name);
       if (description) {
         params.push({
-          description: description,
+          description,
           name: param.name,
           optional: param.optional
         });
@@ -336,12 +323,16 @@ function processCategorized(translateType: TypeTranslator, categorized: Categori
     const classitem = sm.classitem;
     const itemname = classitem.name;
     const checked = checkMethod(translateType, classitem, overload);
-    processed?.staticMethods?.push({
-      description: methodDescription(classitem, overload),
-      params: overload.params || [],
-      name: itemname,
-      checked: checked
-    });
+    try{
+      processed.staticMethods.push({
+        description: methodDescription(classitem, overload),
+        params: overload.params || [],
+        name: itemname,
+        checked
+      });
+    }catch(e) {
+      console.error(`${JSON.stringify(processed)} does not have staticMethods`)
+    }
   }
 
   for (const im of categorized.instanceMethods) {
@@ -353,7 +344,7 @@ function processCategorized(translateType: TypeTranslator, categorized: Categori
       description: methodDescription(classitem, overload),
       params: overload.params || [],
       name: itemname,
-      checked: checked
+      checked
     });
   }
 
@@ -376,6 +367,7 @@ function processCategorized(translateType: TypeTranslator, categorized: Categori
       }
 
       if (translatedType.length > 0) {
+        // TODO: fix this type error.
         processed.properties.push({
           name: itemName,
           type: translatedType,
@@ -404,7 +396,7 @@ class Classes {
   p5Subclasses: string[];
   unknownClasses: string[];
   missingTypes: Set<string>;
-  files: ItemCache;
+  files: ItemCache<FileAST>;
   /**
    *
    * @param {YUIDocsData} yuidocs
@@ -417,7 +409,7 @@ class Classes {
     this.missingTypes = new Set();
 
     for (const className of Object.keys(yuidocs.classes)) {
-      if ((P5?.ALIASES as string[]).includes(className)) {
+      if ((P5.ALIASES as string[]).includes(className)) {
         this.p5Aliases.push(className);
       } else if (P5.CLASS_RE.test(className)) {
         this.p5Subclasses.push(className);
@@ -427,7 +419,7 @@ class Classes {
     }
 
     const knownClassnames = this.p5Aliases.concat(this.p5Subclasses);
-    this.files = new ItemCache((filename: any) => new FileAST());
+    this.files = new ItemCache((_) => new FileAST());
     const groupedItems = groupClassitems(yuidocs.classitems);
     const typeTranslator: TypeTranslator = (type, defaultType) =>
       types.translateType(

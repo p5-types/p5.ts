@@ -1,4 +1,4 @@
-type Logger = (message?: any, ...optionalParams: any[]) => void
+type Logger = (message, ...optionalParams) => void
 
 interface GtaArgs {
   data: string
@@ -24,7 +24,7 @@ interface DescriptionParam {
 }
 
 interface MethodDescription {
-  description: string
+  description: MethodDescription
   params: DescriptionParam[]
   chainable?: 1
   returns?: string
@@ -38,6 +38,7 @@ interface ProcessedCategorizedMethod {
   params: YUIDocsParam[]
   name: string
   checked: CheckedMethod
+  //type: TranslatedType[]
 }
 
 interface ProcessedCategorizedProperty {

@@ -1,13 +1,4 @@
-interface ClassitemFormatter {
-  beginInstance: () => void
-  formatInstanceMethod: MethodFormatter
-  formatInstanceProperty: PropertyFormatter
-  endInstance: () => void
-  beginStatic: () => void
-  formatStaticMethod: MethodFormatter
-  endStatic: () => void
-  formatType: TypeFormatter
-}
+///<reference path="./Foramtter.d.ts" />
 
 import * as P5 from './p5_classes'
 
@@ -108,7 +99,7 @@ export const globals = {
   },
   endInstance: () => {},
   beginStatic: () => {},
-  formatStaticMethod: (name: any, params: any, returns: any) =>
+  formatStaticMethod: (name, params, returns) =>
     `// TODO: Report issue about ignored static method ${declBody(
       name,
       params,

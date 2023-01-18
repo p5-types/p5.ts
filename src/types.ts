@@ -1,9 +1,6 @@
-/// @ts-check
-
 /// <reference path="./types_.d.ts" />
 /// <reference path="./data.d.ts" />
 /// <reference path="./generate-typescript-annotations.d.ts" />
-import { flatten  } from './util';
 import * as parser from './parser';
 import * as P5 from './p5_classes';
 
@@ -53,7 +50,7 @@ function arr(value: TranslatedType[]): TranslatedArray {
 }
 
 
-const YUIDOC_TO_TYPESCRIPT_PARAM_MAP: { [s: string]: TranslatedType; } = {
+const YUIDOC_TO_TYPESCRIPT_PARAM_MAP = {
   Object: basic('object'),
   Any: basic('any'),
   Number: basic('number'),
@@ -89,10 +86,7 @@ export function translateType(yuidocs: YUIDocsData, constants: Map<string, RegEx
 
   type = type.trim();
 
-  /**
-   * @type TranslatedType[][]
-   */
-  const parsed: TranslatedType[][] = parser.splitType(type).map(part => {
+  const parsed = parser.splitType(type).map(part => {
     if (part.length > 2 && part.substring(part.length - 2) === '[]') {
       return [
         arr(
@@ -117,7 +111,7 @@ export function translateType(yuidocs: YUIDocsData, constants: Map<string, RegEx
         ]);
         return {
           name: paramName,
-          paramType: paramType
+          paramType
         };
       });
       return [func(mappedParamTypes)];
@@ -143,7 +137,7 @@ export function translateType(yuidocs: YUIDocsData, constants: Map<string, RegEx
     return defaultType;
   });
 
-  return flatten(parsed);
+  return parsed.flat(3);
 }
 
 

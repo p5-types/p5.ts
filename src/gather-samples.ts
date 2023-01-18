@@ -1,7 +1,7 @@
 function splitLines(text: string) {
   const lines = [];
 
-  let m: (string | any[])[];
+  let m: RegExpExecArray;
   const reSplit = /(( *\* ?)?.*)(?:\r\n|\r|\n)/g;
   while ((m = reSplit.exec(text)) != null) {
     if (m.index === reSplit.lastIndex) {
@@ -25,7 +25,7 @@ const prologue = `import "p5/global";
 export function processFile(text: string) {
   this.lines = splitLines(text);
 
-  let m: (string | any[])[];
+  let m: RegExpExecArray;
   const comments = [];
 
   const reComment = /\/\*\*(?:.|\r|\n)*?\*\//g;

@@ -99,7 +99,7 @@ export class Emitter {
   }
 
   itemDescription(classitem, overload) {
-    const desc = classitem.description;
+    const desc: string = classitem.description;
     if (!desc) {
       return;
     }
