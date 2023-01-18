@@ -10,9 +10,10 @@ Then, look in the [examples directory](./examples) for inspiration.
 `global.d.ts` references `index.d.ts`, so you must include both if global mode is used.
 
 To generate typings yourself, try out:
+
 ```sh
-npm run download-p5
-npm run generate
+npm i
+npm run all
 ```
 
 the generated typings are put at [p5](./types/p5) directory.

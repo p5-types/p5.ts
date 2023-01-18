@@ -10,6 +10,7 @@
     "download-p5": "tsx src/commands/download-p5.ts",
     "generate": "tsx src/commands/generate.ts",
     "test": "jest --coverage",
+    "all": "npm run download-p5 && npm run generate && npm test",
     "watch:test": "jest --watch"
   },
   "license": "LGPL-2.1",
