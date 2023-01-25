@@ -2,16 +2,16 @@
 
 import * as P5 from './p5_classes'
 
-function declBody(itemName: any, params: any, returnType: any) {
+function declBody(itemName: string, params: string, returnType: TranslatedType[]) {
   return `${itemName}(${params}): ${returnType}`;
 }
 
 
-function formatFunctionParam(formatter: { (types: any): any; (types: any): any; (arg0: any): any }, param: { name: any; paramType: any }) {
+function formatFunctionParam(formatter: TypeFormatter, param: TranslatedFunctionParam) {
   return `${param.name}: ${formatter(param.paramType)}`;
 }
 
-const definitionsFormatFunctionParam = (param: any) =>
+const definitionsFormatFunctionParam = (param: TranslatedFunctionParam) =>
   formatFunctionParam(definitionsFormatType, param);
 
 export function basicUnqualifiedP5(type: string) {
@@ -75,36 +75,36 @@ export function globalsFormatType(types: TranslatedType[]) {
 
 
 export const definitions = {
-  beginInstance: () => {},
+  beginInstance: () => { },
   formatInstanceMethod: declBody,
-  formatInstanceProperty: (final, decl: any) => {
+  formatInstanceProperty: (final: string, decl: string) => {
     const modifier = final ? 'readonly ' : '';
     return `${modifier}${decl}`;
   },
-  endInstance: () => {},
-  beginStatic: () => {},
-  endStatic: () => {},
-  formatStaticMethod: (name: any, params: any, returns: any) =>
+  endInstance: () => { },
+  beginStatic: () => { },
+  endStatic: () => { },
+  formatStaticMethod: (name: string, params: string, returns: TranslatedType[]) =>
     `static ${declBody(name, params, returns)}`,
   formatType: definitionsFormatType
-};
+} as unknown as ClassitemFormatter;
 
 export const globals = {
-  beginInstance: () => {},
-  formatInstanceMethod: (name: any, params: any, returns: any) =>
+  beginInstance: () => { },
+  formatInstanceMethod: (name: string, params: string, returns: TranslatedType[]) =>
     `function ${declBody(name, params, returns)}`,
-  formatInstanceProperty: (final: any, decl: any) => {
+  formatInstanceProperty: (final: string, decl: string) => {
     const declarationType = final ? 'const' : 'let';
     return `${declarationType} ${decl};`;
   },
-  endInstance: () => {},
-  beginStatic: () => {},
-  formatStaticMethod: (name, params, returns) =>
+  endInstance: () => { },
+  beginStatic: () => { },
+  formatStaticMethod: (name: string, params: string, returns: TranslatedType[]) =>
     `// TODO: Report issue about ignored static method ${declBody(
       name,
       params,
       returns
     )}`,
-  endStatic: () => {},
+  endStatic: () => { },
   formatType: globalsFormatType
-};
+} as unknown as ClassitemFormatter;

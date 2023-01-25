@@ -18,9 +18,7 @@ export class Emitter {
     this.indentLevel = 0;
     this.lastText = '';
     this.totalText = '';
-    const outDir = path.dirname(filename);
-    makeDirSync(outDir);
-    this.filename = filename;
+    makeDirSync(path.dirname(filename));
   }
 
   emit(text: string) {
@@ -88,18 +86,17 @@ export class Emitter {
     });
   }
 
-  /**
-   *
-   * @param {string} desc
-   */
   emitDescription(desc: string) {
     shortenDescription(desc)
       .split('\n')
       .forEach(line => this.emit(` * ${line}`));
   }
 
-  itemDescription(classitem, overload) {
-    const desc: string = classitem.description;
+  itemDescription(
+    classitem: YUIDocsClassitemMethod,
+    overload: YUIDocsClassitemMethodOverload
+  ) {
+    const desc = classitem.description.description;
     if (!desc) {
       return;
     }
@@ -111,12 +108,14 @@ export class Emitter {
     if (overload) {
       let alloverloads = [classitem];
       if (classitem.overloads) {
+        // TODO: fix this error
+        //@ts-ignore
         alloverloads = alloverloads.concat(classitem.overloads);
       }
       if (overload.params) {
         overload.params.forEach(p => {
           let arg = p.name;
-          let p2;
+          let p2: YUIDocsParam;
           for (let i = 0; !p2 && i < alloverloads.length; i++) {
             if (alloverloads[i].params) {
               p2 = alloverloads[i].params.find(
@@ -135,22 +134,23 @@ export class Emitter {
       }
       if (overload.chainable) {
         this.emitDescription('@chainable');
-      } else if (overload.return?.description) {
+      }
+      if (overload.return) {
         this.emitDescription(`@return ${overload.return.description}`);
       }
     }
     this.emit(' */');
   }
 
-  referencePath(path) {
+  referencePath(path: string) {
     this.emit(`/// <reference path="${path}" />`);
   }
 
-  importAugmenter(path) {
+  importAugmenter(path: string) {
     this.emit(`import "${path}";`);
   }
 
-  lineComment(text = '') {
+  lineComment(text: string = '') {
     this.emit(`// ${text}`);
   }
 

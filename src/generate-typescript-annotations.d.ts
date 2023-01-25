@@ -24,7 +24,7 @@ interface DescriptionParam {
 }
 
 interface MethodDescription {
-  description: MethodDescription
+  description: string
   params: DescriptionParam[]
   chainable?: 1
   returns?: string
