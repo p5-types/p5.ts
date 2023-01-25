@@ -264,7 +264,7 @@ function overloadsParameterDescription(overloads: Overloadish[]) {
 }
 
 
-function methodDescription(classitem: YUIDocsClassitemMethod, overload: Overloadish): MethodDescription | undefined {
+function methodDescription(classitem: YUIDocsClassitemMethod, overload: Overloadish): MethodDescription {
   const description = classitem.description;
   if (!description) {
     return;
@@ -291,7 +291,7 @@ function methodDescription(classitem: YUIDocsClassitemMethod, overload: Overload
   }
 
   return {
-    description,
+    description: description.description,
     params,
     chainable: overload['chainable'],
     returns: overload.return?.description
@@ -397,11 +397,6 @@ class Classes {
   unknownClasses: string[];
   missingTypes: Set<string>;
   files: ItemCache<FileAST>;
-  /**
-   *
-   * @param {YUIDocsData} yuidocs
-   * @param {Map<string, RegExpExecArray[]>} constants
-   */
   constructor(yuidocs: YUIDocsData, constants: Map<string, RegExpExecArray[]>) {
     this.p5Aliases = [];
     this.p5Subclasses = [];

@@ -6,19 +6,18 @@
 
 import * as fs from 'fs-extra';
 import * as path from 'upath';
+import { PathLike } from 'fs';
+
 
 import { Emitter } from './emitter';
-// eslint-disable-next-line no-unused-vars
 import ItemCache from './itemcache';
 import * as analyze from './analyze-data';
 import * as P5 from './p5_classes';
 import * as formatters from './formatters';
+
 const GRAPHICS_WORKAROUND_NAME = '__Graphics__';
 
-/**
- *
- * @param {HasFile} classitem
- */
+
 function patchItemFile(classitem: HasFile) {
   if (classitem.file !== undefined) {
     classitem.file = classitem.file.replace(/\\/g, '/');
@@ -95,7 +94,7 @@ function printClassFooter(emitter: Emitter) {
   emitter.emit('}');
 }
 
-function position(file, line) {
+function position(file: PathLike, line: number) {
   return `${file}, line ${line}`;
 }
 
@@ -208,7 +207,7 @@ function printDescription(emitter: Emitter, lines: string[]) {
 }
 
 
-function printMethodDescription(emitter: Emitter, methodDescription: MethodDescription | undefined) {
+function printMethodDescription(emitter: Emitter, methodDescription?: MethodDescription) {
   if (!methodDescription) {
     return;
   }
