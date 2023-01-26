@@ -50,7 +50,7 @@ function arr(value: TranslatedType[]): TranslatedArray {
 }
 
 
-const YUIDOC_TO_TYPESCRIPT_PARAM_MAP = {
+const YUIDOC_TO_TYPESCRIPT_PARAM_MAP: { [key: string]: TranslatedType } = {
   Object: basic('object'),
   Any: basic('any'),
   Number: basic('number'),

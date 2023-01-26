@@ -108,8 +108,8 @@ function _splitType(s: string, start: number, end: number, result: string[]) {
 }
 
 
-export const splitType = (type: string): string[] => {
-  const result = [];
+export const splitType = (type: string) => {
+  const result: string[] = [];
   _splitType(type, 0, type.length, result);
   return result;
 }

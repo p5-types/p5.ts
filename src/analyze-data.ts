@@ -50,7 +50,7 @@ class CategorizedClassitems {
 export class ProcessedCategorizedClassitems {
   instanceMethods: ProcessedCategorizedMethod[];
   staticMethods: ProcessedCategorizedMethod[];
-  properties: ProcessedCategorizedMethod[];
+  properties: ProcessedCategorizedProperty[];
   invalidProperties: InvalidProperty[];
   literals: Map<string, string>;
   constructor() {
@@ -64,7 +64,7 @@ export class ProcessedCategorizedClassitems {
 export class DefinitionAST {
   categorized: CategorizedClassitems;
   processed: ProcessedCategorizedClassitems;
-  extends: string | undefined;
+  extends?: string;
   _constructor: CheckedMethod;
   constructor() {
     this.categorized = new CategorizedClassitems();
@@ -84,7 +84,7 @@ class AugmentationAST {
 }
 
 export class FileAST {
-  definitions : ItemCache<DefinitionAST>;
+  definitions: ItemCache<DefinitionAST>;
   augmentations: ItemCache<AugmentationAST>;
   constructor() {
     this.definitions = new ItemCache((_) => new DefinitionAST());
@@ -291,7 +291,7 @@ function methodDescription(classitem: YUIDocsClassitemMethod, overload: Overload
   }
 
   return {
-    description: description.description,
+    description,
     params,
     chainable: overload['chainable'],
     returns: overload.return?.description
@@ -323,14 +323,14 @@ function processCategorized(translateType: TypeTranslator, categorized: Categori
     const classitem = sm.classitem;
     const itemname = classitem.name;
     const checked = checkMethod(translateType, classitem, overload);
-    try{
+    try {
       processed.staticMethods.push({
         description: methodDescription(classitem, overload),
         params: overload.params || [],
         name: itemname,
         checked
       });
-    }catch(e) {
+    } catch (e) {
       console.error(`${JSON.stringify(processed)} does not have staticMethods`)
     }
   }

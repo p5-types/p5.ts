@@ -1,8 +1,7 @@
-type Factory<T> = (name: string) => T;
-
 export default class ItemCache<T> {
-  items: Map<string,T>;
-  constructor(public factory: Factory<T>) {
+  items: Map<string, T>;
+  factory: (name: string) => T;
+  constructor(factory: (name: string) => T) {
     this.items = new Map();
     this.factory = factory;
   }
