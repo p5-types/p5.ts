@@ -4,6 +4,7 @@ import * as path from 'upath';
 import h2p from 'html2plaintext';
 import wrap from 'word-wrap';
 import * as prettier from 'prettier';
+import { PathLike } from 'fs';
 
 const shortenDescription = (desc: string) => wrap(h2p(desc).replace(/[\r\n]+/, ''), { width: 50 })
 
@@ -96,7 +97,7 @@ export class Emitter {
     classitem: YUIDocsClassitemMethod,
     overload: YUIDocsClassitemMethodOverload
   ) {
-    const desc = classitem.description.description;
+    const desc = classitem.description;
     if (!desc) {
       return;
     }
@@ -142,11 +143,11 @@ export class Emitter {
     this.emit(' */');
   }
 
-  referencePath(path: string) {
+  referencePath(path: PathLike) {
     this.emit(`/// <reference path="${path}" />`);
   }
 
-  importAugmenter(path: string) {
+  importAugmenter(path: PathLike) {
     this.emit(`import "${path}";`);
   }
 

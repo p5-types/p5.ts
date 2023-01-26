@@ -42,11 +42,10 @@ function patchYUIDocs(yuidocs: YUIDocsData) {
       }
     }
   }
-  for (const key in classes) {
-    if (classes.hasOwnProperty(key)) {
-      patchItemFile(classes[key]);
-    }
-  }
+  Object
+    .entries(classes)
+    .filter(([key, value]) => classes.hasOwnProperty(key))
+    .forEach(([key, value]) => patchItemFile(value))
   classitems.forEach(patchItemFile);
 }
 
