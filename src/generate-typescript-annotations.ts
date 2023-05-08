@@ -266,8 +266,7 @@ function printProperty(emitter: Emitter, formatProperty: PropertyFormatter, form
 
 
 function printClassitems(emitter: Emitter, logger: Logger, formatter: ClassitemFormatter, items: analyze.ProcessedCategorizedClassitems) {
-  // TODO: There should not be ?. but I don't know how to fix this.
-  if (items.staticMethods?.length > 0) {
+  if (items.staticMethods.length > 0) {
     formatter.beginStatic();
     for (const sm of items.staticMethods) {
       printMethod(

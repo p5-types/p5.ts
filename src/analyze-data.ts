@@ -55,6 +55,7 @@ export class ProcessedCategorizedClassitems {
   literals: Map<string, string>;
   constructor() {
     this.instanceMethods = [];
+    this.staticMethods = [];
     this.properties = [];
     this.invalidProperties = [];
     this.literals = new Map();
