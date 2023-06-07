@@ -253,7 +253,7 @@ function checkMethod(translateType: TypeTranslator, classitem: Methodish, overlo
 }
 
 function overloadsParameterDescription(overloads: Overloadish[]) {
-  const descriptions: Map<string, string> = new Map();
+  const descriptions = new Map<string, string>();
   for (const overload of overloads) {
     for (const param of overload.params || []) {
       if (param.description && !descriptions.has(param.name)) {
@@ -324,16 +324,12 @@ function processCategorized(translateType: TypeTranslator, categorized: Categori
     const classitem = sm.classitem;
     const itemname = classitem.name;
     const checked = checkMethod(translateType, classitem, overload);
-    try {
-      processed.staticMethods.push({
-        description: methodDescription(classitem, overload),
-        params: overload.params || [],
-        name: itemname,
-        checked
-      });
-    } catch (e) {
-      console.error(`${JSON.stringify(processed)} does not have staticMethods`)
-    }
+    processed.staticMethods.push({
+      description: methodDescription(classitem, overload),
+      params: overload.params || [],
+      name: itemname,
+      checked
+    });
   }
 
   for (const im of categorized.instanceMethods) {
