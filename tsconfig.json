@@ -3,6 +3,10 @@
         "module": "es2020",
         "moduleResolution": "node",
         "target": "ES6",
+        "lib": [
+            "ES2016",
+            "DOM"
+        ],
         "allowSyntheticDefaultImports": true
     }
 }
