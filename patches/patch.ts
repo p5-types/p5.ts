@@ -133,3 +133,64 @@ replace(
             uvs: number[]
         }) => {});`
 )
+
+// https://github.com/p5-types/p5.ts/issues/31
+replace(
+    "types/p5/src/math/random.d.ts",
+    "random(choices: any[]): any;",
+    "random<T>(choices: T[]): T;"
+)
+
+replace(
+    "types/p5/src/utilities/array_functions.d.ts",
+    "append(array: any[], value: any): any[];",
+    "append<T>(array: T[], value: T): T[];"
+)
+replace("types/p5/global.d.ts",
+    "append(array: any[], value: any): any[];",
+    "append<T>(array: T[], value: T): T[];"
+)
+replace(
+    "types/p5/src/image/image.d.ts",
+    `saveFrames(
+    filename: string,
+    extension: string,
+    duration: number,
+    framerate: number,
+    callback?: (p1: any[]) => any
+): void;`,
+    `type Frame = {
+    imageData: string;
+    filename: string;
+    ext: string;
+  };
+  
+  interface p5InstanceExtensions {
+    saveFrames: (filename: string, extension: string, duration: number, framerate: number, callback?: (frames: Frame[]) => void) => void;
+  }`
+)
+replace(
+    "types/p5/global.d.ts",
+    `saveFrames(
+    filename: string,
+    extension: string,
+    duration: number,
+    framerate: number,
+    callback?: (p1: any[]) => any
+): void;`,
+    `type Frame = {
+    imageData: string;
+    filename: string;
+    ext: string;
+  };
+  
+  interface p5InstanceExtensions {
+    saveFrames: (filename: string, extension: string, duration: number, framerate: number, callback?: (frames: Frame[]) => void) => void;
+  }`
+)
+
+replace(
+    "types/p5/src/core/p5.Element.d.ts",
+    "elt: any;",
+    "elt: HTMLElement;"
+)
