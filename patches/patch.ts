@@ -118,3 +118,18 @@ export = p5sound
 } catch (err) {
     console.error(err);
 }
+
+
+replace(
+    "types/p5/src/webgl/p5.Geometry.d.ts",
+    "constructor(detailX?: number, detailY?: number, callback?: (...args: any[]) => any);",
+    `constructor(
+        detailX?: number,
+        detailY?: number,
+        callback?: (this: {
+            detailY: number,
+            detailX: number,
+            vertices: p5.Vector[],
+            uvs: number[]
+        }) => {});`
+)
