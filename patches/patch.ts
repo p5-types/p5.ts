@@ -99,3 +99,22 @@ for (const [src, dest] of [
 ]) {
     replace("types/p5/src/events/touch.d.ts", src, dest)
 }
+
+// https://github.com/p5-types/p5.ts/issues/96
+
+replace(
+    "types/p5/lib/addons/p5.sound.d.ts",
+    "declare module '../../index' {",
+    "declare namespace p5sound {"
+)
+
+try {
+    const data = fs
+        .readFileSync("types/p5/lib/addons/p5.sound.d.ts", { encoding: 'utf-8' }) + `
+
+export = p5sound
+`;
+    fs.writeFileSync("types/p5/lib/addons/p5.sound.d.ts", data);
+} catch (err) {
+    console.error(err);
+}
