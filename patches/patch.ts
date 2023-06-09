@@ -131,7 +131,7 @@ replace(
             detailX: number,
             vertices: p5.Vector[],
             uvs: number[]
-        }) => {});`
+        }): void);`
 )
 
 // https://github.com/p5-types/p5.ts/issues/31
