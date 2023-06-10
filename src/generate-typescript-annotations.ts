@@ -1,5 +1,3 @@
-/// @ts-check
-
 /// <reference path="./generate-typescript-annotations.d.ts" />
 /// <reference path="./data.d.ts" />
 
@@ -33,33 +31,34 @@ function patchYUIDocs(yuidocs: YUIDocsData) {
   const modules = yuidocs.modules;
   const classes = yuidocs.classes;
   const classitems = yuidocs.classitems;
-  for (const key in modules) {
-    if (modules.hasOwnProperty(key)) {
-      const value = modules[key];
-      if (value.file !== undefined) {
+  Object
+    .entries(modules)
+    .filter(([key, _]) => modules.hasOwnProperty(key))
+    .forEach(([_, value]) => {
+      if (typeof value.file !== "undefined") {
         // inlined patchItemFile to avoid type errors...
         value.file = value.file.replace(/\\/g, '/');
       }
-    }
-  }
+    })
   Object
     .entries(classes)
-    .filter(([key, value]) => classes.hasOwnProperty(key))
-    .forEach(([key, value]) => patchItemFile(value))
+    .filter(([key, _]) => classes.hasOwnProperty(key))
+    .forEach(([_, value]) => patchItemFile(value))
   classitems.forEach(patchItemFile);
 }
 
 
 function printLocalsHeader(emitter: Emitter, versionString: string) {
-  emitter.lineComment(`Type definitions for p5 ${versionString}`);
-  emitter.lineComment('Project: https://github.com/processing/p5.js');
-  emitter.lineComment('Definitions by: p5-types <https://github.com/p5-types>');
-  emitter.lineComment(
-    'Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped'
-  );
-  emitter.lineComment('TypeScript Version: 4.9');
-  emitter.emptyLine();
-  emitter.lineComment('This file was auto-generated. Please do not edit it.');
+  emitter
+    .lineComment(`Type definitions for p5 ${versionString}`)
+    .lineComment('Project: https://github.com/processing/p5.js')
+    .lineComment('Definitions by: p5-types <https://github.com/p5-types>')
+    .lineComment(
+      'Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped'
+    )
+    .lineComment('TypeScript Version: 4.9')
+    .emptyLine()
+    .lineComment('This file was auto-generated. Please do not edit it.');
 }
 
 function relativeSafe(from: string, to: string) {
@@ -79,18 +78,20 @@ function indexRelative(baseDir: string, fileName: string) {
 
 
 function printClassHeader(emitter: Emitter, prettyClassname: string, definition: analyze.DefinitionAST) {
-  emitter.emit(
-    `class ${prettyClassname}${definition.extends
-      ? ` extends ${formatters.basicUnqualifiedP5(definition.extends)}`
-      : ''
-    } {`
-  );
-  emitter.indent();
+  emitter
+    .emit(
+      `class ${prettyClassname}${definition.extends
+        ? ` extends ${formatters.basicUnqualifiedP5(definition.extends)}`
+        : ''
+      } {`
+    )
+    .indent();
 }
 
 function printClassFooter(emitter: Emitter) {
-  emitter.dedent();
-  emitter.emit('}');
+  emitter
+    .dedent()
+    .emit('}');
 }
 
 function position(file: PathLike, line: number) {
@@ -141,23 +142,25 @@ function printOverloadErrors(
   decl: string,
   errors: string[]
 ) {
-  emitter.sectionBreak();
-  emitter.lineComment(
-    `TODO: Fix ${classitem.name}() errors in ${overloadPosition(
-      classitem,
-      overload
-    )}:`
-  );
-  emitter.emptyLineComment();
-  errors.forEach(function (error) {
+  emitter
+    .sectionBreak()
+    .lineComment(
+      `TODO: Fix ${classitem.name}() errors in ${overloadPosition(
+        classitem,
+        overload
+      )}:`
+    )
+    .emptyLineComment();
+  errors.forEach((error) => {
     logger(
       `${classitem.name}() ${overloadPosition(classitem, overload)}, ${error}`
     );
     emitter.lineComment(`   ${error}`);
   });
-  emitter.emptyLineComment();
-  emitter.lineComment(decl);
-  emitter.emptyLine();
+  emitter
+    .emptyLineComment()
+    .lineComment(decl)
+    .emptyLine();
 }
 
 
@@ -183,11 +186,12 @@ function printClassConstructor(
         theConstructor.errors
       );
     } else {
-      emitter.itemDescription(
-        theConstructor.classitem,
-        theConstructor.overload
-      );
-      emitter.emit(decl);
+      emitter
+        .itemDescription(
+          theConstructor.classitem,
+          theConstructor.overload
+        )
+        .emit(decl);
     }
   }
 }
@@ -197,8 +201,9 @@ function printDescription(emitter: Emitter, lines: string[]) {
   if (lines.length === 0) {
     return;
   }
-  emitter.sectionBreak();
-  emitter.emit('/**');
+  emitter
+    .sectionBreak()
+    .emit('/**');
   for (const line of lines) {
     emitter.emitDescription(line);
   }
@@ -376,8 +381,9 @@ function printFileBody(emitter: Emitter, logger: Logger, formatType: TypeFormatt
       logger,
       {
         beginInstance: () => {
-          emitter.emit(`interface ${prettyClassname} {`);
-          emitter.indent();
+          emitter
+            .emit(`interface ${prettyClassname} {`)
+            .indent();
         },
         formatInstanceMethod: declBody,
         formatInstanceProperty: (final, decl) => {
@@ -385,16 +391,19 @@ function printFileBody(emitter: Emitter, logger: Logger, formatType: TypeFormatt
           return `${modifier}${decl}`;
         },
         endInstance: () => {
-          emitter.dedent();
-          emitter.emit('}');
+          emitter
+            .dedent()
+            .emit('}');
         },
         beginStatic: () => {
-          emitter.emit(`namespace ${prettyClassname} {`);
-          emitter.indent();
+          emitter
+            .emit(`namespace ${prettyClassname} {`)
+            .indent();
         },
         endStatic: () => {
-          emitter.emit('}');
-          emitter.dedent();
+          emitter
+            .emit('}')
+            .dedent();
         },
         formatStaticMethod: (name, params, returns) =>
           `function ${declBody(name, params, returns)}`,
@@ -407,24 +416,24 @@ function printFileBody(emitter: Emitter, logger: Logger, formatType: TypeFormatt
 
 
 function printFile(emitter: Emitter, logger: Logger, file: analyze.FileAST, indexRel: string) {
-  emitter.lineComment('This file was auto-generated. Please do not edit it.');
-  emitter.emptyLine();
-  emitter.emit(`import * as p5 from '${indexRel}'`);
-  emitter.emptyLine();
-  emitter.emit(`declare module '${indexRel}' {`);
-  emitter.indent();
+  emitter
+    .lineComment('This file was auto-generated. Please do not edit it.')
+    .emptyLine()
+    .emit(`import * as p5 from '${indexRel}'`)
+    .emptyLine()
+    .emit(`declare module '${indexRel}' {`)
+    .indent();
 
   printFileBody(emitter, logger, formatters.definitions.formatType, file);
 
-  emitter.dedent();
-  emitter.emit('}');
+  emitter
+    .dedent()
+    .emit('}');
 }
 
 
 function printCore(emitter: Emitter, logger: Logger, file: analyze.FileAST) {
-  emitter.emit('export = p5;');
-  emitter.emit('declare class p5 {');
-  emitter.indent();
+  emitter.emit('export = p5;').emit('declare class p5 {').indent();
   const definitions = file.definitions.items;
   const p5 = definitions.get('p5');
   const formatType = formatters.definitions.formatType;
@@ -436,23 +445,26 @@ function printCore(emitter: Emitter, logger: Logger, file: analyze.FileAST) {
     params => `constructor(${params});`
   );
   printClassitems(emitter, logger, formatters.definitions, p5.processed);
-  emitter.dedent();
-  emitter.emit('}');
-  emitter.emptyLine();
+  emitter
+    .dedent()
+    .emit('}')
+    .emptyLine();
 
   definitions.delete('p5');
 
-  emitter.lineComment('tslint:disable-next-line:no-empty-interface');
-  emitter.emit('interface p5 extends p5.p5InstanceExtensions {}');
-  emitter.emptyLine();
-  emitter.emit('declare namespace p5 {');
-  emitter.indent();
-  emitter.emit('type UNKNOWN_P5_CONSTANT = any;');
-  emitter.lineComment('tslint:disable-next-line:no-empty-interface');
-  emitter.emit('interface p5InstanceExtensions {}');
+  emitter
+    .lineComment('tslint:disable-next-line:no-empty-interface')
+    .emit('interface p5 extends p5.p5InstanceExtensions {}')
+    .emptyLine()
+    .emit('declare namespace p5 {')
+    .indent()
+    .emit('type UNKNOWN_P5_CONSTANT = any')
+    .lineComment('tslint:disable-next-line:no-empty-interface')
+    .emit('interface p5InstanceExtensions {}')
   printFileBody(emitter, logger, formatType, file);
-  emitter.dedent();
-  emitter.emit('}');
+  emitter
+    .dedent()
+    .emit('}');
 }
 
 
@@ -467,15 +479,15 @@ function printAugmentationReferences(emitter: Emitter, files: ItemCache<analyze.
 
 
 function printGlobalsHeader(emitter: Emitter) {
-  emitter.lineComment('Global mode type definitions for p5');
-  emitter.emptyLine();
-  emitter.lineComment('This file was auto-generated. Please do not edit it.');
-  emitter.emptyLine();
-
-  emitter.referencePath('./lib/addons/p5.sound.d.ts');
-  emitter.emit(`import * as p5 from './index'`);
-  emitter.emit('declare global {');
-  emitter.indent();
+  emitter
+    .lineComment('Global mode type definitions for p5')
+    .emptyLine()
+    .lineComment('This file was auto-generated. Please do not edit it.')
+    .emptyLine()
+    .referencePath('./lib/addons/p5.sound.d.ts')
+    .emit(`import * as p5 from './index'`)
+    .emit('declare global {')
+    .indent();
 }
 
 
@@ -518,10 +530,11 @@ function printGlobals(emitter: Emitter, logger: Logger, files: ItemCache<analyze
 }
 
 function printLiterals(emitter: Emitter, literals: Map<string, string>) {
-  emitter.emit(`import * as p5 from './index'`);
-  emitter.emptyLine();
-  emitter.emit(`declare module './index' {`);
-  emitter.indent();
+  emitter
+    .emit(`import * as p5 from './index'`)
+    .emptyLine()
+    .emit(`declare module './index' {`)
+    .indent();
   const sortedLiterals = Array.from(literals).sort((a, b) =>
     a[0].localeCompare(b[0])
   );
@@ -531,17 +544,19 @@ function printLiterals(emitter: Emitter, literals: Map<string, string>) {
     const value = item[1];
     emitter.emit(`type ${name} = ${value};`);
   }
-  emitter.dedent();
-  emitter.emit('}');
-  emitter.close();
+  emitter
+    .dedent()
+    .emit('}')
+    .close();
 }
 
 
 function printConstants(emitter: Emitter, constants: Map<string, RegExpExecArray[]>) {
-  emitter.emit(`import * as p5 from './index'`);
-  emitter.emptyLine();
-  emitter.emit(`declare module './index' {`);
-  emitter.indent();
+  emitter
+    .emit(`import * as p5 from './index'`)
+    .emptyLine()
+    .emit(`declare module './index' {`)
+    .indent();
 
   const sortedConstants = Array.from(constants).sort((a, b) =>
     a[0].localeCompare(b[0])
@@ -550,10 +565,11 @@ function printConstants(emitter: Emitter, constants: Map<string, RegExpExecArray
   for (const item of sortedConstants) {
     const name = item[0];
     const values = item[1];
-    emitter.sectionBreak();
-    emitter.emit(`type ${name} =`);
-    emitter.indent();
-    values.forEach(function (v, i) {
+    emitter
+      .sectionBreak()
+      .emit(`type ${name} =`)
+      .indent();
+    values.forEach((v, i) => {
       let str = `${i ? '|' : ' '} ${v}`;
       if (i === values.length - 1) {
         str += ';';
@@ -563,9 +579,10 @@ function printConstants(emitter: Emitter, constants: Map<string, RegExpExecArray
     emitter.dedent();
   }
 
-  emitter.dedent();
-  emitter.emit('}');
-  emitter.close();
+  emitter
+    .dedent()
+    .emit('}')
+    .close();
 }
 
 

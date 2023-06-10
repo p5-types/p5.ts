@@ -39,20 +39,24 @@ export class Emitter {
     this.totalText += finalText;
 
     this.lastText = text;
+    return this;
   }
 
   emitNonEmpty(text: string) {
     if (text.trim().length > 0) {
       this.emit(text);
     }
+    return this;
   }
 
   indent() {
     this.indentLevel++;
+    return this;
   }
 
   dedent() {
     this.indentLevel--;
+    return this;
   }
 
   tryToFormat() {
@@ -91,6 +95,7 @@ export class Emitter {
     shortenDescription(desc)
       .split('\n')
       .forEach(line => this.emit(` * ${line}`));
+    return this;
   }
 
   itemDescription(
@@ -141,31 +146,38 @@ export class Emitter {
       }
     }
     this.emit(' */');
+    return this;
   }
 
   referencePath(path: PathLike) {
     this.emit(`/// <reference path="${path}" />`);
+    return this;
   }
 
   importAugmenter(path: PathLike) {
     this.emit(`import "${path}";`);
+    return this;
   }
 
   lineComment(text: string = '') {
     this.emit(`// ${text}`);
+    return this;
   }
 
   emptyLineComment() {
     this.emit('//');
+    return this;
   }
 
   emptyLine() {
     this.emit('');
+    return this;
   }
 
   sectionBreak() {
     if (this.lastText !== '' && !/\{$/.test(this.lastText)) {
       this.emit('');
     }
+    return this;
   }
 }
