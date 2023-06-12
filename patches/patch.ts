@@ -194,3 +194,36 @@ replace(
     "elt: any;",
     "elt: HTMLElement;"
 )
+
+// patch for dom api
+
+replace(
+    "types/p5/index.d.ts",
+    `/// <reference path="./src/core/p5.Element.d.ts" />`,
+    `/// <reference path="./src/core/p5.Element.d.ts" />
+/// <reference path="./src/core/p5.Other.d.ts" />`
+)
+
+fs.copyFile(
+    "patches/p5.Other.d.ts",
+    "types/p5/src/core/p5.Other.d.ts",
+    (e) => { console.error(e) }
+)
+
+let data = fs
+    .readFileSync("types/p5/global.d.ts", { encoding: "utf8" })
+    .split("\n");
+for (const name of ["A", "Div", "Span", "Slider", "Input", `Button`, `Checkbox`, `Select`, `Radio`, `ColorPicker`, `Input`, `FileInput`, `Capture`]) {
+    for (const [lineId, line] of data.entries()) {
+        if (line.trimStart().startsWith("function") &&
+            line.includes("create" + name) &&
+            line.trimEnd().endsWith(
+                "): p5.Element;")) {
+            data[lineId] = line.replace("p5.Element", "p5." + name)
+        }
+    }
+}
+fs.writeFileSync(
+    `types/p5/global.d.ts`,
+    data.join("\n")
+)
