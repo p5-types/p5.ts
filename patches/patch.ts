@@ -217,8 +217,7 @@ for (const name of ["A", "Div", "Span", "Slider", "Input", `Button`, `Checkbox`,
     for (const [lineId, line] of data.entries()) {
         if (line.trimStart().startsWith("function") &&
             line.includes("create" + name) &&
-            line.trimEnd().endsWith(
-                "): p5.Element;")) {
+            line.trimEnd().endsWith("): p5.Element;")) {
             data[lineId] = line.replace("p5.Element", "p5." + name)
         }
     }
