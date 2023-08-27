@@ -1,7 +1,7 @@
 /// <reference path="./generate-typescript-annotations.d.ts" />
 /// <reference path="./data.d.ts" />
 
-import * as path from 'upath';
+import * as path from 'path';
 import * as semver from 'semver';
 
 import * as types from './types';
@@ -149,7 +149,7 @@ function getClassitemAST(classes: YUIDocsClasses, file: FileAST, classitem: Name
 function definitionImportName(filename: string) {
   const dirname = path.dirname(filename);
   const name = path.basename(filename, '.js');
-  return path.joinSafe(dirname, name);
+  return path.join(dirname, name);
 }
 
 

@@ -2,8 +2,8 @@
 /// <reference path="./data.d.ts" />
 
 
-import * as fs from 'fs-extra';
-import * as path from 'upath';
+import * as fs from 'fs';
+import * as path from 'path';
 import { PathLike } from 'fs';
 
 
@@ -71,9 +71,9 @@ function relativeSafe(from: string, to: string) {
 
 
 function indexRelative(baseDir: string, fileName: string) {
-  const augmenterPath = path.joinSafe(baseDir, fileName);
+  const augmenterPath = path.join(baseDir, fileName);
   const baseRel = relativeSafe(path.dirname(augmenterPath), baseDir);
-  return path.joinSafe(baseRel, 'index');
+  return path.join(baseRel, 'index');
 }
 
 
@@ -471,7 +471,7 @@ function printCore(emitter: Emitter, logger: Logger, file: analyze.FileAST) {
 function printAugmentationReferences(emitter: Emitter, files: ItemCache<analyze.FileAST>, mainFile: string) {
   for (const fileName of files.items.keys()) {
     if (fileName.startsWith('src/') && fileName !== mainFile) {
-      const relname = path.joinSafe('./', fileName);
+      const relname = path.join('./', fileName);
       emitter.referencePath(`${relname}.d.ts`);
     }
   }
@@ -587,10 +587,10 @@ function printConstants(emitter: Emitter, constants: Map<string, RegExpExecArray
 
 
 function emit(outdir: string, logger: Logger, ast: analyze.DefinitionsAST) {
-  const localFilename = path.joinSafe(outdir, 'index.d.ts');
-  const globalFilename = path.joinSafe(outdir, 'global.d.ts');
-  const literalsFilename = path.joinSafe(outdir, 'literals.d.ts');
-  const constantsFilename = path.joinSafe(outdir, 'constants.d.ts');
+  const localFilename = path.join(outdir, 'index.d.ts');
+  const globalFilename = path.join(outdir, 'global.d.ts');
+  const literalsFilename = path.join(outdir, 'literals.d.ts');
+  const constantsFilename = path.join(outdir, 'constants.d.ts');
 
   const localEmitter = new Emitter(localFilename);
   const globalEmitter = new Emitter(globalFilename);
@@ -610,7 +610,7 @@ function emit(outdir: string, logger: Logger, ast: analyze.DefinitionsAST) {
     const fileName = item[0];
     if (fileName !== ast.mainFile) {
       const file = item[1];
-      const emitter = new Emitter(path.joinSafe(outdir, `${fileName}.d.ts`));
+      const emitter = new Emitter(path.join(outdir, `${fileName}.d.ts`));
       printFile(emitter, logger, file, indexRelative(outdir, fileName));
       emitter.close();
     }

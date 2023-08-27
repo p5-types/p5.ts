@@ -9,24 +9,21 @@
     "dtslint:samples": "dtslint types/p5/samples",
     "download-p5": "tsx src/commands/download-p5.ts",
     "generate": "tsx src/commands/generate.ts",
-    "patch" :"tsx patches/patch.ts",
+    "patch": "tsx patches/patch.ts",
     "test": "jest --coverage",
     "all": "npm run download-p5 && npm run generate && npm run patch && npm test",
     "watch:test": "jest --watch"
   },
   "license": "LGPL-2.1",
   "dependencies": {
-    "fs-extra": "^11.1.0",
     "glob": "^10.2.2",
     "html2plaintext": "^2.1.2",
     "semver": "^7.5.0",
     "typescript": "^4.9.4",
-    "upath": "^2.0.1",
     "word-wrap": "^1.2.3"
   },
   "devDependencies": {
     "@definitelytyped/dtslint": "^0.0.159",
-    "@types/fs-extra": "^11.0.1",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.17",
     "esbuild-jest": "^0.5.0",
@@ -39,5 +36,8 @@
   },
   "files": [
     "test/**/*.js"
-  ]
+  ],
+  "overrides": {
+    "has": "npm:@nolyfill/has@latest"
+  }
 }

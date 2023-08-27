@@ -1,6 +1,6 @@
-import * as fs from 'fs-extra';
-const makeDirSync = fs.ensureDirSync;
-import * as path from 'upath';
+import * as fs from 'fs';
+const makeDirSync = fs.mkdirSync;
+import * as path from 'path';
 import h2p from 'html2plaintext';
 import wrap from 'word-wrap';
 import * as prettier from 'prettier';
@@ -19,7 +19,7 @@ export class Emitter {
     this.indentLevel = 0;
     this.lastText = '';
     this.totalText = '';
-    makeDirSync(path.dirname(filename));
+    makeDirSync(path.dirname(filename), { recursive: true })
   }
 
   emit(text: string) {
@@ -63,7 +63,7 @@ export class Emitter {
     try {
       const prettierConfig = JSON.parse(
         fs.readFileSync(
-          path.joinSafe(__dirname, '../types/.prettierrc'),
+          path.join(__dirname, '../types/.prettierrc'),
           'utf8'
         )
       );

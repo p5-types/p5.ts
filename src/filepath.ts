@@ -1,4 +1,4 @@
-import { joinSafe } from "upath";
+import { join as joinSafe } from "path";
 
 export let datajsonfolder = joinSafe(__dirname, "../datajson/");
 export let datajson = joinSafe(__dirname, "../datajson/data.json");
