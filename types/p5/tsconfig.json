@@ -15,6 +15,7 @@
         "forceConsistentCasingInFileNames": true
     },
     "files": [
+        "global.d.ts",
         "index.d.ts",
         "test/index.ts",
         "test/unaugmented.ts"
