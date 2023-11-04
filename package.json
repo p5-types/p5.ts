@@ -11,7 +11,8 @@
     "generate": "tsx src/commands/generate.ts",
     "patch": "tsx patches/patch.ts",
     "test": "jest --coverage",
-    "all": "npm run download-p5 && npm run generate && npm run patch && npm test",
+    "all_with_patch": "npm run download-p5 && npm run generate && npm run patch && npm test",
+    "all": "npm run download-p5 && npm run generate && npm test",
     "watch:test": "jest --watch"
   },
   "license": "LGPL-2.1",
