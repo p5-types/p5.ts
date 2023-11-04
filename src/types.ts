@@ -19,7 +19,12 @@ const EXTERNAL_TYPES = new Set([
   'Node',
   'RegExp',
   'MediaStream',
-  'MediaStreamAudioSourceNode'
+  'MediaStreamAudioSourceNode',
+  'MouseEvent',
+  'TouchEvent',
+  'UIEvent',
+  'KeyboardEvent',
+  'WheelEvent'
 ]);
 
 const CONSTANT = 'Constant';
