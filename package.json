@@ -39,6 +39,10 @@
     "test/**/*.js"
   ],
   "overrides": {
-    "has": "npm:@nolyfill/has@latest"
+    "has": "npm:@nolyfill/has@latest",
+    "hasown": "npm:@nolyfill/hasown@latest",
+    "isarray": "npm:@nolyfill/isarray@latest",
+    "jsonify": "npm:@nolyfill/jsonify@latest",
+    "typedarray": "npm:@nolyfill/typedarray@latest"
   }
 }
