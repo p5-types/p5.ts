@@ -84,7 +84,11 @@ export class Emitter {
           if (err) {
             throw err;
           } else {
-            fs.close(fd);
+            fs.close(fd, err => {
+              if (err) {
+                  throw err;
+              }
+            });
           }
         });
       }
