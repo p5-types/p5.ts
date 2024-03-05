@@ -43,6 +43,11 @@
     "hasown": "npm:@nolyfill/hasown@latest",
     "isarray": "npm:@nolyfill/isarray@latest",
     "jsonify": "npm:@nolyfill/jsonify@latest",
-    "typedarray": "npm:@nolyfill/typedarray@latest"
+    "typedarray": "npm:@nolyfill/typedarray@latest",
+    "function-bind": "npm:@nolyfill/function-bind@latest",
+    "has-proto": "npm:@nolyfill/has-proto@latest",
+    "has-symbols": "npm:@nolyfill/has-symbols@latest",
+    "object-keys": "npm:@nolyfill/object-keys@latest",
+    "set-function-length": "npm:@nolyfill/set-function-length@latest"
   }
 }
