@@ -9,7 +9,7 @@ fs.mkdirSync(datajsonfolder, { recursive: true });
 
 const file = fs.createWriteStream(datajson);
 https.get(
-	"https://raw.githubusercontent.com/processing/p5.js-website/main/src/templates/pages/reference/data.json",
+	"https://p5js.org/reference/data.json",
 	(response) => {
 		response.pipe(file);
 
