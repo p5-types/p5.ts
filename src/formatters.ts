@@ -25,7 +25,10 @@ export function basicUnqualifiedP5(type: string) {
 }
 
 function definitionsFormatType(types: TranslatedType[]) {
-  const needsParens = types.length > 1;
+  if (typeof types === "undefined") {
+    return "undefined";
+  }
+  const needsParens = types?.length > 1 || false;
   return types
     .map((type) => {
       if (type.type === 'basic') {
