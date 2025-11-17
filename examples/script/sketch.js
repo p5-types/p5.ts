@@ -2,10 +2,9 @@
 /// <reference path="../../types/p5/global.d.ts" />
 
 const p5 = require("../../types/p5");
-
-function setup() {
-  sin(5);
-
+let img;
+async function setup() {
+  img = await loadImage("cat.jpg");
 }
 
 /**

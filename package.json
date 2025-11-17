@@ -8,11 +8,9 @@
     "dtslint": "dtslint types/p5",
     "dtslint:samples": "dtslint types/p5/samples",
     "download-p5": "tsx src/commands/download-p5.ts",
-    "generate": "tsx src/commands/generate.ts",
-    "patch": "tsx patches/patch.ts",
     "test": "jest --coverage",
     "all_with_patch": "npm run download-p5 && npm run generate && npm run patch && npm test",
-    "all": "npm run download-p5 && npm run generate && npm test",
+    "all": "npm run download-p5",
     "watch:test": "jest --watch"
   },
   "license": "LGPL-2.1",

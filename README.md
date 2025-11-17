@@ -1,13 +1,17 @@
 # p5.ts
 
+for p5js v1 types, see branch v1
+
+---
+
 Generates TypeScript definitions for [p5.js](http://p5js.org).  
 The generated typings are published to [@types/p5](https://www.npmjs.com/package/@types/p5).
 To install the typings, run `npm install --save @types/p5`.
 Then, look in the [examples directory](./examples) for inspiration.
 
 
-`index.d.ts` is for p5 used in instance mode and `global.d.ts` is for p5 in global mode. 
-`global.d.ts` references `index.d.ts`, so you must include both if global mode is used.
+`p5.d.ts` is for p5 used in instance mode and `global.d.ts` is for p5 in global mode. 
+`global.d.ts` references `p5.d.ts`, so you must include both if global mode is used.
 
 To generate typings yourself, try out:
 
@@ -50,5 +54,4 @@ but it works.
 
 ### How to contribute
 
-1. since this is a tool to generate ts type definition from yui doc, so help improve p5js's yui doc is a big deal. see [require upstream](https://github.com/p5-types/p5.ts/issues?q=is%3Aopen+label%3A%22require+upstream%22+sort%3Aupdated-desc)
-2. when a new version of p5js is released, generate the new type files, then make a pr to https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/p5
+1. In p5.js v2, upstream use jsdoc to generate `.d.ts` files, so now this package just pull the type file from npm and extract the `tar.gz`. So contribute to the p5.js
